@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Dividend Analysis",
+  "type": "object",
+  "properties": {
+    "company": {"type": "string"},
+    "ticker": {"type": "string"},
+    "exchange": {"type": "string"},
+    "domicile": {"type": "string"},
+    "security_type": {"type": "string"},
+    "price_used": {"type": "number"},
+    "gross_yield": {"type": "number"},
+    "net_yield": {"type": "number"},
+    "withholding_rate": {"type": "number"},
+    "dividend_quality": {"type": "string"},
+    "dividend_safety": {"type": "string"},
+    "buyback_quality": {"type": "string"},
+    "three_year_outlook": {"type": "string"},
+    "score_100": {"type": "number"},
+    "sources": {"type": "array", "items": {"type": "string"}}
+  },
+  "required": ["company", "ticker", "exchange", "gross_yield", "net_yield", "score_100"]
+}
