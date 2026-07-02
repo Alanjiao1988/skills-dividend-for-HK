@@ -12,6 +12,9 @@
     "gross_yield": {"type": "number"},
     "net_yield": {"type": "number"},
     "withholding_rate": {"type": "number"},
+    "withholding_basis": {"type": "string", "enum": ["broker_observed", "company_announcement", "legal_structure", "market_default", "unknown"]},
+    "broker_observed_withholding": {"type": "boolean"},
+    "broker_observed_examples": {"type": "array", "items": {"type": "string"}},
     "dividend_quality": {"type": "string"},
     "dividend_safety": {"type": "string"},
     "buyback_quality": {"type": "string"},
@@ -19,5 +22,5 @@
     "score_100": {"type": "number"},
     "sources": {"type": "array", "items": {"type": "string"}}
   },
-  "required": ["company", "ticker", "exchange", "gross_yield", "net_yield", "score_100"]
+  "required": ["company", "ticker", "exchange", "gross_yield", "net_yield", "withholding_rate", "withholding_basis", "score_100"]
 }
