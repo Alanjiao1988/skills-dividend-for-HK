@@ -9,15 +9,26 @@
 - Price used:
 - Gross yield:
 - Net yield:
+- Withholding assumption:
+- Broker-observed withholding: Yes / No / Unknown
 - Initial view:
 
 ## 2. Listing and Structure
 
-Describe legal domicile, listing type, dividend currency, and any special structure.
+Describe legal domicile, listing type, dividend currency, issuer type, and any special structure.
 
 ## 3. Dividend Treatment
 
 State assumed withholding rate, reason, uncertainty, and broker-dependent items.
+
+Apply the priority rule:
+
+1. Actual broker cash statement for the same investor and same holding channel.
+2. Company dividend announcement and tax note.
+3. Legal domicile, listing structure, and issuer type.
+4. Market-level default assumption.
+
+For mainland-controlled HK-listed issuers, check whether broker records show withholding. If yes, use the observed rate for net-yield calculation. User-observed examples include 0941.HK and 1919.HK.
 
 ## 4. Five-Year Dividend History
 
@@ -47,4 +58,4 @@ Give quality, safety, withholding efficiency, buyback quality, outlook, role, an
 
 ## 10. Sources
 
-List official filings and data sources used.
+List official filings, announcements, broker records, and data sources used.
