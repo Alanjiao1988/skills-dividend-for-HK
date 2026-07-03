@@ -13,10 +13,11 @@
     "gross_yield": {"type": "number", "description": "Decimal form, e.g. 0.06 for 6%"},
     "net_yield": {"type": "number", "description": "Decimal form, e.g. 0.054 for 5.4%"},
     "normalized_dps": {"type": ["number", "null"]},
-    "normalized_net_yield": {"type": ["number", "null"], "description": "Decimal form"},
+    "normalized_net_yield": {"type": ["number", "null"], "description": "Decimal form. If normalized yield is a range, use midpoint here and put display range in normalized_net_yield_range."},
     "withholding_rate": {"type": "number", "description": "Decimal form, e.g. 0.10 for 10%"},
     "withholding_basis": {"type": "string", "enum": ["broker_observed", "company_announcement", "legal_structure", "market_default", "unknown"]},
     "broker_observed_withholding": {"type": "string", "enum": ["Yes", "No", "Unknown"]},
+    "broker_cash_line_type": {"type": "string", "enum": ["dividend", "PIL", "mixed", "unknown"]},
     "dividend_quality": {"type": "string", "enum": ["High", "Medium", "Low"]},
     "dividend_safety": {"type": "string", "enum": ["Strong", "Acceptable", "Weak", "Unclear"]},
     "withholding_efficiency": {"type": "string", "enum": ["High", "Medium", "Low"]},
@@ -24,14 +25,15 @@
     "three_year_outlook": {"type": "string", "enum": ["Grow", "Stable", "Decline", "High Uncertainty"]},
     "portfolio_role": {"type": "string", "enum": ["Core income", "Cyclical income", "Opportunistic", "Watchlist", "Avoid"]},
     "score_100": {"type": "number", "minimum": 0, "maximum": 100},
+    "grade": {"type": "string", "enum": ["A", "B", "C", "D", "E"]},
     "key_metrics_at_a_glance": {
       "type": "object",
       "properties": {
         "ttm_net_yield": {"type": ["number", "null"], "description": "Decimal form"},
         "normalized_net_yield": {"type": ["number", "null"], "description": "Decimal form or midpoint if range is described separately"},
-        "normalized_net_yield_range": {"type": "string"},
-        "score_grade": {"type": "string"},
-        "portfolio_role": {"type": "string"}
+        "normalized_net_yield_range": {"type": "string", "description": "Display range such as 0.05-0.07 or 5%-7%"},
+        "score_grade": {"type": "object", "properties": {"score": {"type": "number"}, "grade": {"type": "string", "enum": ["A", "B", "C", "D", "E"]}}},
+        "portfolio_role": {"type": "string", "enum": ["Core income", "Cyclical income", "Opportunistic", "Watchlist", "Avoid"]}
       }
     },
     "rendering": {
@@ -46,9 +48,10 @@
       "type": "object",
       "properties": {
         "ttm_dps": {"type": ["number", "null"]},
-        "ttm_net_yield": {"type": ["number", "null"]},
+        "ttm_net_yield": {"type": ["number", "null"], "description": "Decimal form"},
         "normalized_dps": {"type": ["number", "null"]},
-        "normalized_net_yield": {"type": ["number", "null"]},
+        "normalized_net_yield": {"type": ["number", "null"], "description": "Decimal form"},
+        "normalized_net_yield_range": {"type": "string"},
         "five_year_dps_range": {"type": "string"},
         "latest_dps_yoy": {"type": "string"},
         "dividend_type": {"type": "string"},
@@ -67,8 +70,8 @@
           "dps_yoy": {"type": ["number", "null"], "description": "Decimal form"},
           "yield_at_current_price": {"type": ["number", "null"], "description": "Decimal form"},
           "yield_at_year_price": {"type": ["number", "null"], "description": "Decimal form"},
-          "payout_ratio": {"type": ["number", "null"]},
-          "fcf_dividend_coverage": {"type": ["number", "null"]},
+          "payout_ratio": {"type": ["number", "null"], "description": "Decimal form, e.g. 0.60 for 60%"},
+          "fcf_dividend_coverage": {"type": ["number", "null"], "description": "Coverage multiple, e.g. 1.5 for 1.5x"},
           "coverage_label": {"type": "string"},
           "dividend_type": {"type": "string"},
           "quality_tag": {"type": "string"},
@@ -92,7 +95,7 @@
           "buybacks": {"type": ["number", "null"]},
           "share_issuance": {"type": ["number", "null"]},
           "net_debt_change": {"type": ["number", "null"]},
-          "fcf_dividend_coverage": {"type": ["number", "null"]},
+          "fcf_dividend_coverage": {"type": ["number", "null"], "description": "Coverage multiple, e.g. 1.5 for 1.5x"},
           "funding_source": {"type": "string"}
         },
         "required": ["fiscal_year"]
@@ -106,10 +109,10 @@
           "fiscal_year": {"type": "string"},
           "scenario": {"type": "string", "enum": ["Bear", "Base", "Bull"]},
           "dps": {"type": ["number", "null"]},
-          "net_yield_at_current_price": {"type": ["number", "null"]},
+          "net_yield_at_current_price": {"type": ["number", "null"], "description": "Decimal form"},
           "estimated_fcf": {"type": ["number", "null"]},
           "dividend_cash_cost": {"type": ["number", "null"]},
-          "fcf_dividend_coverage": {"type": ["number", "null"]},
+          "fcf_dividend_coverage": {"type": ["number", "null"], "description": "Coverage multiple, e.g. 1.5 for 1.5x"},
           "balance_sheet_impact": {"type": "string"},
           "key_assumptions": {"type": "string"}
         },
@@ -126,5 +129,5 @@
     },
     "sources": {"type": "array", "items": {"type": "string"}}
   },
-  "required": ["company", "ticker", "exchange", "as_of_date", "gross_yield", "net_yield", "withholding_rate", "withholding_basis", "score_100"]
+  "required": ["company", "ticker", "exchange", "as_of_date", "gross_yield", "net_yield", "withholding_rate", "withholding_basis", "score_100", "grade", "dividend_quality", "dividend_safety", "withholding_efficiency", "buyback_quality", "three_year_outlook", "portfolio_role"]
 }
