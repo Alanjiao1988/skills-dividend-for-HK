@@ -12,6 +12,23 @@ Always record the data date.
 - Third-party data is for cross-checks only.
 - User broker statement is the priority source for actual received dividend and actual withholding.
 
+## Search Instructions
+
+When web search is available, actively search official disclosure sources before relying on third-party data.
+
+For HK-listed stocks, search HKEXnews / issuer announcements for:
+
+- latest annual report
+- latest interim report
+- latest results announcement
+- latest dividend announcement
+- tax note in dividend announcement
+- share buyback announcement
+
+For US-listed stocks, search SEC EDGAR and company investor relations for 10-K, 10-Q, 8-K, proxy, dividend declaration, and buyback authorization.
+
+For UK-listed stocks, search LSE RNS and company investor relations for annual report, dividend declaration, and buyback programme.
+
 ## Source Order
 
 1. Official exchange announcement and company filings.
