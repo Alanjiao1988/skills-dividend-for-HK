@@ -22,8 +22,40 @@
     "three_year_outlook": {"type": "string", "enum": ["Grow", "Stable", "Decline", "High Uncertainty"]},
     "portfolio_role": {"type": "string", "enum": ["Core income", "Cyclical income", "Opportunistic", "Watchlist", "Avoid"]},
     "score_100": {"type": "number", "minimum": 0, "maximum": 100},
-    "five_year_dividend_history": {"type": "array", "items": {"type": "object"}},
-    "three_year_forecast": {"type": "array", "items": {"type": "object"}},
+    "five_year_dividend_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "fiscal_year": {"type": "string"},
+          "dps": {"type": "number"},
+          "ordinary_dps": {"type": "number"},
+          "special_dps": {"type": "number"},
+          "currency": {"type": "string"},
+          "payout_ratio": {"type": ["number", "null"},
+          "fcf_payout_ratio": {"type": ["number", "null"]},
+          "notes": {"type": "string"}
+        },
+        "required": ["fiscal_year", "currency"]
+      }
+    },
+    "three_year_forecast": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "fiscal_year": {"type": "string"},
+          "bear_dps": {"type": ["number", "null"]},
+          "base_dps": {"type": ["number", "null"]},
+          "bull_dps": {"type": ["number", "null"]},
+          "bear_net_yield": {"type": ["number", "null"]},
+          "base_net_yield": {"type": ["number", "null"]},
+          "bull_net_yield": {"type": ["number", "null"]},
+          "key_assumptions": {"type": "string"}
+        },
+        "required": ["fiscal_year", "key_assumptions"]
+      }
+    },
     "sources": {"type": "array", "items": {"type": "string"}}
   },
   "required": ["company", "ticker", "exchange", "as_of_date", "gross_yield", "net_yield", "withholding_rate", "withholding_basis", "score_100"]
