@@ -1,5 +1,7 @@
 # Output Template
 
+This file is the output section order. Detailed table structures live in `visual-output-rules.md`; do not duplicate or redefine them here.
+
 ## 1. Executive Summary
 
 ### 1A. Key Metrics at a Glance
@@ -9,6 +11,8 @@ If rich visualization or card-style layout is available, render these as four me
 | TTM Net Yield | Normalized Net Yield | Score / Grade | Portfolio Role |
 |---:|---:|---:|---|
 | | | | |
+
+If normalized yield is a range, display it directly as `x-y%`.
 
 ### 1B. Secondary Summary
 
@@ -23,29 +27,18 @@ If rich visualization or card-style layout is available, render these as four me
 - Withholding rate:
 - Withholding basis:
 - Broker-observed withholding: Yes / No / Unknown
+- Broker cash-line type if broker statement is used: dividend / PIL / mixed / unknown
 - Initial view:
 
 ## 2. Dividend Snapshot
 
-One-sentence takeaway before the table:
-
-| Metric | Value | Comment |
-|---|---:|---|
-| TTM DPS | | |
-| TTM gross yield | | |
-| TTM net yield | | |
-| Normalized DPS | | |
-| Normalized net yield | | |
-| Five-year DPS range | | |
-| Latest DPS YoY | | |
-| Dividend type | | |
-| Coverage status | | |
+One-sentence takeaway before the table. Use the Dividend Snapshot table defined in `visual-output-rules.md`.
 
 ## 3. Standard Charts or Text Fallback
 
 Follow `visual-output-rules.md`.
 
-If rich visualization is available, render these three charts:
+If rich visualization is available, render the three standard charts:
 
 1. DPS Structure Chart.
 2. Yield Ladder.
@@ -73,21 +66,13 @@ Read `withholding-notes.md` and apply the priority rule. Explain the basis for t
 
 If withholding is 0%, state once: "Withholding 0% — gross equals net." Do not repeat Withholding / Net DPS / Net Yield columns in every historical row.
 
+If broker records are used, identify whether the cash line is a normal dividend, payment in lieu, mixed, or unknown. PIL-only records must not be used as withholding-rate evidence.
+
 ## 6. Dividend Trajectory and Yearly Yield
 
-One-sentence takeaway before the table.
+One-sentence takeaway before the tables.
 
-Use `visual-output-rules.md`. If the full table would exceed seven columns, split into DPS Structure and Yield / Coverage tables.
-
-### 6A. Per-share DPS Structure
-
-| Fiscal Year | Total DPS | Base DPS | Special / Variable DPS | DPS YoY | Quality Tag | Notes |
-|---|---:|---:|---:|---:|---|---|
-
-### 6B. Yield and Coverage
-
-| Fiscal Year | Yield at Current Price | Yield at Year Price | Payout Ratio | FCF / Dividend | Coverage Label | Comment |
-|---|---:|---:|---:|---:|---|---|
+Use `visual-output-rules.md` Section 4 for the authoritative table structures. Apply table slimming rules before rendering.
 
 Add a short Dividend Pattern paragraph after the tables.
 
@@ -95,19 +80,9 @@ Add a short Dividend Pattern paragraph after the tables.
 
 One-sentence takeaway before the tables.
 
-If the bridge exceeds seven columns, split into cash generation and cash return / funding tables.
+Use `visual-output-rules.md` Section 5 for the authoritative bridge structures. If FCF is estimated as operating cash flow minus capex, label it as estimated.
 
-### 7A. Cash Generation
-
-| Fiscal Year | Net Income | Operating Cash Flow | Capex | Free Cash Flow | FCF Quality | Comment |
-|---|---:|---:|---:|---:|---|---|
-
-### 7B. Cash Return and Funding
-
-| Fiscal Year | Cash Dividends | Buybacks | Share Issuance | Net Debt Change | FCF / Dividend | Funding Source |
-|---|---:|---:|---:|---:|---:|---|
-
-Explain whether dividends were funded by operating free cash flow, cash balance, asset sales, debt, equity issuance, or mixed sources. If FCF is estimated as operating cash flow minus capex, label it as estimated.
+Explain whether dividends were funded by operating free cash flow, cash balance, asset sales, debt, equity issuance, or mixed sources.
 
 ## 8. Management Capital Allocation
 
@@ -125,13 +100,7 @@ Assess share-count change, dilution, valuation discipline, whether buybacks are 
 
 One-sentence takeaway before the table.
 
-| Fiscal Year | Scenario | DPS | Net Yield at Current Price | Estimated FCF | Dividend Cash Cost | FCF / Dividend |
-|---|---|---:|---:|---:|---:|---:|
-
-If more detail is needed, add this assumptions table:
-
-| Fiscal Year | Scenario | Balance Sheet Impact | Key Assumptions |
-|---|---|---|---|
+Use `visual-output-rules.md` Section 8 for the authoritative runway table structure. If more detail is needed, add a separate assumptions table for Balance Sheet Impact and Key Assumptions.
 
 Separate TTM yield from normalized and scenario yield.
 
