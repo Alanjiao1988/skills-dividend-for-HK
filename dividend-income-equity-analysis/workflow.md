@@ -11,6 +11,7 @@ Always record the data date.
 - Latest dividend announcement must be checked for currency, record date, ex-date, payment date, and special dividend treatment.
 - Third-party data is for cross-checks only.
 - User broker statement is the priority source for actual received dividend and actual withholding.
+- Use official share count from filings when available. Do not infer market capitalization from net income divided by EPS unless no filing share-count data is available.
 
 ## Search Instructions
 
@@ -25,7 +26,7 @@ For HK-listed stocks, search HKEXnews / issuer announcements for:
 - tax note in dividend announcement
 - share buyback announcement
 
-For US-listed stocks, search SEC EDGAR and company investor relations for 10-K, 10-Q, 8-K, proxy, dividend declaration, and buyback authorization.
+For US-listed stocks, search SEC EDGAR and company investor relations for 10-K, 10-Q, 8-K, proxy, dividend declaration, buyback authorization, latest 10-Q cover page share count, cash-flow statement, capex, share issuance, and ATM or shelf-registration filings.
 
 For UK-listed stocks, search LSE RNS and company investor relations for annual report, dividend declaration, and buyback programme.
 
@@ -51,24 +52,41 @@ Show gross DPS, assumed withholding rate, withholding basis, net DPS, gross yiel
 
 ## Step 3: Dividend Record
 
-Build a five-year dividend table with ordinary DPS, special DPS, currency, payout ratio, free cash-flow payout ratio, and year-on-year growth.
+For full analysis, follow `visual-output-rules.md` and `output-template.md`. Build the Dividend Snapshot and Dividend Trajectory tables before long-form discussion.
 
-Separate ordinary dividends from special dividends. Do not annualize one-off special dividends.
+Separate ordinary dividends from special or variable dividends. Do not annualize one-off special dividends.
 
-## Step 4: Capital Allocation
+## Step 4: Cash-Flow Coverage
 
-Review comments on dividends, buybacks, leverage, reinvestment, acquisitions, and shareholder returns.
+For full analysis, build the Cash-Flow Coverage Bridge from `output-template.md`.
+
+Use company-reported free cash flow if available. If not available, estimate free cash flow as operating cash flow minus capex and label it as estimated. EBITDA coverage can be mentioned only as a secondary cross-check.
+
+## Step 5: Capital Allocation
+
+Review comments on dividends, buybacks, leverage, reinvestment, acquisitions, share issuance, ATM programs, and shareholder returns.
 
 Identify whether the company has a fixed dividend, progressive dividend, payout-ratio policy, variable policy, or discretionary policy.
 
-## Step 5: Coverage
-
-Review revenue, profit, operating cash flow, capex, free cash flow, net debt, interest cover, debt maturity, liquidity, and credit rating if available.
-
 ## Step 6: Three-Year Outlook
 
-Build bear, base, and bull cases for the next three fiscal years. Link dividend forecasts to earnings, free cash flow, payout policy, leverage, capex, rates, commodity cycle, regulation, and FX.
+Build bear, base, and bull cases for the next three fiscal years. Follow the Three-Year Dividend Runway table in `output-template.md`, including DPS, net yield at current price, estimated FCF, dividend cash cost, FCF / Dividend, balance-sheet impact, and assumptions.
 
 ## Step 7: Dividend Trap Checklist
 
-Check high yield from price fall, weak cash-flow coverage, payout above cash flow, rising leverage, debt-funded payouts, asset-sale-funded payouts, special dividends treated as recurring, weaker policy language, regulatory pressure, refinancing wall, cycle peak payout, FX mismatch, and ineffective buybacks.
+Check at least:
+
+- High yield from price fall.
+- Weak cash-flow coverage.
+- Payout above free cash flow.
+- Rising leverage.
+- Debt-funded payout.
+- Asset-sale-funded payout.
+- Equity issuance or ATM program concurrent with elevated payout.
+- Special or variable dividends treated as recurring income.
+- Weaker policy language.
+- Regulatory pressure.
+- Refinancing wall.
+- Cycle peak payout.
+- FX mismatch.
+- Ineffective buybacks or buybacks offset by issuance.
