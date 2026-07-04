@@ -81,29 +81,7 @@ Identify whether the company has a fixed dividend, progressive dividend, payout-
 
 Build bear, base, and bull cases for the next three fiscal years. Follow the Three-Year Dividend Runway table in `visual-output-rules.md`, including DPS, net yield at current price, estimated FCF, dividend cash cost, FCF / Dividend, balance-sheet impact, and assumptions.
 
-## Step 7: Expected Buy Zone
-
-Read `buy-zone.md` and build an expected buy-zone analysis.
-
-Use:
-
-- Current price and as-of date.
-- Historical price range, year-end price, average price, or high-low range.
-- Historical gross and net dividend yield range.
-- Normalized net DPS.
-- Bear, base, and bull forecast net DPS.
-- Required net yield based on dividend profile and risk.
-- FCF coverage, balance-sheet safety, and dividend visibility.
-
-Core formula:
-
-```text
-Buy Price = Net DPS / Required Net Yield
-```
-
-State whether the buy-zone uses TTM DPS, normalized DPS, bear DPS, base DPS, or bull DPS. Do not use peak-cycle DPS as the base-case buy-zone anchor unless it is demonstrably sustainable.
-
-## Step 8: Dividend Trap Checklist
+## Step 7: Dividend Trap Checklist
 
 Check at least:
 
@@ -121,3 +99,29 @@ Check at least:
 - Cycle peak payout.
 - FX mismatch.
 - Ineffective buybacks or buybacks offset by issuance.
+
+Flag whether a value-trap veto is Not triggered, Triggered, or Unclear. The veto result is a precondition for Step 8.
+
+## Step 8: Expected Buy Zone
+
+Read `buy-zone.md` and build an expected buy-zone analysis.
+
+Use:
+
+- Current price and as-of date.
+- Historical price range, year-end price, average price, or high-low range.
+- Historical gross and net dividend yield range.
+- Normalized net DPS.
+- Bear, base, and bull forecast net DPS.
+- Required net yield based on dividend profile and risk.
+- FCF coverage, balance-sheet safety, dividend visibility, and Step 7 value-trap veto status.
+
+Core formula:
+
+```text
+Buy Price = Net DPS / Required Net Yield
+```
+
+Use the deterministic boundaries in `buy-zone.md` based on N, B, r_low, and r_high. State whether the buy-zone uses TTM DPS, normalized DPS, bear DPS, base DPS, or bull DPS. Do not use peak-cycle DPS as the base-case buy-zone anchor unless it is demonstrably sustainable.
+
+If the value-trap veto is triggered, suspend ordinary buy-zone output or label it as special-situation only.
