@@ -23,6 +23,7 @@ Use current sources, current price, official filings, broker statements, and the
 - TTM net yield: 0.0%
 - Normalized net yield: 0.0%-0.0%
 - Expected buy zone: HKD 0.00-0.00
+- Value-trap veto: Not triggered / Triggered / Unclear
 - Withholding rate: 0.0%
 - Withholding basis: unknown
 - Broker-observed withholding: Unknown
@@ -60,7 +61,7 @@ Plain-text fallback:
 
 - DPS path: `FY-4 0.00 -> FY-3 0.00 -> FY-2 0.00 -> FY-1 0.00 -> FY0 0.00`
 - Yield stack: `TTM 0.0% | normalized 0.0%-0.0% | bear 0.0% | base 0.0% | bull 0.0%`
-- Buy-zone ladder: `Current 0.00 | Fair 0.00-0.00 | Accumulate 0.00-0.00 | Strong buy <0.00`
+- Buy-zone ladder: `Current 0.00 | Fair 0.00-0.00 | Accumulate 0.00-0.00 | Strong buy <0.00 | Veto: not triggered`
 - Coverage labels: `FY-4 N/A | FY-3 N/A | FY-2 N/A | FY-1 N/A | FY0 N/A`
 
 ## 4. Company and Listing Structure
@@ -167,44 +168,9 @@ Use `visual-output-rules.md` Section 9 for authoritative runway structure.
 | FY+3 | Base | N/A | N/A | N/A | N/A | N/A |
 | FY+3 | Bull | N/A | N/A | N/A | N/A | N/A |
 
-## 11. Expected Buy Zone
+## 11. Dividend Trap Checklist
 
-Takeaway: The buy zone translates normalized net DPS and required net yield into an income entry range.
-
-Use `buy-zone.md` for authoritative buy-zone logic.
-
-Formula:
-
-```text
-Buy Price = Net DPS / Required Net Yield
-```
-
-### 11A. Historical Price and Yield Context
-
-| Metric | Price / Level | Current Position | Comment |
-|---|---:|---:|---|
-| Current price | 0.00 | N/A | Placeholder |
-| 52-week high | N/A | N/A | Placeholder |
-| 52-week low | N/A | N/A | Placeholder |
-| 3-year median | N/A | N/A | Placeholder |
-| 5-year median | N/A | N/A | Placeholder |
-| Historical net-yield range | N/A | N/A | Placeholder |
-
-### 11B. Buy-Zone Table
-
-| Zone | Price Range | Implied Net Yield | DPS Basis | Condition Required | Action View |
-|---|---:|---:|---|---|---|
-| Too expensive | N/A | N/A | Normalized | Yield below required return | Avoid adding |
-| Fair / hold | N/A | N/A | Normalized | Fair yield, limited margin of safety | Hold |
-| Accumulation zone | N/A | N/A | Base normalized | Required yield met | Gradual buy |
-| Strong buy zone | N/A | N/A | Bear / conservative | High yield with adequate coverage | Higher conviction buy |
-| Value-trap warning | N/A | N/A | Distressed | Yield reflects likely cut | Avoid |
-
-Current price position: unknown.
-
-## 12. Dividend Trap Checklist
-
-Takeaway: The checklist separates high yield from sustainable income.
+Takeaway: The checklist separates high yield from sustainable income and acts as the buy-zone veto gate.
 
 | Red Flag | Status | Evidence |
 |---|---|---|
@@ -216,13 +182,61 @@ Takeaway: The checklist separates high yield from sustainable income.
 | Asset-sale-funded payout | Unknown | Placeholder |
 | Equity issuance or ATM concurrent with elevated payout | Unknown | Placeholder |
 | Special or variable dividends treated as recurring | Unknown | Placeholder |
+| Weaker policy language | Unknown | Placeholder |
+| Regulatory pressure | Unknown | Placeholder |
+| Refinancing wall | Unknown | Placeholder |
 | Cycle peak payout | Unknown | Placeholder |
+| FX mismatch | Unknown | Placeholder |
+| Ineffective buybacks or buybacks offset by issuance | Unknown | Placeholder |
+
+Value-trap veto: Not triggered / Triggered / Unclear.
+
+## 12. Expected Buy Zone
+
+Takeaway: The buy zone translates normalized net DPS and required net yield into an income entry range, subject to the value-trap veto.
+
+Use `buy-zone.md` for authoritative buy-zone logic.
+
+Formula:
+
+```text
+Buy Price = Net DPS / Required Net Yield
+```
+
+Boundary inputs:
+
+- N = normalized net DPS: 0.00
+- B = bear-case net DPS: 0.00
+- r_low = 0.0%
+- r_high = 0.0%
+
+### 12A. Historical Price and Yield Context
+
+| Metric | Price / Level | Current Position | Comment |
+|---|---:|---:|---|
+| Current price | 0.00 | N/A | Placeholder |
+| 52-week high | N/A | N/A | Placeholder |
+| 52-week low | N/A | N/A | Placeholder |
+| 3-year median | N/A | N/A | Placeholder |
+| 5-year median | N/A | N/A | Placeholder |
+| Historical net-yield range | N/A | N/A | Placeholder |
+
+### 12B. Buy-Zone Table
+
+| Zone | Price Range | Implied Net Yield | DPS Basis | Condition Required | Action View |
+|---|---:|---:|---|---|---|
+| Too expensive / avoid adding | Price > N / r_low | Below required range | Normalized DPS | Yield below required return | Avoid adding |
+| Fair value / hold | N / r_high < Price <= N / r_low | Required range | Normalized DPS | Fair yield, limited MOS | Hold |
+| Accumulation zone | B / r_low < Price <= N / r_high | Attractive normalized yield | Normalized + bear DPS | Required yield met | Gradual buy |
+| Strong buy zone | Price <= B / r_low | Bear-case yield meets minimum | Bear / conservative DPS | Strong coverage required | Higher conviction buy |
+
+Value-trap veto: Not triggered / Triggered / Unclear.
 
 ## 13. Visual Summary
 
 - DPS path: `FY-4 0.00 -> FY-3 0.00 -> FY-2 0.00 -> FY-1 0.00 -> FY0 0.00`
 - Yield normalization: `TTM 0.0% vs normalized 0.0%-0.0% vs bear/base/bull N/A`
-- Buy-zone ladder: `Current 0.00 | Fair N/A | Accumulate N/A | Strong buy N/A`
+- Buy-zone ladder: `Current 0.00 | Fair N/A | Accumulate N/A | Strong buy N/A | Veto N/A`
 - Coverage labels by year: `FY-4 N/A | FY-3 N/A | FY-2 N/A | FY-1 N/A | FY0 N/A`
 
 ## 14. Score, Required Ratings, and Portfolio Role
