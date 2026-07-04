@@ -25,6 +25,7 @@ If normalized yield is a range, display it directly as `x-y%`.
 - TTM net yield:
 - Normalized net yield:
 - Expected buy zone:
+- Value-trap veto: Not triggered / Triggered / Unclear
 - Withholding rate:
 - Withholding basis:
 - Broker-observed withholding: Yes / No / Unknown
@@ -107,7 +108,15 @@ Use `visual-output-rules.md` Section 9 for the authoritative runway table struct
 
 Separate TTM yield from normalized and scenario yield.
 
-## 11. Expected Buy Zone
+## 11. Dividend Trap Checklist
+
+One-sentence takeaway before the table.
+
+List each red flag and the evidence for or against it. Include equity issuance or ATM program concurrent with elevated payout when relevant.
+
+The checklist is a precondition for Expected Buy Zone. If a major value-trap veto is triggered, buy-zone ranges must be suspended or explicitly labelled as special-situation only.
+
+## 12. Expected Buy Zone
 
 One-sentence takeaway before the tables.
 
@@ -116,19 +125,14 @@ Read `buy-zone.md` and estimate an expected buy zone using normalized net DPS, r
 At minimum include:
 
 - DPS basis used: TTM / normalized / bear / base / bull.
-- Required net yield assumptions.
+- Required net yield assumptions with `r_low` and `r_high`.
 - Formula: Buy Price = Net DPS / Required Net Yield.
+- Deterministic boundaries from `buy-zone.md`: too expensive, fair / hold, accumulation zone, strong buy zone.
+- Value-trap veto status: Not triggered / Triggered / Unclear.
 - Historical price and yield context.
-- Buy-zone table: too expensive, fair / hold, accumulation zone, strong buy zone, value-trap warning if applicable.
 - Whether the current price is above, inside, or below the income entry zone.
 
 If data is insufficient, state: "Buy zone cannot be responsibly estimated" and list missing inputs.
-
-## 12. Dividend Trap Checklist
-
-One-sentence takeaway before the table.
-
-List each red flag and the evidence for or against it. Include equity issuance or ATM program concurrent with elevated payout when relevant.
 
 ## 13. Visual Summary
 
@@ -136,7 +140,7 @@ Add a compact visual summary:
 
 - DPS path:
 - Yield normalization: TTM vs normalized vs bear/base/bull.
-- Buy-zone ladder: current price vs fair / accumulation / strong-buy zones.
+- Buy-zone ladder: current price vs fair / accumulation / strong-buy zones and veto status.
 - Coverage labels by year: Strong / Adequate / Weak.
 
 If charts were already rendered, keep this section brief and use it as a written recap.
