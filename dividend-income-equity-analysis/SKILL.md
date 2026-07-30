@@ -1,57 +1,62 @@
 ---
 name: dividend-income-equity-analysis
-description: 港股、美股和全球红利股分析技能。当用户要求红利分析、股息分析、股息率、派息分析、高息股、税后股息率、税后收益、公司基本面、盈利预测、未来分红预测、预期买入价、买入区间、dividend analysis、分红可持续性或红利陷阱检查时触发。默认投资者为 HK resident individual，普通券商账户，优先使用 IBKR 等券商实际流水。与 buffett-analysis 的护城河和再投资跑道分析、miao-ddm-strategy 的估值锚层级判定互补；本技能专注税后现金分红收入的基本面来源、净收益率、可持续性和红利买入区间。
+description: 港股、美股和全球红利股分析技能。当用户要求红利分析、股息分析、股息率、派息分析、高息股、税后股息率、税后收益、公司基本面、盈利预测、未来分红预测、快速筛选、批量比较、预期买入价、买入区间、dividend analysis、分红可持续性或红利陷阱检查时触发。默认投资者为 HK resident individual，普通券商账户，优先使用 IBKR 等券商实际流水。本技能支持 Screen Mode 和 Full Analysis Mode。
 ---
 
 # Dividend Income Equity Analysis Skill
 
 ## 技能定位
 
-本技能用于分析上市公司的现金分红价值，重点关注公司业务和盈利的长期走势、税前股息率、净股息率、逐年股息变化、现金流覆盖、管理层资本分配、回购与稀释质量、未来三年基本面与分红跑道，以及基于历史价格和基本面推导的预期买入区间。
+本技能用于分析上市公司的税后现金分红价值，覆盖业务与盈利趋势、现金流覆盖、预扣税、资本分配、稀释、未来分红能力、敏感性和入场估值。
 
 ## 默认假设
 
 - 投资者为 HK resident individual。
-- 使用普通券商账户持有股票。
-- 投资目标是中长期现金分红收入。
-- 如果用户提供券商流水，券商实际扣税记录优先于理论分类。
-- 本技能默认不处理内地个人港股通渠道，除非用户明确要求。
+- 使用普通券商账户。
+- 投资目标是中长期现金分红收入与资本保护。
+- 用户提供有效券商流水时，实际扣税记录优先于理论分类。
+- 默认不处理内地个人港股通渠道，除非用户明确要求。
+
+## 模式选择
+
+- `Screen Mode`：筛选、快速评估、初步分析、批量比较、候选池或是否值得深入研究。
+- `Full Analysis Mode`：完整分析、未来分红预测、买入区间、详细基本面或具体投资决策。
+- 多个 ticker 且用户未明确要求完整分析时，默认 Screen Mode。
+
+Screen Mode 必须读取 `screen-mode.md`，且不得输出三年预测、N/B、买入区间、Strong Buy 或最终评分。
 
 ## 支撑文件读取规则
 
-执行分析时按需读取同目录文件：
+- `screen-mode.md`：轻量筛选的唯一规则源。
+- `workflow.md`：模式路由、完整研究流程和数据源优先级。
+- `business-fundamentals.md`：业务驱动、长期趋势、三年预测、敏感性分类、可分配现金、scrip / DRIP 和 DPS 推导。
+- `visual-output-rules.md`：Full Analysis 的图表和表格规则。
+- `buy-zone.md`：N/B、普通买入区间、Structural Decline 估值模式和有限期现金回收。
+- `withholding-notes.md`：预扣税、PIL、scrip / DRIP 税务与现金收入规则。
+- `scoring.md`：100 分评分和 Structural Decline overlay。
+- `output-template.md`：模式输出和 Full Analysis 的 18 节结构。
+- `schema.json`：JSON 或机器可读输出。
+- `examples/example-output-skeleton.md`：Full Analysis 示例骨架。
 
-- `workflow.md`：完整研究流程、数据源和红利陷阱检查。数据源优先级以该文件为准。
-- `business-fundamentals.md`：业务驱动、长期基本面趋势、行业化三年预测、单驱动敏感性、可分配现金、scrip / DRIP 稀释和 DPS 推导规则。完整分析必须读取。
-- `visual-output-rules.md`：能力分层渲染、标准图、年度分红轨迹、基本面预测图、现金流覆盖桥、合并后的 Dividend and Yield Runway、TTM vs normalized yield。完整分析必须读取。
-- `buy-zone.md`：基于历史价格、历史股息率、基本面推导的 normalized / bear DPS、税后目标收益率和安全边际推导预期买入区间。涉及买入价、买入区间、目标入场价或估值锚时必须读取。
-- `withholding-notes.md`：预扣税、券商实测扣税、PIL、scrip / DRIP 税务与现金收入规则，是税务处理唯一权威源。
-- `scoring.md`：100 分评分模型、Structural Decline overlay 和评分锚点。
-- `output-template.md`：最终输出唯一章节结构来源。完整分析必须严格按该文件的全部章节输出；缺少 Key Metrics at a Glance、Business Fundamentals and Long-Term Trend、Dividend Trajectory、Historical Cash-Flow Coverage Bridge、Three-Year Fundamental Forecast and Sensitivity、Dividend Forecast Bridge、Dividend and Yield Runway、Dividend Trap Checklist、Expected Buy Zone、Visual Summary 或 Required Ratings 视为输出不完整。
-- `schema.json`：仅当用户要求结构化输出、JSON 输出或机器可读结果时使用。
-- `examples/example-output-skeleton.md`：输出样例骨架。
-
-## 执行原则
+## Full Analysis 执行原则
 
 - 报价、派息、财务和经营数据必须注明 as-of date。
-- 普通股息、特别股息、可变股息、REIT 分派和基金分派必须分开。
-- 不得把一次性特别股息年化为持续收入。
-- 必须识别真正为分红提供资金的业务和现金流来源。
-- 必须分析至少五年的业务、利润、现金流和每股经济趋势；周期行业应尽量覆盖完整周期。
-- 未来三年 DPS 不得作为独立假设直接输入。必须先预测业务驱动、盈利、OCF、Capex、FCF / 可分配现金，再结合债务、监管资本、必要再投资、派息政策、scrip / DRIP 稀释和稀释后股数推导 DPS。
-- Bear / Base / Bull 场景必须由明确的经营驱动变化产生，不得只对历史 DPS 做任意百分比调整。
-- 必须对三到五个核心驱动提供 one-driver-at-a-time 敏感性，展示其对可分配现金、Derived DPS、净收益率和 Accumulation 上界的影响。
-- 必须用表格展示逐年 DPS、DPS YoY、历史股息率、派息率、现金流覆盖、基本面预测和 Dividend Forecast Bridge。
-- Dividend Cash Cost 和 Derived DPS 只能在合并后的 Dividend and Yield Runway 中展示一次，不得重复两张相同的预测表。
-- 必须根据输出能力提供标准图或文本降级视图。
-- 必须先检查红利陷阱，再基于基本面推导的 normalized net DPS、bear net DPS、目标税后收益率、历史股息率区间和安全边际推导预期买入区间。
-- N 必须使用 `buy-zone.md` 规定的来源优先级，并明确输出 N basis、来源期间和 normalization adjustments。
-- 不得把高 TTM 股息率、未经调整的历史 DPS 平均值、近端周期高点 Base DPS 或 peak-cycle DPS 直接当作未来 DPS 和买入价依据。
-- 如果 Fundamental Trend 为 Structural Decline，必须应用 `scoring.md` 的评级封顶，除非明确满足 Harvest / Managed Runoff Exception。
-- 如果无法从经营基本面负责任地预测未来分红，必须把 DPS 场景标注为 illustrative rather than evidence-backed，并降低 Forecast Confidence。
-- 必须输出 `scoring.md` 要求的六项 Required Ratings，以及 Fundamental Trend、Forecast Confidence、Structural Decline cap 和 Harvest / Managed Runoff Exception 状态。
+- 普通、特别、可变、一次性、REIT 和基金分派必须分开。
+- 必须识别真正为分红提供资金的业务与现金流。
+- 至少分析五年的业务、利润、现金流和每股经济趋势；周期行业尽量覆盖完整周期。
+- 未来 DPS 必须由业务驱动、盈利、OCF、Capex、可分配现金、强制用途、派息政策、scrip / DRIP 和稀释后股数推导。
+- Bear / Base / Bull 必须来自明确经营假设，不得直接对历史 DPS 做任意折扣。
+- 对三到五个核心驱动做 one-driver-at-a-time 敏感性，并标注 transient / persistent / structural。
+- Transient 不得改变 N 或长期买入边界；Persistent 必须先重估 N；Structural 必须重跑完整模型。
+- Dividend Cash Cost 和 Derived DPS 只在 Dividend and Yield Runway 中展示一次。
+- 先运行红利陷阱清单，再输出估值结果。
+- N 必须遵循来源优先级，并输出 basis、来源期间和 normalization adjustments。
+- 不得用高 TTM 收益率、未经调整的历史均值或近端周期高点 Base DPS 直接推导买入价。
+- Fundamental Trend 为 Structural Decline 时，普通买入区间默认暂停。
+- 只有满足 Harvest / Managed Runoff Exception 时，才使用有限期现金回收估值；折现率下限为 10%，不得假设永续分红。
+- 无法负责任预测时，将 DPS 标注为 illustrative rather than evidence-backed，并降低 Forecast Confidence。
 - 最终结论必须区分事实、假设和判断。
 
 ## 输出结构
 
-完整分析的章节结构以 `output-template.md` 为唯一事实源，不要自行缩减、重排或用本文件重新定义章节列表。
+输出模式和完整章节结构以 `output-template.md` 为唯一事实源。
