@@ -153,7 +153,7 @@ Funding Source should be Operating FCF, Cash Balance, Asset Sale, Debt, Equity I
 
 ## 6. Fundamental Forecast and Dividend Bridge Tables
 
-Use `business-fundamentals.md` as the authoritative source for table structures and calculation logic.
+Use `business-fundamentals.md` as the authoritative source for calculation logic.
 
 The required data record includes:
 
@@ -161,9 +161,25 @@ The required data record includes:
 - Operating Driver Forecast.
 - Financial Forecast.
 - Distributable-Cash Bridge.
-- DPS Derivation.
+- Share Count and Scrip / DRIP Assumptions.
+- Single-Driver Sensitivity.
+- Dividend and Yield Runway.
 
-When rich visualization is available, use the Fundamental Forecast Chart to communicate the result. Keep the tables as the audit trail.
+Do not duplicate Dividend Cash Cost or Derived DPS in separate forecast tables.
+
+### Dividend and Yield Runway
+
+| Fiscal Year | Scenario | Cash Available for Distribution | Payout Policy / Ratio | Dividend Cash Cost | Derived DPS | Net Yield at Current Price |
+|---|---|---:|---|---:|---:|---:|
+
+Rules:
+
+- Diluted share count must be disclosed in the Share Count and Scrip / DRIP Assumptions table or an adjacent footnote.
+- Derived DPS must reconcile to Dividend Cash Cost divided by diluted share count.
+- Net Yield at Current Price must apply the withholding treatment from `withholding-notes.md`.
+- Do not repeat the same DPS and Dividend Cash Cost in another Three-Year Dividend Runway table.
+
+When rich visualization is available, use the Fundamental Forecast Chart and Yield Ladder to communicate the result. Keep the tables as the audit trail.
 
 ## 7. Table Slimming Rules
 
@@ -205,20 +221,8 @@ Use these when rich visualization is unavailable.
 - Business and FCF trend: `Historical stable -> Base growth 3%-5% -> Bear decline 10% -> Bull growth 8%`.
 - DPS path: `2022 1.42 -> 2023 6.29 -> 2024 5.77 -> 2025 2.93`.
 - Yield stack: `TTM yield 10.7% | normalized 5%-7% | bear 2%-3% | base 4%-6%`.
+- Driver sensitivity: `Day rate +5,000 -> DPS +0.40 -> Accumulation upper bound +3.30`.
 - Coverage labels: `2023 Strong | 2024 Adequate | 2025 Adequate | 2026 Peak-cycle / Uncertain`.
 - Buy-zone ladder: `Current 100 | Fair 90-100 | Accumulate 75-90 | Strong buy <75 | Veto: not triggered`.
 
 Do not replace tables with text visuals. Use text visuals to make tables easier to understand when charts are unavailable.
-
-## 10. Three-Year Dividend Runway
-
-The forecast must include both per-share dividends and cash coverage.
-
-If rich visualization is available, include the Yield Ladder and Fundamental Forecast Chart. Always keep a table as the data record.
-
-| Fiscal Year | Scenario | DPS | Net Yield at Current Price | Estimated FCF | Dividend Cash Cost | FCF / Dividend |
-|---|---|---:|---:|---:|---:|---:|
-
-DPS must be derived from the Three-Year Fundamental Forecast and Dividend Forecast Bridge in `business-fundamentals.md`.
-
-If more detail is needed, add a separate assumptions table with Balance Sheet Impact and Key Assumptions.
