@@ -12,7 +12,7 @@ Required data:
 
 - Current share price and as-of date.
 - Trailing DPS.
-- Normalized net DPS derived from the Base fundamental forecast and Dividend Forecast Bridge.
+- Normalized net DPS derived from the normalized fundamental forecast and Dividend Forecast Bridge.
 - Bear net DPS derived from the Bear fundamental forecast and Dividend Forecast Bridge.
 - Bear, Base, and Bull forecast DPS for the next three years.
 - Withholding rate and net DPS.
@@ -20,7 +20,7 @@ Required data:
 - Historical year-end price, average price, or closing-price range.
 - Historical gross and net dividend yield range.
 - Historical dividend-yield percentiles when data is available.
-- Sector, cycle, balance-sheet, FCF coverage, and Forecast Confidence context.
+- Sector, cycle, balance-sheet, FCF coverage, Forecast Confidence, and diluted share-count context.
 - Dividend Trap Checklist result.
 
 Optional data:
@@ -60,12 +60,32 @@ Do not use peak-cycle DPS as the base-case buy-price anchor unless the business 
 
 Read `business-fundamentals.md` before setting N or B.
 
-- `N`, normalized net DPS, must normally come from Base-case distributable cash, payout policy, diluted share count, and withholding treatment.
+### N Source Priority
+
+`N`, normalized net DPS, must represent mid-cycle or otherwise sustainable net dividend capacity. Use this source priority:
+
+1. `mid_cycle`: explicit mid-cycle distributable cash, payout policy, diluted share count, and withholding-derived net DPS.
+2. `full_cycle_median`: full-cycle median distributable cash, payout policy, diluted share count, and withholding-derived net DPS.
+3. `three_year_base_average`: average of the three-year Base-case derived net DPS only when the Base assumptions have returned to normal operating conditions and do not retain temporary premiums or trough effects.
+4. `historical_fundamental_fallback`: historical normalized DPS adjusted for current business fundamentals, payout policy, and diluted share count; this is a Lower Confidence fallback.
+
+Always output:
+
+```text
+N basis: mid_cycle / full_cycle_median / three_year_base_average / historical_fundamental_fallback
+N source period:
+N normalization adjustments:
+```
+
+A near-term Base case is not automatically normalized. Do not use temporary commodity, freight-rate, geopolitical, credit, regulatory, interest-rate, or pricing windfalls in N without normalizing the underlying driver.
+
+### B Source
+
 - `B`, bear-case net DPS, must normally come from Bear-case distributable cash, payout policy, diluted share count, and withholding treatment.
-- The operating assumptions used for N and B must reconcile to revenue or sector-equivalent income, profitability, cash generation, required reinvestment, and balance-sheet constraints.
+- The operating assumptions used for N and B must reconcile to revenue or sector-equivalent income, profitability, cash generation, required reinvestment, balance-sheet constraints, and expected scrip / DRIP dilution.
 - Do not select N or B by averaging historical DPS and then choosing a preferred target price.
 - Historical DPS averages may be used only as a cross-check or fallback when a responsible operating forecast cannot be built.
-- When a historical-average fallback is used, label the buy zone Lower Confidence and explain the missing operating inputs.
+- When a historical fallback is used, label the buy zone Lower Confidence and explain the missing operating inputs.
 - When Forecast Confidence is Not Forecastable, do not publish an ordinary buy zone.
 
 ## 4. Required Net Yield Selection
@@ -86,11 +106,13 @@ Adjust required yield upward when:
 
 - Dividend is cyclical or variable.
 - Forecast Confidence is Low.
+- Fundamental Trend is Structural Decline, Cyclical Peak, Transformation, or High Uncertainty.
 - FCF coverage is weak or peak-cycle-only.
 - Balance sheet is stretched.
 - Dividend depends on asset sales, debt, or equity issuance.
 - Management has a discretionary or inconsistent payout policy.
 - Regulatory, commodity, FX, refinancing, or execution risk is high.
+- Persistent scrip / DRIP dilution is not credibly offset.
 
 Adjust required yield downward only when:
 
@@ -108,7 +130,7 @@ Use these boundary rules so the same inputs produce the same buy-zone output.
 Definitions:
 
 ```text
-N = normalized net DPS derived from the Base fundamental forecast
+N = normalized net DPS using the documented N basis
 B = bear-case net DPS derived from the Bear fundamental forecast
 r_low = lower bound of required net yield range
 r_high = upper bound of required net yield range
@@ -168,9 +190,10 @@ Major veto conditions include:
 - Balance sheet stress or near-term refinancing wall.
 - Regulatory restriction or policy change that blocks payout.
 - Peak-cycle dividend being used as recurring DPS.
-- Equity issuance or ATM program concurrent with elevated payout and unclear capital need.
+- Equity issuance, ATM, or persistent scrip dilution concurrent with elevated payout and unclear capital need.
 - Forecast DPS cannot be reconciled to business drivers, distributable cash, payout policy, and diluted share count.
 - Fundamental forecast shows declining distributable cash while the DPS assumption remains stable or growing without a credible funding source.
+- N retains temporary cycle premiums and is therefore not normalized.
 
 Required wording when triggered:
 
@@ -220,21 +243,23 @@ Use this table after applying the value-trap veto.
 
 | Zone | Price Range | Implied Net Yield | DPS Basis | Condition Required | Action View |
 |---|---:|---:|---|---|---|
-| Too expensive / avoid adding | Price > N / r_low | Below required range | Base-derived normalized DPS | Yield below required return | Avoid adding |
-| Fair value / hold | N / r_high < Price <= N / r_low | Required range | Base-derived normalized DPS | Reasonable yield, limited MOS | Hold / small add only |
-| Accumulation zone | B / r_high < Price <= N / r_high | Attractive normalized yield | Base + Bear derived DPS | Required yield met with acceptable coverage | Gradual buy |
+| Too expensive / avoid adding | Price > N / r_low | Below required range | Normalized DPS | Yield below required return | Avoid adding |
+| Fair value / hold | N / r_high < Price <= N / r_low | Required range | Normalized DPS | Reasonable yield, limited MOS | Hold / small add only |
+| Accumulation zone | B / r_high < Price <= N / r_high | Attractive normalized yield | Normalized + Bear DPS | Required yield met with acceptable coverage | Gradual buy |
 | Strong buy zone | Price <= B / r_high | Bear-case yield meets high-end required yield | Bear-derived DPS | Strong coverage, balance sheet, and credible forecast required | Higher conviction buy |
 
 Also output:
 
 ```text
-N source: Base fundamental forecast + Dividend Forecast Bridge
-B source: Bear fundamental forecast + Dividend Forecast Bridge
+N value:
+N basis: mid_cycle / full_cycle_median / three_year_base_average / historical_fundamental_fallback
+N source period and normalization adjustments:
+B value and source:
 Forecast Confidence: High / Medium / Low / Not Forecastable
 Value-trap veto: Not triggered / Triggered / Unclear
 ```
 
-## 10. Safety-Margin Checks
+## 10. Safety-Margin and Sensitivity Checks
 
 Before stating a buy zone, check:
 
@@ -245,14 +270,15 @@ Before stating a buy zone, check:
 - Is current price already above the fair value range implied by normalized net yield?
 - Is the stock cheap because of a temporary cycle issue or because the dividend is likely to be cut?
 - Are N and B traceable to operating drivers and distributable cash?
-- Is diluted share count consistent with forecast issuance and buybacks?
+- Is diluted share count consistent with forecast issuance, scrip / DRIP, and buybacks?
+- Does the single-driver sensitivity imply that a modest adverse move would materially reduce the accumulation upper boundary?
 
 ## 11. Required Output Language
 
 Use disciplined language:
 
 - Use "expected buy zone", "accumulation zone", or "income entry zone" rather than guaranteed target price.
-- State the DPS basis and forecast source used for each price range.
+- State the DPS basis, N basis, and forecast source used for each price range.
 - Never imply that a high yield alone is a buy signal.
 - If the operating forecast is weak, label the buy zone Lower Confidence.
 - If data is insufficient, output "buy zone cannot be responsibly estimated" and list the missing inputs.
@@ -265,13 +291,14 @@ When rich visualization is available, add a Buy-Zone Ladder:
 - Fair-value zone.
 - Accumulation zone.
 - Strong buy zone.
+- N basis.
 - Forecast Confidence.
 - Value-trap veto status.
 
 When rich visualization is unavailable, use a compact text fallback:
 
 ```text
-Buy-zone ladder: Current 100 | Fair 90-100 | Accumulate 75-90 | Strong buy <75 | Confidence: Medium | Veto: not triggered
+Buy-zone ladder: Current 100 | Fair 90-100 | Accumulate 75-90 | Strong buy <75 | N basis: mid-cycle | Confidence: Medium | Veto: not triggered
 ```
 
 ## 13. Relationship with DDM or Other Valuation Skills
