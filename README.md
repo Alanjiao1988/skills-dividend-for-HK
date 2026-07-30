@@ -63,16 +63,19 @@ The skill focuses on:
 - Business fundamentals and the economic engine that funds dividends.
 - Historical operating, earnings, cash-flow, and per-share trends.
 - Sector-specific Bear / Base / Bull fundamental forecasts.
-- Dividend Forecast Bridge from distributable cash to derived DPS.
+- One-driver-at-a-time sensitivity from operating drivers to distributable cash, DPS, yield, and buy-zone boundaries.
+- Dividend Forecast Bridge from distributable cash to the single Dividend and Yield Runway.
 - Gross and net dividend yield.
 - TTM yield versus fundamentally normalized yield.
+- Normalized N source priority: mid-cycle, full-cycle median, normalized three-year Base average, or lower-confidence historical fallback.
 - Five-year dividend history and dividend trajectory.
 - Withholding treatment and broker-observed dividend cash flow.
 - Payment-in-lieu versus true dividend cash-line identification.
-- Management capital allocation and buyback quality.
+- Scrip / DRIP tax, cash-income, and dilution treatment.
+- Management capital allocation and true diluted-share-count change.
 - Historical and forecast financial coverage and dividend safety.
-- Three-year evidence-backed dividend runway.
-- Expected buy zone using Base-derived normalized net DPS, Bear-derived net DPS, required net yield, historical prices, and historical yield bands.
+- Structural Decline Grade and Portfolio Role overlay, with a documented Harvest / Managed Runoff Exception.
+- Expected buy zone using normalized N, Bear-derived B, required net yield, historical prices, and historical yield bands.
 - Dividend-trap detection.
 
 ## Key Rules
@@ -82,8 +85,10 @@ The skill focuses on:
 - TTM yield must be separated from normalized yield.
 - Future DPS must be derived from business drivers, earnings or sector-equivalent profitability, cash generation, required reinvestment, payout policy, and diluted share count.
 - Bear / Base / Bull scenarios must be driven by explicit operating assumptions, not arbitrary DPS haircuts.
+- Dividend Cash Cost and Derived DPS appear once in the Dividend and Yield Runway; do not duplicate them in another forecast table.
 - Run the dividend-trap checklist before treating any buy-zone output as actionable.
-- Buy-zone N and B inputs must normally come from the Base and Bear Dividend Forecast Bridge.
+- Buy-zone N must follow the source priority in `buy-zone.md`; a near-term Base case is not automatically normalized.
 - Buy-zone analysis must use deterministic monotonic boundaries from `buy-zone.md`.
 - Strong buy boundary uses Bear-derived net DPS divided by the high end of the required yield range: `B / r_high`.
-- Buy-zone analysis must not use peak-cycle DPS as the base-case anchor unless that DPS is demonstrably sustainable.
+- Persistent scrip / DRIP dilution must be reflected in diluted share count unless credibly offset by buybacks.
+- Structural Decline is subject to Grade and Portfolio Role limits unless the Harvest / Managed Runoff Exception is explicitly satisfied.
