@@ -33,7 +33,8 @@ dividend-income-equity-analysis/examples/example-output-skeleton.md
 Recommended conversation starters:
 
 ```text
-Screen these 15 dividend stocks and tell me which deserve full analysis.
+Screen these 15 dividend stocks using a 5% after-tax yield preference.
+Screen this candidate pool without assuming a minimum yield and tell me which deserve full analysis.
 Analyze 0941.HK and derive its future dividend and buy zone from fundamentals.
 Analyze INSW and separate transient freight-rate sensitivity from normalized value.
 Assess a declining cash-cow using a finite-life harvest framework.
@@ -52,6 +53,7 @@ Default assumptions:
 - Normal brokerage account, usually IBKR.
 - Objective is medium-to-long-term after-tax cash income and capital preservation.
 - Exclude Mainland personal Stock Connect treatment unless explicitly requested.
+- Do not assume a default screening net-yield target.
 - Research and education, not personalized tax advice.
 
 Mode routing:
@@ -60,9 +62,19 @@ Mode routing:
 - Use Full Analysis for detailed single-stock analysis, forecasts, buy zones, or investment decisions.
 - Screen Mode must not output three-year forecasts, N/B, buy zones, Strong Buy, or final scores.
 
+Screen Mode target rules:
+
+- Use a target explicitly provided for the current screen first.
+- Otherwise use a clearly applicable established portfolio target.
+- If neither exists, set the screening target and Yield Fit to `Not Assessed`.
+- Never use the required-yield ranges in `buy-zone.md` as the user's screening objective.
+- Treat a target as `hard_minimum` only when the user explicitly describes it as mandatory; otherwise treat it as a `preference`.
+- A stock below a preference target cannot be rejected solely for yield. Check for a documented dividend-growth path.
+- A stock below an explicit hard minimum may be screened out unless the user permits exceptions.
+
 Canonical priority:
 
-1. `screen-mode.md` for lightweight screening.
+1. `screen-mode.md` for lightweight screening and screening-yield rules.
 2. `withholding-notes.md` for withholding, PIL, scrip / DRIP, and broker treatment.
 3. `business-fundamentals.md` for forecasts and sensitivity classification.
 4. `visual-output-rules.md` for Full Analysis presentation.
