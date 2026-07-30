@@ -16,6 +16,7 @@ description: 港股、美股和全球红利股分析技能。当用户要求红�
 - 投资目标是中长期现金分红收入与资本保护。
 - 用户提供有效券商流水时，实际扣税记录优先于理论分类。
 - 默认不处理内地个人港股通渠道，除非用户明确要求。
+- 不预设 Screen Mode 的最低税后收益率。筛选目标只能来自用户明确要求或已明确建立且适用于本次筛选的组合目标；否则标记为 `Not Assessed`。
 
 ## 模式选择
 
@@ -25,9 +26,11 @@ description: 港股、美股和全球红利股分析技能。当用户要求红�
 
 Screen Mode 必须读取 `screen-mode.md`，且不得输出三年预测、N/B、买入区间、Strong Buy 或最终评分。
 
+Screen Mode 不得把 `buy-zone.md` 的标的必要收益率当作用户的筛选收益率目标，也不得凭空判断某个收益率“明显不足”。
+
 ## 支撑文件读取规则
 
-- `screen-mode.md`：轻量筛选的唯一规则源。
+- `screen-mode.md`：轻量筛选、筛选收益率目标、Yield Fit 和 Yes / Watch / No 的唯一规则源。
 - `workflow.md`：模式路由、完整研究流程和数据源优先级。
 - `business-fundamentals.md`：业务驱动、长期趋势、三年预测、敏感性分类、可分配现金、scrip / DRIP 和 DPS 推导。
 - `visual-output-rules.md`：Full Analysis 的图表和表格规则。
@@ -37,6 +40,14 @@ Screen Mode 必须读取 `screen-mode.md`，且不得输出三年预测、N/B、
 - `output-template.md`：模式输出和 Full Analysis 的 18 节结构。
 - `schema.json`：JSON 或机器可读输出。
 - `examples/example-output-skeleton.md`：Full Analysis 示例骨架。
+
+## Screen Mode 执行原则
+
+- 筛选收益率目标优先使用用户本次明确提供的目标，其次使用明确适用的组合目标；否则为 `Not Assessed`。
+- 只有用户明确说是最低要求、硬门槛或淘汰线时，目标政策才是 `hard_minimum`；其他目标均视为 `preference`。
+- 没有目标时，Yield Fit 必须为 `Not Assessed`，不得仅因收益率看起来较低而判 `No`。
+- 低于 preference 目标时，收益率本身不得单独导致 `No`；应结合有证据支持的股息增长路径决定 `Yes` 或 `Watch`。
+- 低于用户明确的 hard minimum 时，除非用户允许例外，否则判 `No`。
 
 ## Full Analysis 执行原则
 
