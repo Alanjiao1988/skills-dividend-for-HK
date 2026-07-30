@@ -156,7 +156,7 @@ x production volume
 -> base plus variable dividend capacity
 ```
 
-Use normalized commodity prices rather than spot peak prices for base-case dividends.
+Use normalized commodity prices rather than spot peak prices for normalized dividends.
 
 ### Shipping
 
@@ -224,7 +224,7 @@ Rules:
 - Bear, Base, and Bull assumptions must differ through explicit operating drivers, not arbitrary percentage haircuts to DPS.
 - Use company guidance, historical sensitivity, sector data, capacity, contracts, and policy where available.
 - Do not use false precision. Use ranges when the driver is inherently uncertain.
-- Label whether each value is reported, consensus cross-check, company guidance, or analyst estimate.
+- Label whether each value is reported, consensus cross-check, company guidance, historically observed, or analyst estimate.
 
 ## 7. Dividend Forecast Bridge
 
@@ -259,7 +259,7 @@ Rules:
 - Record whether cash or shares is the default election where disclosed.
 - Use historical participation rates when available; otherwise state the assumption.
 - Include expected scrip / DRIP shares in diluted share count unless the company credibly offsets them through buybacks.
-- Default investor cash-yield calculations to an all-cash election when that election is available, but disclose the company-level dilution created by shareholders who elect shares.
+- Default investor cash-yield calculations to an all-cash election when that election is available, but disclose company-level dilution created by shareholders who elect shares.
 - For fixed or progressive policies, compare derived capacity with the promised or expected DPS.
 - For variable or formula-based policies, apply the stated policy to normalized distributable cash.
 
@@ -269,17 +269,14 @@ Every full analysis should include a compact sensitivity table for the three to 
 
 Use one-driver-at-a-time sensitivity around the Base case while holding other assumptions constant.
 
-| Driver Change | Distributable Cash Change | Derived DPS Change | Net Yield Change at Current Price | Accumulation Upper-Bound Change | Interpretation |
-|---|---:|---:|---:|---:|---|
+| Driver Change | Sensitivity Type | Distributable Cash Change | Derived DPS Change | Net Yield Change at Current Price | Accumulation Upper-Bound Change | Interpretation |
+|---|---|---:|---:|---:|---:|---|
 
-Examples:
+Classify every sensitivity as:
 
-- VLCC day rate +/- USD 5,000.
-- Net interest margin +/- 10 bps.
-- Credit cost +/- 10 bps.
-- Occupancy +/- 1 percentage point.
-- Commodity price +/- 10%.
-- Telecom capex +/- 5%.
+- `transient`: a temporary or near-term change that does not alter normalized mid-cycle economics;
+- `persistent`: a change expected to persist across the normalization horizon and alter sustainable distributable cash;
+- `structural`: a change to the business model, competitive position, regulation, asset base, or long-run economics that requires the full model to be rebuilt.
 
 Rules:
 
@@ -287,6 +284,15 @@ Rules:
 - Show whether the relationship is calculated, historically observed, company-disclosed, or estimated.
 - Treat the result as local sensitivity around the Base case. Do not assume linearity under extreme conditions.
 - If the driver affects multiple variables simultaneously, explain the interaction rather than claiming false one-variable precision.
+- For `transient` changes, set Accumulation Upper-Bound Change to `N/A`. The effect belongs only in the affected forecast-year cash flow, DPS, and net yield.
+- For `persistent` changes, recalculate normalized distributable cash and N before updating the accumulation boundary.
+- For `structural` changes, set Accumulation Upper-Bound Change to `Rebuild required`; rerun Fundamental Trend, the three-year forecast, scoring, value-trap checks, and valuation framework.
+
+Examples:
+
+- One-year VLCC day-rate spike: transient.
+- Permanent tariff reset or durable NIM regime shift: persistent.
+- Regulation that makes a business line uneconomic: structural.
 
 ## 9. Normalized and Bear DPS Rules
 
@@ -310,7 +316,9 @@ three_year_base_average
 historical_fundamental_fallback
 ```
 
-A near-term Base case is not automatically normalized. Do not use a Base year containing temporary commodity, freight-rate, geopolitical, credit, regulatory, or pricing windfalls as N without normalizing those drivers.
+A near-term Base case is not automatically normalized. Do not use a Base year containing temporary commodity, freight-rate, geopolitical, credit, regulatory, interest-rate, or pricing windfalls as N without normalizing those drivers.
+
+N may be re-estimated through sensitivity analysis only when a driver change is classified as `persistent`. A `transient` change must not move N or the long-term buy-zone boundaries. A `structural` change requires the full model to be rebuilt rather than mechanically updating N.
 
 ### Bear Net DPS, B
 
