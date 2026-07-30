@@ -26,13 +26,23 @@ dividend-income-equity-analysis/
 
 Use for quick screening, candidate pools, batch comparisons, and deciding which stocks deserve Full Analysis.
 
-It outputs current after-tax yield, five-year DPS pattern, latest coverage, withholding efficiency, preliminary trend, trap screen, and:
+It outputs current after-tax yield, the applicable screening net-yield target, Yield Fit, Yield Gap, documented dividend-growth path, five-year DPS pattern, latest coverage, withholding efficiency, preliminary trend, trap screen, and:
 
 ```text
 Full Analysis Recommended: Yes / Watch / No
 ```
 
-It does not output forecasts, N/B, buy zones, Strong Buy, or final scores.
+Screening target priority:
+
+1. User-explicit target for the current screen.
+2. Clearly applicable portfolio-level target.
+3. `Not Assessed` when neither is available.
+
+A target is a `hard_minimum` only when the user explicitly defines it as mandatory. Otherwise it is a `preference`.
+
+If no target is available, the Skill must not reject a stock solely because its yield appears low. Required-yield ranges in `buy-zone.md` are security-specific return requirements and are not substitutes for the investor's screening target.
+
+Screen Mode does not output forecasts, N/B, buy zones, Strong Buy, or final scores.
 
 ### Full Analysis Mode
 
@@ -90,4 +100,4 @@ The validator checks:
 - 18 numbered Full Analysis sections in both template and example;
 - all canonical modules included in generated GPT instructions;
 - absence of selected stale rule strings;
-- presence of Screen Mode, sensitivity classification, and finite-life valuation contracts.
+- presence of Screen Mode, explicit screening-yield parameters, sensitivity classification, and finite-life valuation contracts.
