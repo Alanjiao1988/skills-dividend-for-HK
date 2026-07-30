@@ -23,6 +23,8 @@ Use current sources, current price, official filings, broker statements, and the
 - TTM net yield: 0.0%
 - Normalized net yield: 0.0%-0.0%
 - Expected buy zone: HKD 0.00-0.00
+- Fundamental trend: Stable / Mature
+- Forecast confidence: Medium
 - Value-trap veto: Not triggered / Triggered / Unclear
 - Withholding rate: 0.0%
 - Withholding basis: unknown
@@ -32,14 +34,14 @@ Use current sources, current price, official filings, broker statements, and the
 
 ## 2. Dividend Snapshot
 
-Takeaway: The snapshot separates headline trailing yield from normalized yield before any long-form discussion.
+Takeaway: The snapshot separates headline trailing yield from fundamentally normalized yield.
 
 | Metric | Value | Comment |
 |---|---:|---|
 | TTM DPS | 0.00 | Placeholder |
 | TTM gross yield | 0.0% | Placeholder |
 | TTM net yield | 0.0% | Placeholder |
-| Normalized DPS | 0.00-0.00 | Placeholder |
+| Normalized DPS | 0.00-0.00 | Derived from Base forecast |
 | Normalized net yield | 0.0%-0.0% | Placeholder |
 | Five-year DPS range | 0.00-0.00 | Placeholder |
 | Latest DPS YoY | N/A | Placeholder |
@@ -55,24 +57,26 @@ If rich visualization is available, render:
 1. DPS Structure Chart.
 2. Yield Ladder.
 3. Coverage Chart.
-4. Buy-Zone Ladder.
+4. Fundamental Forecast Chart.
+5. Buy-Zone Ladder.
 
 Plain-text fallback:
 
+- Business and FCF trend: `Historical stable -> Base modest growth -> Bear decline -> Bull upside`
 - DPS path: `FY-4 0.00 -> FY-3 0.00 -> FY-2 0.00 -> FY-1 0.00 -> FY0 0.00`
 - Yield stack: `TTM 0.0% | normalized 0.0%-0.0% | bear 0.0% | base 0.0% | bull 0.0%`
-- Buy-zone ladder: `Current 0.00 | Fair 0.00-0.00 | Accumulate 0.00-0.00 | Strong buy <0.00 | Veto: not triggered`
+- Buy-zone ladder: `Current 0.00 | Fair 0.00-0.00 | Accumulate 0.00-0.00 | Strong buy <0.00 | Confidence: Medium | Veto: not triggered`
 - Coverage labels: `FY-4 N/A | FY-3 N/A | FY-2 N/A | FY-1 N/A | FY0 N/A`
 
 ## 4. Company and Listing Structure
 
-Takeaway: Identify the legal structure before estimating withholding or dividend quality.
+Takeaway: Identify legal and listing structure before estimating withholding, share count, and per-share economics.
 
-Describe domicile, issuer type, listing venue, dividend currency, reporting currency, official share count from filings, and security type.
+Describe domicile, issuer type, listing venue, dividend currency, reporting currency, official diluted share count, and security type.
 
 ## 5. Dividend Treatment
 
-Takeaway: Withholding treatment must follow `withholding-notes.md`, and broker PIL lines are not withholding evidence.
+Takeaway: Withholding treatment must follow `withholding-notes.md`, and PIL lines are not withholding evidence.
 
 - Withholding rate: 0.0%
 - Withholding basis: unknown
@@ -82,13 +86,31 @@ Takeaway: Withholding treatment must follow `withholding-notes.md`, and broker P
 
 If withholding is 0%, state once: "Withholding 0% — gross equals net."
 
-## 6. Dividend Trajectory and Yearly Yield
+## 6. Business Fundamentals and Long-Term Trend
 
-Takeaway: The dividend path shows whether income is stable, growing, cyclical, or one-off.
+Takeaway: The dividend is funded by the company's core operating engine, not by its historical DPS record alone.
 
-Use `visual-output-rules.md` Section 4 for authoritative table structures.
+- Dividend funding engine: Placeholder.
+- Main segments: Placeholder.
+- Fundamental trend: Stable / Mature.
+- Core drivers: Driver 1; Driver 2; Driver 3.
+- Main long-term risk: Placeholder.
 
-### 6A. Per-share DPS Structure
+### Historical Operating Trend
+
+| Fiscal Year | Primary Business Driver | Revenue / Sector Income | Operating Margin / Equivalent | Net Income / AFFO | FCF / Distributable Cash | Comment |
+|---|---|---:|---:|---:|---:|---|
+| FY-4 | Placeholder | N/A | N/A | N/A | N/A | Placeholder |
+| FY-3 | Placeholder | N/A | N/A | N/A | N/A | Placeholder |
+| FY-2 | Placeholder | N/A | N/A | N/A | N/A | Placeholder |
+| FY-1 | Placeholder | N/A | N/A | N/A | N/A | Placeholder |
+| FY0 | Placeholder | N/A | N/A | N/A | N/A | Placeholder |
+
+## 7. Dividend Trajectory and Yearly Yield
+
+Takeaway: The historical dividend path shows whether income has been stable, progressive, cyclical, or one-off.
+
+### 7A. Per-share DPS Structure
 
 | Fiscal Year | Total DPS | Base DPS | Special / Variable DPS | DPS YoY | Quality Tag | Notes |
 |---|---:|---:|---:|---:|---|---|
@@ -98,7 +120,7 @@ Use `visual-output-rules.md` Section 4 for authoritative table structures.
 | FY-1 | 0.00 | 0.00 | 0.00 | 0.0% | Not Available | Placeholder |
 | FY0 | 0.00 | 0.00 | 0.00 | 0.0% | Not Available | Placeholder |
 
-### 6B. Yield and Coverage
+### 7B. Yield and Coverage
 
 | Fiscal Year | Yield at Current Price | Yield at Year Price | Payout Ratio | FCF / Dividend | Coverage Label | Comment |
 |---|---:|---:|---:|---:|---|---|
@@ -108,15 +130,13 @@ Use `visual-output-rules.md` Section 4 for authoritative table structures.
 | FY-1 | 0.0% | N/A | N/A | N/A | Not Available | Placeholder |
 | FY0 | 0.0% | N/A | N/A | N/A | Not Available | Placeholder |
 
-Dividend Pattern: State whether the stock is stable income, progressive income, formula-based variable income, cycle income, or one-off distribution.
+Dividend Pattern: Placeholder.
 
-## 7. Cash-Flow Coverage Bridge
+## 8. Historical Cash-Flow Coverage Bridge
 
-Takeaway: The bridge shows whether dividends were funded by operating free cash flow, cash balance, asset sales, debt, or equity issuance.
+Takeaway: Historical payout quality depends on whether dividends came from recurring cash generation.
 
-Use `visual-output-rules.md` Section 5 for authoritative bridge structures.
-
-### 7A. Cash Generation
+### 8A. Cash Generation
 
 | Fiscal Year | Net Income | Operating Cash Flow | Capex | Free Cash Flow | FCF Quality | Comment |
 |---|---:|---:|---:|---:|---|---|
@@ -126,7 +146,7 @@ Use `visual-output-rules.md` Section 5 for authoritative bridge structures.
 | FY-1 | N/A | N/A | N/A | N/A | Not Available | Placeholder |
 | FY0 | N/A | N/A | N/A | N/A | Not Available | Placeholder |
 
-### 7B. Cash Return and Funding
+### 8B. Cash Return and Funding
 
 | Fiscal Year | Cash Dividends | Buybacks | Share Issuance | Net Debt Change | FCF / Dividend | Funding Source |
 |---|---:|---:|---:|---:|---:|---|
@@ -136,25 +156,67 @@ Use `visual-output-rules.md` Section 5 for authoritative bridge structures.
 | FY-1 | N/A | N/A | N/A | N/A | N/A | Not Available |
 | FY0 | N/A | N/A | N/A | N/A | N/A | Not Available |
 
-Explain whether FCF is company-reported or estimated as operating cash flow minus capex.
+## 9. Management Capital Allocation
 
-## 8. Management Capital Allocation
+Takeaway: Management policy determines how much operating cash reaches shareholders.
 
-Takeaway: Management policy determines whether dividends are a commitment, formula, or residual payout.
+Summarize payout policy, leverage target, reinvestment, acquisitions, issuance, and shareholder-return priorities.
 
-Summarize dividend policy, buyback policy, leverage target, reinvestment priority, acquisition policy, share issuance, ATM programs, and whether equity issuance coincides with elevated payout.
+## 10. Buyback Quality
 
-## 9. Buyback Quality
+Takeaway: Buybacks create value only when they reduce diluted share count at sensible prices without weakening the balance sheet.
 
-Takeaway: Buybacks matter only if they reduce share count without weakening the balance sheet.
+Assess share-count change, dilution, valuation discipline, and funding source.
 
-Assess share-count change, dilution, valuation discipline, whether buybacks are debt-funded, and whether buybacks are offset by share issuance.
+## 11. Three-Year Fundamental Forecast
 
-## 10. Three-Year Dividend Runway
+Takeaway: Future DPS begins with explicit business and cash-flow assumptions.
 
-Takeaway: The runway converts dividend scenarios into net yield and cash-flow coverage.
+### 11A. Operating Driver Forecast
 
-Use `visual-output-rules.md` Section 9 for authoritative runway structure.
+| Fiscal Year | Scenario | Primary Driver | Price / Mix Driver | Margin / Credit / Cost Driver | Capital-Intensity Driver | Key Assumptions |
+|---|---|---|---|---|---|---|
+| FY+1 | Bear | Placeholder | Placeholder | Placeholder | Placeholder | Placeholder |
+| FY+1 | Base | Placeholder | Placeholder | Placeholder | Placeholder | Placeholder |
+| FY+1 | Bull | Placeholder | Placeholder | Placeholder | Placeholder | Placeholder |
+
+Repeat Bear / Base / Bull for FY+2 and FY+3.
+
+### 11B. Financial Forecast
+
+| Fiscal Year | Scenario | Revenue / Sector Income | Net Income / AFFO | Operating Cash Flow | Capex / Capital Need | FCF / Distributable Cash |
+|---|---|---:|---:|---:|---:|---:|
+| FY+1 | Bear | N/A | N/A | N/A | N/A | N/A |
+| FY+1 | Base | N/A | N/A | N/A | N/A | N/A |
+| FY+1 | Bull | N/A | N/A | N/A | N/A | N/A |
+
+Repeat Bear / Base / Bull for FY+2 and FY+3.
+
+## 12. Dividend Forecast Bridge
+
+Takeaway: Forecast DPS must reconcile to distributable cash, payout policy, and diluted share count.
+
+### 12A. Distributable-Cash Bridge
+
+| Fiscal Year | Scenario | Net Income / AFFO | FCF / Capital Generation | Mandatory Debt / Regulatory Uses | Required Reinvestment | Cash Available for Distribution |
+|---|---|---:|---:|---:|---:|---:|
+| FY+1 | Bear | N/A | N/A | N/A | N/A | N/A |
+| FY+1 | Base | N/A | N/A | N/A | N/A | N/A |
+| FY+1 | Bull | N/A | N/A | N/A | N/A | N/A |
+
+### 12B. DPS Derivation
+
+| Fiscal Year | Scenario | Cash Available for Distribution | Payout Policy / Ratio | Dividend Cash Cost | Diluted Share Count | Derived DPS |
+|---|---|---:|---|---:|---:|---:|
+| FY+1 | Bear | N/A | Placeholder | N/A | N/A | N/A |
+| FY+1 | Base | N/A | Placeholder | N/A | N/A | N/A |
+| FY+1 | Bull | N/A | Placeholder | N/A | N/A | N/A |
+
+Forecast Confidence: High / Medium / Low / Not Forecastable.
+
+## 13. Three-Year Dividend Runway
+
+Takeaway: The runway shows the yield and coverage produced by the derived DPS scenarios.
 
 | Fiscal Year | Scenario | DPS | Net Yield at Current Price | Estimated FCF | Dividend Cash Cost | FCF / Dividend |
 |---|---|---:|---:|---:|---:|---:|
@@ -168,11 +230,13 @@ Use `visual-output-rules.md` Section 9 for authoritative runway structure.
 | FY+3 | Base | N/A | N/A | N/A | N/A | N/A |
 | FY+3 | Bull | N/A | N/A | N/A | N/A | N/A |
 
-## 11. Dividend Trap Checklist
+DPS source: Evidence-backed / Illustrative / Historical fallback / Unknown.
+
+## 14. Dividend Trap Checklist
 
 Takeaway: The checklist separates high yield from sustainable income and acts as the buy-zone veto gate.
 
-Keep this checklist aligned with `workflow.md` Step 7; do not shorten it in real outputs.
+Keep this checklist aligned with `workflow.md` Step 10; do not shorten it in real outputs.
 
 | Red Flag | Status | Evidence |
 |---|---|---|
@@ -190,29 +254,26 @@ Keep this checklist aligned with `workflow.md` Step 7; do not shorten it in real
 | Cycle peak payout | Unknown | Placeholder |
 | FX mismatch | Unknown | Placeholder |
 | Ineffective buybacks or buybacks offset by issuance | Unknown | Placeholder |
+| Fundamental forecast conflicts with assumed DPS | Unknown | Placeholder |
+| DPS cannot reconcile to distributable cash and share count | Unknown | Placeholder |
 
 Value-trap veto: Not triggered / Triggered / Unclear.
 
-## 12. Expected Buy Zone
+## 15. Expected Buy Zone
 
-Takeaway: The buy zone translates normalized net DPS and required net yield into an income entry range, subject to the value-trap veto.
-
-Use `buy-zone.md` for authoritative buy-zone logic.
-
-Formula:
-
-```text
-Buy Price = Net DPS / Required Net Yield
-```
+Takeaway: The buy zone uses fundamentally derived Base and Bear net DPS, not a convenient historical average.
 
 Boundary inputs:
 
-- N = normalized net DPS: 0.00
-- B = bear-case net DPS: 0.00
+- N = Base-derived normalized net DPS: 0.00
+- N source: Base fundamental forecast + Dividend Forecast Bridge
+- B = Bear-derived net DPS: 0.00
+- B source: Bear fundamental forecast + Dividend Forecast Bridge
+- Forecast Confidence: Medium
 - r_low = 0.0%
 - r_high = 0.0%
 
-### 12A. Historical Price and Yield Context
+### 15A. Historical Price and Yield Context
 
 | Metric | Price / Level | Current Position | Comment |
 |---|---:|---:|---|
@@ -223,27 +284,28 @@ Boundary inputs:
 | 5-year median | N/A | N/A | Placeholder |
 | Historical net-yield range | N/A | N/A | Placeholder |
 
-### 12B. Buy-Zone Table
+### 15B. Buy-Zone Table
 
 | Zone | Price Range | Implied Net Yield | DPS Basis | Condition Required | Action View |
 |---|---:|---:|---|---|---|
-| Too expensive / avoid adding | Price > N / r_low | Below required range | Normalized DPS | Yield below required return | Avoid adding |
-| Fair value / hold | N / r_high < Price <= N / r_low | Required range | Normalized DPS | Fair yield, limited MOS | Hold |
-| Accumulation zone | B / r_high < Price <= N / r_high | Attractive normalized yield | Normalized + bear DPS | Required yield met | Gradual buy |
-| Strong buy zone | Price <= B / r_high | Bear-case yield meets high-end requirement | Bear / conservative DPS | Strong coverage required | Higher conviction buy |
+| Too expensive / avoid adding | Price > N / r_low | Below required range | Base-derived N | Yield below required return | Avoid adding |
+| Fair value / hold | N / r_high < Price <= N / r_low | Required range | Base-derived N | Fair yield, limited MOS | Hold |
+| Accumulation zone | B / r_high < Price <= N / r_high | Attractive normalized yield | Base N + Bear B | Required yield met | Gradual buy |
+| Strong buy zone | Price <= B / r_high | Bear yield meets high-end requirement | Bear-derived B | Strong coverage required | Higher conviction buy |
 
 Value-trap veto: Not triggered / Triggered / Unclear.
 
-## 13. Visual Summary
+## 16. Visual Summary
 
+- Business and FCF trend: `Placeholder`
 - DPS path: `FY-4 0.00 -> FY-3 0.00 -> FY-2 0.00 -> FY-1 0.00 -> FY0 0.00`
 - Yield normalization: `TTM 0.0% vs normalized 0.0%-0.0% vs bear/base/bull N/A`
-- Buy-zone ladder: `Current 0.00 | Fair N/A | Accumulate N/A | Strong buy N/A | Veto N/A`
+- Buy-zone ladder: `Current 0.00 | Fair N/A | Accumulate N/A | Strong buy N/A | Confidence N/A | Veto N/A`
 - Coverage labels by year: `FY-4 N/A | FY-3 N/A | FY-2 N/A | FY-1 N/A | FY0 N/A`
 
-## 14. Score, Required Ratings, and Portfolio Role
+## 17. Score, Required Ratings, and Portfolio Role
 
-Takeaway: The final rating combines yield, stability, FCF coverage, balance sheet, management, buybacks, and visibility.
+Takeaway: The final rating combines yield, stability, cash coverage, balance sheet, management, buybacks, and evidence-backed visibility.
 
 | Module | Weight | Score | Comment |
 |---|---:|---:|---|
@@ -253,7 +315,7 @@ Takeaway: The final rating combines yield, stability, FCF coverage, balance shee
 | Balance-sheet safety | 15 | 0 | Placeholder |
 | Management capital allocation | 15 | 0 | Placeholder |
 | Buyback quality | 10 | 0 | Placeholder |
-| Three-year visibility | 10 | 0 | Placeholder |
+| Three-year fundamental and dividend visibility | 10 | 0 | Placeholder |
 | Total | 100 | 0 | Placeholder |
 
 Required ratings:
@@ -264,13 +326,15 @@ Required ratings:
 - Buyback Quality: Not Applicable
 - Three-Year Dividend Outlook: High Uncertainty
 - Portfolio Role: Watchlist
+- Fundamental Trend: Stable / Mature
+- Forecast Confidence: Medium
 
-## 15. Sources and Data Quality
+## 18. Sources and Data Quality
 
-List official filings, announcements, broker records, and third-party cross-checks used.
+List official filings, announcements, operating statistics, guidance, broker records, historical price sources, and third-party cross-checks used.
 
 Data quality notes:
 
 - This skeleton contains placeholders only.
 - Replace all placeholders with current, cited data before using for any real ticker.
-- State missing data, fallback calculations, broker-statement uncertainty, historical price limitations, and buy-zone assumptions clearly.
+- State missing data, fallback calculations, broker-statement uncertainty, forecast assumptions, historical price limitations, and whether future DPS is evidence-backed or illustrative.
