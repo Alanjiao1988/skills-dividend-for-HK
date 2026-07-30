@@ -16,16 +16,35 @@ Screen Mode ends after the compact screen output. It must not continue into the 
 
 1. Verify ticker, listing, current price, and as-of date.
 2. Estimate TTM net yield with withholding basis.
-3. Classify the five-year DPS pattern.
-4. Check latest FCF / Dividend or sector-equivalent coverage.
-5. Check leverage, regulatory-capital, solvency, or refinancing alerts.
-6. Make a preliminary Fundamental Trend classification.
-7. Run the abbreviated dividend-trap screen.
-8. Output `Full Analysis Recommended: Yes / Watch / No`.
+3. Resolve the screening net-yield target using this priority:
+   - user-explicit target for the current screen;
+   - clearly applicable portfolio-level target;
+   - `Not Assessed` when neither is available.
+4. Classify target policy as `hard_minimum`, `preference`, or `not_assessed`.
+5. Calculate Yield Fit and Yield Gap:
+   - Pass when TTM net yield is at or above target;
+   - Below target when TTM net yield is below target;
+   - Not Assessed / N/A when no target is available.
+6. Check whether a claimed dividend-growth path is documented by policy, earnings, cash flow, or an established record.
+7. Classify the five-year DPS pattern.
+8. Check latest FCF / Dividend or sector-equivalent coverage.
+9. Check leverage, regulatory-capital, solvency, or refinancing alerts.
+10. Make a preliminary Fundamental Trend classification.
+11. Run the abbreviated dividend-trap screen.
+12. Output `Full Analysis Recommended: Yes / Watch / No`.
+
+Do not use `buy-zone.md` required-yield ranges as the investor's screening target.
+
+If the screening target is Not Assessed, do not reject or downgrade a stock solely because its yield appears low.
+
+If the target is a preference and Yield Fit is Below target, yield alone cannot produce `No`. Use `Watch` when a documented growth path or another unresolved question deserves Full Analysis.
+
+If the target is an explicit hard minimum and Yield Fit is Below target, use `No` unless the user explicitly permits exceptions.
 
 Required limitations:
 
 ```text
+Mode: Screen
 Forecast Confidence: Not Assessed
 Buy Zone: Not Assessed
 No three-year forecast, N, B, target price, Strong Buy label, or final score.
