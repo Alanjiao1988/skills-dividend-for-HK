@@ -2,7 +2,7 @@
 
 This file defines how to connect long-term business fundamentals to future dividend capacity.
 
-The purpose is not to build a full investment-bank financial model or DCF. The purpose is to ensure that future DPS, normalized DPS, and buy-zone inputs are derived from operating drivers, earnings, cash flow, balance-sheet constraints, and payout policy rather than guessed directly from historical dividends.
+The purpose is not to build a full investment-bank financial model or DCF. The purpose is to ensure that future DPS, normalized DPS, and buy-zone inputs are derived from operating drivers, earnings, cash flow, balance-sheet constraints, payout policy, and diluted share count rather than guessed directly from historical dividends.
 
 ## 1. Required Causal Chain
 
@@ -20,7 +20,7 @@ Business volume / customer / asset / commodity / rate drivers
 -> Cash available for shareholder distribution
 -> Dividend policy and payout ratio
 -> Dividend cash cost
--> Diluted share count
+-> Diluted share count, including scrip / DRIP dilution where relevant
 -> DPS
 -> Net DPS and expected buy zone
 ```
@@ -38,7 +38,7 @@ Identify:
 - Structural growth, cyclical growth, one-off growth, and accounting growth without cash-flow growth.
 - Market share, customer or asset growth, pricing power, unit economics, margins, maintenance capex, and working-capital behavior.
 - Dilution, acquisitions, disposals, and changes in segment mix.
-- Whether per-share economics improved after accounting for issuance and buybacks.
+- Whether per-share economics improved after accounting for issuance, buybacks, scrip dividends, and DRIP participation.
 
 ### Historical Operating Trend Table
 
@@ -80,7 +80,7 @@ Examples:
 - Price, ARPU, tariffs, spreads, commodity prices, day rates, rent reversion, or product mix.
 - Operating margin, credit cost, loss ratio, unit cost, utilization, or interest expense.
 - Maintenance capex, growth capex, working capital, regulatory capital, or debt repayment.
-- Diluted share count and expected issuance or buybacks.
+- Diluted share count, scrip participation, expected issuance, and buybacks.
 
 Do not use a long list of immaterial variables. Prefer a small number of auditable drivers.
 
@@ -186,7 +186,7 @@ Occupancy and rent growth
 -> DPU
 ```
 
-Check LTV, refinancing cost, WALE, tenant concentration, valuation losses, and equity issuance.
+Check LTV, refinancing cost, WALE, tenant concentration, valuation losses, equity issuance, and DRIP dilution.
 
 ### Consumer, Industrial, Technology, and Other Operating Companies
 
@@ -232,13 +232,8 @@ Future DPS must be derived from forecast distributable capacity.
 
 ### Distributable-Cash Bridge
 
-| Fiscal Year | Scenario | Net Income / AFFO | FCF / Capital Generation | Mandatory Debt / Regulatory Uses | Required Reinvestment | Cash Available for Distribution |
+| Fiscal Year | Scenario | FCF / Capital Generation | Mandatory Debt / Regulatory Uses | Required Reinvestment | Excess Cash Used | Cash Available for Distribution |
 |---|---|---:|---:|---:|---:|---:|
-
-### DPS Derivation
-
-| Fiscal Year | Scenario | Cash Available for Distribution | Payout Policy / Ratio | Dividend Cash Cost | Diluted Share Count | Derived DPS |
-|---|---|---:|---|---:|---:|---:|
 
 Use this relationship:
 
@@ -249,27 +244,83 @@ Cash Available for Distribution
 - regulatory capital requirements
 - required maintenance and committed reinvestment
 + explicitly available excess cash, if justified
-
-Dividend Cash Cost
-= Cash Available for Distribution x expected payout ratio
-
-Derived DPS
-= Dividend Cash Cost / diluted share count
 ```
 
-For fixed or progressive policies, compare the derived capacity with the promised or expected DPS. For variable or formula-based policies, apply the stated policy to normalized distributable cash.
+The final dividend, DPS, and yield output belongs in the Dividend and Yield Runway table defined in `visual-output-rules.md`. Do not repeat Dividend Cash Cost and Derived DPS in a second table here.
 
-## 8. Normalized and Bear DPS Rules
+### Share Count and Scrip / DRIP Assumptions
 
-The buy-zone inputs must be traceable to the fundamental forecast:
+| Fiscal Year | Scenario | Diluted Share Count | Scrip / DRIP Available | Expected Participation / Dilution | Buyback Offset | Comment |
+|---|---|---:|---|---|---|---|
 
-- `N`, normalized net DPS, should normally come from the base-case normalized distributable cash and payout policy.
-- `B`, bear-case net DPS, should come from the bear-case distributable cash and payout policy.
+Rules:
+
+- Identify whether the issuer offers scrip dividend, stock dividend, elective share distribution, or DRIP.
+- Record whether cash or shares is the default election where disclosed.
+- Use historical participation rates when available; otherwise state the assumption.
+- Include expected scrip / DRIP shares in diluted share count unless the company credibly offsets them through buybacks.
+- Default investor cash-yield calculations to an all-cash election when that election is available, but disclose the company-level dilution created by shareholders who elect shares.
+- For fixed or progressive policies, compare derived capacity with the promised or expected DPS.
+- For variable or formula-based policies, apply the stated policy to normalized distributable cash.
+
+## 8. Single-Driver Sensitivity
+
+Every full analysis should include a compact sensitivity table for the three to five most important operating drivers when the forecast model supports it.
+
+Use one-driver-at-a-time sensitivity around the Base case while holding other assumptions constant.
+
+| Driver Change | Distributable Cash Change | Derived DPS Change | Net Yield Change at Current Price | Accumulation Upper-Bound Change | Interpretation |
+|---|---:|---:|---:|---:|---|
+
+Examples:
+
+- VLCC day rate +/- USD 5,000.
+- Net interest margin +/- 10 bps.
+- Credit cost +/- 10 bps.
+- Occupancy +/- 1 percentage point.
+- Commodity price +/- 10%.
+- Telecom capex +/- 5%.
+
+Rules:
+
+- State the Base-case driver level and the unit change.
+- Show whether the relationship is calculated, historically observed, company-disclosed, or estimated.
+- Treat the result as local sensitivity around the Base case. Do not assume linearity under extreme conditions.
+- If the driver affects multiple variables simultaneously, explain the interaction rather than claiming false one-variable precision.
+
+## 9. Normalized and Bear DPS Rules
+
+The buy-zone inputs must be traceable to the fundamental forecast.
+
+### Normalized Net DPS, N
+
+Use this source priority:
+
+1. Explicit mid-cycle normalized distributable cash and payout-policy-derived net DPS.
+2. Full-cycle median distributable cash and payout-policy-derived net DPS when a complete cycle is available.
+3. Average of the three-year Base-case derived net DPS only when the forecast assumptions have returned to normal operating conditions and do not retain temporary cycle premiums or trough discounts.
+4. Fundamentally adjusted historical normalized DPS as a lower-confidence fallback.
+
+Always output the N basis as one of:
+
+```text
+mid_cycle
+full_cycle_median
+three_year_base_average
+historical_fundamental_fallback
+```
+
+A near-term Base case is not automatically normalized. Do not use a Base year containing temporary commodity, freight-rate, geopolitical, credit, regulatory, or pricing windfalls as N without normalizing those drivers.
+
+### Bear Net DPS, B
+
+- `B` should come from the Bear-case distributable cash, payout policy, and diluted share count.
+- Bear assumptions must represent a plausible adverse operating state, not an arbitrary DPS haircut.
 - Historical DPS averages may be used only as a cross-check or fallback when the operating forecast cannot be built.
-- If historical averages are used as a fallback, label the buy zone as lower-confidence and state why an operating forecast was unavailable.
+- If historical values are used as a fallback, label the buy zone Lower Confidence and explain why.
 - Do not set N or B solely by choosing a convenient yield or price target.
 
-## 9. Forecast Confidence
+## 10. Forecast Confidence
 
 Rate forecast confidence as High, Medium, Low, or Not Forecastable.
 
@@ -288,7 +339,7 @@ Rate forecast confidence as High, Medium, Low, or Not Forecastable.
 ### Low
 
 - High commodity, rate, credit, or volume sensitivity.
-- Uncertain capex, refinancing, or policy.
+- Uncertain capex, refinancing, policy, scrip dilution, or share issuance.
 - Scenario ranges are wide.
 
 ### Not Forecastable
@@ -303,10 +354,10 @@ Required wording when a responsible forecast cannot be built:
 Future dividend cannot be forecast responsibly from operating fundamentals. The DPS scenarios below are illustrative rather than evidence-backed because the following inputs are missing or unreliable: ...
 ```
 
-## 10. Relationship to Other Valuation Skills
+## 11. Relationship to Other Valuation Skills
 
 This module forecasts dividend capacity. It is not a full intrinsic-value model.
 
-- Use the dividend forecast to support normalized yield, dividend runway, and expected buy zone.
+- Use the dividend forecast to support normalized yield, dividend runway, sensitivity, and expected buy zone.
 - Use a dedicated DDM, DCF, moat, or reinvestment skill when the user asks for full intrinsic value or competitive-advantage analysis.
 - If the fundamental forecast conflicts with historical dividend patterns or management targets, explain the conflict explicitly.
