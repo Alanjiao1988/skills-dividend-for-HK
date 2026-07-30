@@ -28,6 +28,7 @@ def require(condition, message):
         raise SystemExit(message)
 
 defs = schema.get("$defs", {})
+props = schema.get("properties", {})
 params = defs.get("screeningParameters", {})
 item = defs.get("screenItem", {})
 require(params, "schema missing $defs.screeningParameters")
@@ -45,14 +46,41 @@ for key in (
 ):
     require(key in item_props, f"screenItem missing {key}")
 
-require("screening_parameters" in schema.get("properties", {}), "top-level screening_parameters missing")
+require("screening_parameters" in props, "top-level screening_parameters missing")
 require("not_assessed" in param_props["target_basis"].get("enum", []), "target_basis missing not_assessed")
 require("hard_minimum" in param_props["target_policy"].get("enum", []), "target_policy missing hard_minimum")
 require("preference" in param_props["target_policy"].get("enum", []), "target_policy missing preference")
 require("Not Assessed" in item_props["yield_fit"].get("enum", []), "yield_fit missing Not Assessed")
 
+restored_full_fields = (
+    "key_metrics_at_a_glance",
+    "dividend_snapshot",
+    "five_year_dividend_history",
+    "cash_flow_bridge",
+    "scrip_drip",
+    "rendering",
+    "visual_summary",
+)
+for key in restored_full_fields:
+    require(key in props, f"full-analysis schema field missing: {key}")
+
+buy_zone_props = props.get("buy_zone", {}).get("properties", {})
+require("too_expensive_zone" in buy_zone_props, "buy_zone missing too_expensive_zone")
+
+full_required = None
+for rule in schema.get("allOf", []):
+    condition = rule.get("if", {})
+    if condition.get("properties", {}).get("mode", {}).get("const") == "full_analysis":
+        full_required = set(rule.get("then", {}).get("required", []))
+        break
+require(full_required is not None, "schema missing full_analysis conditional requirement")
+for key in restored_full_fields:
+    require(key in full_required, f"full_analysis does not require {key}")
+require("sources" in full_required, "full_analysis does not require sources")
+
 print(f"schema.json: valid and readable ({line_count} lines)")
 print("screening-yield schema contract: present")
+print("full-analysis historical and presentation contract: present")
 PY
 
 bash build-gpt-instructions.sh >/dev/null
@@ -95,6 +123,9 @@ grep -Fq 'sensitivity_type' "$SCHEMA"
 grep -Fq 'finite_life_harvest' "$SCHEMA"
 grep -Fq 'screening_parameters' "$SCHEMA"
 grep -Fq 'yield_gap_percentage_points' "$SCHEMA"
+grep -Fq 'five_year_dividend_history' "$SCHEMA"
+grep -Fq 'cash_flow_bridge' "$SCHEMA"
+grep -Fq 'too_expensive_zone' "$SCHEMA"
 grep -Fq 'Screening net-yield target' "$SCREEN_MODE"
 grep -Fq 'Target policy: hard_minimum / preference / not_assessed' "$SCREEN_MODE"
 grep -Fq 'do not reject or downgrade a stock solely because its yield appears low' "$SCREEN_MODE"
