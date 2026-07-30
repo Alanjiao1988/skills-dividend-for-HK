@@ -21,6 +21,7 @@ EOF
 for f in \
   SKILL.md \
   workflow.md \
+  business-fundamentals.md \
   withholding-notes.md \
   scoring.md \
   visual-output-rules.md \
