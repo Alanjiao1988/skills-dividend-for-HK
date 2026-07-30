@@ -1,17 +1,28 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Dividend Income Equity Analysis",
+  "description": "Machine-readable contract for Screen Mode and the complete Full Analysis. Full Analysis covers key metrics, dividend snapshot, historical dividend and cash-flow records, business fundamentals, forecasts, sensitivity, distribution and scrip/DRIP metadata, valuation, visual summary, rendering metadata, ratings, and sources.",
   "type": "object",
   "$defs": {
     "nullableNumber": {"type": ["number", "null"]},
     "scenario": {"type": "string", "enum": ["Bear", "Base", "Bull"]},
     "screeningParameters": {
       "type": "object",
-      "properties": {"target_net_yield": {"type": ["number", "null"], "minimum": 0, "description": "Decimal form. Null when no applicable screening target is available."}, "target_basis": {"type": "string", "enum": ["user_explicit", "portfolio_target", "not_assessed"]}, "target_policy": {"type": "string", "enum": ["hard_minimum", "preference", "not_assessed"]}},
+      "properties": {
+        "target_net_yield": {"type": ["number", "null"], "minimum": 0, "description": "Decimal form. Null when no applicable screening target is available."},
+        "target_basis": {"type": "string", "enum": ["user_explicit", "portfolio_target", "not_assessed"]},
+        "target_policy": {"type": "string", "enum": ["hard_minimum", "preference", "not_assessed"]}
+      },
       "required": ["target_net_yield", "target_basis", "target_policy"],
       "allOf": [
-        {"if": {"required": ["target_basis"], "properties": {"target_basis": {"const": "not_assessed"}}}, "then": {"properties": {"target_net_yield": {"const": null}, "target_policy": {"const": "not_assessed"}}}},
-        {"if": {"required": ["target_basis"], "properties": {"target_basis": {"enum": ["user_explicit", "portfolio_target"]}}}, "then": {"properties": {"target_net_yield": {"type": "number", "minimum": 0}, "target_policy": {"enum": ["hard_minimum", "preference"]}}}}
+        {
+          "if": {"required": ["target_basis"], "properties": {"target_basis": {"const": "not_assessed"}}},
+          "then": {"properties": {"target_net_yield": {"const": null}, "target_policy": {"const": "not_assessed"}}}
+        },
+        {
+          "if": {"required": ["target_basis"], "properties": {"target_basis": {"enum": ["user_explicit", "portfolio_target"]}}},
+          "then": {"properties": {"target_net_yield": {"type": "number", "minimum": 0}, "target_policy": {"enum": ["hard_minimum", "preference"]}}}
+        }
       ]
     },
     "screenItem": {
@@ -39,7 +50,66 @@
         "forecast_confidence": {"const": "Not Assessed"},
         "buy_zone": {"const": "Not Assessed"}
       },
-      "required": ["company", "ticker", "exchange", "as_of_date", "screening_net_yield_target", "yield_fit", "yield_gap_percentage_points", "documented_dividend_growth_path", "five_year_dps_pattern", "latest_coverage", "balance_sheet_alert", "withholding_efficiency", "preliminary_fundamental_trend", "dividend_trap_screen", "full_analysis_recommended", "main_reason", "forecast_confidence", "buy_zone"]
+      "required": [
+        "company",
+        "ticker",
+        "exchange",
+        "as_of_date",
+        "screening_net_yield_target",
+        "yield_fit",
+        "yield_gap_percentage_points",
+        "documented_dividend_growth_path",
+        "five_year_dps_pattern",
+        "latest_coverage",
+        "balance_sheet_alert",
+        "withholding_efficiency",
+        "preliminary_fundamental_trend",
+        "dividend_trap_screen",
+        "full_analysis_recommended",
+        "main_reason",
+        "forecast_confidence",
+        "buy_zone"
+      ]
+    },
+    "dividendHistoryRow": {
+      "type": "object",
+      "properties": {
+        "fiscal_year": {"type": "string"},
+        "total_dps": {"$ref": "#/$defs/nullableNumber"},
+        "base_dps": {"$ref": "#/$defs/nullableNumber"},
+        "special_or_variable_dps": {"$ref": "#/$defs/nullableNumber"},
+        "dps_yoy": {"$ref": "#/$defs/nullableNumber", "description": "Decimal form"},
+        "yield_at_current_price": {"$ref": "#/$defs/nullableNumber", "description": "Decimal form"},
+        "yield_at_year_price": {"$ref": "#/$defs/nullableNumber", "description": "Decimal form"},
+        "payout_ratio": {"$ref": "#/$defs/nullableNumber", "description": "Decimal form"},
+        "fcf_dividend_coverage": {"$ref": "#/$defs/nullableNumber", "description": "Coverage multiple"},
+        "coverage_label": {"type": "string", "enum": ["Strong", "Adequate", "Weak", "Not Available"]},
+        "quality_tag": {
+          "type": "string",
+          "enum": ["Stable", "Growing", "Cyclical", "One-off", "Cut", "Suspended", "Event-driven", "Peak-cycle", "Not Available"]
+        },
+        "notes": {"type": "string"}
+      },
+      "required": ["fiscal_year", "coverage_label", "quality_tag"]
+    },
+    "cashFlowHistoryRow": {
+      "type": "object",
+      "properties": {
+        "fiscal_year": {"type": "string"},
+        "net_income": {"$ref": "#/$defs/nullableNumber"},
+        "operating_cash_flow": {"$ref": "#/$defs/nullableNumber"},
+        "capex": {"$ref": "#/$defs/nullableNumber"},
+        "free_cash_flow": {"$ref": "#/$defs/nullableNumber"},
+        "fcf_quality": {"type": "string"},
+        "cash_dividends": {"$ref": "#/$defs/nullableNumber"},
+        "buybacks": {"$ref": "#/$defs/nullableNumber"},
+        "share_issuance": {"$ref": "#/$defs/nullableNumber"},
+        "net_debt_change": {"$ref": "#/$defs/nullableNumber"},
+        "fcf_dividend_coverage": {"$ref": "#/$defs/nullableNumber"},
+        "funding_source": {"type": "string", "enum": ["Operating FCF", "Cash Balance", "Asset Sale", "Debt", "Equity Issuance", "Mixed", "Not Available"]},
+        "comment": {"type": "string"}
+      },
+      "required": ["fiscal_year", "funding_source"]
     },
     "forecastRow": {
       "type": "object",
@@ -53,7 +123,10 @@
         "operating_cash_flow": {"$ref": "#/$defs/nullableNumber"},
         "capex_or_capital_need": {"$ref": "#/$defs/nullableNumber"},
         "fcf_or_distributable_cash": {"$ref": "#/$defs/nullableNumber"},
-        "assumption_basis": {"type": "string", "enum": ["reported_fact", "company_guidance", "consensus_cross_check", "historical_sensitivity", "analyst_estimate", "mixed"]}
+        "assumption_basis": {
+          "type": "string",
+          "enum": ["reported_fact", "company_guidance", "consensus_cross_check", "historical_sensitivity", "analyst_estimate", "mixed"]
+        }
       },
       "required": ["fiscal_year", "scenario", "primary_driver_name", "primary_driver_assumption", "assumption_basis"]
     },
@@ -128,7 +201,91 @@
     "withholding_basis": {"type": "string", "enum": ["broker_observed", "company_announcement", "legal_structure", "market_default", "unknown"]},
     "broker_observed_withholding": {"type": "string", "enum": ["Yes", "No", "Unknown"]},
     "broker_cash_line_type": {"type": "string", "enum": ["dividend", "PIL", "mixed", "unknown"]},
-    "fundamental_trend": {"type": "string", "enum": ["Structural Growth", "Stable", "Mature", "Cyclical Recovery", "Cyclical Peak", "Structural Decline", "Transformation", "High Uncertainty"]},
+    "key_metrics_at_a_glance": {
+      "type": "object",
+      "properties": {
+        "ttm_net_yield": {"$ref": "#/$defs/nullableNumber"},
+        "normalized_net_yield": {"$ref": "#/$defs/nullableNumber"},
+        "normalized_net_yield_range": {"type": "string"},
+        "score_100": {"$ref": "#/$defs/nullableNumber"},
+        "grade": {"type": ["string", "null"], "enum": ["A", "B", "C", "D", "E", null]},
+        "portfolio_role": {"type": "string", "enum": ["Core income", "Cyclical income", "Opportunistic", "Watchlist", "Avoid"]},
+        "valuation_mode": {"type": "string", "enum": ["ordinary_yield_based", "finite_life_harvest", "suspended"]},
+        "expected_buy_zone_or_value_range": {"type": "string"}
+      },
+      "required": ["ttm_net_yield", "normalized_net_yield", "score_100", "grade", "portfolio_role", "valuation_mode"]
+    },
+    "dividend_snapshot": {
+      "type": "object",
+      "properties": {
+        "ttm_dps": {"$ref": "#/$defs/nullableNumber"},
+        "ttm_gross_yield": {"$ref": "#/$defs/nullableNumber"},
+        "ttm_net_yield": {"$ref": "#/$defs/nullableNumber"},
+        "normalized_net_dps": {"$ref": "#/$defs/nullableNumber"},
+        "normalized_net_yield": {"$ref": "#/$defs/nullableNumber"},
+        "normalized_net_yield_range": {"type": "string"},
+        "five_year_dps_range": {"type": "string"},
+        "latest_dps_yoy": {"$ref": "#/$defs/nullableNumber"},
+        "dividend_type": {"type": "string"},
+        "coverage_status": {"type": "string", "enum": ["Strong", "Adequate", "Weak", "Not Available"]},
+        "history_coverage_years": {"type": "integer", "minimum": 0}
+      },
+      "required": ["ttm_dps", "ttm_net_yield", "normalized_net_dps", "coverage_status", "history_coverage_years"]
+    },
+    "five_year_dividend_history": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/dividendHistoryRow"},
+      "minItems": 1,
+      "description": "Up to five or more fiscal years; use all available history for newly listed issuers."
+    },
+    "cash_flow_bridge": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/cashFlowHistoryRow"},
+      "minItems": 1,
+      "description": "Historical cash-generation and shareholder-return bridge."
+    },
+    "scrip_drip": {
+      "type": "object",
+      "properties": {
+        "available": {"type": "string", "enum": ["Yes", "No", "Unknown"]},
+        "cash_election_available": {"type": "string", "enum": ["Yes", "No", "Unknown", "Not Applicable"]},
+        "default_election": {"type": "string", "enum": ["cash", "shares", "none", "unknown", "not_applicable"]},
+        "pricing_discount": {"$ref": "#/$defs/nullableNumber", "description": "Decimal form"},
+        "historical_participation_rate": {"$ref": "#/$defs/nullableNumber", "description": "Decimal form"},
+        "expected_participation_rate": {"$ref": "#/$defs/nullableNumber", "description": "Decimal form"},
+        "expected_dilution_rate": {"$ref": "#/$defs/nullableNumber", "description": "Decimal form"},
+        "buyback_offset_rate": {"$ref": "#/$defs/nullableNumber", "description": "Decimal form"},
+        "net_unoffset_dilution_rate": {"$ref": "#/$defs/nullableNumber", "description": "Decimal form"},
+        "investor_cash_yield_assumption": {"type": "string", "enum": ["all_cash_election", "share_election", "mandatory_shares", "not_applicable", "unknown"]},
+        "tax_withholding_basis": {"type": "string"},
+        "broker_fractional_share_handling": {"type": "string"},
+        "evidence_notes": {"type": "string"}
+      },
+      "required": [
+        "available",
+        "cash_election_available",
+        "default_election",
+        "historical_participation_rate",
+        "expected_participation_rate",
+        "expected_dilution_rate",
+        "buyback_offset_rate",
+        "net_unoffset_dilution_rate",
+        "investor_cash_yield_assumption"
+      ]
+    },
+    "fundamental_trend": {
+      "type": "string",
+      "enum": [
+        "Structural Growth",
+        "Stable",
+        "Mature",
+        "Cyclical Recovery",
+        "Cyclical Peak",
+        "Structural Decline",
+        "Transformation",
+        "High Uncertainty"
+      ]
+    },
     "forecast_confidence": {"type": "string", "enum": ["High", "Medium", "Low", "Not Forecastable"]},
     "valuation_mode": {"type": "string", "enum": ["ordinary_yield_based", "finite_life_harvest", "suspended"]},
     "structural_decline_cap_applied": {"type": "boolean"},
@@ -141,7 +298,15 @@
     "portfolio_role": {"type": "string", "enum": ["Core income", "Cyclical income", "Opportunistic", "Watchlist", "Avoid"]},
     "score_100": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
     "grade": {"type": ["string", "null"], "enum": ["A", "B", "C", "D", "E", null]},
-    "business_fundamentals": {"type": "object", "properties": {"dividend_funding_engine": {"type": "string"}, "core_operating_drivers": {"type": "array", "items": {"type": "string"}}, "historical_operating_trend": {"type": "array", "items": {"type": "object"}}}, "required": ["dividend_funding_engine", "core_operating_drivers", "historical_operating_trend"]},
+    "business_fundamentals": {
+      "type": "object",
+      "properties": {
+        "dividend_funding_engine": {"type": "string"},
+        "core_operating_drivers": {"type": "array", "items": {"type": "string"}},
+        "historical_operating_trend": {"type": "array", "items": {"type": "object"}}
+      },
+      "required": ["dividend_funding_engine", "core_operating_drivers", "historical_operating_trend"]
+    },
     "three_year_fundamental_forecast": {"type": "array", "items": {"$ref": "#/$defs/forecastRow"}},
     "driver_sensitivity": {"type": "array", "items": {"$ref": "#/$defs/sensitivityRow"}},
     "dividend_forecast_bridge": {"type": "array", "items": {"$ref": "#/$defs/bridgeRow"}},
@@ -150,25 +315,55 @@
       "type": "object",
       "properties": {
         "normalized_net_dps": {"$ref": "#/$defs/nullableNumber"},
-        "normalized_net_dps_basis": {"type": "string", "enum": ["mid_cycle", "full_cycle_median", "three_year_base_average", "historical_fundamental_fallback", "unknown"]},
+        "normalized_net_dps_basis": {
+          "type": "string",
+          "enum": ["mid_cycle", "full_cycle_median", "three_year_base_average", "historical_fundamental_fallback", "unknown"]
+        },
         "normalized_net_dps_source_period": {"type": "string"},
         "normalization_adjustments": {"type": "array", "items": {"type": "string"}},
         "bear_net_dps": {"$ref": "#/$defs/nullableNumber"},
         "bear_net_dps_source": {"type": "string"},
         "required_net_yield_low": {"$ref": "#/$defs/nullableNumber"},
         "required_net_yield_high": {"$ref": "#/$defs/nullableNumber"},
+        "too_expensive_zone": {"type": "string"},
         "fair_value_zone": {"type": "string"},
         "accumulation_zone": {"type": "string"},
         "strong_buy_zone": {"type": "string"},
         "value_trap_veto": {"type": "string", "enum": ["Not triggered", "Triggered", "Unclear"]}
-      }
+      },
+      "required": [
+        "normalized_net_dps",
+        "normalized_net_dps_basis",
+        "normalized_net_dps_source_period",
+        "normalization_adjustments",
+        "bear_net_dps",
+        "bear_net_dps_source",
+        "required_net_yield_low",
+        "required_net_yield_high",
+        "too_expensive_zone",
+        "fair_value_zone",
+        "accumulation_zone",
+        "strong_buy_zone",
+        "value_trap_veto"
+      ]
     },
     "finite_life_valuation": {
       "type": "object",
       "properties": {
         "harvest_horizon_years": {"$ref": "#/$defs/nullableNumber"},
         "discount_rate": {"type": ["number", "null"], "minimum": 0.1},
-        "forecast_net_distributions": {"type": "array", "items": {"type": "object", "properties": {"year": {"type": "string"}, "net_distribution": {"$ref": "#/$defs/nullableNumber"}, "present_value": {"$ref": "#/$defs/nullableNumber"}}, "required": ["year"]}},
+        "forecast_net_distributions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "year": {"type": "string"},
+              "net_distribution": {"$ref": "#/$defs/nullableNumber"},
+              "present_value": {"$ref": "#/$defs/nullableNumber"}
+            },
+            "required": ["year"]
+          }
+        },
         "present_value_of_distributions": {"$ref": "#/$defs/nullableNumber"},
         "residual_value": {"$ref": "#/$defs/nullableNumber"},
         "residual_value_basis": {"type": "string"},
@@ -177,15 +372,90 @@
         "finite_life_value_high": {"$ref": "#/$defs/nullableNumber"},
         "ordinary_yield_cross_check": {"type": "string"}
       },
-      "required": ["harvest_horizon_years", "discount_rate", "forecast_net_distributions", "residual_value_basis", "finite_life_value_low", "finite_life_value_high"]
+      "required": [
+        "harvest_horizon_years",
+        "discount_rate",
+        "forecast_net_distributions",
+        "residual_value_basis",
+        "finite_life_value_low",
+        "finite_life_value_high"
+      ]
+    },
+    "rendering": {
+      "type": "object",
+      "properties": {
+        "rich_visualization_available": {"type": "boolean"},
+        "visual_mode": {"type": "string", "enum": ["rich_charts", "plain_text_fallback"]},
+        "charts_required": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "dps_structure_chart",
+              "yield_ladder",
+              "coverage_chart",
+              "fundamental_forecast_chart",
+              "buy_zone_ladder",
+              "finite_life_cash_recovery_summary"
+            ]
+          }
+        }
+      },
+      "required": ["rich_visualization_available", "visual_mode", "charts_required"]
+    },
+    "visual_summary": {
+      "type": "object",
+      "properties": {
+        "business_and_fcf_trend": {"type": "string"},
+        "dps_path": {"type": "string"},
+        "yield_normalization": {"type": "string"},
+        "main_driver_sensitivity": {"type": "string"},
+        "valuation_summary": {"type": "string"},
+        "coverage_labels": {"type": "string"}
+      },
+      "required": ["business_and_fcf_trend", "dps_path", "yield_normalization", "main_driver_sensitivity", "valuation_summary", "coverage_labels"]
     },
     "sources": {"type": "array", "items": {"type": "string"}}
   },
   "allOf": [
-    {"if": {"required": ["mode"], "properties": {"mode": {"const": "screen"}}}, "then": {"required": ["mode", "screening_parameters", "screen_results"], "not": {"anyOf": [{"required": ["three_year_fundamental_forecast"]}, {"required": ["driver_sensitivity"]}, {"required": ["buy_zone"]}, {"required": ["finite_life_valuation"]}, {"required": ["score_100"]}]}}},
     {
-      "if": {"required": ["mode", "screening_parameters"], "properties": {"mode": {"const": "screen"}, "screening_parameters": {"required": ["target_basis"], "properties": {"target_basis": {"const": "not_assessed"}}}}},
-      "then": {"properties": {"screen_results": {"items": {"properties": {"screening_net_yield_target": {"const": null}, "yield_fit": {"const": "Not Assessed"}, "yield_gap_percentage_points": {"const": null}}}}}}
+      "if": {"required": ["mode"], "properties": {"mode": {"const": "screen"}}},
+      "then": {
+        "required": ["mode", "screening_parameters", "screen_results"],
+        "not": {
+          "anyOf": [
+            {"required": ["three_year_fundamental_forecast"]},
+            {"required": ["driver_sensitivity"]},
+            {"required": ["buy_zone"]},
+            {"required": ["finite_life_valuation"]},
+            {"required": ["score_100"]},
+            {"required": ["five_year_dividend_history"]},
+            {"required": ["cash_flow_bridge"]}
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["mode", "screening_parameters"],
+        "properties": {
+          "mode": {"const": "screen"},
+          "screening_parameters": {"required": ["target_basis"], "properties": {"target_basis": {"const": "not_assessed"}}}
+        }
+      },
+      "then": {
+        "properties": {
+          "screen_results": {
+            "items": {
+              "properties": {
+                "screening_net_yield_target": {"const": null},
+                "yield_fit": {"const": "Not Assessed"},
+                "yield_gap_percentage_points": {"const": null}
+              }
+            }
+          }
+        }
+      }
     },
     {
       "if": {"required": ["mode"], "properties": {"mode": {"const": "full_analysis"}}},
@@ -196,6 +466,11 @@
           "ticker",
           "exchange",
           "as_of_date",
+          "key_metrics_at_a_glance",
+          "dividend_snapshot",
+          "five_year_dividend_history",
+          "cash_flow_bridge",
+          "scrip_drip",
           "fundamental_trend",
           "forecast_confidence",
           "valuation_mode",
@@ -206,6 +481,8 @@
           "driver_sensitivity",
           "dividend_forecast_bridge",
           "dividend_and_yield_runway",
+          "rendering",
+          "visual_summary",
           "score_100",
           "grade",
           "dividend_quality",
@@ -213,12 +490,19 @@
           "withholding_efficiency",
           "buyback_quality",
           "three_year_outlook",
-          "portfolio_role"
+          "portfolio_role",
+          "sources"
         ]
       }
     },
-    {"if": {"required": ["valuation_mode"], "properties": {"valuation_mode": {"const": "ordinary_yield_based"}}}, "then": {"required": ["buy_zone"]}},
-    {"if": {"required": ["valuation_mode"], "properties": {"valuation_mode": {"const": "finite_life_harvest"}}}, "then": {"required": ["finite_life_valuation"]}}
+    {
+      "if": {"required": ["valuation_mode"], "properties": {"valuation_mode": {"const": "ordinary_yield_based"}}},
+      "then": {"required": ["buy_zone"]}
+    },
+    {
+      "if": {"required": ["valuation_mode"], "properties": {"valuation_mode": {"const": "finite_life_harvest"}}},
+      "then": {"required": ["finite_life_valuation"]}
+    }
   ],
   "required": ["mode"]
 }
