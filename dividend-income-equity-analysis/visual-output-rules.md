@@ -7,7 +7,7 @@ The goal is to make dividend reports readable in this order:
 1. Four key numbers.
 2. Standard charts when visualization is available.
 3. Slim tables as data records.
-4. Long-form explanation only after the reader sees the shape of the dividend story.
+4. Long-form explanation only after the reader sees the shape of the business, cash flow, dividend, and valuation story.
 
 ## 1. Output Capability Detection
 
@@ -32,14 +32,14 @@ If rich visualization or card-style layout is available, render these as four me
 Rules:
 
 - TTM Net Yield is the headline trailing yield after withholding.
-- Normalized Net Yield is the more sustainable yield estimate after removing one-off or peak-cycle effects.
+- Normalized Net Yield is the more sustainable yield estimate derived from normalized business and cash-flow capacity.
 - Score / Grade must match `scoring.md`.
 - Portfolio Role must use the required rating vocabulary.
 - If withholding treatment is the central thesis, add Withholding Efficiency as a fifth metric only when it improves clarity.
 
 ## 3. Standard Charts
 
-These charts are required in full analysis when rich visualization is available. In plain-text environments, provide the text fallback in Section 8.
+These charts are required in full analysis when rich visualization is available. In plain-text environments, provide the text fallback in Section 9.
 
 ### 3.1 DPS Structure Chart
 
@@ -75,9 +75,22 @@ Show:
 - Total cash dividends.
 - FCF / Dividend multiple as a label.
 
-Purpose: show payment capacity and whether payout is funded by real cash flow.
+Purpose: show historical and forecast payment capacity and whether payout is funded by real cash flow.
 
-### 3.4 Buy-Zone Ladder
+### 3.4 Fundamental Forecast Chart
+
+Show the operating and cash-flow path that supports the dividend forecast.
+
+Preferred form:
+
+- Historical actuals followed by Bear, Base, and Bull forecast ranges.
+- Use one primary sector-appropriate operating measure, such as revenue, net interest income, AFFO, production, day rate, occupancy, or regulated asset base.
+- Show FCF, distributable cash, or sector-equivalent capital generation as the dividend-capacity measure.
+- Clearly separate actual and forecast periods.
+
+Purpose: demonstrate that future DPS is grounded in business performance rather than extrapolated directly from historical dividends.
+
+### 3.5 Buy-Zone Ladder
 
 Use a horizontal ladder or band chart.
 
@@ -90,13 +103,13 @@ Show:
 - Strong buy zone.
 - Value-trap veto status, shown as Not triggered / Triggered / Unclear.
 
-Purpose: translate dividend yield and historical price context into a disciplined income entry zone. Do not show value trap as a price band.
+Purpose: translate fundamentally derived net DPS and historical price context into a disciplined income entry zone. Do not show value trap as a price band.
 
 ## 4. Dividend Trajectory Tables
 
 Every full analysis must include year-by-year dividend trajectory data.
 
-Apply the table slimming rules in Section 6 before choosing table layout.
+Apply the table slimming rules in Section 7 before choosing table layout.
 
 ### Per-share DPS Structure Table
 
@@ -118,7 +131,7 @@ Definitions:
 
 After the table, add a short paragraph called Dividend Pattern. State whether the stock is stable income, progressive income, formula-based variable income, cycle income, or one-off distribution.
 
-## 5. Cash-Flow Coverage Bridge
+## 5. Historical Cash-Flow Coverage Bridge
 
 Every full analysis should include a funding bridge when data is available.
 
@@ -138,17 +151,32 @@ If company-reported free cash flow is unavailable, calculate operating cash flow
 
 Funding Source should be Operating FCF, Cash Balance, Asset Sale, Debt, Equity Issuance, or Mixed.
 
-## 6. Table Slimming Rules
+## 6. Fundamental Forecast and Dividend Bridge Tables
+
+Use `business-fundamentals.md` as the authoritative source for table structures and calculation logic.
+
+The required data record includes:
+
+- Historical Operating Trend.
+- Operating Driver Forecast.
+- Financial Forecast.
+- Distributable-Cash Bridge.
+- DPS Derivation.
+
+When rich visualization is available, use the Fundamental Forecast Chart to communicate the result. Keep the tables as the audit trail.
+
+## 7. Table Slimming Rules
 
 - Every table and every chart must be preceded by a one-sentence takeaway telling the reader what to look for.
 - Hard ceiling of 7 columns per table. If a table would exceed 7 columns, split it into smaller tables.
 - If withholding is 0%, drop the Withholding, Net DPS, and Net Yield columns. State once above the relevant table: "Withholding 0% — gross equals net."
 - If withholding is not 0%, use a compact tax table rather than repeating withholding columns in every historical row, unless year-by-year withholding differs.
 - For cyclical stocks, separate TTM yield from normalized yield in all summaries.
+- Historical facts, company guidance, consensus cross-checks, and analyst estimates must be visibly distinguished.
 - Tables are the data record. Charts are the communication layer.
 - Partial-year data must be labeled clearly as partial and must not be annualized unless the method is explicitly stated.
 
-## 7. Buy-Zone Visual and Tables
+## 8. Buy-Zone Visual and Tables
 
 Use `buy-zone.md` as the authoritative logic source.
 
@@ -168,26 +196,29 @@ Also show value-trap veto status separately:
 Value-trap veto: Not triggered / Triggered / Unclear
 ```
 
-If rich visualization is available, also render the Buy-Zone Ladder. If unavailable, use the text fallback in Section 8.
+If rich visualization is available, also render the Buy-Zone Ladder. If unavailable, use the text fallback in Section 9.
 
-## 8. Plain-Text Fallback Visuals
+## 9. Plain-Text Fallback Visuals
 
 Use these when rich visualization is unavailable.
 
+- Business and FCF trend: `Historical stable -> Base growth 3%-5% -> Bear decline 10% -> Bull growth 8%`.
 - DPS path: `2022 1.42 -> 2023 6.29 -> 2024 5.77 -> 2025 2.93`.
-- Yield stack: `TTM yield 10.7% | normalized 5-7% | bear 2-3% | base 4-6%`.
+- Yield stack: `TTM yield 10.7% | normalized 5%-7% | bear 2%-3% | base 4%-6%`.
 - Coverage labels: `2023 Strong | 2024 Adequate | 2025 Adequate | 2026 Peak-cycle / Uncertain`.
 - Buy-zone ladder: `Current 100 | Fair 90-100 | Accumulate 75-90 | Strong buy <75 | Veto: not triggered`.
 
 Do not replace tables with text visuals. Use text visuals to make tables easier to understand when charts are unavailable.
 
-## 9. Three-Year Dividend Runway
+## 10. Three-Year Dividend Runway
 
 The forecast must include both per-share dividends and cash coverage.
 
-If rich visualization is available, include the Yield Ladder. Always keep a table as the data record.
+If rich visualization is available, include the Yield Ladder and Fundamental Forecast Chart. Always keep a table as the data record.
 
 | Fiscal Year | Scenario | DPS | Net Yield at Current Price | Estimated FCF | Dividend Cash Cost | FCF / Dividend |
 |---|---|---:|---:|---:|---:|---:|
+
+DPS must be derived from the Three-Year Fundamental Forecast and Dividend Forecast Bridge in `business-fundamentals.md`.
 
 If more detail is needed, add a separate assumptions table with Balance Sheet Impact and Key Assumptions.
