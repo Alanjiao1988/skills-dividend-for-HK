@@ -1,253 +1,245 @@
 # Output Template
 
-This file is the output section order. Detailed table structures live in `visual-output-rules.md`, `business-fundamentals.md`, and `buy-zone.md`; do not duplicate or redefine them here.
+This file defines output modes and the Full Analysis section order. Detailed structures live in `screen-mode.md`, `visual-output-rules.md`, `business-fundamentals.md`, and `buy-zone.md`.
+
+## Mode Selection
+
+### Screen Mode
+
+When Screen Mode is triggered, follow `screen-mode.md` only. Do not produce the 18-section Full Analysis.
+
+Required banner:
+
+```text
+Mode: Screen
+Forecast Confidence: Not Assessed
+Buy Zone: Not Assessed
+This is a first-pass filter, not a full investment analysis.
+```
+
+For each ticker, output the compact screening fields and `Full Analysis Recommended: Yes / Watch / No`.
+
+### Full Analysis Mode
+
+Use the following 18 sections.
 
 ## 1. Executive Summary
 
 ### 1A. Key Metrics at a Glance
 
-If rich visualization or card-style layout is available, render these as four metric cards. If not, use this one-row table.
-
 | TTM Net Yield | Normalized Net Yield | Score / Grade | Portfolio Role |
 |---:|---:|---:|---|
 | | | | |
 
-If normalized yield is a range, display it directly as `x-y%`.
+If normalized yield is a range, display `x-y%`.
 
 ### 1B. Secondary Summary
 
 - Company:
-- Ticker:
-- Exchange:
-- As-of date:
-- Price used:
+- Ticker / Exchange:
+- As-of date / Price used:
 - TTM gross yield:
 - TTM net yield:
 - Normalized net yield:
-- Expected buy zone:
-- Fundamental trend:
-- Forecast confidence: High / Medium / Low / Not Forecastable
-- Value-trap veto: Not triggered / Triggered / Unclear
-- Dividend currency:
-- Investor reporting currency:
-- Withholding rate:
-- Withholding basis:
-- Broker-observed withholding: Yes / No / Unknown
-- Broker cash-line type if broker statement is used: dividend / PIL / mixed / unknown
-- Scrip / DRIP available: Yes / No / Unknown
+- Fundamental Trend:
+- Forecast Confidence:
+- Valuation mode: ordinary_yield_based / finite_life_harvest / suspended
+- Expected buy zone or finite-life value range:
+- Value-trap veto:
+- Dividend currency / Investor reporting currency:
+- Withholding rate / basis:
+- Broker-observed withholding / cash-line type:
+- Scrip / DRIP available:
 - Initial view:
 
 ## 2. Dividend Snapshot
 
-One-sentence takeaway before the table. Use the Dividend Snapshot table defined in `visual-output-rules.md`.
+One-sentence takeaway, then the authoritative snapshot structure from `visual-output-rules.md`.
 
 ## 3. Standard Charts or Text Fallback
 
 Follow `visual-output-rules.md`.
 
-If rich visualization is available, render the standard charts:
+Rich output may include:
 
 1. DPS Structure Chart.
 2. Yield Ladder.
 3. Coverage Chart.
 4. Fundamental Forecast Chart.
-5. Buy-Zone Ladder.
+5. Buy-Zone Ladder or Finite-Life Cash-Recovery summary.
 
-If rich visualization is unavailable, provide the plain-text fallback:
+Plain-text fallback:
 
 - Business and FCF trend:
 - DPS path:
 - Yield stack:
-- Driver sensitivity:
-- Buy-zone ladder:
+- Driver sensitivity with type:
+- Valuation summary:
 - Coverage labels:
-
-Charts are the communication layer. Tables below are the data record.
 
 ## 4. Company and Listing Structure
 
-One-sentence takeaway before details.
-
-Describe domicile, issuer type, listing venue, dividend currency, reporting currency, official share count from filings, and whether the security is an H-share, red-chip, ADR, REIT, fund, trust, or ordinary share.
-
-Identify whether the issuer offers scrip dividend, elective share distribution, stock dividend, or DRIP.
+Describe domicile, listing venue, security type, dividend and reporting currencies, official share count, and scrip / DRIP availability and default election.
 
 ## 5. Dividend Treatment
 
-One-sentence takeaway before details.
+Apply `withholding-notes.md`. State withholding rate, basis, broker-observed status, broker cash-line type, and evidence.
 
-Read `withholding-notes.md` and apply the priority rule. Explain the basis for the withholding assumption and any uncertainty.
-
-If withholding is 0%, state once: "Withholding 0% — gross equals net." Do not repeat Withholding / Net DPS / Net Yield columns in every historical row.
-
-If broker records are used, identify whether the cash line is a normal dividend, payment in lieu, mixed, or unknown. PIL-only records must not be used as withholding-rate evidence.
-
-For scrip / DRIP issuers, state whether the cash-yield calculation assumes an all-cash election, and separately disclose any tax, withholding, broker handling, or dilution uncertainty for share elections.
+For scrip / DRIP, state whether cash yield assumes an all-cash election and disclose tax, broker, fractional-share, and dilution uncertainty.
 
 ## 6. Business Fundamentals and Long-Term Trend
 
-One-sentence takeaway before the tables.
+Use `business-fundamentals.md` to show:
 
-Read `business-fundamentals.md` and include:
-
-- Main business segments and the economic engine that funds dividends.
-- Historical operating trend using sector-appropriate KPIs.
-- Three-to-five-year trend classification: Structural Growth / Stable / Mature / Cyclical Recovery / Cyclical Peak / Structural Decline / Transformation / High Uncertainty.
-- Three to five core operating drivers.
-- Key structural, cyclical, competitive, regulatory, capital-intensity, and balance-sheet factors.
-- Historical per-share dilution from issuance, scrip / DRIP, and buyback offsets where relevant.
-
-Use the Historical Operating Trend table from `business-fundamentals.md`.
+- dividend funding engine;
+- historical operating trend with sector-appropriate KPIs;
+- Fundamental Trend classification;
+- three to five core drivers;
+- structural, cyclical, competitive, regulatory, and capital-intensity factors;
+- per-share dilution from issuance, scrip / DRIP, and buyback offsets.
 
 ## 7. Dividend Trajectory and Yearly Yield
 
-One-sentence takeaway before the tables.
-
-Use `visual-output-rules.md` Section 4 for the authoritative table structures. Apply table slimming rules before rendering.
-
-Add a short Dividend Pattern paragraph after the tables.
+Use `visual-output-rules.md` Section 4 and add a Dividend Pattern paragraph.
 
 ## 8. Historical Cash-Flow Coverage Bridge
 
-One-sentence takeaway before the tables.
-
-Use `visual-output-rules.md` Section 5 for the authoritative bridge structures. If FCF is estimated as operating cash flow minus capex, label it as estimated.
-
-Explain whether historical dividends were funded by operating free cash flow, cash balance, asset sales, debt, equity issuance, or mixed sources.
+Use `visual-output-rules.md` Section 5. Explain whether historical distributions were funded by recurring cash flow, cash balance, asset sales, debt, equity issuance, or mixed sources.
 
 ## 9. Management Capital Allocation
 
-One-sentence takeaway before details.
-
-Summarize dividend policy, buyback policy, leverage target, reinvestment priority, acquisition policy, share issuance, ATM programs, scrip / DRIP policy, and whether equity issuance or scrip dilution coincides with elevated payout.
+Summarize payout policy, reinvestment, leverage, acquisitions, ordinary issuance, ATM, scrip / DRIP, and shareholder returns.
 
 ## 10. Buyback Quality
 
-One-sentence takeaway before details.
-
-Assess share-count change, dilution, valuation discipline, whether buybacks are debt-funded, whether buybacks are offset by ordinary issuance, and whether buybacks merely neutralize scrip / DRIP dilution.
+Assess true diluted-share-count change and whether buybacks create value, offset ordinary issuance, merely neutralize scrip dilution, or are debt-funded.
 
 ## 11. Three-Year Fundamental Forecast and Sensitivity
 
-One-sentence takeaway before the tables.
+Use `business-fundamentals.md` Sections 6 and 8.
 
-Use `business-fundamentals.md` Sections 6 and 8 for the authoritative operating-driver, financial-forecast, and single-driver-sensitivity structures.
+Show Bear, Base, and Bull operating and financial forecasts, then a sensitivity table for three to five material drivers.
 
-For each of the next three fiscal years, show Bear, Base, and Bull scenarios for:
+Every sensitivity row must be classified:
 
-- Core operating drivers.
-- Revenue or sector-equivalent income.
-- Net income / AFFO / capital generation.
-- Operating cash flow.
-- Capex or required capital.
-- FCF or distributable cash.
+- transient;
+- persistent;
+- structural.
 
-Then show one-driver-at-a-time sensitivities for the three to five most important drivers, including the effect on distributable cash, Derived DPS, net yield at current price, and the accumulation upper boundary.
+Rules:
 
-State which inputs are reported facts, company guidance, consensus cross-checks, historically observed sensitivities, or analyst estimates. State that sensitivity is local to the Base case and may not remain linear under extreme conditions.
+- Transient: Accumulation Upper-Bound Change = N/A.
+- Persistent: recalculate normalized distributable cash and N before updating the boundary.
+- Structural: show `Rebuild required`; rerun the full model.
+
+State the evidence basis and local/nonlinear limitations.
 
 ## 12. Dividend Forecast Bridge
 
-One-sentence takeaway before the tables.
+Use `business-fundamentals.md` Section 7.
 
-Use `business-fundamentals.md` Section 7 for the authoritative Distributable-Cash Bridge and Share Count and Scrip / DRIP Assumptions tables.
+Show:
 
-Show explicitly how operating performance becomes Cash Available for Distribution after mandatory debt, regulatory capital, required reinvestment, and any justified use of excess cash.
+- Distributable-Cash Bridge.
+- Share Count and Scrip / DRIP Assumptions.
+- Forecast Confidence.
 
-Disclose diluted share-count assumptions, including expected scrip / DRIP dilution, ordinary issuance, and buyback offsets.
-
-Do not repeat Dividend Cash Cost or Derived DPS in this section; those fields belong in Section 13.
-
-Rate forecast confidence as High, Medium, Low, or Not Forecastable.
+Do not repeat Dividend Cash Cost or Derived DPS here.
 
 ## 13. Dividend and Yield Runway
 
-One-sentence takeaway before the table.
-
-Use the Dividend and Yield Runway table in `visual-output-rules.md` Section 6.
-
-The table must show:
+Use the single table in `visual-output-rules.md` Section 6:
 
 - Cash Available for Distribution.
-- Payout policy or ratio.
+- Payout Policy / Ratio.
 - Dividend Cash Cost.
 - Derived DPS.
 - Net Yield at Current Price.
 
-The values must reconcile to Sections 11 and 12. Diluted share count must be disclosed in Section 12 or an adjacent footnote.
-
-Do not reproduce a second table containing the same Dividend Cash Cost and DPS values.
-
-If the forecast is not evidence-backed, state this prominently and do not present scenario DPS as a reliable estimate.
+Values must reconcile to Sections 11 and 12. Do not create a second table with the same DPS and Dividend Cash Cost.
 
 ## 14. Dividend Trap Checklist
 
-One-sentence takeaway before the table.
+Test every required item in `workflow.md`, including:
 
-List each red flag and the evidence for or against it. Include equity issuance, ATM, or scrip dilution concurrent with elevated payout when relevant.
+- forecast DPS versus business and cash flow;
+- normalized N basis;
+- issuance and scrip dilution;
+- Structural Decline without credible finite-life harvest logic.
 
-Also test whether forecast DPS is inconsistent with the projected business, FCF, payout policy, diluted share count, or the normalized N basis.
+The checklist is a precondition for valuation.
 
-The checklist is a precondition for Expected Buy Zone. If a major value-trap veto is triggered, buy-zone ranges must be suspended or explicitly labelled as special-situation only.
+## 15. Expected Buy Zone or Finite-Life Value
 
-## 15. Expected Buy Zone
+Read `buy-zone.md` and first state the valuation mode.
 
-One-sentence takeaway before the tables.
+### Ordinary Yield-Based Mode
 
-Read `buy-zone.md` and estimate an expected buy zone using normalized net DPS, required net yield, historical yield bands, historical price context, and downside safety checks.
+Include:
 
-At minimum include:
+- N value, basis, source period, and normalization adjustments;
+- B value and source;
+- r_low and r_high;
+- deterministic Fair, Accumulation, and Strong Buy boundaries;
+- historical price and yield context;
+- current price position;
+- veto status.
 
-- N value and N basis: mid_cycle / full_cycle_median / three_year_base_average / historical_fundamental_fallback.
-- Source of B: Bear fundamental forecast and Dividend Forecast Bridge.
-- Required net yield assumptions with `r_low` and `r_high`.
-- Formula: Buy Price = Net DPS / Required Net Yield.
-- Deterministic boundaries from `buy-zone.md`: too expensive, fair / hold, accumulation zone, strong buy zone.
-- Value-trap veto status: Not triggered / Triggered / Unclear.
-- Historical price and yield context.
-- Whether the current price is above, inside, or below the income entry zone.
+### Structural Decline Without Exception
 
-A near-term Base case is not automatically normalized. Explain why temporary cycle or geopolitical premiums are excluded from N.
+Output:
 
-If N or B cannot be derived from operating fundamentals, label the buy zone Lower Confidence or state: "Buy zone cannot be responsibly estimated."
+```text
+Valuation mode: suspended
+Ordinary buy zone: suspended
+```
+
+Do not output Fair, Accumulation, or Strong Buy zones.
+
+### Harvest / Managed Runoff Exception
+
+Use finite-life cash recovery and include:
+
+- harvest horizon;
+- annual forecast net distributions;
+- discount rate, with a 10% floor;
+- residual value and basis;
+- present value of distributions;
+- finite-life value range;
+- optional ordinary yield cross-check with r_low at least 10%.
 
 ## 16. Visual Summary
 
-Add a compact visual summary:
+Summarize:
 
-- Business and FCF trend:
-- DPS path:
-- Yield normalization: TTM vs normalized vs bear/base/bull.
-- Main driver sensitivity:
-- Buy-zone ladder: current price vs fair / accumulation / strong-buy zones and veto status.
-- Coverage labels by year: Strong / Adequate / Weak.
-
-If charts were already rendered, keep this section brief and use it as a written recap.
+- Business and FCF trend.
+- DPS path.
+- Yield normalization.
+- Main driver sensitivity and type.
+- Valuation mode and buy-zone or finite-life result.
+- Coverage labels.
 
 ## 17. Score, Required Ratings, and Portfolio Role
 
-One-sentence takeaway before the score table.
+Use `scoring.md` and show module points.
 
-Use `scoring.md` and show points by module.
+Output:
 
-Always output the six required ratings:
-
-- Dividend Quality: High / Medium / Low
-- Dividend Safety: Strong / Acceptable / Weak / Unclear
-- Withholding Efficiency: High / Medium / Low
-- Buyback Quality: Good / Neutral / Poor / Not Applicable
-- Three-Year Dividend Outlook: Grow / Stable / Decline / High Uncertainty
-- Portfolio Role: Core income / Cyclical income / Opportunistic / Watchlist / Avoid
-
-Also output:
-
-- Fundamental Trend: Structural Growth / Stable / Mature / Cyclical Recovery / Cyclical Peak / Structural Decline / Transformation / High Uncertainty
-- Forecast Confidence: High / Medium / Low / Not Forecastable
-- Structural Decline cap applied: Yes / No
-- Harvest / Managed Runoff Exception applied: Yes / No
+- Dividend Quality.
+- Dividend Safety.
+- Withholding Efficiency.
+- Buyback Quality.
+- Three-Year Dividend Outlook.
+- Portfolio Role.
+- Fundamental Trend.
+- Forecast Confidence.
+- Structural Decline cap applied.
+- Harvest / Managed Runoff Exception applied.
+- Valuation mode.
+- Unadjusted score and overlay-adjusted Grade where applicable.
 
 ## 18. Sources and Data Quality
 
-List official filings, announcements, operating statistics, guidance, broker records, historical price sources, and third-party cross-checks used.
+List official filings, announcements, operating statistics, guidance, broker records, historical price sources, and cross-checks.
 
-State missing data, stale data, fallback calculations, forecast assumptions, scenario sensitivities, scrip / DRIP assumptions, and whether future DPS is evidence-backed or illustrative.
+State missing data, stale data, fallback calculations, forecast assumptions, sensitivity classification, scrip / DRIP assumptions, N basis, valuation mode, and whether future DPS is evidence-backed or illustrative.
