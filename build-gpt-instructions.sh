@@ -6,7 +6,6 @@ OUT_DIR="dist"
 OUT="$OUT_DIR/chatgpt-custom-gpt-instructions.md"
 
 mkdir -p "$OUT_DIR"
-
 cat gpt-header.md > "$OUT"
 
 cat <<'EOF' >> "$OUT"
@@ -20,6 +19,7 @@ EOF
 
 for f in \
   SKILL.md \
+  screen-mode.md \
   workflow.md \
   business-fundamentals.md \
   withholding-notes.md \
@@ -35,9 +35,9 @@ cat <<'EOF' >> "$OUT"
 
 ---
 
-# Machine-readable schema note
+# Machine-Readable Schema Note
 
-Use `dividend-income-equity-analysis/schema.json` only when the user asks for JSON or machine-readable output. Upload it as a knowledge file rather than pasting the full schema into Custom GPT Instructions unless needed.
+Use `dividend-income-equity-analysis/schema.json` when the user asks for JSON or machine-readable output. Upload it as a knowledge file rather than pasting the full schema into Custom GPT Instructions unless needed.
 EOF
 
 echo "Generated $OUT"
