@@ -14,7 +14,44 @@ Use Full Analysis when the user asks for a complete analysis, future dividend fo
 
 If the requested mode is ambiguous and there are multiple tickers, default to Screen Mode. If there is one ticker and the user asks for a detailed investment view, default to Full Analysis.
 
-## 2. Screen Mode Output
+## 2. Screening Net-Yield Target
+
+Screen Mode must not invent a dividend-yield objective.
+
+Resolve the screening net-yield target in this order:
+
+1. A minimum or target explicitly provided by the user for the current screen.
+2. A previously established portfolio-level after-tax income target that is clearly applicable to the current screen.
+3. `Not Assessed` when neither is available.
+
+Always disclose:
+
+```text
+Screening net-yield target: x.x% / Not Assessed
+Target basis: user_explicit / portfolio_target / not_assessed
+Target policy: hard_minimum / preference / not_assessed
+```
+
+Rules:
+
+- Use `hard_minimum` only when the user explicitly describes the target as a minimum, cutoff, exclusion rule, or mandatory requirement.
+- Otherwise, an available target is a `preference`.
+- Do not use the required-yield ranges in `buy-zone.md` as the user's screening target. Required return for a specific security and the investor's income-screen target are different concepts.
+- Do not ask the user for a target when the screen can proceed responsibly without one. Use `Not Assessed` instead.
+
+For each stock, calculate:
+
+```text
+Yield Fit = Pass, when TTM net yield >= screening net-yield target
+Yield Fit = Below target, when TTM net yield < screening net-yield target
+Yield Fit = Not Assessed, when no screening target is available
+
+Yield Gap = TTM net yield - screening net-yield target
+```
+
+Express Yield Gap in percentage points. Use `N/A` when the target is Not Assessed.
+
+## 3. Screen Mode Output
 
 For each ticker, output only:
 
@@ -23,6 +60,9 @@ For each ticker, output only:
 | Company / Ticker | Name and listing |
 | As-of date / Price | Current verified price and date |
 | TTM net yield | After withholding, with basis |
+| Screening net-yield target | Target or Not Assessed |
+| Yield Fit / Gap | Pass / Below target / Not Assessed; percentage-point gap or N/A |
+| Documented dividend-growth path | Yes / No / Unclear |
 | Five-year DPS pattern | Growing / Stable / Mildly cyclical / Volatile / Cut / Suspended / Insufficient data |
 | Latest coverage | FCF / Dividend or sector-equivalent coverage |
 | Balance-sheet alert | None / Watch / High risk / Insufficient data |
@@ -32,9 +72,9 @@ For each ticker, output only:
 | Full Analysis Recommended | Yes / Watch / No |
 | Main reason | One concise reason |
 
-For batch screening, use one row per company and keep comments concise.
+For batch screening, use one row per company and keep comments concise. State the target, basis, and policy once above the batch table when the same target applies to all names.
 
-## 3. Mandatory Limitations
+## 4. Mandatory Limitations
 
 Screen Mode must not output:
 
@@ -54,7 +94,7 @@ Buy Zone: Not Assessed
 This is a first-pass filter, not a full investment analysis.
 ```
 
-## 4. Minimum Evidence
+## 5. Minimum Evidence
 
 Use current official sources when available. At minimum verify:
 
@@ -64,17 +104,26 @@ Use current official sources when available. At minimum verify:
 - latest annual or trailing cash-flow coverage, or a sector-equivalent capital-coverage metric;
 - legal domicile and likely withholding treatment;
 - latest leverage, regulatory-capital, solvency, or refinancing warning relevant to the sector;
-- any recent dividend cut, suspension, major issuance, asset-sale-funded payout, or policy weakening.
+- any recent dividend cut, suspension, major issuance, asset-sale-funded payout, or policy weakening;
+- whether a claimed dividend-growth path is supported by policy, earnings, cash flow, or an established historical record.
 
-If these inputs cannot be verified, mark the affected fields `Insufficient data` rather than inferring a positive screen.
+If these inputs cannot be verified, mark the affected fields `Insufficient data` or `Unclear` rather than inferring a positive screen.
 
-## 5. Triage Rules
+## 6. Triage Rules
+
+Yield treatment must follow these rules before assigning Yes / Watch / No:
+
+- If the target is `Not Assessed`, do not reject or downgrade a stock solely because its yield appears low.
+- If Yield Fit is `Below target` and the target is a `preference`, yield alone cannot produce a `No`. Use `Watch` when a documented growth path, payout expansion, or other material question deserves Full Analysis.
+- If Yield Fit is `Below target` and the target is a `hard_minimum`, use `No` unless the user explicitly permits exceptions.
+- A documented growth path must be supported by evidence. A generic expectation that dividends may grow is not sufficient.
 
 ### Full Analysis Recommended: Yes
 
 Use when all are broadly true:
 
-- TTM net yield is potentially relevant after withholding;
+- TTM net yield is relevant to the screen, or the target is Not Assessed;
+- when a preference target exists, Yield Fit is Pass or a documented dividend-growth path could plausibly close the gap;
 - dividend has not recently been cut or suspended without recovery evidence;
 - latest coverage is adequate or better;
 - no immediate balance-sheet or regulatory payout block is visible;
@@ -85,6 +134,8 @@ Use when all are broadly true:
 
 Use when:
 
+- Yield Fit is Below target under a preference policy, but dividend growth or payout growth may justify deeper work;
+- the target is Not Assessed and yield suitability therefore remains unresolved;
 - yield or business quality is potentially attractive but one or more material questions remain;
 - coverage is borderline, cyclical, or based on incomplete data;
 - withholding or distribution classification is unclear;
@@ -95,15 +146,17 @@ Use when:
 
 Use when any major condition is present without a credible exception:
 
+- Yield Fit is Below target and the user explicitly set a hard minimum;
 - dividend is suspended or likely to be cut;
 - payout is clearly funded by debt, recurring issuance, or asset sales;
 - normalized or latest coverage is materially below 1.0x with no recovery path;
 - the balance sheet or regulatory capital position threatens distributions;
 - Structural Decline has no credible harvest or managed-runoff case;
-- after-tax yield is plainly insufficient for the user's dividend objective;
 - the security structure, liquidity, or available evidence is unsuitable.
 
-## 6. Screen Mode Does Not Reuse Full-Analysis Ratings
+Do not use an unstated or inferred yield objective as the reason for `No`.
+
+## 7. Screen Mode Does Not Reuse Full-Analysis Ratings
 
 The preliminary Fundamental Trend is a screening signal only. Do not apply the final Structural Decline Grade cap, Portfolio Role, buy-zone framework, or Harvest / Managed Runoff Exception until Full Analysis is performed.
 
