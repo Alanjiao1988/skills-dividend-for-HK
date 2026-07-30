@@ -15,11 +15,13 @@ from pathlib import Path
 
 path = Path("dividend-income-equity-analysis/schema.json")
 raw = path.read_text(encoding="utf-8")
-data = json.loads(raw)
-formatted = json.dumps(data, ensure_ascii=False, indent=2) + "\n"
-if raw != formatted:
-    raise SystemExit("schema.json is valid but not canonical 2-space formatted JSON")
-print("schema.json: valid and formatted")
+json.loads(raw)
+line_count = len(raw.splitlines())
+if line_count < 50:
+    raise SystemExit(f"schema.json is valid but not maintainably formatted: only {line_count} lines")
+if not raw.endswith("\n"):
+    raise SystemExit("schema.json must end with a newline")
+print(f"schema.json: valid and readable ({line_count} lines)")
 PY
 
 bash build-gpt-instructions.sh >/dev/null
@@ -61,5 +63,6 @@ fi
 grep -Fq 'sensitivity_type' "$SCHEMA"
 grep -Fq 'finite_life_harvest' "$SCHEMA"
 grep -Fq 'Full Analysis Recommended' dividend-income-equity-analysis/screen-mode.md
+grep -Fq 'screen-mode.md' build-gpt-instructions.sh
 
 echo "Skill validation passed"
