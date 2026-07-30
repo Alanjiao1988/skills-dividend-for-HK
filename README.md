@@ -16,6 +16,7 @@ Expected in-skill structure:
 dividend-income-equity-analysis/
 ├── SKILL.md
 ├── workflow.md
+├── business-fundamentals.md
 ├── withholding-notes.md
 ├── scoring.md
 ├── visual-output-rules.md
@@ -59,15 +60,19 @@ Do not hand-copy skill rules into the ChatGPT file; update canonical modules und
 
 The skill focuses on:
 
+- Business fundamentals and the economic engine that funds dividends.
+- Historical operating, earnings, cash-flow, and per-share trends.
+- Sector-specific Bear / Base / Bull fundamental forecasts.
+- Dividend Forecast Bridge from distributable cash to derived DPS.
 - Gross and net dividend yield.
-- TTM yield versus normalized yield.
+- TTM yield versus fundamentally normalized yield.
 - Five-year dividend history and dividend trajectory.
 - Withholding treatment and broker-observed dividend cash flow.
 - Payment-in-lieu versus true dividend cash-line identification.
 - Management capital allocation and buyback quality.
-- Financial coverage and dividend safety.
-- Three-year dividend forecast and dividend runway.
-- Expected buy zone using normalized net DPS, required net yield, historical price levels, and historical yield bands.
+- Historical and forecast financial coverage and dividend safety.
+- Three-year evidence-backed dividend runway.
+- Expected buy zone using Base-derived normalized net DPS, Bear-derived net DPS, required net yield, historical prices, and historical yield bands.
 - Dividend-trap detection.
 
 ## Key Rules
@@ -75,7 +80,10 @@ The skill focuses on:
 - Broker-observed withholding has priority over theoretical classification only when the broker record is a true dividend line.
 - Payment-in-lieu records do not constitute withholding-rate evidence.
 - TTM yield must be separated from normalized yield.
+- Future DPS must be derived from business drivers, earnings or sector-equivalent profitability, cash generation, required reinvestment, payout policy, and diluted share count.
+- Bear / Base / Bull scenarios must be driven by explicit operating assumptions, not arbitrary DPS haircuts.
 - Run the dividend-trap checklist before treating any buy-zone output as actionable.
+- Buy-zone N and B inputs must normally come from the Base and Bear Dividend Forecast Bridge.
 - Buy-zone analysis must use deterministic monotonic boundaries from `buy-zone.md`.
-- Strong buy boundary uses bear-case net DPS divided by the high end of the required yield range: `B / r_high`.
+- Strong buy boundary uses Bear-derived net DPS divided by the high end of the required yield range: `B / r_high`.
 - Buy-zone analysis must not use peak-cycle DPS as the base-case anchor unless that DPS is demonstrably sustainable.
