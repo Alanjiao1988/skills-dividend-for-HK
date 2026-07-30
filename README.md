@@ -26,7 +26,7 @@ dividend-income-equity-analysis/
 
 Use for quick screening, candidate pools, batch comparisons, and deciding which stocks deserve Full Analysis.
 
-Screen Mode outputs current after-tax yield, five-year DPS pattern, latest coverage, withholding efficiency, preliminary trend, trap screen, and:
+It outputs current after-tax yield, five-year DPS pattern, latest coverage, withholding efficiency, preliminary trend, trap screen, and:
 
 ```text
 Full Analysis Recommended: Yes / Watch / No
@@ -40,15 +40,15 @@ Uses the complete 18-section framework from business fundamentals through divide
 
 ## Core Rules
 
-- Future DPS must be derived from operating drivers, cash generation, required reinvestment, payout policy, and diluted share count.
-- Sensitivities are classified as transient, persistent, or structural.
+- Future DPS is derived from operating drivers, cash generation, reinvestment, payout policy, and diluted share count.
+- Sensitivities are transient, persistent, or structural.
 - Transient changes do not move normalized N or long-term buy-zone boundaries.
 - N follows the mid-cycle / full-cycle / normalized Base-average / historical-fallback priority.
 - Dividend Cash Cost and Derived DPS appear once in the Dividend and Yield Runway.
 - PIL is not withholding-rate evidence.
 - Scrip / DRIP affects investor cash income and company-level dilution separately.
 - Structural Decline defaults to suspended ordinary buy-zone output.
-- A credible Harvest / Managed Runoff case uses finite-life cash recovery with a discount-rate floor of 10%.
+- A credible managed-runoff case uses finite-life cash recovery with a discount-rate floor of 10%.
 - The Dividend Trap Checklist is a precondition for valuation.
 
 ## ChatGPT Custom GPT Support
@@ -86,7 +86,7 @@ bash validate-skill.sh
 
 The validator checks:
 
-- valid and canonically formatted JSON schema;
+- valid, multi-line, maintainable JSON schema formatting;
 - 18 numbered Full Analysis sections in both template and example;
 - all canonical modules included in generated GPT instructions;
 - absence of selected stale rule strings;
