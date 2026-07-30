@@ -12,7 +12,7 @@ Use a 100-point framework. Do not invent new weights during execution.
 | Balance-sheet safety | 15 |
 | Management capital-allocation attitude | 15 |
 | Buyback quality | 10 |
-| Three-year visibility | 10 |
+| Three-year fundamental and dividend visibility | 10 |
 
 ## Anchor Rules
 
@@ -80,14 +80,18 @@ If company-reported FCF is unavailable, estimate FCF as operating cash flow minu
 | Debt-funded, equity-offset, or value-destructive buyback | 0-1 |
 | Not applicable | Assign neutral 5 unless buybacks are central to the thesis |
 
-### 7. Three-Year Visibility, 10 points
+### 7. Three-Year Fundamental and Dividend Visibility, 10 points
+
+Score this module from the evidence-backed operating and dividend forecast in `business-fundamentals.md`.
 
 | Condition | Points |
 |---|---:|
-| High visibility of earnings and dividends | 8-10 |
-| Moderate visibility | 5-7 |
-| High cycle or policy uncertainty | 2-4 |
-| Very low visibility or likely cut | 0-1 |
+| High visibility: core drivers are contracted, regulated, recurring, or otherwise forecastable; FCF and DPS reconcile through the Dividend Forecast Bridge | 8-10 |
+| Moderate visibility: operating drivers and dividend capacity are estimable, but macro, pricing, credit, execution, or capex risk remains meaningful | 5-7 |
+| Low visibility: wide scenario range, high cyclicality, uncertain payout policy, or weak reconciliation from business drivers to DPS | 2-4 |
+| Not forecastable, unsupported DPS assumptions, or likely dividend cut | 0-1 |
+
+Do not award more than 4 points when future DPS is illustrative rather than evidence-backed.
 
 ## Score Bands
 
@@ -111,3 +115,8 @@ Always output these six ratings:
 - Buyback Quality: Good / Neutral / Poor / Not Applicable
 - Three-Year Dividend Outlook: Grow / Stable / Decline / High Uncertainty
 - Portfolio Role: Core income / Cyclical income / Opportunistic / Watchlist / Avoid
+
+Also output:
+
+- Fundamental Trend: Structural Growth / Stable / Mature / Cyclical Recovery / Cyclical Peak / Structural Decline / Transformation / High Uncertainty
+- Forecast Confidence: High / Medium / Low / Not Forecastable
