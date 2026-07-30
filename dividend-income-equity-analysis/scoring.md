@@ -1,6 +1,6 @@
 # Scoring Model
 
-Use a 100-point framework. Do not invent new weights during execution.
+Use a 100-point framework for Full Analysis. Do not invent new weights during execution. Screen Mode does not use this score.
 
 ## Weights
 
@@ -39,11 +39,7 @@ Use recurring or normalized net yield. Exclude one-off special dividends unless 
 
 ### 3. Free Cash-Flow Coverage, 20 points
 
-For fixed or ordinary dividend policies, use recurring free cash flow divided by ordinary cash dividends.
-
-For variable, supplemental, formula-based, shipping, commodity, or other cycle-linked dividend policies, use recurring or normalized free cash flow divided by total cash dividends, including base plus variable or supplemental dividends. Do not score peak-cycle FCF coverage as if it were normalized coverage.
-
-If company-reported FCF is unavailable, estimate FCF as operating cash flow minus capex and label it as estimated. EBITDA coverage is only a fallback cross-check and should not replace FCF coverage for the score unless FCF data is genuinely unavailable.
+For fixed or ordinary policies, use recurring FCF divided by ordinary cash dividends. For variable or cycle-linked policies, use normalized FCF divided by total cash dividends. Do not score peak-cycle FCF as normalized coverage.
 
 | FCF / relevant cash dividend | Points |
 |---|---:|
@@ -68,9 +64,9 @@ If company-reported FCF is unavailable, estimate FCF as operating cash flow minu
 | Clear policy, disciplined payout, balanced reinvestment and returns | 12-15 |
 | Reasonable but partly discretionary policy | 8-11 |
 | Unclear policy or inconsistent communication | 4-7 |
-| Value-destructive allocation, equity issuance during elevated payout without clear need, or dividend not prioritized | 0-3 |
+| Value-destructive allocation, elevated payout with unexplained issuance, or dividend not prioritized | 0-3 |
 
-Scrip / DRIP policy must be considered when it affects dilution. A nominally generous dividend combined with persistent unoffset scrip dilution should not receive the highest capital-allocation score.
+Persistent unoffset scrip / DRIP dilution prevents the highest capital-allocation score.
 
 ### 6. Buyback Quality, 10 points
 
@@ -78,50 +74,52 @@ Scrip / DRIP policy must be considered when it affects dilution. A nominally gen
 |---|---:|
 | Real share-count reduction at reasonable valuation | 8-10 |
 | Neutral or small buyback, limited dilution | 5-7 |
-| Cosmetic buyback offset by ordinary issuance or scrip / DRIP dilution | 2-4 |
+| Cosmetic buyback offset by issuance or scrip / DRIP dilution | 2-4 |
 | Debt-funded, equity-offset, or value-destructive buyback | 0-1 |
-| Not applicable | Assign neutral 5 unless buybacks are central to the thesis |
+| Not applicable | Neutral 5 unless buybacks are central to the thesis |
 
 ### 7. Three-Year Fundamental and Dividend Visibility, 10 points
 
-Score this module from the evidence-backed operating and dividend forecast in `business-fundamentals.md`.
-
 | Condition | Points |
 |---|---:|
-| High visibility: core drivers are contracted, regulated, recurring, or otherwise forecastable; FCF and DPS reconcile through the Dividend Forecast Bridge | 8-10 |
-| Moderate visibility: operating drivers and dividend capacity are estimable, but macro, pricing, credit, execution, capex, or dilution risk remains meaningful | 5-7 |
-| Low visibility: wide scenario range, high cyclicality, uncertain payout policy, or weak reconciliation from business drivers to DPS | 2-4 |
+| High visibility: drivers are contracted, regulated, recurring, or otherwise forecastable; FCF and DPS reconcile | 8-10 |
+| Moderate visibility: capacity is estimable but macro, pricing, credit, execution, capex, or dilution risk remains | 5-7 |
+| Low visibility: wide scenarios, high cyclicality, uncertain policy, or weak reconciliation | 2-4 |
 | Not forecastable, unsupported DPS assumptions, or likely dividend cut | 0-1 |
 
 Do not award more than 4 points when future DPS is illustrative rather than evidence-backed.
 
-If Fundamental Trend is Structural Decline, this module is capped at 4 points unless the Harvest / Managed Runoff Exception below is explicitly satisfied.
-
 ## Structural Decline Overlay
 
-If Fundamental Trend is `Structural Decline`, apply these default limits after calculating the numeric score:
+If Fundamental Trend is `Structural Decline`, apply these limits after calculating the unadjusted numeric score:
 
 - Final Grade cannot exceed C.
 - Portfolio Role cannot be more favorable than Opportunistic.
 - Three-Year Fundamental and Dividend Visibility cannot exceed 4 / 10.
 - The security cannot be classified as Core income.
+- Ordinary yield-based buy zones are suspended unless the Harvest / Managed Runoff Exception is satisfied.
 
 ### Harvest / Managed Runoff Exception
 
-The Structural Decline overlay may be partially overridden only when all of the following are demonstrated:
+The exception is satisfied only when all are demonstrated:
 
 - Management is explicitly shrinking, harvesting, or running off the business while returning capital.
 - The balance sheet is net cash or conservatively financed.
 - The decline in distributable cash is measurable and reasonably predictable.
-- Dividends do not depend on refinancing, asset-sale timing, or new equity issuance.
-- The entry price reflects finite-life cash recovery rather than an assumed perpetual franchise.
+- Distributions do not depend on refinancing, uncertain asset-sale timing, or new equity issuance.
+- The entry price is assessed through finite-life cash recovery rather than a perpetual franchise assumption.
 
-Any override must be explicit and evidence-backed. Even when the exception applies:
+The exception permits the finite-life valuation mode in `buy-zone.md`; it does not convert the company into a Core income asset and does not remove the Grade C cap.
 
-- Do not classify the stock as Core income.
-- State the expected cash-harvest horizon.
-- Explain why structural decline is not expected to impair the forecast dividend path faster than modeled.
-- State the unadjusted score, the overlay-adjusted Grade, and the final Portfolio Role.
+Required output:
+
+- Unadjusted numeric score.
+- Overlay-adjusted Grade.
+- Final Portfolio Role.
+- Structural Decline cap applied: Yes / No.
+- Harvest / Managed Runoff Exception applied: Yes / No.
+- Valuation mode: suspended / finite_life_harvest.
+- Expected cash-harvest horizon when applicable.
 
 ## Score Bands
 
@@ -133,11 +131,11 @@ Any override must be explicit and evidence-backed. Even when the exception appli
 | 40-54 | D | High-risk income or special situation only |
 | Below 40 | E | Avoid for dividend strategy |
 
-Portfolio role may be adjusted by qualitative risk and the Structural Decline overlay, but explain any override clearly.
+Qualitative overlays may make the final Grade or Portfolio Role less favorable than the numeric band. Explain every override.
 
 ## Required Ratings
 
-Always output these six ratings:
+Always output:
 
 - Dividend Quality: High / Medium / Low
 - Dividend Safety: Strong / Acceptable / Weak / Unclear
@@ -145,10 +143,8 @@ Always output these six ratings:
 - Buyback Quality: Good / Neutral / Poor / Not Applicable
 - Three-Year Dividend Outlook: Grow / Stable / Decline / High Uncertainty
 - Portfolio Role: Core income / Cyclical income / Opportunistic / Watchlist / Avoid
-
-Also output:
-
 - Fundamental Trend: Structural Growth / Stable / Mature / Cyclical Recovery / Cyclical Peak / Structural Decline / Transformation / High Uncertainty
 - Forecast Confidence: High / Medium / Low / Not Forecastable
 - Structural Decline cap applied: Yes / No
 - Harvest / Managed Runoff Exception applied: Yes / No
+- Valuation mode: ordinary_yield_based / finite_life_harvest / suspended
