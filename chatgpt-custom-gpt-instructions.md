@@ -20,6 +20,7 @@ The generated file is built from:
 gpt-header.md
 dividend-income-equity-analysis/SKILL.md
 dividend-income-equity-analysis/workflow.md
+dividend-income-equity-analysis/business-fundamentals.md
 dividend-income-equity-analysis/withholding-notes.md
 dividend-income-equity-analysis/scoring.md
 dividend-income-equity-analysis/visual-output-rules.md
@@ -35,6 +36,7 @@ For Custom GPT setup, the sustainable default is:
 ```text
 dividend-income-equity-analysis/SKILL.md
 dividend-income-equity-analysis/workflow.md
+dividend-income-equity-analysis/business-fundamentals.md
 dividend-income-equity-analysis/withholding-notes.md
 dividend-income-equity-analysis/scoring.md
 dividend-income-equity-analysis/visual-output-rules.md
