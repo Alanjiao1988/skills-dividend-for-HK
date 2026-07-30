@@ -2,55 +2,24 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Dividend Income Equity Analysis",
   "type": "object",
-  "properties": {
-    "mode": {
+  "$defs": {
+    "nullableNumber": {
+      "type": ["number", "null"]
+    },
+    "scenario": {
       "type": "string",
-      "enum": ["screen", "full_analysis"]
+      "enum": ["Bear", "Base", "Bull"]
     },
-    "company": {"type": "string"},
-    "ticker": {"type": "string"},
-    "exchange": {"type": "string"},
-    "as_of_date": {"type": "string"},
-    "price_used": {"type": ["number", "null"]},
-    "domicile": {"type": "string"},
-    "security_type": {"type": "string"},
-    "dividend_currency": {"type": "string"},
-    "investor_reporting_currency": {"type": "string"},
-    "gross_yield": {
-      "type": ["number", "null"],
-      "description": "Decimal form"
-    },
-    "net_yield": {
-      "type": ["number", "null"],
-      "description": "Decimal form"
-    },
-    "withholding_rate": {
-      "type": ["number", "null"],
-      "description": "Decimal form"
-    },
-    "withholding_basis": {
-      "type": "string",
-      "enum": [
-        "broker_observed",
-        "company_announcement",
-        "legal_structure",
-        "market_default",
-        "unknown"
-      ]
-    },
-    "broker_observed_withholding": {
-      "type": "string",
-      "enum": ["Yes", "No", "Unknown"]
-    },
-    "broker_cash_line_type": {
-      "type": "string",
-      "enum": ["dividend", "PIL", "mixed", "unknown"]
-    },
-    "screen_result": {
+    "screenItem": {
       "type": "object",
       "properties": {
-        "forecast_confidence": {"const": "Not Assessed"},
-        "buy_zone": {"const": "Not Assessed"},
+        "company": {"type": "string"},
+        "ticker": {"type": "string"},
+        "exchange": {"type": "string"},
+        "as_of_date": {"type": "string"},
+        "price_used": {"$ref": "#/$defs/nullableNumber"},
+        "ttm_net_yield": {"$ref": "#/$defs/nullableNumber"},
+        "withholding_basis": {"type": "string"},
         "five_year_dps_pattern": {
           "type": "string",
           "enum": [
@@ -81,11 +50,15 @@
           "type": "string",
           "enum": ["Yes", "Watch", "No"]
         },
-        "main_reason": {"type": "string"}
+        "main_reason": {"type": "string"},
+        "forecast_confidence": {"const": "Not Assessed"},
+        "buy_zone": {"const": "Not Assessed"}
       },
       "required": [
-        "forecast_confidence",
-        "buy_zone",
+        "company",
+        "ticker",
+        "exchange",
+        "as_of_date",
         "five_year_dps_pattern",
         "latest_coverage",
         "balance_sheet_alert",
@@ -93,8 +66,166 @@
         "preliminary_fundamental_trend",
         "dividend_trap_screen",
         "full_analysis_recommended",
-        "main_reason"
+        "main_reason",
+        "forecast_confidence",
+        "buy_zone"
       ]
+    },
+    "forecastRow": {
+      "type": "object",
+      "properties": {
+        "fiscal_year": {"type": "string"},
+        "scenario": {"$ref": "#/$defs/scenario"},
+        "primary_driver_name": {"type": "string"},
+        "primary_driver_assumption": {"type": "string"},
+        "revenue_or_sector_income": {"$ref": "#/$defs/nullableNumber"},
+        "net_income_or_affo": {"$ref": "#/$defs/nullableNumber"},
+        "operating_cash_flow": {"$ref": "#/$defs/nullableNumber"},
+        "capex_or_capital_need": {"$ref": "#/$defs/nullableNumber"},
+        "fcf_or_distributable_cash": {"$ref": "#/$defs/nullableNumber"},
+        "assumption_basis": {
+          "type": "string",
+          "enum": [
+            "reported_fact",
+            "company_guidance",
+            "consensus_cross_check",
+            "historical_sensitivity",
+            "analyst_estimate",
+            "mixed"
+          ]
+        }
+      },
+      "required": [
+        "fiscal_year",
+        "scenario",
+        "primary_driver_name",
+        "primary_driver_assumption",
+        "assumption_basis"
+      ]
+    },
+    "sensitivityRow": {
+      "type": "object",
+      "properties": {
+        "driver_name": {"type": "string"},
+        "base_driver_level": {"type": "string"},
+        "driver_change": {"type": "string"},
+        "sensitivity_type": {
+          "type": "string",
+          "enum": ["transient", "persistent", "structural"]
+        },
+        "distributable_cash_change": {"$ref": "#/$defs/nullableNumber"},
+        "derived_dps_change": {"$ref": "#/$defs/nullableNumber"},
+        "net_yield_change": {"$ref": "#/$defs/nullableNumber"},
+        "n_reestimated": {"type": "boolean"},
+        "revised_n": {"$ref": "#/$defs/nullableNumber"},
+        "accumulation_upper_bound_change": {"$ref": "#/$defs/nullableNumber"},
+        "boundary_effect": {
+          "type": "string",
+          "enum": ["N/A", "Recalculated", "Rebuild required"]
+        },
+        "sensitivity_basis": {
+          "type": "string",
+          "enum": [
+            "calculated",
+            "historically_observed",
+            "company_disclosed",
+            "analyst_estimate",
+            "mixed"
+          ]
+        },
+        "interpretation": {"type": "string"}
+      },
+      "required": [
+        "driver_name",
+        "driver_change",
+        "sensitivity_type",
+        "boundary_effect",
+        "sensitivity_basis"
+      ]
+    },
+    "bridgeRow": {
+      "type": "object",
+      "properties": {
+        "fiscal_year": {"type": "string"},
+        "scenario": {"$ref": "#/$defs/scenario"},
+        "fcf_or_capital_generation": {"$ref": "#/$defs/nullableNumber"},
+        "mandatory_debt_or_regulatory_uses": {"$ref": "#/$defs/nullableNumber"},
+        "required_reinvestment": {"$ref": "#/$defs/nullableNumber"},
+        "excess_cash_used": {"$ref": "#/$defs/nullableNumber"},
+        "cash_available_for_distribution": {"$ref": "#/$defs/nullableNumber"},
+        "diluted_share_count": {"$ref": "#/$defs/nullableNumber"},
+        "scrip_drip_dilution": {"$ref": "#/$defs/nullableNumber"},
+        "buyback_offset": {"$ref": "#/$defs/nullableNumber"},
+        "forecast_confidence": {
+          "type": "string",
+          "enum": ["High", "Medium", "Low", "Not Forecastable"]
+        }
+      },
+      "required": ["fiscal_year", "scenario", "forecast_confidence"]
+    },
+    "runwayRow": {
+      "type": "object",
+      "properties": {
+        "fiscal_year": {"type": "string"},
+        "scenario": {"$ref": "#/$defs/scenario"},
+        "cash_available_for_distribution": {"$ref": "#/$defs/nullableNumber"},
+        "payout_policy": {"type": "string"},
+        "payout_ratio": {"$ref": "#/$defs/nullableNumber"},
+        "dividend_cash_cost": {"$ref": "#/$defs/nullableNumber"},
+        "derived_dps": {"$ref": "#/$defs/nullableNumber"},
+        "net_yield_at_current_price": {"$ref": "#/$defs/nullableNumber"},
+        "dps_source": {
+          "type": "string",
+          "enum": [
+            "evidence_backed",
+            "illustrative",
+            "historical_fallback",
+            "unknown"
+          ]
+        }
+      },
+      "required": ["fiscal_year", "scenario", "payout_policy", "dps_source"]
+    }
+  },
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["screen", "full_analysis"]
+    },
+    "screen_results": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/screenItem"},
+      "minItems": 1
+    },
+    "company": {"type": "string"},
+    "ticker": {"type": "string"},
+    "exchange": {"type": "string"},
+    "as_of_date": {"type": "string"},
+    "price_used": {"$ref": "#/$defs/nullableNumber"},
+    "domicile": {"type": "string"},
+    "security_type": {"type": "string"},
+    "dividend_currency": {"type": "string"},
+    "investor_reporting_currency": {"type": "string"},
+    "gross_yield": {"$ref": "#/$defs/nullableNumber"},
+    "net_yield": {"$ref": "#/$defs/nullableNumber"},
+    "withholding_rate": {"$ref": "#/$defs/nullableNumber"},
+    "withholding_basis": {
+      "type": "string",
+      "enum": [
+        "broker_observed",
+        "company_announcement",
+        "legal_structure",
+        "market_default",
+        "unknown"
+      ]
+    },
+    "broker_observed_withholding": {
+      "type": "string",
+      "enum": ["Yes", "No", "Unknown"]
+    },
+    "broker_cash_line_type": {
+      "type": "string",
+      "enum": ["dividend", "PIL", "mixed", "unknown"]
     },
     "fundamental_trend": {
       "type": "string",
@@ -162,58 +293,17 @@
       "type": ["string", "null"],
       "enum": ["A", "B", "C", "D", "E", null]
     },
-    "scrip_drip": {
-      "type": "object",
-      "properties": {
-        "available": {
-          "type": "string",
-          "enum": ["Yes", "No", "Unknown"]
-        },
-        "cash_or_share_default": {"type": "string"},
-        "cash_election_used_for_yield": {"type": "boolean"},
-        "historical_participation_rate": {
-          "type": ["number", "null"],
-          "description": "Decimal form"
-        },
-        "expected_dilution": {
-          "type": ["number", "null"],
-          "description": "Decimal share-count increase"
-        },
-        "buyback_offset": {
-          "type": ["number", "null"],
-          "description": "Decimal share-count offset"
-        },
-        "tax_or_withholding_comment": {"type": "string"},
-        "broker_handling_comment": {"type": "string"}
-      }
-    },
     "business_fundamentals": {
       "type": "object",
       "properties": {
         "dividend_funding_engine": {"type": "string"},
-        "segment_summary": {
-          "type": "array",
-          "items": {"type": "string"}
-        },
         "core_operating_drivers": {
           "type": "array",
           "items": {"type": "string"}
         },
         "historical_operating_trend": {
           "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "fiscal_year": {"type": "string"},
-              "primary_business_driver": {"type": "string"},
-              "revenue_or_sector_income": {"type": ["number", "null"]},
-              "operating_margin_or_equivalent": {"type": ["number", "null"]},
-              "net_income_or_affo": {"type": ["number", "null"]},
-              "fcf_or_distributable_cash": {"type": ["number", "null"]},
-              "comment": {"type": "string"}
-            },
-            "required": ["fiscal_year", "primary_business_driver"]
-          }
+          "items": {"type": "object"}
         }
       },
       "required": [
@@ -222,182 +312,26 @@
         "historical_operating_trend"
       ]
     },
-    "five_year_dividend_history": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "fiscal_year": {"type": "string"},
-          "total_dps": {"type": ["number", "null"]},
-          "base_dps": {"type": ["number", "null"]},
-          "special_or_variable_dps": {"type": ["number", "null"]},
-          "dps_yoy": {
-            "type": ["number", "null"],
-            "description": "Decimal form"
-          },
-          "payout_ratio": {
-            "type": ["number", "null"],
-            "description": "Decimal form"
-          },
-          "fcf_dividend_coverage": {
-            "type": ["number", "null"],
-            "description": "Coverage multiple"
-          },
-          "quality_tag": {"type": "string"},
-          "notes": {"type": "string"}
-        },
-        "required": ["fiscal_year"]
-      }
-    },
     "three_year_fundamental_forecast": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "fiscal_year": {"type": "string"},
-          "scenario": {
-            "type": "string",
-            "enum": ["Bear", "Base", "Bull"]
-          },
-          "primary_driver_name": {"type": "string"},
-          "primary_driver_assumption": {"type": "string"},
-          "revenue_or_sector_income": {"type": ["number", "null"]},
-          "net_income_or_affo": {"type": ["number", "null"]},
-          "operating_cash_flow": {"type": ["number", "null"]},
-          "capex_or_capital_need": {"type": ["number", "null"]},
-          "fcf_or_distributable_cash": {"type": ["number", "null"]},
-          "assumption_basis": {
-            "type": "string",
-            "enum": [
-              "reported_fact",
-              "company_guidance",
-              "consensus_cross_check",
-              "historical_sensitivity",
-              "analyst_estimate",
-              "mixed"
-            ]
-          }
-        },
-        "required": [
-          "fiscal_year",
-          "scenario",
-          "primary_driver_name",
-          "primary_driver_assumption",
-          "assumption_basis"
-        ]
-      }
+      "items": {"$ref": "#/$defs/forecastRow"}
     },
     "driver_sensitivity": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "driver_name": {"type": "string"},
-          "base_driver_level": {"type": "string"},
-          "driver_change": {"type": "string"},
-          "sensitivity_type": {
-            "type": "string",
-            "enum": ["transient", "persistent", "structural"]
-          },
-          "distributable_cash_change": {"type": ["number", "null"]},
-          "derived_dps_change": {"type": ["number", "null"]},
-          "net_yield_change": {
-            "type": ["number", "null"],
-            "description": "Decimal change"
-          },
-          "n_reestimated": {"type": "boolean"},
-          "revised_n": {"type": ["number", "null"]},
-          "accumulation_upper_bound_change": {"type": ["number", "null"]},
-          "boundary_effect": {
-            "type": "string",
-            "enum": ["N/A", "Recalculated", "Rebuild required"]
-          },
-          "sensitivity_basis": {
-            "type": "string",
-            "enum": [
-              "calculated",
-              "historically_observed",
-              "company_disclosed",
-              "analyst_estimate",
-              "mixed"
-            ]
-          },
-          "interpretation": {"type": "string"}
-        },
-        "required": [
-          "driver_name",
-          "driver_change",
-          "sensitivity_type",
-          "boundary_effect",
-          "sensitivity_basis"
-        ]
-      }
+      "items": {"$ref": "#/$defs/sensitivityRow"}
     },
     "dividend_forecast_bridge": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "fiscal_year": {"type": "string"},
-          "scenario": {
-            "type": "string",
-            "enum": ["Bear", "Base", "Bull"]
-          },
-          "fcf_or_capital_generation": {"type": ["number", "null"]},
-          "mandatory_debt_or_regulatory_uses": {"type": ["number", "null"]},
-          "required_reinvestment": {"type": ["number", "null"]},
-          "excess_cash_used": {"type": ["number", "null"]},
-          "cash_available_for_distribution": {"type": ["number", "null"]},
-          "diluted_share_count": {"type": ["number", "null"]},
-          "scrip_drip_dilution": {"type": ["number", "null"]},
-          "buyback_offset": {"type": ["number", "null"]},
-          "forecast_confidence": {
-            "type": "string",
-            "enum": ["High", "Medium", "Low", "Not Forecastable"]
-          }
-        },
-        "required": ["fiscal_year", "scenario", "forecast_confidence"]
-      }
+      "items": {"$ref": "#/$defs/bridgeRow"}
     },
     "dividend_and_yield_runway": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "fiscal_year": {"type": "string"},
-          "scenario": {
-            "type": "string",
-            "enum": ["Bear", "Base", "Bull"]
-          },
-          "cash_available_for_distribution": {"type": ["number", "null"]},
-          "payout_policy": {"type": "string"},
-          "payout_ratio": {
-            "type": ["number", "null"],
-            "description": "Decimal form"
-          },
-          "dividend_cash_cost": {"type": ["number", "null"]},
-          "derived_dps": {"type": ["number", "null"]},
-          "net_yield_at_current_price": {
-            "type": ["number", "null"],
-            "description": "Decimal form"
-          },
-          "dps_source": {
-            "type": "string",
-            "enum": [
-              "evidence_backed",
-              "illustrative",
-              "historical_fallback",
-              "unknown"
-            ]
-          }
-        },
-        "required": ["fiscal_year", "scenario", "payout_policy", "dps_source"]
-      }
+      "items": {"$ref": "#/$defs/runwayRow"}
     },
     "buy_zone": {
       "type": "object",
       "properties": {
-        "normalized_net_dps": {"type": ["number", "null"]},
+        "normalized_net_dps": {"$ref": "#/$defs/nullableNumber"},
         "normalized_net_dps_basis": {
           "type": "string",
           "enum": [
@@ -413,37 +347,26 @@
           "type": "array",
           "items": {"type": "string"}
         },
-        "bear_net_dps": {"type": ["number", "null"]},
+        "bear_net_dps": {"$ref": "#/$defs/nullableNumber"},
         "bear_net_dps_source": {"type": "string"},
-        "required_net_yield_low": {"type": ["number", "null"]},
-        "required_net_yield_high": {"type": ["number", "null"]},
-        "too_expensive_zone": {"type": "string"},
+        "required_net_yield_low": {"$ref": "#/$defs/nullableNumber"},
+        "required_net_yield_high": {"$ref": "#/$defs/nullableNumber"},
         "fair_value_zone": {"type": "string"},
         "accumulation_zone": {"type": "string"},
         "strong_buy_zone": {"type": "string"},
-        "current_price_position": {"type": "string"},
         "value_trap_veto": {
           "type": "string",
           "enum": ["Not triggered", "Triggered", "Unclear"]
-        },
-        "value_trap_veto_reasons": {
-          "type": "array",
-          "items": {"type": "string"}
-        },
-        "missing_inputs": {
-          "type": "array",
-          "items": {"type": "string"}
         }
       }
     },
     "finite_life_valuation": {
       "type": "object",
       "properties": {
-        "harvest_horizon_years": {"type": ["number", "null"]},
+        "harvest_horizon_years": {"$ref": "#/$defs/nullableNumber"},
         "discount_rate": {
           "type": ["number", "null"],
-          "minimum": 0.1,
-          "description": "Decimal form"
+          "minimum": 0.1
         },
         "forecast_net_distributions": {
           "type": "array",
@@ -451,23 +374,28 @@
             "type": "object",
             "properties": {
               "year": {"type": "string"},
-              "net_distribution": {"type": ["number", "null"]},
-              "present_value": {"type": ["number", "null"]}
+              "net_distribution": {"$ref": "#/$defs/nullableNumber"},
+              "present_value": {"$ref": "#/$defs/nullableNumber"}
             },
             "required": ["year"]
           }
         },
-        "present_value_of_distributions": {"type": ["number", "null"]},
-        "residual_value": {"type": ["number", "null"]},
+        "present_value_of_distributions": {"$ref": "#/$defs/nullableNumber"},
+        "residual_value": {"$ref": "#/$defs/nullableNumber"},
         "residual_value_basis": {"type": "string"},
-        "residual_value_share_of_total": {
-          "type": ["number", "null"],
-          "description": "Decimal form"
-        },
-        "finite_life_value_low": {"type": ["number", "null"]},
-        "finite_life_value_high": {"type": ["number", "null"]},
+        "residual_value_share_of_total": {"$ref": "#/$defs/nullableNumber"},
+        "finite_life_value_low": {"$ref": "#/$defs/nullableNumber"},
+        "finite_life_value_high": {"$ref": "#/$defs/nullableNumber"},
         "ordinary_yield_cross_check": {"type": "string"}
-      }
+      },
+      "required": [
+        "harvest_horizon_years",
+        "discount_rate",
+        "forecast_net_distributions",
+        "residual_value_basis",
+        "finite_life_value_low",
+        "finite_life_value_high"
+      ]
     },
     "sources": {
       "type": "array",
@@ -477,19 +405,13 @@
   "allOf": [
     {
       "if": {
+        "required": ["mode"],
         "properties": {
           "mode": {"const": "screen"}
         }
       },
       "then": {
-        "required": [
-          "mode",
-          "company",
-          "ticker",
-          "exchange",
-          "as_of_date",
-          "screen_result"
-        ],
+        "required": ["mode", "screen_results"],
         "not": {
           "anyOf": [
             {"required": ["three_year_fundamental_forecast"]},
@@ -503,6 +425,7 @@
     },
     {
       "if": {
+        "required": ["mode"],
         "properties": {
           "mode": {"const": "full_analysis"}
         }
@@ -537,6 +460,18 @@
     },
     {
       "if": {
+        "required": ["valuation_mode"],
+        "properties": {
+          "valuation_mode": {"const": "ordinary_yield_based"}
+        }
+      },
+      "then": {
+        "required": ["buy_zone"]
+      }
+    },
+    {
+      "if": {
+        "required": ["valuation_mode"],
         "properties": {
           "valuation_mode": {"const": "finite_life_harvest"}
         }
