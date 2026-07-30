@@ -12,12 +12,24 @@ Required banner:
 
 ```text
 Mode: Screen
+Screening net-yield target: x.x% / Not Assessed
+Target basis: user_explicit / portfolio_target / not_assessed
+Target policy: hard_minimum / preference / not_assessed
 Forecast Confidence: Not Assessed
 Buy Zone: Not Assessed
 This is a first-pass filter, not a full investment analysis.
 ```
 
-For each ticker, output the compact screening fields and `Full Analysis Recommended: Yes / Watch / No`.
+For each ticker, output the compact screening fields, including:
+
+- TTM net yield.
+- Screening net-yield target.
+- Yield Fit: Pass / Below target / Not Assessed.
+- Yield Gap in percentage points or N/A.
+- Documented dividend-growth path: Yes / No / Unclear.
+- `Full Analysis Recommended: Yes / Watch / No`.
+
+Do not infer a screening target from `buy-zone.md`. If no target is available, use `Not Assessed` and do not reject a stock solely because its yield appears low.
 
 ### Full Analysis Mode
 
