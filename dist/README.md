@@ -2,6 +2,8 @@
 
 Generated files may be written here.
 
+Generated files in this directory are ignored by Git; only this README is versioned. This directory is for instruction bundles, not investment reports.
+
 Run from the repository root:
 
 ```bash

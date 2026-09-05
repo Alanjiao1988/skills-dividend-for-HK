@@ -1,0 +1,14 @@
+# Generated instruction bundles; keep the directory documentation.
+/dist/*
+!/dist/README.md
+
+# Research reports and scratch outputs are not skill sources.
+/reports/
+/output/
+/outputs/
+/tmp/
+/.tmp/
+
+# Python validation caches.
+__pycache__/
+*.py[cod]

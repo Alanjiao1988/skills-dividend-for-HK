@@ -19,13 +19,17 @@ EOF
 
 for f in \
   SKILL.md \
+  data-conventions.md \
   screen-mode.md \
   workflow.md \
+  business-outlook.md \
   business-fundamentals.md \
+  sector-fcf-proxies.md \
   withholding-notes.md \
   scoring.md \
   visual-output-rules.md \
   buy-zone.md \
+  holding-review.md \
   output-template.md; do
   echo -e "\n---\n\n# Module: $f\n" >> "$OUT"
   cat "$SRC/$f" >> "$OUT"
