@@ -26,6 +26,7 @@ The `.gitignore` rules exclude generated bundles and reserved report/output/scra
 ```text
 dividend-income-equity-analysis/
 ├── SKILL.md
+├── data-conventions.md
 ├── screen-mode.md
 ├── workflow.md
 ├── business-outlook.md
@@ -99,7 +100,7 @@ Holding reviews separate thesis failure, capital/cash stress, valuation, portfol
 
 ## Core Rules
 
-- Future DPS is derived from operating drivers, cash generation, reinvestment, payout policy, and diluted share count.
+- Future DPS is derived from operating drivers, cash generation, reinvestment, payout policy, and dividend-entitled shares, with issuer cash settlement separated from the total dividend entitlement.
 - Sensitivities are transient, persistent, or structural.
 - Transient changes do not move normalized N or ordinary income boundaries; they still affect the dated cash-flow PV in a growth model.
 - N follows the mid-cycle / full-cycle / normalized Base-average / historical-fallback priority.
@@ -167,4 +168,4 @@ python scripts\validate_analysis.py C:\path\outside-this-repo\analysis.json
 
 The validator checks schema, year/scenario completeness and cross-field arithmetic, not source accuracy or investment merit. Keep numerical JSON values unrounded; presentation tables may round them.
 
-Full Analysis uses `schema_version: "2.0"` and requires the new audit records. Historical presentation fields and `three_year_fundamental_forecast` are retained; `forecast_extension` contains years four and five. Old Full Analysis JSON must supply the new records before it conforms to version 2.0. Synthetic cases are not BTI/GSK/Ping An backtests and do not prescribe their valuations.
+Full Analysis uses `schema_version: "2.1"` and requires the new audit records. Historical presentation fields and `three_year_fundamental_forecast` are retained; `forecast_extension` contains years four and five. Old Full Analysis JSON must supply the new records before it conforms to version 2.1. Version 2.1 adds dividend-entitlement/settlement reconciliation and action gates; Screen adds selected yield/basis/range with uncertainty handling. Synthetic cases are not BTI/GSK/Ping An backtests and do not prescribe their valuations.

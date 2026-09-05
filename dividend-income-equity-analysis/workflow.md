@@ -4,7 +4,7 @@ Use this workflow when reviewing dividend-paying listed companies.
 
 ## Mode Selection
 
-Read `screen-mode.md` before research begins.
+Read `screen-mode.md` and `data-conventions.md` before research begins. Screen Mode reads only the supporting rules needed for the compact screen, not the Full Analysis forecast modules.
 
 Use Screen Mode for screening, quick review, candidate-pool work, batch comparison, or multiple tickers where the user asks which names deserve deeper research.
 
@@ -15,15 +15,16 @@ Screen Mode ends after the compact screen output. It must not continue into the 
 ## Screen Mode Workflow
 
 1. Verify ticker, listing, current price, and as-of date.
-2. Estimate TTM net yield with withholding basis.
+2. Separate paid TTM yield from the selected recurring-income screening measure, with distribution, withholding, FX and fee basis.
 3. Resolve the screening net-yield target using this priority:
    - user-explicit target for the current screen;
    - clearly applicable portfolio-level target;
    - `Not Assessed` when neither is available.
 4. Classify target policy as `hard_minimum`, `preference`, or `not_assessed`.
 5. Calculate Yield Fit and Yield Gap:
-   - Pass when TTM net yield is at or above target;
-   - Below target when TTM net yield is below target;
+   - Follow `screen-mode.md`: compare the selected screening yield or supported range with the target.
+   - Pass when its lower bound meets the target; Below target when its upper bound is below it.
+   - Unclear when the range straddles the target or material inputs are unusable; normally Watch.
    - Not Assessed / N/A when no target is available.
 6. Check whether a claimed dividend-growth path is documented by policy, earnings, cash flow, or an established record.
 7. Classify the five-year DPS pattern.
@@ -160,11 +161,14 @@ Build the single Dividend and Yield Runway:
 Policy-Implied Dividend
 = stated policy applied to its stated earnings / cash / DPS base
 
-Forecast Dividend Cash Cost
-= evidence-backed policy amount after explicitly justified funding/policy adjustments
+Modeled Dividend Entitlement
+= policy-implied amount after explicitly justified funding/policy adjustments
 
-Derived DPS
-= Forecast Dividend Cash Cost / dividend-entitled share count
+Derived DPS per installment
+= Modeled Dividend Entitlement / dividend-entitled share count
+
+Forecast Dividend Cash Cost
+= Modeled Dividend Entitlement x cash-settled fraction + settlement cash adjustment
 
 Funding Gap
 = max(0, Forecast Dividend Cash Cost - Total Distribution Capacity)
@@ -173,7 +177,7 @@ Net Yield at Current Price
 = Derived DPS x (1 - withholding rate) / current price
 ```
 
-Do not create another table that repeats Dividend Cash Cost and Derived DPS.
+Aggregate installment cash cost and DPS separately; use the entitlement and settlement rules in `business-fundamentals.md`. Do not create another table that repeats Dividend Cash Cost and Derived DPS.
 
 Reconcile forecasts across all five year/scenario pairs. Unsupported cash or share inputs must not yield precise DPS, coverage or terminal values.
 

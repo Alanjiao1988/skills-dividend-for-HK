@@ -67,7 +67,9 @@ def full_report(growth=False):
                 "payout_base_reference": "net_income_or_affo", "payout_base_adjustments": [], "policy_components": [],
                 "payout_base_amount": 100 * scale, "payout_ratio": 0.4,
                 "policy_implied_dividend": 40 * scale, "policy_adjustment_reason": "No adjustment needed.",
-                "dividend_cash_cost": 40 * scale, "dividend_entitled_shares": 10,
+                "dividend_cash_cost": 40 * scale, "dividend_entitlement": 40 * scale,
+                "cash_settled_fraction": 1, "settlement_cash_adjustment": 0,
+                "dividend_installments": [], "all_cash_funding_gap": 0, "dividend_entitled_shares": 10,
                 "share_count_reconciliation": EVIDENCE, "derived_dps": 4 * scale,
                 "funding_gap": 0, "dps_source": "evidence_backed",
             })
@@ -79,7 +81,9 @@ def full_report(growth=False):
         "limitations": EVIDENCE,
     } for scenario in ("Bear", "Base", "Bull")]
     report = {
-        "schema_version": "2.0", "mode": "full_analysis", "company": "Synthetic",
+        "schema_version": "2.1", "mode": "full_analysis", "company": "Synthetic",
+        "action_assessment": {"status": "eligible", "strong_buy_eligible": False,
+                              "reasons": [EVIDENCE], "capital_risk_and_total_return_check": EVIDENCE},
         "ticker": "EXAMPLE", "exchange": "Example", "as_of_date": "2026-01-01", "price_used": 40,
         "withholding_rate": 0,
         "key_metrics_at_a_glance": {
@@ -190,6 +194,7 @@ def full_report(growth=False):
             "normalized_net_dps": 4, "normalized_net_dps_basis": "mid_cycle",
             "normalized_net_dps_source_period": "Explicit normalized model",
             "normalization_adjustments": [EVIDENCE], "bear_net_dps": 3.2, "bear_net_dps_source": EVIDENCE,
+            "bear_net_dps_is_fallback": False,
             "dps_currency": "USD", "normalization_fx_rate": 1, "normalization_fx_basis": EVIDENCE,
             "normalization_cash_deductions": 0,
             "required_net_yield_low": 0.08, "required_net_yield_high": 0.10,
@@ -230,7 +235,8 @@ def attach_growth_values(report):
             "terminal_funding": {
                 "owner_cash_or_proxy": 100 * terminal_scale, "remaining_growth_uses": 20 * terminal_scale,
                 "remaining_mandatory_uses": 5 * terminal_scale, "recurring_fad": 75 * terminal_scale,
-                "dividend_cash_cost": 40 * terminal_scale, "dividend_entitled_shares": 10,
+                "dividend_cash_cost": 40 * terminal_scale, "dividend_entitlement": 40 * terminal_scale,
+                "cash_settled_fraction": 1, "settlement_cash_adjustment": 0, "dividend_entitled_shares": 10,
                 "fx_to_valuation_currency": 1, "investor_cash_deductions": 0,
             },
             "present_value_of_dividends": explicit, "present_value_of_terminal": terminal,
@@ -270,7 +276,8 @@ def unavailable_years(report, first_year):
                                       "excess_cash_used", "cash_available_for_distribution")))
     for row in report["dividend_and_yield_runway"]:
         if row["forecast_year"] >= first_year:
-            row.update(dict.fromkeys(("cash_available_for_distribution", "dividend_cash_cost", "derived_dps", "funding_gap")))
+            row.update(dict.fromkeys(("cash_available_for_distribution", "dividend_cash_cost", "derived_dps", "funding_gap",
+                                      "dividend_entitlement", "cash_settled_fraction", "settlement_cash_adjustment", "all_cash_funding_gap")))
             row["dps_source"] = "unknown"
     for row in report["business_outlook"]["cumulative_fad"]:
         if first_year <= 3:
@@ -425,6 +432,7 @@ class AnalysisContractTests(unittest.TestCase):
         report.pop("buy_zone")
         report["valuation_mode"] = report["key_metrics_at_a_glance"]["valuation_mode"] = "suspended"
         report["forecast_confidence"] = "Not Forecastable"
+        report["action_assessment"]["status"] = "suspended"
         report["score_100"] = report["key_metrics_at_a_glance"]["score_100"] = None
         report["grade"] = report["key_metrics_at_a_glance"]["grade"] = None
         for row in report["cash_flow_bridge"]:
@@ -550,7 +558,8 @@ class AnalysisContractTests(unittest.TestCase):
         bridge = report["dividend_forecast_bridge"][0]
         bridge.update(exceptional_cash_uses=80, cash_available_for_distribution=-20)
         bridge["deduction_ledger"][-1].update(amount=80, incremental_deduction=80)
-        report["dividend_and_yield_runway"][0].update(cash_available_for_distribution=-20, funding_gap=52)
+        report["three_year_fundamental_forecast"][0]["actual_all_in_fcf"] = -16
+        report["dividend_and_yield_runway"][0].update(cash_available_for_distribution=-20, funding_gap=52, all_cash_funding_gap=52)
         self.assertInvalid(report, "actual distribution capacity")
 
     def test_short_growth_horizon_cannot_hide_missing_later_years(self):
@@ -568,7 +577,8 @@ class AnalysisContractTests(unittest.TestCase):
         bridge = report["dividend_forecast_bridge"][1]
         bridge.update(exceptional_cash_uses=100, cash_available_for_distribution=-25)
         bridge["deduction_ledger"][-1].update(amount=100, incremental_deduction=100)
-        report["dividend_and_yield_runway"][1].update(cash_available_for_distribution=-25, funding_gap=65)
+        report["three_year_fundamental_forecast"][1]["actual_all_in_fcf"] = -20
+        report["dividend_and_yield_runway"][1].update(cash_available_for_distribution=-25, funding_gap=65, all_cash_funding_gap=65)
         self.assertInvalid(report, "unresolved Base funding gap")
 
     def test_negative_cash_dividends_are_validation_errors(self):
@@ -639,6 +649,10 @@ class AnalysisContractTests(unittest.TestCase):
             "screening_parameters": {"target_net_yield": None, "target_basis": "not_assessed", "target_policy": "not_assessed"},
             "screen_results": [{
                 "company": "Synthetic", "ticker": "EXAMPLE", "exchange": "Example", "as_of_date": "2026-01-01",
+                "ttm_net_yield": None, "price_currency": "USD", "withholding_basis": "unknown",
+                "screening_yield_used": None, "screening_yield_basis": EVIDENCE,
+                "screening_yield_range": {"low": None, "high": None}, "screening_basis_usable": False,
+                "sources": [EVIDENCE],
                 "screening_net_yield_target": None, "yield_fit": "Not Assessed", "yield_gap_percentage_points": None,
                 "documented_dividend_growth_path": "Unclear", "five_year_dps_pattern": "Insufficient data",
                 "latest_coverage": "Insufficient data", "balance_sheet_alert": "Insufficient data",

@@ -22,9 +22,9 @@ This is a first-pass filter, not a full investment analysis.
 
 For each ticker, output the compact screening fields, including:
 
-- TTM net yield.
+- Paid TTM net yield and selected screening yield/basis/range (not normalized N).
 - Screening net-yield target.
-- Yield Fit: Pass / Below target / Not Assessed.
+- Yield Fit: Pass / Below target / Unclear / Not Assessed.
 - Yield Gap in percentage points or N/A.
 - Documented dividend-growth path: Yes / No / Unclear.
 - `Full Analysis Recommended: Yes / Watch / No`.
@@ -175,6 +175,8 @@ Do not repeat Dividend Cash Cost or Derived DPS here.
 
 ## 13. Dividend and Yield Runway
 
+Show a separate policy-entitlement table: Year / Scenario, Policy-Indicated Entitlement, Modeled Entitlement, Cash-Settled Fraction, Settlement Adjustment, All-Cash Funding Gap. Then show the existing cash-cost/DPS runway once. Where installments differ, calculate them separately and refer to their audit; annual EPS shares are not the dividend denominator.
+
 Use the single table in `visual-output-rules.md` Section 6:
 
 - Cash Available for Distribution.
@@ -214,7 +216,7 @@ Include:
 - B value and source;
 - DPS source currency, normalization FX/fees, share/ADR entitlement and quote-unit conversion;
 - r_low and r_high;
-- deterministic Fair, Accumulation, and Strong Buy boundaries;
+- deterministic income boundaries, separately assessed action eligibility and principal-risk / total-return check;
 - historical price and yield context;
 - current price position;
 - veto status.

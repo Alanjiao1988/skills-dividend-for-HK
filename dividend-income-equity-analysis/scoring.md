@@ -18,15 +18,22 @@ Use a 100-point framework for Full Analysis. Do not invent new weights during ex
 
 ### 1. Net Dividend Yield, 15 points
 
-Use recurring or normalized net yield. Exclude one-off special dividends unless clearly recurring.
+Use credible normalized net yield in the investor's stated tax and currency context. Exclude one-off special dividends and economic capital recovery from recurring income. These bands measure income appeal within the 100-point framework, not business quality or expected total return; a falling share price must not mechanically improve the investment conclusion.
 
 | Recurring or normalized net yield | Points |
 |---|---:|
 | >= 7% | 13-15 |
-| 5% to 7% | 10-12 |
-| 3.5% to 5% | 6-9 |
-| 2% to 3.5% | 3-5 |
+| >= 5% and < 7% | 10-12 |
+| >= 3.5% and < 5% | 6-9 |
+| >= 2% and < 3.5% | 3-5 |
 | < 2% | 0-2 |
+
+Apply these safeguards before summing the score:
+
+- Award 13-15 only with evidence-backed normalization, at least Medium Forecast Confidence, at least Acceptable Dividend Safety, and value-trap veto Not triggered. Explain the yield spread versus the dated opportunity-cost comparison in `buy-zone.md`.
+- Cap this module at 9 / 15 when Forecast Confidence is Low or normalization uses a historical fallback; cap it at 5 / 15 when Dividend Safety is Weak or the veto is Triggered. State the raw band and the applied cap.
+- If normalized dividend capacity, tax / currency basis or essential safety evidence is unavailable, mark this module Not Assessable. Do not substitute a high TTM yield. Follow the incomplete-evidence rule below rather than assigning an invented neutral score.
+- Fixed bands are a consistent scoring convention. Their interpretation must reflect current rates and company risk; do not change weights, silently alter thresholds or award additional points above 15 for an extreme yield.
 
 ### 2. Five-Year Dividend Stability, 15 points
 
@@ -46,11 +53,11 @@ For fixed/progressive policies use ordinary cash dividends; for variable/cycle-l
 | Recurring FAD / relevant cash dividend | Points |
 |---|---:|
 | >= 1.5x on normalized basis | 17-20 |
-| 1.0x to 1.5x on normalized basis | 12-16 |
-| 0.7x to 1.0x or peak-cycle-only coverage | 6-11 |
+| >= 1.0x and < 1.5x on normalized basis | 12-16 |
+| >= 0.7x and < 1.0x or peak-cycle-only coverage | 6-11 |
 | < 0.7x, debt-funded, equity-funded, or asset-sale-funded payout | 0-5 |
 
-Anchor points to the aggregate, then explain the worst-year and funding stress. Do not grant the top band when recurring shortfalls are unresolved, capital/remittance restrictions are unknown, or a material cash bridge is estimated without reconciliation. Missing coverage earns no unsupported safety points: report `score_100 = null`, `grade = null`, and an incomplete-score reason if this prevents a responsible module score; do not silently treat missing data as either zero risk or proven distress.
+When scrip retains issuer cash, also show coverage of the full cash-equivalent entitlement; do not grant a better safety band solely from fewer holders electing cash. Anchor points to the aggregate, then explain the worst-year and funding stress. Do not grant the top band when recurring shortfalls are unresolved, capital/remittance restrictions are unknown, or a material cash bridge is estimated without reconciliation. Missing coverage earns no unsupported safety points: report `score_100 = null`, `grade = null`, and an incomplete-score reason if this prevents a responsible module score; do not silently treat missing data as either zero risk or proven distress.
 
 ### 4. Balance-Sheet Safety, 15 points
 
@@ -68,19 +75,23 @@ Anchor points to the aggregate, then explain the worst-year and funding stress. 
 | Clear policy, disciplined payout, balanced reinvestment and returns | 12-15 |
 | Reasonable but partly discretionary policy | 8-11 |
 | Unclear policy or inconsistent communication | 4-7 |
-| Value-destructive allocation, elevated payout with unexplained issuance, or dividend not prioritized | 0-3 |
+| Value-destructive allocation, elevated payout with unexplained issuance, or payout policy persistently inconsistent with stated income commitments | 0-3 |
 
-Persistent unoffset scrip / DRIP dilution prevents the highest capital-allocation score.
+Do not penalize necessary reinvestment, prudent debt reduction or a justified dividend reset solely because management does not maximize today's dividend. Assess their effect on sustainable per-share value and future income; separately state whether the security fits the investor's current income mandate. Persistent scrip dilution that hides a cash shortfall or destroys per-share value prevents the highest score; quantify the economics rather than treating every reinvestment election as new issuance.
 
 ### 6. Buyback Quality, 10 points
 
 | Condition | Points |
 |---|---:|
-| Real share-count reduction at reasonable valuation | 8-10 |
-| Neutral or small buyback, limited dilution | 5-7 |
+| Real share-count reduction at reasonable valuation, or evidenced discipline in avoiding uneconomic buybacks with stable per-share ownership | 8-10 |
+| Neutral or small buyback / no-buyback policy with limited dilution and no demonstrated value destruction | 5-7 |
 | Cosmetic buyback offset by issuance or scrip / DRIP dilution | 2-4 |
-| Debt-funded, equity-offset, or value-destructive buyback | 0-1 |
-| Not applicable | Neutral 5 unless buybacks are central to the thesis |
+| Buyback that creates financing stress or demonstrably destroys continuing shareholders' per-share value | 0-1 |
+| No buyback program | Score the documented per-share outcome and rationale using the same bands; absence alone is not a fixed deduction |
+
+Keep the module at 10 points and retain `Buyback Quality: Not Applicable` when no buyback program exists. The score in that case measures demonstrated per-share capital discipline: 8-10 requires evidence such as a stable share count, avoidance of repurchases above conservative value, and a credible funding / capital-allocation rationale; do not award a maximum merely because there is no program. If the relevant evidence is unavailable, mark Not Assessable. Do not redistribute the weight.
+
+Reconcile repurchases with issuance, treasury-share reissuance, compensation and scrip over comparable periods. Distinguish issuer-created dilution from an investor's open-market DRIP. Consider debt financing together with leverage, liquidity and purchase valuation; debt financing alone does not establish value destruction. Avoid double counting: Module 5 assesses allocation and funding decisions, while this module assesses repurchase valuation and continuing owners' per-share outcome.
 
 ### 7. Three-to-Five-Year Fundamental and Dividend Visibility, 10 points
 
@@ -94,6 +105,16 @@ Persistent unoffset scrip / DRIP dilution prevents the highest capital-allocatio
 Do not award more than 4 points when future DPS is illustrative rather than evidence-backed.
 
 Do not upgrade visibility merely because the model contains five numerical years. Uncertain later years must carry explicit limitations and monitoring milestones. Retain the separate Three-Year Dividend Outlook rating; the five-year view is in `business_outlook`.
+
+## Evidence and Action Overlays
+
+- If a required scoring module is Not Assessable, show the supported module scores and missing evidence, but set the total score and Grade to Not Assessable (`null` in JSON). Do not fill missing data with neutral points or scale a partial score to 100. Portfolio Role is at most Watchlist until the material gaps are resolved.
+- A Triggered value-trap veto overrides any numeric score: actionable buy zones are suspended and the security cannot be Core income. An Unclear veto also suspends actionable buy zones and caps the Portfolio Role at Watchlist; missing evidence does not mean the veto passed.
+- Low Forecast Confidence, a fallback N / B, provisional yield calibration or an unassessed capital-risk / total-return cross-check prevents an actionable Strong Buy and a Core income classification. Use diagnostic income sensitivities with Watchlist as the action. Not Forecastable suspends ordinary buy zones.
+- A Strong Buy action requires High Forecast Confidence, Strong Dividend Safety, value-trap veto Not triggered and every action gate in `buy-zone.md`. Medium confidence permits at most gradual accumulation after the other gates pass. A price inside the arithmetic Strong Buy threshold is not sufficient.
+- Dividend Safety Weak or Unclear prevents Core income. Income yield does not compensate for an unquantified risk of permanent loss of capital.
+
+These overlays do not create new module weights. Report a computed score separately from confidence, safety, valuation eligibility and the final Portfolio Role; a high score cannot cancel a failed gate.
 
 ## Score and Valuation Separation
 
@@ -149,7 +170,7 @@ Always output:
 
 - Dividend Quality: High / Medium / Low
 - Dividend Safety: Strong / Acceptable / Weak / Unclear
-- Withholding Efficiency: High / Medium / Low
+- Withholding Efficiency: High / Medium / Low / Unclear
 - Buyback Quality: Good / Neutral / Poor / Not Applicable
 - Three-Year Dividend Outlook: Grow / Stable / Decline / High Uncertainty
 - Portfolio Role: Core income / Cyclical income / Opportunistic / Watchlist / Avoid

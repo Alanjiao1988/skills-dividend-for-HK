@@ -18,6 +18,7 @@ Recommended knowledge files:
 
 ```text
 dividend-income-equity-analysis/SKILL.md
+dividend-income-equity-analysis/data-conventions.md
 dividend-income-equity-analysis/screen-mode.md
 dividend-income-equity-analysis/workflow.md
 dividend-income-equity-analysis/business-outlook.md
@@ -91,6 +92,10 @@ Canonical priority:
 10. `holding-review.md` for research actions, review triggers and switching constraints.
 
 Guardrails:
+
+- Apply `data-conventions.md` for period, FX, corporate actions and evidence.
+- Use total dividend entitlement for cash-election DPS and actual settlement for issuer cash cost; scrip retention cannot manufacture dividend coverage.
+- Apply confidence and capital-risk action gates before Strong Buy, including for growth valuation. Historical broker withholding is event evidence, not a permanent future tax rate.
 
 - PIL is not withholding-rate evidence.
 - TTM yield must be separated from normalized yield.

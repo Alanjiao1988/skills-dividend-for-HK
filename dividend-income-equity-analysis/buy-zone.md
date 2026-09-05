@@ -40,12 +40,12 @@ Value trap is a veto condition, not a cheap-price band. Run the checklist before
 
 Major veto conditions include:
 
-- An unsupported dividend likely to be cut or suspended.
+- An ordinary dividend likely to be cut or suspended because capacity is impaired. A documented cyclical variable payout decreasing with a normal cycle is not automatically a veto; model its cash-income and capital downside.
 - Recurring FAD / relevant cash dividends below 1.0x without a credible recovery path, using the coverage contract rather than a peak-year ratio.
 - Ordinary distributions dependent on debt, equity issuance or asset sales rather than recurring owner cash.
 - Balance-sheet stress, an unaddressed refinancing wall, or regulatory/remittance restrictions blocking payout.
 - Peak-cycle DPS presented as recurring capacity.
-- Elevated payout alongside unexplained equity issuance, ATM or persistent unoffset scrip dilution.
+- Elevated payout alongside issuance or scrip that conceals a funding gap or destroys per-share value; an election alone is not proof of a trap.
 - Forecast DPS unreconciled to business drivers, FAD, payout policy and dividend-entitled shares.
 - N retaining temporary cycle premiums; growth depending on unfunded investment or an unsupported terminal state.
 
@@ -77,7 +77,7 @@ When recurring ADR fees or other material cash deductions apply, reconcile them 
 
 `N`, normalized net DPS, must represent mid-cycle or otherwise sustainable net dividend capacity. Preserve this priority:
 
-1. `mid_cycle`: explicit mid-cycle distributable cash, payout policy, diluted share count, and withholding-derived net DPS.
+1. `mid_cycle`: explicit mid-cycle distributable cash, payout policy, dividend-entitled shares, and investor cash-election net DPS.
 2. `full_cycle_median`: full-cycle median distributable cash and payout-policy-derived net DPS.
 3. `three_year_base_average`: average of three-year Base-case derived net DPS only when assumptions have returned to normal operating conditions.
 4. `historical_fundamental_fallback`: fundamentally adjusted historical normalized DPS; this is a Lower Confidence fallback.
@@ -106,10 +106,10 @@ Here source gross DPS is in whole units of the runway's financial currency, reco
 
 ### B Source
 
-- `B` normally comes from Bear-case distributable cash, payout policy, diluted/dividend-entitled share count and withholding treatment.
+- `B` normally comes from Bear-case distributable cash, payout policy, dividend-entitled share count and withholding treatment, with diluted EPS shares as a separate check.
 - Reconcile N and B to operating drivers, profitability, cash generation, required reinvestment, debt/regulatory uses and expected scrip / DRIP dilution.
 - If a direct Bear forecast is unavailable, a documented conservative fundamental fallback is allowed with Lower Confidence. It must still derive cash capacity, policy and shares; an unexplained `B = N x haircut` is not a fallback.
-- State B's scenario, source period, funding bridge, and any fallback reason. Do not choose N or B to justify a preferred price.
+- State B's scenario, source period, funding bridge, `bear_net_dps_is_fallback` and any fallback reason. Do not choose N or B to justify a preferred price.
 - If no responsible B can be derived, do not publish the complete ordinary ladder or a Strong Buy label. N alone may support a clearly limited income-yield comparison.
 - Forecast Confidence `Not Forecastable` precludes an ordinary buy zone.
 
@@ -218,6 +218,16 @@ If B equals N, the accumulation zone is empty and Fair connects directly to Stro
 
 Keep the legacy names only with their income-lens qualifier. A Strong Buy band is conditional on credible Bear funding, the veto being clear and investor hard constraints being met; it is not a command to buy or a position-size recommendation. `Price > N / r_low` means an **income valuation review**, not necessarily excessive growth value or an automatic sale.
 
+### 5.1 Price Bands and Action Eligibility
+
+Print `action_assessment.status` (`eligible`, `diagnostic_only`, `suspended`), `strong_buy_eligible`, and `reasons` independently of mathematical price bands. This gate applies to both ordinary and growth entry conclusions.
+
+- Strong Buy needs High Forecast Confidence, Strong Dividend Safety, no fallback N/B, verified tax/FX and capital access, acceptable principal-risk and total-return evidence, no unresolved veto, an applicable price entry condition and all investor hard constraints satisfied. Medium confidence permits at most gradual accumulation after other gates pass.
+- Low confidence, a historical/fundamental fallback, zero B in an ordinary strategy, or unassessed capital-return assumptions support diagnostic income comparisons and Watchlist only. Not Forecastable, an unresolved veto or invalid inputs suspend valuation.
+- A positive N with B=0 can show income sensitivity, but no positive-price Strong Buy. Do not clamp B>N or manufacture positive B.
+- For an ordinary-income recommendation, show Bear/Base/Bull holding-period total return using entitled net distributions, a supported exit-value basis and relevant costs/FX. Separate cash yield from return of principal. Use `(exit value + accumulated net cash - entry price) / entry price` for unreinvested cumulative return; use timed IRR for annualization. Do not double-count buybacks or reinvestment.
+- A growth DDM is a valuation, not the investor's realized return. Its terminal dependence and plausible permanent-capital-loss paths remain part of the entry decision. Grade cannot override any failed action gate.
+
 ## 6. Gated Dividend Growth Valuation
 
 ### 6.1 Eligibility and Forecast Horizon
@@ -235,7 +245,8 @@ Eligibility does not force growth to be the primary method. Explain why the evid
 For every scenario and modelled year, require:
 
 ```text
-Forecast Dividend Cash Cost_t <= Recurring FAD_t
+Modeled Dividend Entitlement_t <= Recurring FAD_t
+Modeled Dividend Entitlement_t <= Total Distribution Capacity_t
 Forecast Dividend Cash Cost_t <= Total Distribution Capacity_t
 Funding Gap_t = max(0, Forecast Dividend Cash Cost_t - Total Distribution Capacity_t) = 0
 ```
@@ -279,7 +290,8 @@ Reuse the parent cash-flow contract:
 Owner Cash Base = Recurring Owner FCF (or the eligible sector proxy)
 Recurring FAD = Owner Cash Base - Remaining Growth Uses - Remaining Mandatory Uses
 Total Distribution Capacity = Recurring FAD - exceptional_cash_uses + excess_cash_used
-Derived Gross DPS = Forecast Dividend Cash Cost / Dividend-Entitled Shares
+Derived Gross DPS = sum(installment dividend entitlement / installment entitled shares)
+Actual issuer cash cost = sum(installment entitlement x cash-settled fraction + settlement adjustment)
 D_net_t = investor net dividend after tax/fees and the disclosed currency/unit conversion
 ```
 
@@ -308,10 +320,11 @@ Each scenario must provide a **structured** `terminal_funding` ledger, not just 
 terminal_funding.recurring_fad = terminal_funding.owner_cash_or_proxy
                               - terminal_funding.remaining_growth_uses
                               - terminal_funding.remaining_mandatory_uses
+terminal_funding.dividend_entitlement <= terminal_funding.recurring_fad
 terminal_funding.dividend_cash_cost <= terminal_funding.recurring_fad
 ```
 
-Reconcile terminal dividend cash cost and entitled shares using the declared cash/share scales, then tax/fees, entitlement conversion and FX/`valuation_unit_scale` to `terminal_net_dps`. The ledger and `terminal_funding_and_fade_evidence` are both required. Known material exceptional obligations must be resolved through the finite transition or reconciled to actual capacity; an excess-cash release cannot finance the perpetual dividend. A narrative assertion of terminal coverage does not replace the numerical funding checks.
+The transition and terminal records also carry `dividend_entitlement`, `cash_settled_fraction` and `settlement_cash_adjustment`; scrip-retained cash cannot support a larger perpetual cash dividend. Reconcile terminal dividend entitlement, actual cash cost and entitled shares using the declared cash/share scales, then tax/fees, entitlement conversion and FX/`valuation_unit_scale` to `terminal_net_dps`. The ledger and `terminal_funding_and_fade_evidence` are both required. Known material exceptional obligations must be resolved through the finite transition or reconciled to actual capacity; an excess-cash release cannot finance the perpetual dividend. A narrative assertion of terminal coverage does not replace the numerical funding checks.
 
 Gordon is a permitted simplification only in a demonstrated steady state, cross-checked against the explicit forecast:
 
@@ -402,7 +415,7 @@ Keep a credible ordinary income comparison alongside the growth primary view and
 
 ## 8. Structural Decline: Finite-Life Cash Recovery Only
 
-A company classified as `Structural Decline` must not use an ordinary or growth perpetual franchise assumption.
+A company classified as `Structural Decline` must not use an ordinary or growth perpetual franchise assumption. Assess finite concessions, leases and depleting resources even when current profit is stable; do not assume renewal or replacement without evidence and reinvestment. If material finite-life recovery cannot fit a credible sustainable asset portfolio or the qualifying harvest exception, suspend this framework and explain a separate finite-period valuation requirement.
 
 Without the Harvest / Managed Runoff Exception in `scoring.md`:
 
@@ -434,6 +447,8 @@ Rules:
 - Show the residual value's percentage of total PV and avoid counting an asset disposal both in distributions and residual recovery.
 - Ordinary N / r comparisons are secondary only, with `r_low >= 10%` and credible N/B; they cannot replace the finite-life calculation or imply a permanent franchise.
 - The Grade C cap remains and the security cannot be Core income.
+
+For structured output, each annual distribution has `year`, `net_distribution` and `present_value`; optional `years_from_valuation` specifies non-integer payment time, otherwise use sequential year ends. Residual recovery uses the final modeled cash date and must not be counted in those distributions.
 
 Required output: `harvest_horizon_years`, the dated forecast net distributions, discount rate/rationale, PV of distributions, residual and its basis/PV share, finite-life value range, and any separately qualified ordinary cross-check.
 

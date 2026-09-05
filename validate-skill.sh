@@ -130,6 +130,7 @@ bash build-gpt-instructions.sh >/dev/null
 
 for module in \
   SKILL.md \
+  data-conventions.md \
   screen-mode.md \
   workflow.md \
   business-outlook.md \

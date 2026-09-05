@@ -102,6 +102,8 @@ Use `business-fundamentals.md` as the calculation source. Required records:
 
 ### Dividend and Yield Runway
 
+Precede the cash-cost/DPS table with a slim entitlement table: Year / Scenario, Policy-Indicated Entitlement, Modeled Entitlement, Cash-Settled Fraction, Settlement Adjustment, All-Cash Funding Gap. The two tables are complementary; do not copy the final DPS and cash cost into both.
+
 | Year / Scenario | Cash Available for Distribution | Payout Policy / Basis / Ratio | Dividend Cash Cost | Derived DPS | Net Yield at Current Price | Funding Gap |
 |---|---|---:|---|---:|---:|---:|
 

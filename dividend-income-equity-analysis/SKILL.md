@@ -1,6 +1,6 @@
 ---
 name: dividend-income-equity-analysis
-description: 港股、美股和全球红利股分析技能。当用户要求红利分析、股息分析、税后收益、公司基本面、未来3至5年发展展望、FCF自由现金流预测、盈利与分红预测、快速筛选、批量比较、买入区间、持仓复评、减仓退出或换仓研究、dividend analysis、分红可持续性或红利陷阱检查时触发。默认投资者为 HK resident individual，普通券商账户，优先使用 IBKR 等券商实际流水。本技能支持 Screen Mode 和 Full Analysis Mode。
+description: 筛选和分析港股、美股及全球红利股的税后现金收入、分红可持续性、未来三至五年现金流、红利陷阱、收入与成长估值及持仓复评。适用于以股息收入为核心的候选池比较、分红预测和投资决策；支持Screen与Full Analysis，默认香港居民个人普通券商账户，允许用户覆盖。
 ---
 
 # Dividend Income Equity Analysis Skill
@@ -14,7 +14,7 @@ description: 港股、美股和全球红利股分析技能。当用户要求红�
 - 投资者为 HK resident individual。
 - 使用普通券商账户。
 - 投资目标是中长期现金分红收入与资本保护。
-- 用户提供有效券商流水时，实际扣税记录优先于理论分类。
+- 用户可覆盖投资者身份和渠道。有效券商流水证明对应事件的实际现金与扣税；未来处理另按当前公告和托管链核实，不自动沿用历史税率。
 - 默认不处理内地个人港股通渠道，除非用户明确要求。
 - 不预设 Screen Mode 的最低税后收益率。筛选目标只能来自用户明确要求或已明确建立且适用于本次筛选的组合目标；否则标记为 `Not Assessed`。
 
@@ -29,6 +29,9 @@ Screen Mode 必须读取 `screen-mode.md`，且不得输出三至五年预测、
 Screen Mode 不得把 `buy-zone.md` 的标的必要收益率当作用户的筛选收益率目标，也不得凭空判断某个收益率“明显不足”。
 
 ## 支撑文件读取规则
+
+- `data-conventions.md`：两种模式均需的期间、币种、每股单位、公司行动和证据核验口径。
+- `examples/calculation-checks.md`：维护计算及决策规则时使用的虚构验收案例。
 
 - `screen-mode.md`：轻量筛选、筛选收益率目标、Yield Fit 和 Yes / Watch / No 的唯一规则源。
 - `workflow.md`：模式路由、完整研究流程和数据源优先级。
@@ -77,6 +80,8 @@ Screen Mode 不得把 `buy-zone.md` 的标的必要收益率当作用户的筛�
 - `total_return_based`仅在增长、再投资、资本、派息及终值均有依据时启用；先预测现金再折现，不把近端高增长永续化，也不预设某只股票必须变得便宜。
 - 持仓复评使用前瞻收益和现金收入，不用成本收益率；估值偏贵触发复评而非机械卖出，缺少组合或替代品资料时不编造仓位与换仓结论。
 - 无法负责任预测时，将 DPS 标注为 illustrative rather than evidence-backed，并降低 Forecast Confidence。
+- DPS的分子为全部现金等值股息权益，按每次有权获派股数计算；公司实际现金支付另计，不能用以股代息降低后的现金支出推低全现金选项DPS。
+- Strong Buy须High置信度、Strong安全性并通过估值、资金及用户收入约束；Medium最多逐步买入，Low仅诊断与观察。
 - 最终结论必须区分事实、假设和判断。
 
 ## 输出结构

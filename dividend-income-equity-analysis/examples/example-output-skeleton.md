@@ -8,13 +8,14 @@ This is a Full Analysis structure example only. It contains placeholders, not ma
 
 | TTM Net Yield | Normalized Net Yield | Score / Grade | Portfolio Role |
 |---:|---:|---:|---|
-| 0.0% | 0.0%-0.0% | 00 / C | Watchlist |
+| Not Assessed | Not Assessed | Not Assessable | Watchlist |
 
 - Company / Ticker / Exchange: Example / 0000.HK / HKEX
 - As-of date / Price: YYYY-MM-DD / HKD 0.00
 - Fundamental Trend: Stable
 - Forecast Confidence: Medium
-- Valuation mode: ordinary_yield_based
+- Valuation mode: suspended
+- Action eligibility / Strong Buy: suspended / false
 - Income fit / separate growth assessment: Not Assessed / Not Assessed
 - Five-year development thesis: Placeholder, not a growth forecast
 - Three-year aggregate / five-year worst recurring coverage: N/A / N/A
@@ -22,7 +23,7 @@ This is a Full Analysis structure example only. It contains placeholders, not ma
 - Expected buy zone or finite-life value range: N/A
 - Value-Trap Veto: Unclear
 - Dividend / reporting currency: HKD / HKD
-- Withholding rate / basis: 0.0% / unknown
+- Withholding rate / basis: Unknown / unknown
 - Broker cash-line type: unknown
 - Scrip / DRIP available: Unknown
 
@@ -55,7 +56,7 @@ Takeaway: Separate trailing yield from sustainable normalized yield.
 - Legal domicile:
 - Listing venue / Security type:
 - Reporting / Dividend / Investor currency:
-- Official diluted share count:
+- Dividend-entitled shares / record dates; diluted EPS shares separately:
 - Scrip / DRIP available:
 - Cash or share default:
 
@@ -248,6 +249,8 @@ Forecast Confidence: High / Medium / Low / Not Forecastable.
 
 ## 13. Dividend and Yield Runway
 
+Show a separate policy-entitlement table: Year / Scenario, Policy-Indicated Entitlement, Modeled Entitlement, Cash-Settled Fraction, Settlement Adjustment, All-Cash Funding Gap. Then show the existing cash-cost/DPS runway once. Where installments differ, calculate them separately and refer to their audit; annual EPS shares are not the dividend denominator.
+
 | Fiscal Year | Scenario | Cash Available for Distribution | Payout Policy / Ratio | Dividend Cash Cost | Derived DPS | Net Yield at Current Price |
 |---|---|---:|---|---:|---:|---:|
 | FY+1 | Bear | N/A | Placeholder | N/A | N/A | N/A |
@@ -268,7 +271,7 @@ Forecast Confidence: High / Medium / Low / Not Forecastable.
 
 Do not repeat Dividend Cash Cost or Derived DPS elsewhere.
 
-| Year / Scenario | Policy Calculation Base | Base Amount / Ratio | Policy-Implied Cash | Policy Adjustment Reason | Entitled Shares / Reconciliation | Funding Gap |
+| Year / Scenario | Policy Calculation Base | Base Amount / Ratio | Policy-Implied Entitlement | Policy Adjustment Reason | Entitled Shares / Reconciliation | Funding Gap |
 |---|---|---|---:|---|---|---:|
 | FY+1 / Base | Placeholder | N/A / N/A | N/A | Missing evidence | N/A / Placeholder | N/A |
 
@@ -308,6 +311,10 @@ Value-Trap Veto: Not triggered / Triggered / Unclear.
 - DPS source currency / normalization FX / investor deductions:
 
 ### Ordinary Yield-Based Output
+
+Alternative template only: omit all numerical entry tables while the example veto remains Unclear. Action labels require the independent action gates, not merely a placeholder price band.
+
+Alternative template only: omit all numerical entry tables while the example veto remains Unclear. Action labels require the independent action gates, not merely a placeholder price band.
 
 | Zone | Price Range | Implied Net Yield | DPS Basis | Condition | Action View |
 |---|---:|---:|---|---|---|

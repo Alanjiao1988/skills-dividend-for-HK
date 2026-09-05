@@ -19,6 +19,7 @@ The generated file includes:
 ```text
 gpt-header.md
 dividend-income-equity-analysis/SKILL.md
+dividend-income-equity-analysis/data-conventions.md
 dividend-income-equity-analysis/screen-mode.md
 dividend-income-equity-analysis/workflow.md
 dividend-income-equity-analysis/business-outlook.md

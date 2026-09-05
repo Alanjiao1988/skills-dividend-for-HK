@@ -19,6 +19,7 @@ EOF
 
 for f in \
   SKILL.md \
+  data-conventions.md \
   screen-mode.md \
   workflow.md \
   business-outlook.md \

@@ -19,9 +19,9 @@ Business volume / customer / asset / commodity / rate drivers
 -> Actual-period exceptional uses and explicitly available excess cash
 -> Total distribution capacity
 -> Dividend policy applied to its stated calculation base, subject to funding constraints
--> Dividend cash cost
--> Diluted share count, including scrip / DRIP dilution where relevant
--> DPS
+-> Modeled gross dividend entitlement
+-> Dividend-entitled shares for each installment
+-> Cash-election DPS, with issuer cash settlement and subsequent scrip dilution tracked separately
 -> Net DPS and expected buy zone
 ```
 
@@ -205,9 +205,11 @@ Cash Available for Distribution = Total Distribution Capacity
 
 Use the definition and deduction ledger in Section 2. Exceptional uses and excess cash must be shown separately in the underlying records even when combined in a display cell. Recurring FAD, not a temporary cash-balance release, supports N and terminal dividends.
 
+Track opening accessible excess cash, source-specific additions, uses and closing balance through the five years. The same surplus cannot fund repeated annual payouts. Reconcile ordinary shareholder prior claims, minority interests, trapped cash and subsidiary remittances once, using the parent overlay in `sector-fcf-proxies.md`. Verify parent distributable reserves, covenants and legal/regulatory headroom; a consolidated cash balance is not permission to distribute it.
+
 ### Payout-Policy Classification and Calculation Base
 
-| Policy type | Policy-implied dividend cash cost | Required constraint |
+| Policy type | Policy-implied cash-equivalent dividend entitlement | Required constraint |
 |---|---|---|
 | `fixed_progressive` | Stated/derived DPS x dividend-entitled shares | Compare the commitment with recurring FAD and actual capacity; model a justified freeze/cut when needed |
 | `earnings_linked` | Stated attributable earnings base x policy payout ratio | Earnings are not cash; independently test FAD, capital and remittances |
@@ -221,10 +223,17 @@ For JSON, `payout_base_reference` identifies the corresponding forecast earnings
 
 ```text
 Funding Gap = max(0, Forecast Dividend Cash Cost - Total Distribution Capacity)
-Derived DPS = Forecast Dividend Cash Cost / Dividend-Entitled Share Count
+Derived DPS per installment = Modeled Dividend Entitlement / Dividend-Entitled Share Count
+Actual Dividend Cash Cost = Modeled Dividend Entitlement x cash-settled fraction + settlement_cash_adjustment
 ```
 
-Use consistent units. Reconcile dividend-entitled shares to forecast diluted shares and timing of issuance, buybacks and cash/scrip elections. If diluted shares are the proxy, disclose that assumption and apply it consistently; EPS weighted-average shares are not automatically the dividend payment count.
+`policy_implied_dividend` is the gross all-shareholder entitlement before elections; `dividend_entitlement` is the modeled gross cash-equivalent amount after an explicitly explained policy/funding adjustment. Investor cash-election DPS uses this entitlement, never the issuer's reduced cash settlement after scrip. Report actual `funding_gap = max(0, dividend_cash_cost - capacity)` and `all_cash_funding_gap = max(0, dividend_entitlement - capacity)` separately. A scrip-funded reduction in actual cash cost cannot establish economic coverage of the ordinary dividend.
+
+Use consistent cash/share units. A single installment may use the reported `dividend_entitled_shares`; EPS weighted-average diluted shares are a separate dilution check, not a default denominator. Where record-date share counts or elections differ, populate `dividend_installments` and sum their DPS and cash costs separately. The annual `dividend_entitled_shares` is then only the explicitly labelled dividend-weighted reconciliation count (`annual entitlement / annual DPS`, adjusted for unit scales), not an invented record-date quantity. Reconcile fixed-DPS policy installments against their actual entitled shares.
+
+Each installment records its entitlement, entitled shares/record date, derived DPS, cash-settled fraction, actual cash cost and settlement cash adjustment. With no scrip cash retention, the fraction is 1 even if the broker reinvests the cash in market shares. Mandatory stock-only distributions have no cash-election DPS and must not populate this cash-income runway as an ordinary cash dividend. A cash adjustment represents only additional issuer settlement cash under the scheme, not withholding already included in the gross cash entitlement.
+
+New issuer scrip shares affect subsequent entitlements when their terms allow; do not dilute the payment that created them in advance. Use issue price, participation and dates to roll shares forward. Keep all-cash-equivalent coverage alongside the retained legacy cash-paid coverage so high scrip participation cannot manufacture safety. [IFRS Foundation: IAS 33](https://www.ifrs.org/issued-standards/list-of-standards/ias-33-earnings-per-share.html/) explains the distinct EPS share denominator.
 
 Machine-readable Derived DPS uses the financial currency's whole currency unit, with `cash_unit_scale / share_unit_scale` applied. Valuation cash and prices use the return record's `valuation_unit_scale` (for example 0.01 GBP per quoted penny); disclose FX separately from unit conversion.
 
@@ -306,7 +315,7 @@ N may be re-estimated through sensitivity analysis only when a driver change is 
 
 ### Bear Net DPS, B
 
-- `B` should come from the Bear-case distributable cash, payout policy, and diluted share count.
+- `B` should come from Bear-case distributable cash, payout policy, entitled shares and investor cash-election treatment. State the selected year(s) and why they represent the adverse state; do not silently use the mildest Bear year.
 - Bear assumptions must represent a plausible adverse operating state, not an arbitrary DPS haircut.
 - Historical DPS averages may be used only as a cross-check or fallback when the operating forecast cannot be built.
 - If historical values are used as a fallback, label the buy zone Lower Confidence and explain why.

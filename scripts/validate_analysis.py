@@ -102,11 +102,27 @@ def validate_report(report):
         params = report["screening_parameters"]
         for row in report["screen_results"]:
             same(row["screening_net_yield_target"], params["target_net_yield"], "Screen target")
-            target, net_yield = params["target_net_yield"], row.get("ttm_net_yield")
-            if target is not None and net_yield is not None:
-                fit = "Pass" if net_yield >= target else "Below target"
-                require(row["yield_fit"] == fit, "Screen Yield Fit disagrees with the supplied target")
-                same(row["yield_gap_percentage_points"], (net_yield - target) * 100, "Screen yield gap")
+            target, net_yield = params["target_net_yield"], row["screening_yield_used"]
+            low, high = row["screening_yield_range"]["low"], row["screening_yield_range"]["high"]
+            require((low is None) == (high is None), "Screen yield range needs both endpoints or neither")
+            if low is not None and high is not None:
+                require(low <= high, "Screen yield range is reversed")
+                if net_yield is not None:
+                    require(low <= net_yield <= high, "Screen point yield lies outside its supported range")
+            if target is None:
+                fit = "Not Assessed"
+            elif not row["screening_basis_usable"] or low is None or high is None:
+                fit = "Unclear"
+            else:
+                fit = "Pass" if low >= target else "Below target" if high < target else "Unclear"
+            require(row["yield_fit"] == fit, "Screen Yield Fit disagrees with the selected yield range and target")
+            gap = (net_yield - target) * 100 if fit in ("Pass", "Below target") and net_yield is not None else None
+            same(row["yield_gap_percentage_points"], gap, "Screen yield gap")
+            if fit == "Below target" and params["target_policy"] == "hard_minimum":
+                require(row["full_analysis_recommended"] == "No" or params.get("hard_minimum_exception_allowed", False),
+                        "Screen hard minimum requires No unless the user permits an exception")
+            if fit == "Unclear":
+                require(row["full_analysis_recommended"] != "Yes", "Unclear screening income cannot receive Yes")
         return errors
 
     mode = report["valuation_mode"]
@@ -176,7 +192,18 @@ def validate_report(report):
 
     bridge_cash = ("fcf_or_capital_generation", "required_reinvestment", "mandatory_debt_or_regulatory_uses",
                    "recurring_fad", "exceptional_cash_uses", "excess_cash_used", "cash_available_for_distribution")
-    runway_cash = ("cash_available_for_distribution", "dividend_cash_cost", "derived_dps", "funding_gap")
+    runway_cash = ("cash_available_for_distribution", "dividend_cash_cost", "dividend_entitlement",
+                  "cash_settled_fraction", "settlement_cash_adjustment", "derived_dps", "funding_gap", "all_cash_funding_gap")
+
+    def settlement_checks(row, label):
+        fields = ("dividend_entitlement", "cash_settled_fraction", "settlement_cash_adjustment",
+                  "dividend_cash_cost", "dividend_entitled_shares")
+        require(all(row[field] is not None for field in fields), f"{label}: incomplete dividend settlement")
+        if any(row[field] is None for field in fields):
+            return None
+        same(row["dividend_cash_cost"], row["dividend_entitlement"] * row["cash_settled_fraction"]
+             + row["settlement_cash_adjustment"], f"{label} issuer cash settlement")
+        return row["dividend_entitlement"] * units / row["dividend_entitled_shares"]
 
     def policy_amount(component, forecast, shares, label):
         basis, reference = component["payout_calculation_basis"], component["payout_base_reference"]
@@ -253,10 +280,26 @@ def validate_report(report):
         same(bridge["recurring_fad"], recurring, f"{label} bridge recurring FAD")
         same(bridge["cash_available_for_distribution"], capacity, f"{label} total distribution capacity")
         same(dividend["cash_available_for_distribution"], capacity, f"{label} runway capacity")
-        same(dividend["derived_dps"], dividend["dividend_cash_cost"] * units / dividend["dividend_entitled_shares"], f"{label} DPS")
+        if dividend["dividend_installments"]:
+            installments = dividend["dividend_installments"]
+            dates = [item["record_date"] for item in installments]
+            require(dates == sorted(dates), f"{label}: installments must follow entitlement dates")
+            dps_values = []
+            for item in installments:
+                dps = settlement_checks(item, f"{label} {item['record_date']}")
+                same(item["derived_dps"], dps, f"{label} installment DPS")
+                dps_values.append(dps)
+            if all(value is not None for value in dps_values):
+                same(dividend["derived_dps"], sum(dps_values), f"{label} annual DPS")
+            for field in ("dividend_cash_cost", "dividend_entitlement", "settlement_cash_adjustment"):
+                if all(item[field] is not None for item in installments):
+                    same(dividend[field], sum(item[field] for item in installments), f"{label} annual {field}")
+        same(dividend["derived_dps"], settlement_checks(dividend, label), f"{label} DPS")
         same(dividend["funding_gap"], max(0, dividend["dividend_cash_cost"] - capacity), f"{label} funding gap")
+        same(dividend["all_cash_funding_gap"], max(0, dividend["dividend_entitlement"] - capacity), f"{label} all-cash funding gap")
         if mode == "ordinary_yield_based" and key[1] == "Base" and key[0] <= 3:
-            require(dividend["funding_gap"] == 0, f"{label}: unresolved Base funding gap prevents ordinary valuation")
+            require(dividend["funding_gap"] == 0 and dividend["all_cash_funding_gap"] == 0,
+                    f"{label}: unresolved Base funding gap prevents ordinary valuation")
         policy = report["payout_policy"]
         require(dividend["payout_policy"] == policy["policy_type"], f"{label}: payout policy type disagrees with the documented policy")
         require(dividend["payout_calculation_basis"] == policy["calculation_basis"], f"{label}: payout calculation basis disagrees with the documented policy")
@@ -275,6 +318,9 @@ def validate_report(report):
             require(not dividend["policy_components"], f"{label}: unexpected base/variable components")
             amount = policy_amount(dividend, forecast, dividend["dividend_entitled_shares"], label)
             same(dividend["policy_implied_dividend"], amount, f"{label} policy dividend")
+
+    if errors:
+        return errors
 
     cumulative = report["business_outlook"]["cumulative_fad"]
     require({row["scenario"] for row in cumulative} == set(SCENARIOS), "Cumulative FAD must cover each scenario once")
@@ -333,6 +379,24 @@ def validate_report(report):
         harvest = report["finite_life_valuation"]
         require(returns["status"] == "assessed", "Finite-life valuation requires an independent return derivation")
         require(harvest["finite_life_value_low"] <= harvest["finite_life_value_high"], "Finite-life value range is reversed")
+        cash_path = harvest["forecast_net_distributions"]
+        horizon, rate = harvest["harvest_horizon_years"], harvest["discount_rate"]
+        times = [row.get("years_from_valuation", index + 1) for index, row in enumerate(cash_path)]
+        require(len(cash_path) == horizon, "Finite-life cash path must cover the full harvest horizon")
+        require(times == sorted(set(times)) and times[0] > 0, "Finite-life cash times must be positive and increasing")
+        total_pv = 0
+        for row, when in zip(cash_path, times):
+            amount = row.get("net_distribution")
+            require(amount is not None and amount >= 0, "Finite-life distributions must be supported nonnegative cash")
+            if amount is not None and amount >= 0:
+                pv = amount * math.exp(-when * math.log1p(rate))
+                same(row.get("present_value"), pv, "Finite-life distribution PV")
+                total_pv += pv
+        same(harvest["present_value_of_distributions"], total_pv, "Finite-life distribution PV total")
+        residual_pv = harvest["residual_value"] * math.exp(-times[-1] * math.log1p(rate))
+        if harvest.get("residual_value_share_of_total") is not None:
+            same(harvest["residual_value_share_of_total"], residual_pv / (total_pv + residual_pv) if total_pv + residual_pv else None,
+                 "Finite-life residual share")
 
     if "growth_valuation" in report:
         require(mode == "total_return_based", "Growth valuation cannot bypass the primary mode's eligibility gates")
@@ -343,8 +407,8 @@ def validate_report(report):
         for key, forecast in forecasts.items():
             require(forecast["estimate_status"] == "estimated", "Growth terminal value cannot bypass an unsupported five-year cash outlook")
             dividend = runway[key]
-            if dividend["dividend_cash_cost"] is not None and forecast["recurring_fad"] is not None:
-                require(dividend["dividend_cash_cost"] <= forecast["recurring_fad"] and dividend["funding_gap"] == 0,
+            if dividend["dividend_entitlement"] is not None and forecast["recurring_fad"] is not None:
+                require(dividend["dividend_entitlement"] <= forecast["recurring_fad"] and dividend["funding_gap"] == 0 and dividend["all_cash_funding_gap"] == 0,
                         f"{key}: growth requires funded dividends throughout the five-year outlook")
         for row in growth["scenarios"]:
             label = f"Growth {row['scenario']}"
@@ -372,13 +436,14 @@ def validate_report(report):
                 else:
                     support = cash["transition_support"]
                     recurring = support["recurring_fad"]
-                amount, shares = support["dividend_cash_cost"], support["dividend_entitled_shares"]
+                amount, shares = support["dividend_entitlement"], support["dividend_entitled_shares"]
                 require(amount is not None and shares is not None and recurring is not None, f"{label}: missing funded cash support")
                 if amount is not None and shares is not None and recurring is not None:
                     require(0 <= amount <= recurring, f"{label}: dividend is not funded by recurring FAD")
                     capacity = support["cash_available_for_distribution"]
-                    require(capacity is not None and amount <= capacity, f"{label}: dividend exceeds actual distribution capacity")
+                    require(capacity is not None and max(amount, support["dividend_cash_cost"]) <= capacity, f"{label}: dividend exceeds actual distribution capacity")
                     same(support["funding_gap"], 0, f"{label} unresolved funding gap")
+                    settlement_checks(support, label)
                     if report["withholding_rate"] is None:
                         errors.append(f"{label}: missing withholding basis")
                     else:
@@ -401,14 +466,16 @@ def validate_report(report):
             funding = row["terminal_funding"]
             terminal_fad = funding["owner_cash_or_proxy"] - funding["remaining_growth_uses"] - funding["remaining_mandatory_uses"]
             same(funding["recurring_fad"], terminal_fad, f"{label} terminal recurring FAD")
-            require(funding["dividend_cash_cost"] <= terminal_fad, f"{label}: terminal dividend is unfunded")
+            require(funding["dividend_entitlement"] <= terminal_fad and funding["dividend_cash_cost"] <= terminal_fad, f"{label}: terminal dividend is unfunded")
+            settlement_checks(funding, label)
             if horizon < 5:
                 next_key = (horizon + 1, row["scenario"])
                 same(funding["recurring_fad"], forecasts[next_key]["recurring_fad"], f"{label} terminal / next forecast FAD")
                 same(funding["dividend_cash_cost"], runway[next_key]["dividend_cash_cost"], f"{label} terminal / next forecast dividend")
+                same(funding["dividend_entitlement"], runway[next_key]["dividend_entitlement"], f"{label} terminal / next forecast entitlement")
                 same(funding["dividend_entitled_shares"], runway[next_key]["dividend_entitled_shares"], f"{label} terminal / next forecast shares")
             if report["withholding_rate"] is not None:
-                terminal_dps = funding["dividend_cash_cost"] * units / funding["dividend_entitled_shares"]
+                terminal_dps = funding["dividend_entitlement"] * units / funding["dividend_entitled_shares"]
                 terminal_dps *= (1 - report["withholding_rate"]) * funding["fx_to_valuation_currency"] * returns["shares_per_quoted_security"]
                 terminal_dps = (terminal_dps - funding["investor_cash_deductions"]) / returns["valuation_unit_scale"]
                 same(row["terminal_net_dps"], terminal_dps, f"{label} funded terminal DPS")
@@ -472,6 +539,26 @@ def validate_report(report):
         same(change, sum(item["present_value_change"] for item in audit), "Transient growth-value change")
 
     holding = report["holding_review"]
+    action = report["action_assessment"]
+    if report["forecast_confidence"] == "Low":
+        require(action["status"] in ("diagnostic_only", "suspended"), "Low confidence cannot support eligible entry")
+    if action["status"] == "diagnostic_only":
+        require(not action["strong_buy_eligible"] and report["portfolio_role"] in ("Watchlist", "Avoid"),
+                "Diagnostic entry cannot be Strong Buy or a portfolio holding recommendation")
+    if "buy_zone" in report:
+        zone = report["buy_zone"]
+        if zone["normalized_net_dps_basis"] == "historical_fundamental_fallback" or zone["bear_net_dps_is_fallback"] or (mode == "ordinary_yield_based" and zone["bear_net_dps"] == 0):
+            require(action["status"] != "eligible", "Fallback N or zero Bear dividend is diagnostic only")
+    if action["strong_buy_eligible"]:
+        require(income["income_eligible"] is not False, "Strong Buy cannot override income constraints")
+        if income["target"]["target_policy"] == "hard_minimum":
+            require(income["income_eligible"] is True, "Strong Buy requires confirmed hard-income eligibility")
+        if mode == "ordinary_yield_based":
+            require(price is not None and 0 < price <= report["buy_zone"]["boundaries"]["strong_buy_at_or_below"],
+                    "Strong Buy price must meet the Bear income threshold")
+        elif mode == "total_return_based":
+            require(price is not None and price <= report["growth_valuation"]["entry_upper"],
+                    "Strong Buy price must meet the growth entry threshold")
     if holding["action"] == "switch":
         switch = holding["switch_analysis"]
         require(switch["after_cost_advantage"] > switch["switching_hurdle"], "Switch benefit must exceed the documented after-cost hurdle")
