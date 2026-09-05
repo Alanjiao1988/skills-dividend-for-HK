@@ -2,7 +2,7 @@
 
 This file defines how to connect long-term business fundamentals to future dividend capacity.
 
-The purpose is not to build a full investment-bank financial model or DCF. The purpose is to ensure that future DPS, normalized DPS, and buy-zone inputs are derived from operating drivers, earnings, cash flow, balance-sheet constraints, payout policy, and diluted share count rather than guessed directly from historical dividends.
+The purpose is to derive sustainable owner cash, future DPS, normalized DPS, and valuation inputs from operating drivers rather than extrapolating historical dividends. Read `business-outlook.md` for the three-to-five-year development thesis and `sector-fcf-proxies.md` before selecting a cash-generation measure. These modules share one forecast; do not build a separate, inconsistent growth-valuation forecast.
 
 ## 1. Required Causal Chain
 
@@ -12,13 +12,13 @@ Every full analysis must follow this chain:
 Business volume / customer / asset / commodity / rate drivers
 -> Revenue or sector-equivalent income
 -> Operating margin or sector-equivalent profitability
--> Net income / AFFO / capital generation
--> Operating cash flow
--> Maintenance and growth capex
--> Free cash flow or distributable cash
--> Mandatory debt, regulatory, and reinvestment uses
--> Cash available for shareholder distribution
--> Dividend policy and payout ratio
+-> Attributable earnings and normalized operating cash / sector capital generation
+-> Recurring Owner FCF / evidenced sector proxy
+-> Committed growth reinvestment and mandatory capital uses, deducted once
+-> Recurring Funds Available for Distribution (Recurring FAD)
+-> Actual-period exceptional uses and explicitly available excess cash
+-> Total distribution capacity
+-> Dividend policy applied to its stated calculation base, subject to funding constraints
 -> Dividend cash cost
 -> Diluted share count, including scrip / DRIP dilution where relevant
 -> DPS
@@ -45,7 +45,72 @@ Identify:
 | Fiscal Year | Primary Business Driver | Revenue / Sector Income | Operating Margin / Equivalent | Net Income / AFFO | FCF / Distributable Cash | Comment |
 |---|---|---:|---:|---:|---:|---|
 
-Use the most economically meaningful sector measure. Do not force revenue or EBITDA onto banks, insurers, or REITs when a better measure exists.
+Use the most economically meaningful sector measure. Do not force revenue, EBITDA, or industrial OCF-minus-capex onto banks, insurers, or REITs. Preserve reported amounts and a reconciliation to the chosen measure; estimates do not become reported facts through normalization.
+
+### Cash-Flow Definitions and Deduction Ledger
+
+Use amounts attributable to ordinary owners, a consistent consolidation perimeter, currency, fiscal period, and units. State whether cash interest, tax, leases, non-controlling interests, preferred claims, and capitalized development costs are already included.
+
+| Measure | Definition | Use |
+|---|---|---|
+| Reported FCF | Issuer-defined FCF with its exact reconciliation and source | Starting evidence, not automatically comparable across issuers |
+| Actual all-in FCF | Cash generated after actual operating uses and all capital investment, before ordinary shareholder distributions; exclude financing proceeds and disposal proceeds | Actual-period cash affordability |
+| Recurring Owner FCF | Normalized operating cash after cash interest/tax, maintenance investment and other owner claims, but before separately identified growth investment | Sustainable owner cash before growth allocation; not FCFF or cash already free to distribute |
+| Recurring FAD | Recurring Owner FCF or eligible sector proxy less remaining committed growth investment and mandatory debt/regulatory uses | Recurring dividend coverage and sustainable dividend capacity |
+| Total distribution capacity | Recurring FAD less exceptional cash uses not already included, plus explicitly available excess cash | Period-specific affordability, not a recurring payout base by default |
+
+For operating companies:
+
+```text
+Recurring Owner FCF
+= Normalized OCF
+- Maintenance Capex
+- Cash Lease Principal Not Already Included
+- Minority / Senior Cash Claims Not Already Included
+
+Recurring FAD
+= Recurring Owner FCF or Sector Capital Proxy
+- Committed Growth Reinvestment Not Already Included
+- Mandatory Debt / Regulatory Uses Not Already Included
+
+Total Distribution Capacity
+= Recurring FAD
+- Exceptional Cash Uses Not Already Included
++ Explicitly Available Excess Cash
+
+Actual All-In FCF (operating-company forecast)
+= Recurring Owner FCF
+- Remaining Growth Investment
+- Exceptional Cash Uses Not Already Included
++ Nonrecurring Operating Cash Inflow
+```
+
+Normalized OCF must be after cash interest and tax even if the issuer classifies them as financing or investing. Start from reported OCF and show each signed adjustment, its source, recurrence, cash timing, and whether it is already included. Distinguish a normalization adjustment from a cash obligation that still has to be paid.
+
+Maintain a deduction ledger with `item`, `category`, `amount`, `already_in_starting_metric`, `incremental_deduction`, and `evidence`. Categories are maintenance, owner_claims, growth, mandatory and exceptional. Deduct an item exactly once. The growth, mandatory and exceptional incremental totals must reconcile to the distribution bridge; an internally consistent ledger alone is insufficient. If reported FCF already deducts all capex, either reconcile back to pre-growth Recurring Owner FCF or start with that after-investment figure and deduct no capex again. Do not add back total capex and pretend all of it is optional growth.
+
+- Maintenance includes replacement, safety, environmental obligations, sustaining software and capitalized development needed to preserve the business. If maintenance/growth cannot be separated responsibly, use all capex as a conservative deduction and disclose the limitation.
+- Expensed R&D is already an operating use. Do not add it back to cash available for dividends while also crediting the resulting growth. Recurring licensing, milestone, contingent-consideration, restructuring and litigation payments require an economic recurrence assessment, not an automatic "adjusted" add-back.
+- Stock compensation is not free: include the resulting share dilution or the cash cost of offsetting issuance, without charging both for the same shares.
+- Available excess cash excludes restricted cash, operating liquidity, regulatory buffers, subsidiary cash that cannot be remitted, and proceeds needed for committed uses. Asset sales, new debt and equity proceeds are separate funding sources, not recurring FAD.
+- Reconcile `actual_all_in_fcf` to the forecast bridge rather than leaving it as an independent estimate. `nonrecurring_operating_cash_inflow` identifies a sourced temporary operating inflow excluded from normalized owner cash; it is not financing or asset-sale proceeds and never increases recurring FAD. Any portion used for distributions must also be identified within explicitly available excess cash, counted once. Financial-sector capital proxies do not use this industrial FCF identity.
+- Do not silently floor negative FCF or FAD at zero. Report the deficit, financing need, and implications for payout and forecast confidence.
+
+### Historical Coverage Contract
+
+Keep both actual-period cash coverage and recurring FAD coverage. Use the relevant **cash paid** dividend denominator for the same fiscal periods and owner perimeter. Reconcile declared DPS, record-date shares, cash payments, and scrip elections; never divide paid cash by declared dividends without explaining timing.
+
+```text
+Three-Year Recurring Coverage = sum(Recurring FAD for 3 years) / sum(Relevant Cash Dividends for 3 years)
+Annual Recurring Coverage = Recurring FAD / Relevant Cash Dividends
+Five-Year Worst Recurring Coverage = minimum(valid Annual Recurring Coverage over the last 5 years)
+```
+
+Also show the worst **actual** cash-coverage year and the funding of any shortfall. Do not average annual coverage ratios. A zero dividend denominator is `Not Available`, not infinite coverage or a safety pass. Use three-to-five comparable years when available, disclose the years present, and use a full cycle for cyclical issuers. Demergers and accounting changes may prevent a comparable five-year series.
+
+Record each historical `fiscal_year_end` in ISO date format. Select the latest three/five fiscal periods by date, never by arbitrary JSON array order. The summary lists those periods oldest first. A complete five-year worst-coverage figure requires five comparable valid annual ratios; otherwise show the worst available ratio and the limitation separately.
+
+For fixed/progressive policies use ordinary cash dividends as the primary denominator; show total cash payouts as a secondary stress check. For variable/cycle-linked policies use total recurring/variable cash dividends. Separately identify one-off capital distributions. A historical exceptional cash shortfall calls for a liquidity review, not an automatic structural veto or an automatic normalization-based dismissal.
 
 ## 3. Long-Term Fundamental Trend
 
@@ -86,128 +151,11 @@ Do not use a long list of immaterial variables. Prefer a small number of auditab
 
 ## 5. Sector-Specific Forecast Bridges
 
-### Banks
+`sector-fcf-proxies.md` is the single source for the sector bridge, required disclosures, capital constraints, prohibited shortcuts, and missing-data treatment. Identify one primary model and any holding-company overlay before calculating coverage. Never turn OPAT, embedded value, NAV, EBITDA, or AFFO into distributable cash by renaming it.
 
-```text
-Loan / asset growth
-+ net interest margin
-+ fee and trading income
-- operating cost
-- credit cost
--> net profit
--> CET1 and regulatory capital generation
-- required RWA growth and buffers
--> distributable capital
--> dividends and buybacks
-```
+## 6. Three-to-Five-Year Fundamental and FCF Forecast
 
-Check CET1, RWA growth, asset quality, credit cost, NPLs, provision coverage, regulatory payout constraints, and stress-test sensitivity.
-
-### Insurers
-
-```text
-Premium / new business growth
-+ underwriting or insurance margin
-+ investment income
-- claims and catastrophe losses
--> earnings and capital generation
-- solvency and regulatory capital needs
--> distributable capital
--> dividends and buybacks
-```
-
-### Telecoms
-
-```text
-Subscribers / connections
-x ARPU and service mix
-+ cloud / enterprise / digital growth
-- network operating cost
--> operating cash flow
-- spectrum and network capex
--> free cash flow
--> payout policy
--> DPS
-```
-
-### Utilities and Infrastructure
-
-```text
-Regulated asset base / contracted volume
-x allowed return / tariff
-+ inflation linkage
-- operating cost
-- maintenance and growth capex
-- financing cost
--> distributable cash
--> dividend capacity
-```
-
-### Energy and Mining
-
-```text
-Commodity price
-x production volume
-- unit operating cost
-- sustaining capex
-- taxes / royalties / windfall levies
--> free cash flow
-- debt and project commitments
--> base plus variable dividend capacity
-```
-
-Use normalized commodity prices rather than spot peak prices for normalized dividends.
-
-### Shipping
-
-```text
-Available vessel days
-x spot / charter day rate
-- vessel operating cost
-- drydock and maintenance capex
-- interest and debt repayment
-- fleet renewal commitments
--> distributable cash
--> base plus variable dividend capacity
-```
-
-Check spot versus charter exposure, fleet age, orderbook, utilization, drydock schedule, asset sales, and vessel acquisitions.
-
-### REITs and Property Trusts
-
-```text
-Occupancy and rent growth
-+ rent reversion and acquisitions
-- property operating cost
-- cash interest
-- maintenance capex
--> AFFO / distributable income
--> payout ratio
--> DPU
-```
-
-Check LTV, refinancing cost, WALE, tenant concentration, valuation losses, equity issuance, and DRIP dilution.
-
-### Consumer, Industrial, Technology, and Other Operating Companies
-
-```text
-Volume / users / units
-x price and mix
--> revenue
-x operating margin
--> operating profit
-- tax and interest
--> net income
-+ non-cash charges
-- working capital
-- maintenance and growth capex
--> free cash flow
--> dividend capacity
-```
-
-## 6. Three-Year Fundamental Forecast
-
-Build Bear, Base, and Bull cases for each of the next three fiscal years.
+Build a five-year development outlook using `business-outlook.md`. Provide detailed annual Bear, Base, and Bull forecasts for FY+1 through FY+3, then FY+4 and FY+5 extension scenarios when supported. If later years cannot be estimated, retain the year/scenario rows with unavailable values, lower confidence and specific missing inputs; do not extrapolate a convenient CAGR. If even the first three years are unsupported, mark them similarly and use Not Forecastable.
 
 ### Operating Driver Forecast
 
@@ -216,8 +164,15 @@ Build Bear, Base, and Bull cases for each of the next three fiscal years.
 
 ### Financial Forecast
 
-| Fiscal Year | Scenario | Revenue / Sector Income | Net Income / AFFO | Operating Cash Flow | Capex / Capital Need | FCF / Distributable Cash |
+| Fiscal Year | Scenario | Revenue / Sector Income | Net Income / AFFO | Operating Cash Flow | Total Capex / Capital Need | Recurring Owner FCF / Proxy |
 |---|---|---:|---:|---:|---:|---:|
+
+Show a separate FCF build so the terminal number is reproducible:
+
+| Year / Scenario | Normalized OCF | Maintenance Capex | Other Owner Cash Claims | Recurring Owner FCF / Proxy | Remaining Growth Investment | Recurring FAD |
+|---|---:|---:|---:|---:|---:|---:|
+
+Regulatory/debt deductions and exceptional cash obligations belong in the distribution bridge below; identify them explicitly rather than hiding the difference between columns. The sector proxy replaces industrial OCF arithmetic for financial firms.
 
 Rules:
 
@@ -225,6 +180,13 @@ Rules:
 - Use company guidance, historical sensitivity, sector data, capacity, contracts, and policy where available.
 - Do not use false precision. Use ranges when the driver is inherently uncertain.
 - Label whether each value is reported, consensus cross-check, company guidance, historically observed, or analyst estimate.
+- State fiscal period, currency, cash units, share units and forecast data cutoff. Distinguish a full fiscal-year forecast from the remaining-year cash flows used in valuation.
+- Forecast working capital from receivable/inventory/payable days or a justified sector driver, not permanently favorable cash conversion. Separate normal working-capital needs from a temporary release.
+- Tie growth investment to project capacity, commissioning dates, returns and funding. Revenue cannot arrive before the assets or approvals needed to produce it; include startup losses and investment-to-cash lags.
+- Model debt maturities, interest/refinancing costs, minimum liquidity and regulatory capital under each scenario. Do not assume unlimited refinancing to preserve DPS.
+- Split FCF change into operating growth/mix, margin, working capital, maintenance, growth investment, financing/tax and owner-claim effects. Distinguish temporary cash release from a durable run-rate improvement.
+- Report FCF/FAD per diluted share as well as totals, a range of cumulative five-year FAD when estimable, and the estimated year any investment-led cash deficit becomes self-funding. Use `Not estimable` rather than invented break-even dates.
+- No arbitrary probabilities: scenarios are not a probability-weighted expected value unless probabilities and evidence are explicitly supplied.
 
 ## 7. Dividend Forecast Bridge
 
@@ -232,19 +194,39 @@ Future DPS must be derived from forecast distributable capacity.
 
 ### Distributable-Cash Bridge
 
-| Fiscal Year | Scenario | FCF / Capital Generation | Mandatory Debt / Regulatory Uses | Required Reinvestment | Excess Cash Used | Cash Available for Distribution |
-|---|---|---:|---:|---:|---:|---:|
+| Year / Scenario | Owner FCF / Sector Proxy | Remaining Growth Uses | Remaining Mandatory Uses | Recurring FAD | Exceptional Uses / Excess Cash | Total Distribution Capacity |
+|---|---:|---:|---:|---:|---|---:|
 
 Use this relationship:
 
 ```text
-Cash Available for Distribution
-= FCF or sector-equivalent capital generation
-- mandatory debt repayment
-- regulatory capital requirements
-- required maintenance and committed reinvestment
-+ explicitly available excess cash, if justified
+Cash Available for Distribution = Total Distribution Capacity
 ```
+
+Use the definition and deduction ledger in Section 2. Exceptional uses and excess cash must be shown separately in the underlying records even when combined in a display cell. Recurring FAD, not a temporary cash-balance release, supports N and terminal dividends.
+
+### Payout-Policy Classification and Calculation Base
+
+| Policy type | Policy-implied dividend cash cost | Required constraint |
+|---|---|---|
+| `fixed_progressive` | Stated/derived DPS x dividend-entitled shares | Compare the commitment with recurring FAD and actual capacity; model a justified freeze/cut when needed |
+| `earnings_linked` | Stated attributable earnings base x policy payout ratio | Earnings are not cash; independently test FAD, capital and remittances |
+| `cash_flow_linked` | Issuer-specified FCF/FAD base x policy payout ratio | Reconcile the issuer definition; do not apply its ratio to a different base |
+| `base_variable` | Supported base dividend plus policy-linked variable component | Keep base, variable and one-off sources separate; normalize through a cycle |
+| `discretionary` | Evidence-backed board policy/scenario | Lower confidence if no repeatable allocation rule exists |
+
+Always state `payout_calculation_basis`, `policy_implied_dividend`, the **forecast** dividend cash cost, any policy adjustment, and its funding rationale. A 40% earnings payout is not 40% of FAD. Do not silently cap the policy-implied amount to make coverage look safe, or assume a payout target overrides capital constraints.
+
+For JSON, `payout_base_reference` identifies the corresponding forecast earnings/cash metric and signed `payout_base_adjustments` reconcile it to the issuer's exact definition. The runway's basis must match the documented policy. Base/variable policies include two separately calculated `policy_components`. For a ratio policy, negative eligible earnings imply zero policy dividends rather than negative payments; this does not floor negative FAD or erase a funding deficit. Fixed DPS uses the entitled share count; discretionary plans state the evidenced cash amount.
+
+```text
+Funding Gap = max(0, Forecast Dividend Cash Cost - Total Distribution Capacity)
+Derived DPS = Forecast Dividend Cash Cost / Dividend-Entitled Share Count
+```
+
+Use consistent units. Reconcile dividend-entitled shares to forecast diluted shares and timing of issuance, buybacks and cash/scrip elections. If diluted shares are the proxy, disclose that assumption and apply it consistently; EPS weighted-average shares are not automatically the dividend payment count.
+
+Machine-readable Derived DPS uses the financial currency's whole currency unit, with `cash_unit_scale / share_unit_scale` applied. Valuation cash and prices use the return record's `valuation_unit_scale` (for example 0.01 GBP per quoted penny); disclose FX separately from unit conversion.
 
 The final dividend, DPS, and yield output belongs in the Dividend and Yield Runway table defined in `visual-output-rules.md`. Do not repeat Dividend Cash Cost and Derived DPS in a second table here.
 
@@ -261,7 +243,8 @@ Rules:
 - Include expected scrip / DRIP shares in diluted share count unless the company credibly offsets them through buybacks.
 - Default investor cash-yield calculations to an all-cash election when that election is available, but disclose company-level dilution created by shareholders who elect shares.
 - For fixed or progressive policies, compare derived capacity with the promised or expected DPS.
-- For variable or formula-based policies, apply the stated policy to normalized distributable cash.
+- For variable or formula-based policies, apply the stated policy to its documented normalized calculation base, then test recurring FAD and actual capacity separately.
+- DRIP purchased in the secondary market creates no issuer shares; only issuer-sponsored new shares create dilution. Do not assume every reinvestment plan is scrip.
 
 ## 8. Single-Driver Sensitivity
 
@@ -286,7 +269,8 @@ Rules:
 - If the driver affects multiple variables simultaneously, explain the interaction rather than claiming false one-variable precision.
 - For `transient` changes, set Accumulation Upper-Bound Change to `N/A`. The effect belongs only in the affected forecast-year cash flow, DPS, and net yield.
 - For `persistent` changes, recalculate normalized distributable cash and N before updating the accumulation boundary.
-- For `structural` changes, set Accumulation Upper-Bound Change to `Rebuild required`; rerun Fundamental Trend, the three-year forecast, scoring, value-trap checks, and valuation framework.
+- For `structural` changes, set Accumulation Upper-Bound Change to `Rebuild required`; rerun Fundamental Trend, the five-year outlook/forecast, scoring, value-trap checks, and valuation framework.
+- When a growth DDM is used, a transient **cash** change affects only its dated cash-flow present value, not terminal growth or normalized N. Report `growth_value_change` separately; the ordinary accumulation-boundary change remains `N/A`. See `buy-zone.md`.
 
 Examples:
 
@@ -362,10 +346,11 @@ Required wording when a responsible forecast cannot be built:
 Future dividend cannot be forecast responsibly from operating fundamentals. The DPS scenarios below are illustrative rather than evidence-backed because the following inputs are missing or unreliable: ...
 ```
 
-## 11. Relationship to Other Valuation Skills
+## 11. Relationship to Valuation and Holding Review
 
-This module forecasts dividend capacity. It is not a full intrinsic-value model.
+This module forecasts operating cash and dividend capacity, not an unconstrained corporate DCF.
 
-- Use the dividend forecast to support normalized yield, dividend runway, sensitivity, and expected buy zone.
-- Use a dedicated DDM, DCF, moat, or reinvestment skill when the user asks for full intrinsic value or competitive-advantage analysis.
+- Reuse the same operating assumptions and funded dividend path in `buy-zone.md`; conditional growth valuation does not create distributable cash.
+- Link the five-year outlook's milestone and invalidation signals to `holding-review.md`.
+- Use a dedicated enterprise DCF or detailed project valuation when the question extends beyond the supported dividend model.
 - If the fundamental forecast conflicts with historical dividend patterns or management targets, explain the conflict explicitly.

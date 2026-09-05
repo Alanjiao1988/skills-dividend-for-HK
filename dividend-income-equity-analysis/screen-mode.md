@@ -10,7 +10,7 @@ Use Screen Mode when the user asks for:
 - Chinese equivalents such as 筛选、快速评估、初步分析、批量比较、候选池、是否值得深入研究;
 - analysis of multiple tickers where completing Full Analysis for every name would be impractical.
 
-Use Full Analysis when the user asks for a complete analysis, future dividend forecast, expected buy zone, detailed fundamentals, or an investment decision on a specific stock.
+Use Full Analysis when the user asks for a complete analysis, a three-to-five-year business or FCF forecast, future dividend forecast, expected buy zone, holding review, detailed fundamentals, or an investment decision on a specific stock.
 
 If the requested mode is ambiguous and there are multiple tickers, default to Screen Mode. If there is one ticker and the user asks for a detailed investment view, default to Full Analysis.
 
@@ -78,10 +78,11 @@ For batch screening, use one row per company and keep comments concise. State th
 
 Screen Mode must not output:
 
-- a three-year fundamental forecast;
+- a three-to-five-year fundamental or FCF forecast;
 - Bear / Base / Bull DPS;
 - normalized N or bear B;
 - expected buy zone, target price, fair value, accumulation zone, or Strong Buy label;
+- growth-based valuation, terminal growth, or trim/exit price thresholds;
 - a full 100-point score or final Grade;
 - High / Medium / Low Forecast Confidence.
 
@@ -108,6 +109,8 @@ Use current official sources when available. At minimum verify:
 - whether a claimed dividend-growth path is supported by policy, earnings, cash flow, or an established historical record.
 
 If these inputs cannot be verified, mark the affected fields `Insufficient data` or `Unclear` rather than inferring a positive screen.
+
+Use the appropriate metric and limitations in `sector-fcf-proxies.md` for the latest-coverage check; do not run its full forecast or force industrial FCF onto financial firms. OPAT, a solvency ratio or a low earnings payout alone is not verified cash coverage. Do not add historical CAGR to current yield and label the sum expected total return.
 
 ## 6. Triage Rules
 

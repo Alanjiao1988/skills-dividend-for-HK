@@ -12,7 +12,7 @@ Use a 100-point framework for Full Analysis. Do not invent new weights during ex
 | Balance-sheet safety | 15 |
 | Management capital-allocation attitude | 15 |
 | Buyback quality | 10 |
-| Three-year fundamental and dividend visibility | 10 |
+| Three-to-five-year fundamental and dividend visibility | 10 |
 
 ## Anchor Rules
 
@@ -39,14 +39,18 @@ Use recurring or normalized net yield. Exclude one-off special dividends unless 
 
 ### 3. Free Cash-Flow Coverage, 20 points
 
-For fixed or ordinary policies, use recurring FCF divided by ordinary cash dividends. For variable or cycle-linked policies, use normalized FCF divided by total cash dividends. Do not score peak-cycle FCF as normalized coverage.
+Use the recurring FAD coverage contract in `business-fundamentals.md`: three-year cumulative recurring FAD divided by matching cash dividends paid, accompanied by the five-year worst recurring and actual cash-coverage years. This is not an arithmetic mean of annual ratios. Apply the same owner perimeter and the sector proxy in `sector-fcf-proxies.md`.
 
-| FCF / relevant cash dividend | Points |
+For fixed/progressive policies use ordinary cash dividends; for variable/cycle-linked policies use total recurring/variable cash dividends. Keep exceptional capital returns separate. Do not score peak-cycle cash, asset sales, excess capital releases or unsupported OPAT proxies as recurring coverage.
+
+| Recurring FAD / relevant cash dividend | Points |
 |---|---:|
 | >= 1.5x on normalized basis | 17-20 |
 | 1.0x to 1.5x on normalized basis | 12-16 |
 | 0.7x to 1.0x or peak-cycle-only coverage | 6-11 |
 | < 0.7x, debt-funded, equity-funded, or asset-sale-funded payout | 0-5 |
+
+Anchor points to the aggregate, then explain the worst-year and funding stress. Do not grant the top band when recurring shortfalls are unresolved, capital/remittance restrictions are unknown, or a material cash bridge is estimated without reconciliation. Missing coverage earns no unsupported safety points: report `score_100 = null`, `grade = null`, and an incomplete-score reason if this prevents a responsible module score; do not silently treat missing data as either zero risk or proven distress.
 
 ### 4. Balance-Sheet Safety, 15 points
 
@@ -78,16 +82,22 @@ Persistent unoffset scrip / DRIP dilution prevents the highest capital-allocatio
 | Debt-funded, equity-offset, or value-destructive buyback | 0-1 |
 | Not applicable | Neutral 5 unless buybacks are central to the thesis |
 
-### 7. Three-Year Fundamental and Dividend Visibility, 10 points
+### 7. Three-to-Five-Year Fundamental and Dividend Visibility, 10 points
 
 | Condition | Points |
 |---|---:|
-| High visibility: drivers are contracted, regulated, recurring, or otherwise forecastable; FCF and DPS reconcile | 8-10 |
+| High visibility: operating drivers, three-year FCF/DPS and the year-four/five development path are evidenced, funded and reconcilable | 8-10 |
 | Moderate visibility: capacity is estimable but macro, pricing, credit, execution, capex, or dilution risk remains | 5-7 |
 | Low visibility: wide scenarios, high cyclicality, uncertain policy, or weak reconciliation | 2-4 |
 | Not forecastable, unsupported DPS assumptions, or likely dividend cut | 0-1 |
 
 Do not award more than 4 points when future DPS is illustrative rather than evidence-backed.
+
+Do not upgrade visibility merely because the model contains five numerical years. Uncertain later years must carry explicit limitations and monitoring milestones. Retain the separate Three-Year Dividend Outlook rating; the five-year view is in `business_outlook`.
+
+## Score and Valuation Separation
+
+Weights remain 100 points. Do not map the overall score or Grade to risk-premium or discount-rate bands: net yield contains current price, which would make valuation circular. The price-independent risk assessment in `buy-zone.md` uses business, capital, policy and evidence quality directly. A lower income score can coexist with a credible growth value; it does not waive an explicit investor cash-income minimum.
 
 ## Structural Decline Overlay
 
@@ -95,9 +105,9 @@ If Fundamental Trend is `Structural Decline`, apply these limits after calculati
 
 - Final Grade cannot exceed C.
 - Portfolio Role cannot be more favorable than Opportunistic.
-- Three-Year Fundamental and Dividend Visibility cannot exceed 4 / 10.
+- Three-to-Five-Year Fundamental and Dividend Visibility cannot exceed 4 / 10.
 - The security cannot be classified as Core income.
-- Ordinary yield-based buy zones are suspended unless the Harvest / Managed Runoff Exception is satisfied.
+- Ordinary and growth valuation are suspended; a satisfied Harvest / Managed Runoff Exception permits only the finite-life primary mode and its explicitly labelled ordinary cross-check.
 
 ### Harvest / Managed Runoff Exception
 
@@ -147,4 +157,5 @@ Always output:
 - Forecast Confidence: High / Medium / Low / Not Forecastable
 - Structural Decline cap applied: Yes / No
 - Harvest / Managed Runoff Exception applied: Yes / No
-- Valuation mode: ordinary_yield_based / finite_life_harvest / suspended
+- Valuation mode: ordinary_yield_based / total_return_based / finite_life_harvest / suspended
+- Holding review action and missing portfolio inputs, following `holding-review.md`

@@ -20,11 +20,14 @@ Recommended knowledge files:
 dividend-income-equity-analysis/SKILL.md
 dividend-income-equity-analysis/screen-mode.md
 dividend-income-equity-analysis/workflow.md
+dividend-income-equity-analysis/business-outlook.md
 dividend-income-equity-analysis/business-fundamentals.md
+dividend-income-equity-analysis/sector-fcf-proxies.md
 dividend-income-equity-analysis/withholding-notes.md
 dividend-income-equity-analysis/scoring.md
 dividend-income-equity-analysis/visual-output-rules.md
 dividend-income-equity-analysis/buy-zone.md
+dividend-income-equity-analysis/holding-review.md
 dividend-income-equity-analysis/output-template.md
 dividend-income-equity-analysis/schema.json
 dividend-income-equity-analysis/examples/example-output-skeleton.md
@@ -36,6 +39,8 @@ Recommended conversation starters:
 Screen these 15 dividend stocks using a 5% after-tax yield preference.
 Screen this candidate pool without assuming a minimum yield and tell me which deserve full analysis.
 Analyze 0941.HK and derive its future dividend and buy zone from fundamentals.
+Assess a company's five-year development, reinvestment, owner FCF and dividend funding under Bear/Base/Bull scenarios.
+Compare income entry and evidence-backed growth value without waiving my cash-income requirement.
 Analyze INSW and separate transient freight-rate sensitivity from normalized value.
 Assess a declining cash-cow using a finite-life harvest framework.
 Review this IBKR statement and distinguish dividends, PIL, and scrip handling.
@@ -59,8 +64,8 @@ Default assumptions:
 Mode routing:
 
 - Use Screen Mode for screening, quick reviews, candidate pools, batch comparisons, or multiple tickers.
-- Use Full Analysis for detailed single-stock analysis, forecasts, buy zones, or investment decisions.
-- Screen Mode must not output three-year forecasts, N/B, buy zones, Strong Buy, or final scores.
+- Use Full Analysis for detailed company development/FCF forecasts, buy zones, holding reviews or investment decisions.
+- Screen Mode must not output three-to-five-year forecasts, N/B, growth valuation, buy/trim prices, Strong Buy, or final scores.
 
 Screen Mode target rules:
 
@@ -76,24 +81,33 @@ Canonical priority:
 
 1. `screen-mode.md` for lightweight screening and screening-yield rules.
 2. `withholding-notes.md` for withholding, PIL, scrip / DRIP, and broker treatment.
-3. `business-fundamentals.md` for forecasts and sensitivity classification.
+3. `business-outlook.md`, `business-fundamentals.md` and `sector-fcf-proxies.md` for development assumptions, owner FCF/FAD, sector capital constraints, payout bases and forecast sensitivity.
 4. `visual-output-rules.md` for Full Analysis presentation.
 5. `buy-zone.md` for valuation modes and entry rules.
 6. `output-template.md` for mode output and section order.
 7. `scoring.md` for scoring and Structural Decline overlay.
 8. `workflow.md` for research process.
 9. `schema.json` for machine-readable output.
+10. `holding-review.md` for research actions, review triggers and switching constraints.
 
 Guardrails:
 
 - PIL is not withholding-rate evidence.
 - TTM yield must be separated from normalized yield.
 - Future DPS must be derived from operating and cash-flow drivers.
+- Require a five-year business outlook, detailed first-three-year cash forecasts and evidenced year-four/five extensions; unsupported years are unavailable, not automatic CAGR extrapolations.
+- Reconcile reported cash to Recurring Owner FCF and Recurring FAD; deduct capex/capital uses once and preserve real exceptional cash obligations.
+- Financial earnings proxies require capital/remittance evidence; OPAT is not insurer cash.
+- Use three-year aggregate coverage and five-year worst-year stress with consistent cash-paid denominators.
+- Apply the payout ratio to its stated earnings/cash/DPS base, not automatically to FAD.
 - Sensitivity rows must be transient, persistent, or structural.
-- Transient changes must not alter N or long-term buy-zone boundaries.
+- Transient changes must not alter N or ordinary buy-zone boundaries; eligible growth DDM still reflects the affected-year cash PV.
 - Do not duplicate Dividend Cash Cost and Derived DPS across forecast tables.
 - Structural Decline defaults to suspended ordinary buy-zone output.
 - A credible managed-runoff case uses finite-life cash recovery with a discount-rate floor of 10%, not perpetual dividend capitalization.
 - Account for scrip / DRIP dilution in diluted share count.
+- Print sourced, currency/tax-consistent risk-free anchors, price-independent premia and return ranges; never map the yield-containing total score to discount rates.
+- Conditional total_return_based valuation requires funded dividends, growth fade and bounded terminal assumptions; it does not replace an explicit cash-income floor.
+- A valuation-review threshold is not an automatic sale. Missing holdings or alternative data must not produce invented trade sizes or switch conclusions.
 - State missing evidence rather than inventing precision.
 - Separate facts, assumptions, and judgment.

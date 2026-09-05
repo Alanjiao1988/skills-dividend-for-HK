@@ -10,13 +10,32 @@ SKELETON="dividend-income-equity-analysis/examples/example-output-skeleton.md"
 SCREEN_MODE="dividend-income-equity-analysis/screen-mode.md"
 GENERATED="dist/chatgpt-custom-gpt-instructions.md"
 
-python3 - <<'PY'
+if [[ -n "${PYTHON:-}" ]]; then
+  PYTHON_BIN="$PYTHON"
+elif command -v python >/dev/null 2>&1 && python -c 'import sys; sys.exit(sys.version_info < (3, 10))' >/dev/null 2>&1; then
+  PYTHON_BIN="python"
+else
+  PYTHON_BIN="python3"
+fi
+
+if ! "$PYTHON_BIN" -c 'import sys; sys.exit(sys.version_info < (3, 10))' >/dev/null 2>&1; then
+  echo "Python 3.10+ is required; set PYTHON to a working interpreter." >&2
+  exit 1
+fi
+if ! "$PYTHON_BIN" -c 'import jsonschema' >/dev/null 2>&1; then
+  echo "Missing validation dependency. Run: $PYTHON_BIN -m pip install -r requirements-dev.txt" >&2
+  exit 1
+fi
+
+"$PYTHON_BIN" - <<'PY'
 import json
 from pathlib import Path
+from jsonschema import Draft202012Validator
 
 path = Path("dividend-income-equity-analysis/schema.json")
 raw = path.read_text(encoding="utf-8")
 schema = json.loads(raw)
+Draft202012Validator.check_schema(schema)
 line_count = len(raw.splitlines())
 if line_count < 50:
     raise SystemExit(f"schema.json is valid but not maintainably formatted: only {line_count} lines")
@@ -77,6 +96,30 @@ require(full_required is not None, "schema missing full_analysis conditional req
 for key in restored_full_fields:
     require(key in full_required, f"full_analysis does not require {key}")
 require("sources" in full_required, "full_analysis does not require sources")
+for key in (
+    "cash_flow_model", "coverage_summary", "business_outlook", "forecast_extension",
+    "payout_policy", "return_requirements", "growth_assessment", "income_assessment",
+    "holding_review", "value_trap_veto", "score_limitations",
+):
+    require(key in props and key in full_required, f"full_analysis missing required contract: {key}")
+require("total_return_based" in defs["valuationMode"]["enum"], "growth valuation mode missing")
+
+def check_refs(node):
+    if isinstance(node, dict):
+        ref = node.get("$ref")
+        if ref:
+            require(ref.startswith("#/"), f"unexpected external schema reference: {ref}")
+            target = schema
+            for part in ref[2:].split("/"):
+                require(part in target, f"unresolved schema reference: {ref}")
+                target = target[part]
+        for value in node.values():
+            check_refs(value)
+    elif isinstance(node, list):
+        for value in node:
+            check_refs(value)
+
+check_refs(schema)
 
 print(f"schema.json: valid and readable ({line_count} lines)")
 print("screening-yield schema contract: present")
@@ -89,11 +132,14 @@ for module in \
   SKILL.md \
   screen-mode.md \
   workflow.md \
+  business-outlook.md \
   business-fundamentals.md \
+  sector-fcf-proxies.md \
   withholding-notes.md \
   scoring.md \
   visual-output-rules.md \
   buy-zone.md \
+  holding-review.md \
   output-template.md; do
   grep -Fq "# Module: $module" "$GENERATED" || {
     echo "Generated GPT instructions missing module: $module" >&2
@@ -130,5 +176,7 @@ grep -Fq 'Screening net-yield target' "$SCREEN_MODE"
 grep -Fq 'Target policy: hard_minimum / preference / not_assessed' "$SCREEN_MODE"
 grep -Fq 'do not reject or downgrade a stock solely because its yield appears low' "$SCREEN_MODE"
 grep -Fq 'screen-mode.md' build-gpt-instructions.sh
+
+"$PYTHON_BIN" -m unittest discover -s tests -p 'test_*.py'
 
 echo "Skill validation passed"
