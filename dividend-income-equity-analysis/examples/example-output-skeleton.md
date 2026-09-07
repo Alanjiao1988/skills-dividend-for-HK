@@ -11,9 +11,9 @@ This is a Full Analysis structure example only. It contains placeholders, not ma
 | Not Assessed | Not Assessed | Not Assessable | Watchlist |
 
 - Company / Ticker / Exchange: Example / 0000.HK / HKEX
-- As-of date / Price: YYYY-MM-DD / HKD 0.00
-- Fundamental Trend: Stable
-- Forecast Confidence: Medium
+- As-of date / Price: YYYY-MM-DD / Not Assessed
+- Fundamental Trend: High Uncertainty
+- Forecast Confidence: Not Forecastable
 - Valuation mode: suspended
 - Action eligibility / Strong Buy: suspended / false
 - Income fit / separate growth assessment: Not Assessed / Not Assessed
@@ -33,11 +33,11 @@ Takeaway: Separate trailing yield from sustainable normalized yield.
 
 | Metric | Value | Comment |
 |---|---:|---|
-| TTM DPS | 0.00 | Placeholder |
-| TTM net yield | 0.0% | Placeholder |
-| Normalized DPS | 0.00 | Placeholder |
-| Normalized net yield | 0.0%-0.0% | Placeholder |
-| Five-year DPS range | 0.00-0.00 | Placeholder |
+| TTM DPS | N/A | Placeholder |
+| TTM net yield | N/A | Placeholder |
+| Normalized DPS | N/A | Placeholder |
+| Normalized net yield | N/A | Placeholder |
+| Five-year DPS range | N/A | Placeholder |
 | Latest DPS YoY | N/A | Placeholder |
 | Dividend type | Unknown | Placeholder |
 | Coverage status | Not Available | Placeholder |
@@ -114,21 +114,21 @@ Takeaway: Separate trailing yield from sustainable normalized yield.
 
 | Fiscal Year | Total DPS | Base DPS | Special / Variable DPS | DPS YoY | Quality Tag | Notes |
 |---|---:|---:|---:|---:|---|---|
-| FY-4 | 0.00 | 0.00 | 0.00 | N/A | Unknown | Placeholder |
-| FY-3 | 0.00 | 0.00 | 0.00 | 0.0% | Unknown | Placeholder |
-| FY-2 | 0.00 | 0.00 | 0.00 | 0.0% | Unknown | Placeholder |
-| FY-1 | 0.00 | 0.00 | 0.00 | 0.0% | Unknown | Placeholder |
-| FY0 | 0.00 | 0.00 | 0.00 | 0.0% | Unknown | Placeholder |
+| FY-4 | N/A | N/A | N/A | N/A | Unknown | Placeholder |
+| FY-3 | N/A | N/A | N/A | N/A | Unknown | Placeholder |
+| FY-2 | N/A | N/A | N/A | N/A | Unknown | Placeholder |
+| FY-1 | N/A | N/A | N/A | N/A | Unknown | Placeholder |
+| FY0 | N/A | N/A | N/A | N/A | Unknown | Placeholder |
 
 ### Yield and Coverage
 
 | Fiscal Year | Yield at Current Price | Yield at Year Price | Payout Ratio | FCF / Dividend | Coverage Label | Comment |
 |---|---:|---:|---:|---:|---|---|
-| FY-4 | 0.0% | N/A | N/A | N/A | Not Available | Placeholder |
-| FY-3 | 0.0% | N/A | N/A | N/A | Not Available | Placeholder |
-| FY-2 | 0.0% | N/A | N/A | N/A | Not Available | Placeholder |
-| FY-1 | 0.0% | N/A | N/A | N/A | Not Available | Placeholder |
-| FY0 | 0.0% | N/A | N/A | N/A | Not Available | Placeholder |
+| FY-4 | N/A | N/A | N/A | N/A | Not Available | Placeholder |
+| FY-3 | N/A | N/A | N/A | N/A | Not Available | Placeholder |
+| FY-2 | N/A | N/A | N/A | N/A | Not Available | Placeholder |
+| FY-1 | N/A | N/A | N/A | N/A | Not Available | Placeholder |
+| FY0 | N/A | N/A | N/A | N/A | Not Available | Placeholder |
 
 Dividend Pattern: Placeholder.
 
@@ -215,7 +215,7 @@ Expand all annual scenario rows in an actual analysis. State working-capital dri
 
 ### Single-Driver Sensitivity
 
-| Driver Change | Sensitivity Type | Distributable Cash Change | Derived DPS Change | Net Yield Change | Accumulation Upper-Bound Change | Interpretation |
+| Driver Change | Sensitivity Type | Distributable Cash Change | Derived DPS Change | Net Yield Change | Normalized High-End Cash-Yield Boundary Change (N/r_high) | Interpretation |
 |---|---|---:|---:|---:|---:|---|
 | Temporary driver change | transient | N/A | N/A | N/A | N/A | Affected year only |
 | Durable driver change | persistent | N/A | N/A | N/A | N/A | Recalculate N first |
@@ -327,14 +327,16 @@ Replace each row with supplied evidence where available; do not mark known polic
 
 Alternative template only: omit all numerical entry tables while the example veto remains Unclear. Action labels require the independent action gates, not merely a placeholder price band.
 
-Alternative template only: omit all numerical entry tables while the example veto remains Unclear. Action labels require the independent action gates, not merely a placeholder price band.
+Cash-income comparison with no dividend growth credited; not a complete estimate of intrinsic value.
 
-| Zone | Price Range | Implied Net Yield | DPS Basis | Condition | Action View |
-|---|---:|---:|---|---|---|
-| Too expensive | N/A | N/A | N | Placeholder | Avoid adding |
-| Fair / hold | N/A | N/A | N | Placeholder | Hold |
-| Accumulation | N/A | N/A | N + B | Placeholder | Gradual buy |
-| Strong buy | N/A | N/A | B | Placeholder | Higher-conviction buy |
+| Cash-Income Band | Price Range | Implied Net Yield | DPS Basis | Evidence / Limitation |
+|---|---:|---:|---|---|
+| Below required cash yield | N/A | N/A | N | Not assessed |
+| Normalized income within required range | N/A | N/A | N | Not assessed |
+| Normalized income meets high-end requirement | N/A | N/A | N and B | Not assessed |
+| Bear income meets high-end requirement | N/A | N/A | B | Not assessed |
+
+- Independent action assessment: suspended; Strong Buy eligible: false; reason: missing material evidence.
 
 ### Conditional Growth Output
 
@@ -347,7 +349,8 @@ Show only if evidence gates pass; a low yield or desired higher valuation is not
 | Bull | N/A | N/A | N/A | N/A | N/A / N/A | Placeholder |
 
 - Funded DPS path reference / cash-flow dates / stub treatment:
-- Reinvestment and incremental return evidence / DPS transmission:
+- Reinvestment and incremental return evidence / direct operating-to-DPS bridge:
+- Public facts versus bounded analyst estimates / ranges / investment lag / invalidation evidence:
 - Growth fade / terminal cap / R-g spread:
 - R/g sensitivity / terminal-dependence warning:
 - Safety discount / entry limit / review-above level:
@@ -383,23 +386,24 @@ If Structural Decline lacks the exception, state `Ordinary buy zone: suspended` 
 
 ## 17. Score, Portfolio Role, and Holding Review
 
+### 17A. Score and Evidence Overlays
+
 | Module | Weight | Score | Comment |
 |---|---:|---:|---|
-| Net dividend yield | 15 | 0 | Placeholder |
-| Five-year dividend stability | 15 | 0 | Placeholder |
-| FCF coverage | 20 | 0 | Placeholder |
-| Balance-sheet safety | 15 | 0 | Placeholder |
-| Capital allocation | 15 | 0 | Placeholder |
-| Buyback quality | 10 | 0 | Placeholder |
-| Fundamental and dividend visibility | 10 | 0 | Placeholder |
-| Total | 100 | 0 | Placeholder |
+| Net dividend yield | 15 | N/A | Missing evidence |
+| Five-year dividend stability | 15 | N/A | Missing evidence |
+| FCF coverage | 20 | N/A | Missing evidence |
+| Balance-sheet safety | 15 | N/A | Missing evidence |
+| Capital allocation | 15 | N/A | Missing evidence |
+| Buyback quality | 10 | N/A | Missing evidence |
+| Fundamental and dividend visibility | 10 | N/A | Missing evidence |
+| Total | 100 | N/A | Not Assessable; incomplete modules |
 
 - Dividend Quality:
 - Dividend Safety:
 - Withholding Efficiency:
 - Buyback Quality:
 - Three-Year Dividend Outlook:
-- Portfolio Role:
 - Fundamental Trend:
 - Forecast Confidence:
 - Structural Decline cap applied:
@@ -407,7 +411,14 @@ If Structural Decline lacks the exception, state `Ordinary buy zone: suspended` 
 - Valuation mode:
 - Unadjusted score / Adjusted Grade:
 
-### Holding Review
+### 17B. Portfolio Role
+
+- Final Portfolio Role: Watchlist
+- Role rationale / evidence overlays: Material inputs unavailable
+- Applicable income objective / portfolio concentration constraints: Not Assessed
+- Supplied holdings / missing portfolio inputs: Not supplied; do not infer portfolio fit
+
+### 17C. Holding Review
 
 | Trigger | Evidence | Review Level | Research Action | Missing Inputs | Next Check |
 |---|---|---|---|---|---|

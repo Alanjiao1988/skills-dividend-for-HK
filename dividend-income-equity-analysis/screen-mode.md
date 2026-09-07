@@ -24,6 +24,8 @@ Resolve the screening net-yield target in this order:
 2. A previously established portfolio-level after-tax income target that is clearly applicable to the current screen.
 3. `Not Assessed` when neither is available.
 
+For the second route, read `portfolio-context.md` and carry `portfolio_context` inside `screening_parameters`. Establish the source, applicable account/tax/currency/income period and valid dates. An expired or inapplicable objective is not an available target. A percentage-yield screen does not require a holdings export.
+
 Always disclose:
 
 ```text

@@ -44,3 +44,11 @@ For an entry decision, check the actual ex-date, approval status and election de
 For buyback and dilution work, distinguish issued, outstanding, treasury, dividend-entitled, and EPS weighted-average diluted shares. Check cancellation, treasury retention and subsequent resale. HKEX introduced a treasury-share regime in June 2024; rights depend on domicile and the applicable arrangements, so a buyback is not automatically permanent cancellation. See [HKEX treasury-share guidance](https://www.hkex.com.hk/-/media/HKEX-Market/Listing/Rules-and-Guidance/Other-Resources/Listed-Issuers/LIR-Newsletter/newsletter_202405.pdf) (checked 2026-09-05).
 
 Where a concrete purchase is discussed, disclose material bid/ask spread, turnover, lot size and entry/exit costs using current evidence. Keep commission, depositary fees, FX spread and withholding distinct. Screen Mode can flag these issues without inventing a trade size or portfolio allocation.
+
+## Evaluating the Framework
+
+Distinguish contract/arithmetic tests, evidence-routing case reviews and historical investment outcomes. A valid JSON report does not prove its sources or forecasts. An absence of actionable buys is a diagnostic question, not a target to repair by lowering rates or evidence standards.
+
+First classify why each distinct security/date cannot support an entry: cash-income constraint, price, forecast confidence, funding/capital risk, veto, or missing information. Deduplicate report versions when reporting sample counts. Do not count an old report's recommendation as a result produced by the current skill.
+
+Historical decision replay must freeze information by publication time, including financials, rates, tax/channel assumptions and corporate actions. Current N/B/required returns applied to old prices are a current-assumption historical-price sensitivity, not an investable historical backtest. Include failed/delisted cases where relevant, account for distributions and costs consistently, and keep parameter development separate from evaluation. Measure cash-income realization, dividend cuts, principal loss and total return alongside trigger rates; neither zero nor many buy signals establishes calibration. See [CFA Institute: Backtesting and Simulation](https://www.cfainstitute.org/insights/professional-learning/refresher-readings/2026/backtesting-and-simulation).

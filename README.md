@@ -134,7 +134,7 @@ The generated output is:
 dist/chatgpt-custom-gpt-instructions.md
 ```
 
-For lightweight screening, use `bash build-gpt-instructions.sh --mode screen` to generate `dist/chatgpt-screen-instructions.md`. It includes only data conventions, screening and withholding rules. Switch to the full canonical modules before Full Analysis; the Screen bundle cannot produce forecasts or valuations.
+For lightweight screening, use `bash build-gpt-instructions.sh --mode screen` to generate `dist/chatgpt-screen-instructions.md`. It includes only data conventions, portfolio-target context, screening and withholding rules. Switch to the full canonical modules before Full Analysis; the Screen bundle cannot produce forecasts or valuations.
 
 The root-level `chatgpt-custom-gpt-instructions.md` remains a setup guide. Prefer its header-plus-Knowledge setup and load modules by mode. The full export is not guaranteed to fit a host's Instructions field; do not truncate required rules to make it fit.
 
@@ -174,9 +174,9 @@ python scripts\validate_analysis.py C:\path\outside-this-repo\analysis.json
 
 The validator checks schema, year/scenario completeness and cross-field arithmetic, not source accuracy or investment merit. Keep numerical JSON values unrounded; presentation tables may round them.
 
-Full Analysis uses `schema_version: "2.2"`. Historical presentation fields and `three_year_fundamental_forecast` are retained; `forecast_extension` contains years four and five. Version 2.1 introduced dividend-entitlement/settlement reconciliation and action gates; 2.2 makes the four-link normalization evidence checklist explicit. Synthetic cases are not BTI/GSK/Ping An backtests and do not prescribe their valuations.
+Full Analysis uses `schema_version: "2.3"`. Historical presentation fields and `three_year_fundamental_forecast` are retained; `forecast_extension` contains years four and five. Version 2.1 introduced dividend-entitlement/settlement reconciliation and action gates; main's 2.2 added dated portfolio-target provenance. Version 2.3 combines that contract with the four-link normalization evidence checklist and strengthened cash/action gates developed on a parallel branch. Synthetic cases are not BTI/GSK/Ping An backtests and do not prescribe their valuations.
 
-To migrate a 2.1 Full Analysis report, supply `withholding_basis` and, whenever `buy_zone` is present, `buy_zone.normalization_evidence` with `operating_cash`, `funding_capacity`, `payout_policy` and `entitled_shares`. Each record states `status`, `input_detail`, `source_refs`, `resolution_source` and `consequence`; do not fill missing evidence with supported defaults. Set `schema_version` to `"2.2"` only after adding these records. Suspended reports still omit `buy_zone`, and Screen output does not acquire a normalization audit (its optional version label, if supplied, uses 2.2).
+To migrate a 2.1 or 2.2 Full Analysis report, supply `withholding_basis` and, whenever `buy_zone` is present, `buy_zone.normalization_evidence` with `operating_cash`, `funding_capacity`, `payout_policy` and `entitled_shares`. Each record states `status`, `input_detail`, `source_refs`, `resolution_source` and `consequence`; do not fill missing evidence with supported defaults. Reused `portfolio_target` values also need genuine dated source/applicability metadata from `portfolio-context.md`; explicit and unassessed targets retain their shapes. Set `schema_version` to `"2.3"` only after reconciling both contracts. Suspended reports still omit `buy_zone`, and Screen output does not acquire a normalization audit (its optional version label, if supplied, uses 2.3). Legacy buy-zone keys retain cash-income labels, not intrinsic-value or action judgments.
 
 Eligible entry needs a stated numeric tax rate and a sourced basis, not `unknown` or `market_default`; unsupported inputs remain diagnostic. Illustrative ordinary DPS cannot become actionable through averaging or an all-supported evidence checklist. Stock-only distributions suspend cash-dividend valuation. Early terminal assumptions must reconcile with every remaining year through FY+5, including per-share dilution, using the disclosed terminal conversion assumptions. If future FX/fees or payouts require a different path, extend the explicit/transition horizon.
 
@@ -191,3 +191,10 @@ Focused normalization audits now use an explicit four-row evidence checklist ins
 For actual model runs, follow the file's `run_protocol`: start fresh conversations, provide only the prompt and evidence packet with the relevant canonical modules, retain unedited responses outside this repo, and score each criterion using response excerpts. Never reveal the answer rubric to the model under evaluation. Record the model/version, skill commit and latency; a false cash-income Pass or unsupported Strong Buy is a case failure, not something to average away.
 
 These focused rule-assessment packets are a first stage, not full issuer-report backtests. Packet-format checks and synthetic contract regressions do **not** run an LLM or measure its output accuracy. Live end-to-end report evaluation still needs dated, licensed/public disclosure snapshots, complete report generation and separate human review of source use and reasoning; no such run is claimed by this suite.
+## Complete Examples and Publication
+
+- [Worked assumptions and independent answers](dividend-income-equity-analysis/examples/worked-examples.md).
+- [Ordinary analysis JSON](dividend-income-equity-analysis/examples/ordinary.analysis.json) and [growth analysis JSON](dividend-income-equity-analysis/examples/growth.analysis.json), both validated by the local entry point.
+- [Portfolio target context](dividend-income-equity-analysis/portfolio-context.md) and [report publishing contract](dividend-income-equity-analysis/publishing.md).
+
+Both generated bundle profiles identify their source commit, schema version, source dirty/clean status and deterministic build-input hash. Archives without a matching Git checkout report the commit as unknown. Local validation does not require a hosted CI service. Arithmetic checks and evidence-routing reviews do not establish investment performance; see `data-conventions.md` for point-in-time evaluation requirements.

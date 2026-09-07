@@ -33,7 +33,10 @@ Screen Mode 不得把 `buy-zone.md` 的标的必要收益率当作用户的筛�
 ## 支撑文件读取规则
 
 - `data-conventions.md`：两种模式均需的期间、币种、每股单位、公司行动和证据核验口径。
+- `portfolio-context.md`：沿用此前组合目标时读取，核实来源、账户／税务／收入期间及有效性；百分比收益率筛选不要求完整持仓。
+- `publishing.md`：用户要求保存、修复或发布归档报告时读取，定义报告索引、摘要、版本链和本地验证流程。
 - `examples/calculation-checks.md`：维护计算及决策规则时使用的虚构验收案例。
+- `examples/worked-examples.md` 及 `examples/ordinary.analysis.json`、`examples/growth.analysis.json`：需要完整结构化示例时读取，均为虚构公司，不提供真实市场建议。
 
 - `screen-mode.md`：轻量筛选、筛选收益率目标、Yield Fit 和 Yes / Watch / No 的唯一规则源。
 - `workflow.md`：模式路由、完整研究流程和数据源优先级。
@@ -79,6 +82,7 @@ Screen Mode 不得把 `buy-zone.md` 的标的必要收益率当作用户的筛�
 - Fundamental Trend 为 Structural Decline 时，普通买入区间默认暂停。
 - 只有满足 Harvest / Managed Runoff Exception 时，才使用有限期现金回收估值；折现率下限为 10%，不得假设永续分红。
 - 必要回报必须打印币种／期限／税务一致的无风险锚、与价格独立的风险溢价和最终回报区间；不得用含股息率的总评分反推溢价。
+- 普通收息价格带不计股息增长，只说明现金收益率要求的满足程度，不等于公司完整内在价值或买入动作；旧 JSON 字段名仅为兼容，展示名称遵循 `buy-zone.md`。
 - `total_return_based`仅在增长、再投资、资本、派息及终值均有依据时启用；先预测现金再折现，不把近端高增长永续化，也不预设某只股票必须变得便宜。
 - 持仓复评使用前瞻收益和现金收入，不用成本收益率；估值偏贵触发复评而非机械卖出，缺少组合或替代品资料时不编造仓位与换仓结论。
 - 无法负责任预测时，将 DPS 标注为 illustrative rather than evidence-backed，并降低 Forecast Confidence。
@@ -95,5 +99,5 @@ Screen Mode 不得把 `buy-zone.md` 的标的必要收益率当作用户的筛�
 - 本仓库只维护可复用的分析规则、模板、schema 和工具，不用于归档具体公司的研究报告。
 - 默认在对话中输出分析；只有用户明确要求保存或发布时，才生成报告文件。
 - 临时报告、下载的披露资料、券商流水和生成的图表应放在会话工作区或用户指定的仓库外目录，不写入技能源码目录。
-- 完整报告的独立归档仓库为 `Alanjiao1988/Dividendreport`，按 ticker 和数据基准日归档；发布前须获得用户明确授权并确认 company、ticker、exchange、as-of date。
+- 完整报告的独立归档仓库为 `Alanjiao1988/Dividendreport`，按 ticker 和数据基准日归档。遵循 `publishing.md`，核对 company、ticker、exchange、as-of date，并在用户授权的保存／修复／发布范围内执行；已明确授权的同一动作无需重复确认。
 - `output-template.md` 和 `examples/example-output-skeleton.md` 必须保持为可复用模板或占位示例，不得用真实公司报告覆盖。

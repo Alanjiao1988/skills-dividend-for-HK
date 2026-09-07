@@ -164,23 +164,15 @@ Investor income requirements are separate from these asset-specific return requi
 - Record `forward_net_dps` and `income_period` alongside the yield. For a positive hard yield floor on an evidenced full-year forward dividend, separately show `income_price_ceiling = forward_net_dps / target_net_yield`. A growth candidate must satisfy both this ceiling and `entry_upper`; do not change the underlying valuation formulas. The ceiling is null for a preference, no target, a zero target, or unavailable forward cash.
 - A hard absolute-cash requirement needs holdings/capital and timing inputs. If these or forward cash are unknown, investor eligibility is unassessed, not assumed satisfied. A stub or normalized N must not silently replace the income period the user specified.
 
-### 4.3 Legacy Income Cross-Checks
+### 4.3 Retired Sector Yield Presets
 
-Retain these as **income-specific reasonableness checks**, not automatic rate selection, growth discount rates, current market facts or investor screening targets:
-
-| Dividend Profile | Legacy Required Net Yield Cross-Check |
-|---|---:|
-| Stable, regulated, low-volatility income | 4%-6% |
-| Strong bank / telecom / utility with moderate growth | 5%-7% |
-| Cyclical but financially strong dividend payer | 7%-10% |
-| Formula-based variable dividend or commodity / shipping exposure | 8%-12% |
-| Weak visibility, likely cut, or high leverage | Reassess evidence and veto; suspend when the preconditions fail |
-
-Explain differences between the independently derived range and historical/sector yields. Cycle, capital, policy and dilution risk belong in the documented risk assessment or cash scenarios, not price-fitting adjustments. Stable coverage and conservative capital can justify lower independent risk, but growth by itself is not a cash-yield discount.
+Earlier versions contained fixed sector yield ranges. They are historical provenance only and are retired from rate selection, calibration, cross-check approval and action decisions. Do not reproduce the presets as operational guidance or create a tolerance around them. Derive required returns from Sections 4.1-4.2; dated, sourced market yields may provide context in Section 10 without overriding that derivation. The explicit 10% finite-harvest floor in Section 8 remains a separate modeling constraint.
 
 ## 5. Deterministic Ordinary Income Boundaries
 
-Use as the primary ladder for `ordinary_yield_based`. In `total_return_based`, retain a separately labelled **ordinary income entry comparison** whenever its inputs are credible. A harvest case may use it only subject to Section 8. Never present a secondary income ladder as another perpetual intrinsic valuation.
+Use as the primary ladder for `ordinary_yield_based`. In `total_return_based`, retain a separately labelled **ordinary income entry comparison** whenever its inputs are credible. A harvest case may use it only subject to Section 8.
+
+Caption every ordinary ladder: **Cash-income comparison with no dividend growth credited; not a complete estimate of intrinsic value.** A constant perpetual dividend can mathematically have value D/R, but these normalized/Bear income thresholds do not establish a complete expected dividend path or realized total return. A yield shortfall therefore does not alone establish that the company is overvalued.
 
 Definitions and validity:
 
@@ -198,25 +190,22 @@ If B exceeds N, investigate period, normalization and scenario inconsistency; do
 Boundary formulas:
 
 ```text
-Too expensive boundary = N / r_low
-Fair lower boundary = N / r_high
-Fair upper boundary = N / r_low
-Accumulation lower boundary = B / r_high
-Accumulation upper boundary = N / r_high
-Strong buy boundary = B / r_high
+Normalized low-end cash-yield boundary = N / r_low
+Normalized high-end cash-yield boundary = N / r_high
+Bear high-end cash-yield boundary = B / r_high
 N / r_low >= N / r_high >= B / r_high
 ```
 
-| Zone, in the income lens | Deterministic Boundary | Meaning, not a trading instruction |
+| Cash-income band | Deterministic Boundary | Income meaning |
 |---|---|---|
-| Too expensive / avoid adding | Price > N / r_low | Normalized income yield is below the required cash-yield range |
-| Fair value / hold | N / r_high < Price <= N / r_low | Income yield is within the required range; limited income margin of safety |
-| Accumulation zone | B / r_high < Price <= N / r_high | Normalized income is attractive; Bear yield approaches the high-end requirement |
-| Strong buy zone | Price <= B / r_high | Credible Bear DPS still meets the high-end cash-yield requirement |
+| Below required cash yield | Price > N / r_low | Normalized yield is below r_low |
+| Normalized income within required range | N / r_high < Price <= N / r_low | Normalized yield is at least r_low and below r_high |
+| Normalized income meets high-end requirement | B / r_high < Price <= N / r_high | Normalized yield is at least r_high; Bear yield is below r_high |
+| Bear income meets high-end requirement | Price <= B / r_high | Credible Bear yield is at least r_high |
 
-If B equals N, the accumulation zone is empty and Fair connects directly to Strong Buy. If B is zero, the Strong Buy boundary is zero: no positive share price qualifies. A missing Bear estimate is not assessed zero capacity.
+If B equals N, the normalized-high-end-only band is empty: the within-range band connects directly to the Bear-high-end band. If B is zero, the Bear boundary is zero and no positive share price qualifies. A missing Bear estimate is not assessed zero capacity.
 
-Keep the legacy names only with their income-lens qualifier. A Strong Buy band is conditional on credible Bear funding, the veto being clear and investor hard constraints being met; it is not a command to buy or a position-size recommendation. `Price > N / r_low` means an **income valuation review**, not necessarily excessive growth value or an automatic sale.
+Use these cash-income names in prose, tables, chart legends and captions. Chinese equivalents are **低于要求现金收益率 / 正常化收入处于要求区间 / 正常化收入达到高端要求 / 压力情景收入达到高端要求**. Existing JSON boundary keys remain for compatibility, but their legacy names are not display labels or action recommendations. Crossing a cash-income boundary does not produce hold, add, sell or Strong Buy. Print any supported action separately under Section 5.1. `Price > N / r_low` prompts an **income requirement review**; it does not by itself establish excessive growth value or imply a sale.
 
 ### 5.1 Price Bands and Action Eligibility
 
@@ -250,6 +239,8 @@ Set `growth_assessment.status` to `eligible`, `ineligible` or `not_assessed`, wi
 
 Eligibility does not force growth to be the primary method. Explain why the evidenced 3-5-year development path materially matters to value; neither a ticker, industry label nor low current yield supplies that reason.
 
+Distinguish missing granular disclosure from a material unbounded evidence gap. Bounded analyst estimates from public operating, investment and cash data can support Medium confidence when every material funding, tax, remittance and terminal bridge is reconcilable. Management need not disclose exact marginal returns for every project. State the estimated ranges, sources, timing, cross-checks and what could invalidate them. A material cash need, tax treatment, payout restriction or terminal funding assumption that cannot be bounded remains a gate failure; a larger safety discount or risk premium cannot cure it. Retain the existing eligibility statuses rather than inventing an intermediate approval label.
+
 For every scenario and modelled year, require:
 
 ```text
@@ -282,6 +273,8 @@ Choose and document `growth_method`:
 | `equity_retention_roe` | `g_earnings ~= equity_retention_ratio x incremental_ROE` | Retained common earnings invested in equity -> common earnings -> cash/capital -> payout and shares -> DPS |
 | `operating_reinvestment_roic` | `g_NOPAT ~= operating_reinvestment_rate x incremental_ROIC` | Operating investment -> NOPAT -> financing/tax/owner claims -> FAD -> payout and shares -> DPS |
 | `direct_operating_to_dps` | Forecast operating quantities, economics and cash directly | Explicit investment, lag, cash conversion, capital, policy and dilution evidence |
+
+The direct method accepts reasoned analyst estimates, not only management-issued numerical guidance. For example, publicly disclosed capacity and commissioning dates can bound output; evidenced utilization, pricing and margins can bound operating profit; disclosed capex, working-capital behavior and capital claims can then reconcile owner cash to payout and entitled shares. Label assumptions as estimates, use plausible ranges and investment lags, and test cash conversion and funding across Bear/Base/Bull. Exact project-by-project incremental ROIC is not mandatory when this direct bridge is supported. A peer multiple, a desired DPS CAGR or an unsupported historical average return is not a substitute for that bridge.
 
 Standalone derivations:
 
@@ -437,7 +430,7 @@ Ordinary and growth buy zones: suspended
 Reason: Structural Decline without a credible finite-life harvest case
 ```
 
-No Fair, Accumulation or Strong Buy zones may be printed. A low price or high yield does not override the restriction.
+No ordinary cash-income ladder, growth entry range or Strong Buy action may be printed. A low price or high yield does not override the restriction.
 
 With the exception satisfied **and the common veto clear**, use:
 
@@ -453,7 +446,7 @@ Required evidence includes explicit management runoff/harvest intent, conservati
 Rules:
 
 - Retain the **10% discount-rate floor**. Derive cash-recovery risk independently of price using Section 4, then use `k = max(0.10, justified_cash_recovery_required_return)`.
-- The legacy 10%-15% moderate-risk range is a disclosed conservative cross-check, not a substitute for derivation. Use higher rates when recovery, timing or residual risk warrants them; an unresolved veto cannot be cured with a higher k.
+- Do not use retired fixed risk ranges as a calibration target. The independently justified rate can exceed the 10% floor when recovery, timing or residual risk warrants it; an unresolved veto cannot be cured with a higher k.
 - Do not assume a perpetual terminal dividend, even with negative g. Residual value is a finite, evidenced net recovery after liabilities, costs and taxes, not a disguised Gordon value.
 - An uncertain recovery may be assumed zero as an explicitly conservative scenario assumption. Do not describe unknown recovery as verified zero.
 - Show the residual value's percentage of total PV and avoid counting an asset disposal both in distributions and residual recovery.
@@ -470,7 +463,7 @@ Use the one-driver-at-a-time classification from `business-fundamentals.md`:
 
 | Type | Ordinary income boundaries | Dated dividend valuation | Required response |
 |---|---|---|---|
-| `transient` | N unchanged; Accumulation Upper-Bound Change = `N/A` | Change PV by actual affected-period net cash deltas | Keep terminal g and R unchanged unless there is a lasting effect |
+| `transient` | N unchanged; normalized high-end cash-yield boundary change (N/r_high) = `N/A` | Change PV by actual affected-period net cash deltas | Keep terminal g and R unchanged unless there is a lasting effect |
 | `persistent` | Recalculate normalized capacity and N before boundaries | Re-estimate annual cash, sustainable growth and funding | Revisit risk only for an evidenced independent lasting risk change |
 | `structural` | No mechanical boundary update | No one-cell target-price adjustment | Rebuild trend, forecasts, scoring, veto, mode and valuation |
 

@@ -772,16 +772,39 @@
         }
       ]
     },
+    "portfolioContext": {
+      "type": "object",
+      "description": "Provenance and applicability of a previously established income target; does not require uploading holdings for a percentage-yield screen.",
+      "properties": {
+        "source": {"$ref": "#/$defs/nonemptyText"},
+        "confirmed_on": {"type": "string", "format": "date"},
+        "valid_until": {"type": ["string", "null"], "format": "date"},
+        "account_scope": {"$ref": "#/$defs/nonemptyText"},
+        "investor_tax_basis": {"$ref": "#/$defs/nonemptyText"},
+        "income_currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "income_period": {"$ref": "#/$defs/nonemptyText"},
+        "applicability_confirmed": {"const": true},
+        "applicability_evidence": {"$ref": "#/$defs/nonemptyText"}
+      },
+      "required": ["source", "confirmed_on", "valid_until", "account_scope", "investor_tax_basis", "income_currency", "income_period", "applicability_confirmed", "applicability_evidence"],
+      "additionalProperties": false
+    },
     "screeningParameters": {
       "type": "object",
       "properties": {
         "target_net_yield": {"type": ["number", "null"], "minimum": 0, "description": "Decimal form. Null when no applicable screening target is available."},
         "target_basis": {"type": "string", "enum": ["user_explicit", "portfolio_target", "not_assessed"]},
         "target_policy": {"type": "string", "enum": ["hard_minimum", "preference", "not_assessed"]},
-        "hard_minimum_exception_allowed": {"type": "boolean", "default": false, "description": "True only when the user explicitly permits exceptions."}
+        "hard_minimum_exception_allowed": {"type": "boolean", "default": false, "description": "True only when the user explicitly permits exceptions."},
+        "portfolio_context": {"anyOf": [{"$ref": "#/$defs/portfolioContext"}, {"type": "null"}]}
       },
       "required": ["target_net_yield", "target_basis", "target_policy"],
       "allOf": [
+        {
+          "if": {"properties": {"target_basis": {"const": "portfolio_target"}}, "required": ["target_basis"]},
+          "then": {"required": ["portfolio_context"], "properties": {"portfolio_context": {"$ref": "#/$defs/portfolioContext"}}},
+          "else": {"properties": {"portfolio_context": {"type": "null"}}}
+        },
         {
           "if": {
             "required": ["target_basis"],
@@ -1443,10 +1466,10 @@
         "bear_net_dps_source": {"type": "string"},
         "required_net_yield_low": {"$ref": "#/$defs/nullableNumber"},
         "required_net_yield_high": {"$ref": "#/$defs/nullableNumber"},
-        "too_expensive_zone": {"type": "string"},
-        "fair_value_zone": {"type": "string"},
-        "accumulation_zone": {"type": "string"},
-        "strong_buy_zone": {"type": "string"},
+        "too_expensive_zone": {"type": "string", "description": "Compatibility key: below required cash yield; not intrinsic overvaluation."},
+        "fair_value_zone": {"type": "string", "description": "Compatibility key: normalized income is within the required range."},
+        "accumulation_zone": {"type": "string", "description": "Compatibility key: normalized income meets the high-end requirement; not an automatic add action."},
+        "strong_buy_zone": {"type": "string", "description": "Compatibility key: Bear income meets the high-end requirement; action_assessment independently governs Strong Buy eligibility."},
         "boundaries": {
           "type": "object",
           "properties": {
@@ -1541,7 +1564,7 @@
       "type": "array",
       "items": {"type": "string"}
     },
-    "schema_version": {"const": "2.2"},
+    "schema_version": {"const": "2.3"},
     "action_assessment": {
       "type": "object",
       "properties": {

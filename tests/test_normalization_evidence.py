@@ -120,8 +120,9 @@ class NormalizationEvidenceTests(unittest.TestCase):
 
     def test_old_schema_version_requires_explicit_migration(self):
         report = full_report()
-        report["schema_version"] = "2.1"
-        self.assertInvalid(report, "2.2")
+        for version in ("2.1", "2.2"):
+            report["schema_version"] = version
+            self.assertInvalid(report, "2.3")
 
 
 if __name__ == "__main__":

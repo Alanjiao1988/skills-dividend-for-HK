@@ -20,6 +20,8 @@ The generated file includes:
 gpt-header.md
 dividend-income-equity-analysis/SKILL.md
 dividend-income-equity-analysis/data-conventions.md
+dividend-income-equity-analysis/portfolio-context.md
+dividend-income-equity-analysis/publishing.md
 dividend-income-equity-analysis/screen-mode.md
 dividend-income-equity-analysis/workflow.md
 dividend-income-equity-analysis/business-outlook.md
@@ -36,7 +38,7 @@ dividend-income-equity-analysis/output-template.md
 Recommended Custom GPT setup:
 
 1. Paste `gpt-header.md` into the Instructions field.
-2. Upload the canonical skill files, including `screen-mode.md`, `schema.json`, and the example skeleton, as Knowledge.
+2. Upload the canonical skill files, including `screen-mode.md`, `schema.json`, `portfolio-context.md`, `publishing.md`, and the complete ordinary/growth JSON examples, as Knowledge.
 3. After changing canonical modules, run:
 
 ```bash
@@ -49,6 +51,6 @@ For Screen-only use, generate a smaller bundle:
 bash build-gpt-instructions.sh --mode screen
 ```
 
-This writes `dist/chatgpt-screen-instructions.md` with only data conventions, screening rules and withholding notes. It cannot support Full Analysis: load the complete canonical modules before switching modes.
+This writes `dist/chatgpt-screen-instructions.md` with only data conventions, portfolio-target context, screening rules and withholding notes. It cannot support Full Analysis: load the complete canonical modules before switching modes.
 
 Do not manually copy module rules into this setup guide. The header-plus-knowledge configuration is preferred for avoiding drift and unnecessary context. The full generated file is a reference bundle for hosts with sufficient context, not a payload guaranteed to fit a Custom GPT Instructions field. Check the target host's current limits; do not truncate mandatory rules to force it to fit.

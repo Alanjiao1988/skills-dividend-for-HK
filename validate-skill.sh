@@ -91,7 +91,7 @@ require("normalization_evidence" in props["buy_zone"].get("required", []),
 require(set(defs["normalizationEvidence"]["required"]) ==
         {"operating_cash", "funding_capacity", "payout_policy", "entitled_shares"},
         "normalization evidence must retain all four links")
-require(props["schema_version"].get("const") == "2.2", "normalization evidence requires schema version 2.2")
+require(props["schema_version"].get("const") == "2.3", "combined evidence and portfolio contract requires schema version 2.3")
 
 full_required = None
 for rule in schema.get("allOf", []):
@@ -138,6 +138,7 @@ bash build-gpt-instructions.sh >/dev/null
 for module in \
   SKILL.md \
   data-conventions.md \
+  portfolio-context.md \
   screen-mode.md \
   workflow.md \
   business-outlook.md \
@@ -148,6 +149,7 @@ for module in \
   visual-output-rules.md \
   buy-zone.md \
   holding-review.md \
+  publishing.md \
   output-template.md; do
   grep -Fq "# Module: $module" "$GENERATED" || {
     echo "Generated GPT instructions missing module: $module" >&2
@@ -156,15 +158,15 @@ for module in \
 done
 
 bash build-gpt-instructions.sh --mode screen >/dev/null
-for module in data-conventions.md screen-mode.md withholding-notes.md; do
+for module in data-conventions.md portfolio-context.md screen-mode.md withholding-notes.md; do
   grep -Fq "# Module: $module" "$SCREEN_GENERATED" || {
     echo "Screen instruction bundle missing module: $module" >&2
     exit 1
   }
 done
 screen_module_count=$(grep -c '^# Module: ' "$SCREEN_GENERATED")
-if [[ "$screen_module_count" -ne 3 ]]; then
-  echo "Screen instruction bundle must contain only its three canonical modules." >&2
+if [[ "$screen_module_count" -ne 4 ]]; then
+  echo "Screen instruction bundle must contain only its four canonical modules." >&2
   exit 1
 fi
 if grep -Eq '^# Module: (buy-zone|business-fundamentals|holding-review|scoring)\.md' "$SCREEN_GENERATED"; then
@@ -201,6 +203,10 @@ grep -Fq 'Screening net-yield target' "$SCREEN_MODE"
 grep -Fq 'Target policy: hard_minimum / preference / not_assessed' "$SCREEN_MODE"
 grep -Fq 'do not reject or downgrade a stock solely because its yield appears low' "$SCREEN_MODE"
 grep -Fq 'screen-mode.md' build-gpt-instructions.sh
+
+for example in ordinary growth; do
+  "$PYTHON_BIN" scripts/validate_analysis.py "dividend-income-equity-analysis/examples/$example.analysis.json"
+done
 
 "$PYTHON_BIN" -m unittest discover -s tests -p 'test_*.py'
 
