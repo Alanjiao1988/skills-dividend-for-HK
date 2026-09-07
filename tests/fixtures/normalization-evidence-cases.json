@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "data_cutoff": "2026-01-01",
+  "evidence_policy": "Fictional closed-book transfer cases for normalization audits. Give only user_prompt and evidence_packet to the model. Preserve the original eight-case baseline separately; do not treat these development cases as an unbiased benchmark.",
+  "run_protocol": [
+    "Use one fresh model context per case with the current canonical rules and no rubric, tests or previous responses.",
+    "Preserve raw responses outside the repo, record module hashes and grade each criterion using exact excerpts.",
+    "Do not infer actual issuer evidence, fill missing inputs or treat supplied fictional assumptions as independently verified market facts."
+  ],
+  "cases": [
+    {
+      "id": "partial-evidence-normalization",
+      "user_prompt": "Audit this proposed normalized dividend in a concise answer. Check arithmetic, explain what evidence is and is not supplied, and assess the requested action. Do not invent missing financials.",
+      "evidence_packet": [
+        {"id": "forecast-note", "published_at": "2025-12-31", "facts": "Base FY+1/FY+2/FY+3 gross DPS are 2.4, 2.7 and 3.0, explicitly illustrative. The analyst uses their average N=2.7 and asks for Strong Buy. No volume/pricing, margin, working-capital or operating-cash forecasts are supplied; neither are investment commitments, regulatory/debt uses or parent remittance data."},
+        {"id": "policy-and-shares", "published_at": "2025-12-30", "facts": "The supplied fictional board policy pays 50% of attributable recurring earnings, not 50% of FAD. Dividend notices supply 200 million entitled ordinary shares per installment with cash settlement, no scrip and no changes in share count in the proposed model. Tax is stipulated zero and FX/quote units are 1. These facts support the policy rule and share denominator, not the missing future earnings/cash forecasts."}
+      ],
+      "expected_checks": [
+        "Average 2.7 is arithmetically correct but remains illustrative; reject Strong Buy and keep the comparison diagnostic.",
+        "Name missing operating drivers/cash conversion and funding/FAD evidence with specific disclosure types needed.",
+        "Identify the supplied 50%-of-recurring-earnings policy and 200 million entitled shares as known, not wholly missing; policy application still needs future earnings.",
+        "Output all four evidence links with status, source or disclosure needed and consequence without invented values."
+      ],
+      "forbidden_claims": [
+        "An all-supported normalization or Strong Buy because policy and share data are present.",
+        "Claiming the policy and entitled share count are not supplied, or applying 50% to FAD."
+      ],
+      "regression_tests": ["test_normalization_evidence.NormalizationEvidenceTests.test_partial_evidence_preserves_supported_policy_and_shares"]
+    },
+    {
+      "id": "supported-evidence-normalization",
+      "user_prompt": "Review the analyst's arithmetic and whether this fictional packet supports the normalized dividend under its stated assumptions. Explain any remaining limitations, but do not make a trading recommendation.",
+      "evidence_packet": [
+        {"id": "operating-cash-bridge", "published_at": "2025-12-31", "facts": "For all three Base years, a supplied fictional volume/price/margin model has stable normalized operations and reconciles revenue, cash tax/interest and working-capital movements to normalized OCF 600 million. It explicitly excludes temporary windfalls. Maintenance cash investment is 100 million and remaining owner claims are zero, leaving Recurring Owner FCF 500 million each year."},
+        {"id": "funding-bridge", "published_at": "2025-12-31", "facts": "Remaining committed growth investment is 100 million and mandatory debt/regulatory uses are 50 million each year, both not already deducted. Recurring FAD is 350 million. All cash is in the listed parent and available; exceptional uses and excess-cash releases are zero. The supplied model states these reconciled assumptions, not independently verified real issuer facts."},
+        {"id": "policy-entitlements", "published_at": "2025-12-31", "facts": "Recurring attributable earnings are 400 million in each modeled year; the board policy pays 50% of that earnings base. All-cash gross entitlement is 200 million per year, funded by FAD and actual capacity. Installment entitlement records reconcile to 100 million entitled shares with no treasury participation, issuance or scrip. Withholding is stipulated 10%; currency/unit/ADR factors are 1 and investor fees zero. The analyst derives gross DPS 2, net DPS 1.8 and three-year normalized N=1.8. No Bear case, required return or complete investment-action audit is supplied."}
+      ],
+      "expected_checks": [
+        "Reconcile owner FCF 500, FAD 350, policy entitlement 200, gross DPS 2 and net/normalized DPS 1.8.",
+        "Mark the four normalization links supported by the supplied fictional model, with packet references, rather than inventing missing Base inputs.",
+        "Distinguish support under the supplied assumptions from independent verification; do not give Strong Buy because Bear/required-return/action evidence is absent."
+      ],
+      "forbidden_claims": [
+        "Treating 50% of FAD as the policy payout or deducting committed investment twice.",
+        "A blanket missing-evidence verdict for all Base links or a trading recommendation."
+      ],
+      "regression_tests": ["test_normalization_evidence.NormalizationEvidenceTests.test_supported_links_preserve_existing_valuation"]
+    }
+  ]
+}

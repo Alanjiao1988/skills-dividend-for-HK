@@ -208,6 +208,8 @@ Read `buy-zone.md` and first state the valuation mode.
 
 Print the sourced risk-free anchor, currency/tenor/date/tax basis, price-independent premium range and required total return. Explain how ordinary required cash yields are derived. State the explicit income target or Not Assessed; growth cannot substitute for a hard income minimum.
 
+When N/B is assessed, include the four-row evidence checklist from `data-conventions.md`: operating cash, funding capacity, payout policy and entitled shares, each with supported/missing/conflicting status, source or resolution document and consequence. Reuse references from the earlier bridges rather than repeating their DPS/cash-cost tables. A focused audit uses this checklist and its conclusions without fabricating the rest of Full Analysis.
+
 ### Ordinary Yield-Based Mode
 
 Include:

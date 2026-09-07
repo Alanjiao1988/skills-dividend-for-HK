@@ -11,6 +11,46 @@
     "forecastConfidence": {"type": "string", "enum": ["High", "Medium", "Low", "Not Forecastable"]},
     "evidenceStatus": {"type": "string", "enum": ["reported_reconciled", "estimated_reconciled", "insufficient"]},
     "scenario": {"type": "string", "enum": ["Bear", "Base", "Bull"]},
+    "auditText": {"type": "string", "pattern": "\\S", "minLength": 1},
+    "normalizationEvidenceLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {"type": "string", "enum": ["supported", "missing", "conflicting"]},
+        "input_detail": {"$ref": "#/$defs/auditText", "description": "Specific operating, cash, policy or share input assessed, not a generic request for more evidence."},
+        "source_refs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/auditText"},
+          "uniqueItems": true,
+          "description": "Exact entries from the report's sources array. Empty is allowed only for missing evidence."
+        },
+        "resolution_source": {"type": ["string", "null"], "pattern": "\\S", "description": "Disclosure or record needed to resolve a gap; null when supported."},
+        "consequence": {"$ref": "#/$defs/auditText", "description": "Effect on normalization or the investment action."}
+      },
+      "required": ["status", "input_detail", "source_refs", "resolution_source", "consequence"],
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "supported"}}, "required": ["status"]},
+          "then": {"properties": {"source_refs": {"minItems": 1}, "resolution_source": {"const": null}}},
+          "else": {"properties": {"resolution_source": {"type": "string"}}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "conflicting"}}, "required": ["status"]},
+          "then": {"properties": {"source_refs": {"minItems": 1}}}
+        }
+      ]
+    },
+    "normalizationEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "operating_cash": {"$ref": "#/$defs/normalizationEvidenceLink"},
+        "funding_capacity": {"$ref": "#/$defs/normalizationEvidenceLink"},
+        "payout_policy": {"$ref": "#/$defs/normalizationEvidenceLink"},
+        "entitled_shares": {"$ref": "#/$defs/normalizationEvidenceLink"}
+      },
+      "required": ["operating_cash", "funding_capacity", "payout_policy", "entitled_shares"]
+    },
     "deduction": {
       "type": "object",
       "properties": {
@@ -1290,7 +1330,7 @@
       "type": "object",
       "properties": {
         "available": {"type": "string", "enum": ["Yes", "No", "Unknown"]},
-        "cash_election_available": {"type": "string", "enum": ["Yes", "No", "Unknown", "Not Applicable"]},
+        "cash_election_available": {"type": "string", "enum": ["Yes", "No", "Unknown", "Not Applicable"], "description": "No means cash cannot be received. For an ordinary cash dividend with no election scheme, use Not Applicable, available=No and investor_cash_yield_assumption=not_applicable."},
         "default_election": {"type": "string", "enum": ["cash", "shares", "none", "unknown", "not_applicable"]},
         "pricing_discount": {"$ref": "#/$defs/nullableNumber", "description": "Decimal form"},
         "historical_participation_rate": {"$ref": "#/$defs/nullableNumber", "description": "Decimal form"},
@@ -1394,6 +1434,7 @@
           "type": "array",
           "items": {"type": "string"}
         },
+        "normalization_evidence": {"$ref": "#/$defs/normalizationEvidence"},
         "dps_currency": {"$ref": "#/$defs/nonemptyText"},
         "normalization_fx_rate": {"type": "number", "exclusiveMinimum": 0},
         "normalization_fx_basis": {"$ref": "#/$defs/nonemptyText"},
@@ -1426,6 +1467,7 @@
         "normalized_net_dps_basis",
         "normalized_net_dps_source_period",
         "normalization_adjustments",
+        "normalization_evidence",
         "dps_currency",
         "normalization_fx_rate",
         "normalization_fx_basis",
@@ -1499,7 +1541,7 @@
       "type": "array",
       "items": {"type": "string"}
     },
-    "schema_version": {"const": "2.1"},
+    "schema_version": {"const": "2.2"},
     "action_assessment": {
       "type": "object",
       "properties": {
@@ -1597,7 +1639,7 @@
           "mode": {"const": "full_analysis"}
         }
       },
-      "then": {"required": ["mode", "schema_version", "company", "ticker", "exchange", "as_of_date", "price_used", "withholding_rate", "key_metrics_at_a_glance", "dividend_snapshot", "five_year_dividend_history", "cash_flow_bridge", "cash_flow_model", "coverage_summary", "business_outlook", "payout_policy", "return_requirements", "income_assessment", "growth_assessment", "holding_review", "scrip_drip", "fundamental_trend", "forecast_confidence", "valuation_mode", "value_trap_veto", "valuation_reason", "structural_decline_cap_applied", "harvest_managed_runoff_exception_applied", "business_fundamentals", "three_year_fundamental_forecast", "forecast_extension", "driver_sensitivity", "dividend_forecast_bridge", "dividend_and_yield_runway", "rendering", "visual_summary", "score_100", "score_limitations", "grade", "dividend_quality", "dividend_safety", "withholding_efficiency", "buyback_quality", "three_year_outlook", "portfolio_role", "sources", "action_assessment"]}
+      "then": {"required": ["mode", "schema_version", "company", "ticker", "exchange", "as_of_date", "price_used", "withholding_rate", "withholding_basis", "key_metrics_at_a_glance", "dividend_snapshot", "five_year_dividend_history", "cash_flow_bridge", "cash_flow_model", "coverage_summary", "business_outlook", "payout_policy", "return_requirements", "income_assessment", "growth_assessment", "holding_review", "scrip_drip", "fundamental_trend", "forecast_confidence", "valuation_mode", "value_trap_veto", "valuation_reason", "structural_decline_cap_applied", "harvest_managed_runoff_exception_applied", "business_fundamentals", "three_year_fundamental_forecast", "forecast_extension", "driver_sensitivity", "dividend_forecast_bridge", "dividend_and_yield_runway", "rendering", "visual_summary", "score_100", "score_limitations", "grade", "dividend_quality", "dividend_safety", "withholding_efficiency", "buyback_quality", "three_year_outlook", "portfolio_role", "sources", "action_assessment"]}
     },
     {
       "if": {

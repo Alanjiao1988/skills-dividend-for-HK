@@ -228,6 +228,14 @@ Print `action_assessment.status` (`eligible`, `diagnostic_only`, `suspended`), `
 - For an ordinary-income recommendation, show Bear/Base/Bull holding-period total return using entitled net distributions, a supported exit-value basis and relevant costs/FX. Separate cash yield from return of principal. Use `(exit value + accumulated net cash - entry price) / entry price` for unreinvested cumulative return; use timed IRR for annualization. Do not double-count buybacks or reinvestment.
 - A growth DDM is a valuation, not the investor's realized return. Its terminal dependence and plausible permanent-capital-loss paths remain part of the entry decision. Grade cannot override any failed action gate.
 
+The same entry gates apply across normalization methods and valuation modes. In structured output, a numeric `withholding_rate` and a sourced `broker_observed`, `company_announcement` or `legal_structure` basis are required for eligible entry; `unknown`, a missing rate or `market_default` is diagnostic only. Historical net receipts do not establish a future rate without the event/channel reconciliation in `withholding-notes.md`. The validator checks the declared basis, not the truth of its source.
+
+Ordinary entry also requires evidence-backed Bear/Base runway sources for years 1-3. A `three_year_base_average` assembled from illustrative, historical-fallback or unknown DPS may be shown only as a diagnostic calculation. Its numeric reconciliation cannot upgrade its evidence. A hard-income shortfall or unassessed hard-income eligibility makes the current action diagnostic only even when economic valuation remains available. Diagnostic outputs cannot claim Strong Buy or a Portfolio Role more favorable than Watchlist.
+
+Use the four-row normalization evidence checklist in `data-conventions.md` for both focused audits and Section 15. Keep arithmetic, evidence quality and action eligibility separate. JSON `buy_zone.normalization_evidence` must cover operating cash, funding capacity, payout policy and entitled shares; illustrative Base-average inputs cannot coexist with an all-supported checklist. Do not replace the checklist with a generic request for a bridge, even in a concise answer.
+
+Mandatory shares or an explicit absence of a cash option suspend this cash-dividend valuation framework. Exclude stock-only distributions from the cash-income runway and report zero confirmed cash or unavailable cash with a reason; do not substitute cash-equivalent stock value. Optional scrip still uses the supported all-cash election. If the investor elects shares or the cash election is unknown, do not claim positive spendable cash or eligible entry; label any cash-option comparison as diagnostic.
+
 ## 6. Gated Dividend Growth Valuation
 
 ### 6.1 Eligibility and Forecast Horizon
@@ -259,7 +267,11 @@ Keep the common scenario identities: `three_year_fundamental_forecast` supplies 
 
 An eligible growth value requires supported, funded cash throughout that five-year outlook, including years after a shorter explicit valuation horizon. When H is less than 5, the first terminal-year FAD, dividend and share count must reconcile to the next forecast year's records. Otherwise extend the transition or decline growth valuation; a terminal-value label cannot hide a known future funding gap.
 
+Every remaining year through FY+5 must also have evidence-backed DPS consistent with `terminal_net_dps x (1 + g_terminal)^(year - H - 1)`. For this early-terminal cross-check, convert each known runway DPS with the terminal tax, FX, share/ADR and fee assumptions, once. This assumes those conversion assumptions remain applicable after H. If later payout, dilution, FX or fees contradict that steady-state net path, extend the explicit/transition horizon and model them rather than hiding the difference in a terminal label. No extra cash is added to PV by this consistency check.
+
 If steady state is not reached by year T, add a finite `transition_years = L` and forecast every intervening year through `H = T + L`, even when H exceeds 5. Provide the cash/funding/share bridge and milestones for each extension year. A project cycle, expiring economic right, capital repair or growth fade cannot be skipped by attaching Gordon value to an unstable endpoint. If no credible finite transition is estimable, growth value is unavailable.
+
+In an audit of an invalid terminal assumption, identify the contradiction and the evidence needed to rebuild it. If post-transition dividend funding or sustainable growth is missing, report the replacement value as unavailable; do not volunteer a numerical replacement by carrying the old growth rate into a new, unsupported regime. Only an explicit request for a hypothetical arithmetic exercise permits a separately labelled illustrative calculation, with every added assumption and "not a supported valuation or entry price" stated beside the number. Such an illustration never populates eligible growth-value or entry fields.
 
 ### 6.2 Earned Growth, Not a DPS Plug
 

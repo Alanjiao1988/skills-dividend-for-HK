@@ -96,6 +96,10 @@ Required checks:
 
 When an all-cash election is available, calculate headline cash yield using that election and disclose it. If the investor elects reinvestment, separate dividend and tax from the reinvestment purchase and actual cash retained. Mandatory stock distributions with no cash alternative are excluded from recurring cash-income yield. IBKR's DRIP guidance confirms that reinvestment can be net of tax and commission. [IBKR DRIP guidance](https://www.ibkrguides.com/kb/overview-of-drip.htm)
 
+For JSON, `cash_election_available: "No"` means no cash can be received, not merely that no election form exists. For ordinary cash dividends without a scrip/DRIP scheme, use `available: "No"`, `cash_election_available: "Not Applicable"` and `investor_cash_yield_assumption: "not_applicable"`. An available cash election uses `"Yes"` and `"all_cash_election"`; the default election may still be shares. Unknown election details or an actual share election cannot support positive spendable cash in `income_assessment`. Stock-only cases suspend cash-dividend valuation and keep stock entitlements in the scrip evidence, not the cash-income runway.
+
+Use "mandatory stock dividend" or "mandatory share distribution" for a non-cash dividend. Do not call it a rights issue: a rights issue is a capital-raising subscription offer, not a dividend. Preserve this distinction when translating corporate-action terms.
+
 ## Required Output Fields
 
 Full Analysis must show these fields; Screen Mode may consolidate them in one linked evidence note and concise table fields:

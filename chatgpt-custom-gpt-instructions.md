@@ -43,4 +43,12 @@ Recommended Custom GPT setup:
 bash validate-skill.sh
 ```
 
-Do not manually copy module rules into this setup guide. The header-plus-knowledge configuration is preferred for avoiding drift; the generated file is available when a single pasteable payload is needed.
+For Screen-only use, generate a smaller bundle:
+
+```bash
+bash build-gpt-instructions.sh --mode screen
+```
+
+This writes `dist/chatgpt-screen-instructions.md` with only data conventions, screening rules and withholding notes. It cannot support Full Analysis: load the complete canonical modules before switching modes.
+
+Do not manually copy module rules into this setup guide. The header-plus-knowledge configuration is preferred for avoiding drift and unnecessary context. The full generated file is a reference bundle for hosts with sufficient context, not a payload guaranteed to fit a Custom GPT Instructions field. Check the target host's current limits; do not truncate mandatory rules to force it to fit.
