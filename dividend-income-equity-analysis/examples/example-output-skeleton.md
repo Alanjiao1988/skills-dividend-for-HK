@@ -310,6 +310,19 @@ Value-Trap Veto: Not triggered / Triggered / Unclear.
 - r_low / r_high:
 - DPS source currency / normalization FX / investor deductions:
 
+### Normalization Evidence Checklist
+
+Use when auditing N/B; this placeholder case supplies no supporting inputs.
+
+| Link | Status / Supplied Evidence | Missing Input / Source to Obtain | Consequence |
+|---|---|---|---|
+| Operating cash | missing / not supplied | Volume, margin and working-capital cash conversion / operating guidance and cash-flow notes | N is not evidence-backed |
+| Funding capacity | missing / not supplied | Committed investment, mandatory uses and remittances / capex, debt and capital disclosures | Distributable capacity is unverified |
+| Payout policy | missing / not supplied | Policy base and percentage / dividend-policy or board announcement | Dividend entitlement cannot be derived |
+| Entitled shares | missing / not supplied | Record-date shares and cash election / dividend notice and share records | Cash-election DPS cannot be reconciled |
+
+Replace each row with supplied evidence where available; do not mark known policy/share data missing. In JSON store the corresponding records in `buy_zone.normalization_evidence` only when a responsible (possibly diagnostic) N/B comparison exists; the suspended example still omits `buy_zone`.
+
 ### Ordinary Yield-Based Output
 
 Alternative template only: omit all numerical entry tables while the example veto remains Unclear. Action labels require the independent action gates, not merely a placeholder price band.

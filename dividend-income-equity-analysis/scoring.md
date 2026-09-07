@@ -113,6 +113,7 @@ Do not upgrade visibility merely because the model contains five numerical years
 - Low Forecast Confidence, a fallback N / B, provisional yield calibration or an unassessed capital-risk / total-return cross-check prevents an actionable Strong Buy and a Core income classification. Use diagnostic income sensitivities with Watchlist as the action. Not Forecastable suspends ordinary buy zones.
 - A Strong Buy action requires High Forecast Confidence, Strong Dividend Safety, value-trap veto Not triggered and every action gate in `buy-zone.md`. Medium confidence permits at most gradual accumulation after the other gates pass. A price inside the Bear high-end cash-yield boundary is not sufficient; ordinary band names describe cash income and never assign actions.
 - Dividend Safety Weak or Unclear prevents Core income. Income yield does not compensate for an unquantified risk of permanent loss of capital.
+- Apply the shared entry gates in `buy-zone.md`: unverified withholding/cash election, non-evidence-backed ordinary DPS or failed/unassessed hard-income eligibility restrict entry to diagnostic use and Portfolio Role to Watchlist or Avoid. A High label cannot override contradictory source fields.
 
 These overlays do not create new module weights. Report a computed score separately from confidence, safety, valuation eligibility and the final Portfolio Role; a high score cannot cancel a failed gate.
 

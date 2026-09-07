@@ -12,6 +12,7 @@ from jsonschema import Draft202012Validator, FormatChecker
 
 ROOT = Path(__file__).resolve().parents[1]
 SCENARIOS = ("Bear", "Base", "Bull")
+SUPPORTED_WITHHOLDING_BASES = ("broker_observed", "company_announcement", "legal_structure")
 
 
 def ordinary_boundaries(n, b, r_low, r_high):
@@ -143,6 +144,7 @@ def validate_report(report):
         return errors
 
     mode = report["valuation_mode"]
+    action = report["action_assessment"]
     model = report["cash_flow_model"]
     units = model["cash_unit_scale"] / model["share_unit_scale"]
     kpi = report["key_metrics_at_a_glance"]
@@ -356,6 +358,28 @@ def validate_report(report):
     portfolio_target_checks(income["target"], report["as_of_date"])
     target, net_yield = income["target"]["target_net_yield"], income["forward_net_yield"]
     forward_dps, price = income["forward_net_dps"], report["price_used"]
+    scrip = report["scrip_drip"]
+    cash_assumption = scrip["investor_cash_yield_assumption"]
+    cash_option = scrip["cash_election_available"]
+    mandatory_stock = cash_assumption == "mandatory_shares" or cash_option == "No"
+    plain_cash = (scrip["available"] == "No" and cash_option == "Not Applicable"
+                  and cash_assumption == "not_applicable"
+                  and scrip["default_election"] in ("cash", "none", "not_applicable"))
+    cash_income_supported = plain_cash or (cash_option == "Yes" and cash_assumption == "all_cash_election")
+    tax_supported = (report["withholding_rate"] is not None
+                     and report["withholding_basis"] in SUPPORTED_WITHHOLDING_BASES)
+
+    if mandatory_stock:
+        require(mode == "suspended", "Mandatory stock / no cash election requires suspended cash-dividend valuation")
+        require(all(row["derived_dps"] in (None, 0) and row["dividend_entitlement"] in (None, 0)
+                    and row["dividend_cash_cost"] in (None, 0) for row in runway.values()),
+                "Mandatory stock distributions must be excluded from the cash-income runway")
+    if not cash_income_supported:
+        require(forward_dps in (None, 0), "No supported investor cash election can produce positive forward cash DPS")
+        require(income["income_eligible"] is not True, "Unverified cash election cannot establish income eligibility")
+    if not tax_supported:
+        require(income["yield_fit"] != "Pass" and income["income_eligible"] is not True,
+                "Unverified withholding cannot establish income eligibility")
     same(net_yield, forward_dps / price if forward_dps is not None and price is not None else None,
          "Forward cash yield")
     ceiling = None
@@ -418,6 +442,7 @@ def validate_report(report):
 
     if "growth_valuation" in report:
         require(mode == "total_return_based", "Growth valuation cannot bypass the primary mode's eligibility gates")
+        require(cash_income_supported and tax_supported, "Growth valuation requires supported cash election and withholding")
         growth = report["growth_valuation"]
         require(growth["terminal_growth_cap"] <= growth["long_run_nominal_growth_bound"], "Terminal cap exceeds the currency's evidenced long-run bound")
         scenarios = {row["scenario"]: row for row in growth["scenarios"]}
@@ -425,6 +450,8 @@ def validate_report(report):
         for key, forecast in forecasts.items():
             require(forecast["estimate_status"] == "estimated", "Growth terminal value cannot bypass an unsupported five-year cash outlook")
             dividend = runway[key]
+            require(dividend["dps_source"] == "evidence_backed",
+                    f"{key}: illustrative DPS cannot enter growth value, including years after an early terminal boundary")
             if dividend["dividend_entitlement"] is not None and forecast["recurring_fad"] is not None:
                 require(dividend["dividend_entitlement"] <= forecast["recurring_fad"] and dividend["funding_gap"] == 0 and dividend["all_cash_funding_gap"] == 0,
                         f"{key}: growth requires funded dividends throughout the five-year outlook")
@@ -450,7 +477,6 @@ def validate_report(report):
                 if cash["forecast_year"] <= 5:
                     key = (cash["forecast_year"], row["scenario"])
                     support, recurring = runway[key], forecasts[key]["recurring_fad"]
-                    require(support["dps_source"] == "evidence_backed", f"{label}: illustrative DPS cannot enter growth value")
                 else:
                     support = cash["transition_support"]
                     recurring = support["recurring_fad"]
@@ -492,6 +518,16 @@ def validate_report(report):
                 same(funding["dividend_cash_cost"], runway[next_key]["dividend_cash_cost"], f"{label} terminal / next forecast dividend")
                 same(funding["dividend_entitlement"], runway[next_key]["dividend_entitlement"], f"{label} terminal / next forecast entitlement")
                 same(funding["dividend_entitled_shares"], runway[next_key]["dividend_entitled_shares"], f"{label} terminal / next forecast shares")
+                for year in range(horizon + 1, 6):
+                    known_dps = runway[(year, row["scenario"])]["derived_dps"]
+                    if known_dps is None or report["withholding_rate"] is None:
+                        continue  # Missing support is reported by the five-year and cash-path gates above.
+                    known_net = known_dps * (1 - report["withholding_rate"])
+                    known_net *= funding["fx_to_valuation_currency"] * returns["shares_per_quoted_security"]
+                    known_net = (known_net - funding["investor_cash_deductions"]) / returns["valuation_unit_scale"]
+                    expected_net = row["terminal_net_dps"] * (1 + row["terminal_growth"]) ** (year - horizon - 1)
+                    same(known_net, expected_net,
+                         f"{label} year {year} early terminal path; extend the explicit/transition horizon if the outlook changes")
             if report["withholding_rate"] is not None:
                 terminal_dps = funding["dividend_entitlement"] * units / funding["dividend_entitled_shares"]
                 terminal_dps *= (1 - report["withholding_rate"]) * funding["fx_to_valuation_currency"] * returns["shares_per_quoted_security"]
@@ -557,16 +593,46 @@ def validate_report(report):
         same(change, sum(item["present_value_change"] for item in audit), "Transient growth-value change")
 
     holding = report["holding_review"]
-    action = report["action_assessment"]
-    if report["forecast_confidence"] == "Low":
-        require(action["status"] in ("diagnostic_only", "suspended"), "Low confidence cannot support eligible entry")
+    entry_limitations = []
+    if not tax_supported:
+        entry_limitations.append("Unverified withholding permits diagnostic only, not eligible entry")
+    if not cash_income_supported:
+        entry_limitations.append("Unverified investor cash election permits diagnostic only, not eligible entry")
+    if report["forecast_confidence"] == "Not Forecastable":
+        require(mode == "suspended", "Not Forecastable requires suspended valuation")
+    elif report["forecast_confidence"] == "Low":
+        entry_limitations.append("Low confidence cannot support eligible entry")
+    if report["dividend_safety"] in ("Weak", "Unclear"):
+        entry_limitations.append("Weak or unclear dividend safety cannot support eligible entry")
+    if income["target"]["target_policy"] == "hard_minimum" and income["income_eligible"] is not True:
+        entry_limitations.append("Eligible entry requires confirmed hard-income eligibility")
+    if "buy_zone" in report:
+        zone = report["buy_zone"]
+        evidence = zone["normalization_evidence"]
+        gaps = [link for link, record in evidence.items() if record["status"] != "supported"]
+        for link, record in evidence.items():
+            require(all(reference in report["sources"] for reference in record["source_refs"]),
+                    f"Normalization {link}: source_refs must identify declared report sources")
+        if gaps:
+            require(action["status"] != "eligible" and not action["strong_buy_eligible"]
+                    and report["portfolio_role"] in ("Watchlist", "Avoid"),
+                    f"Incomplete normalization evidence ({', '.join(gaps)}) is diagnostic only")
+        if zone["normalized_net_dps_basis"] == "historical_fundamental_fallback" or zone["bear_net_dps_is_fallback"] or (mode == "ordinary_yield_based" and zone["bear_net_dps"] == 0):
+            entry_limitations.append("Fallback N or zero Bear dividend is diagnostic only")
+        if zone["normalized_net_dps_basis"] == "three_year_base_average":
+            if any(runway[(year, "Base")]["dps_source"] != "evidence_backed" for year in range(1, 4)):
+                require(bool(gaps), "Illustrative Base-average N must disclose a missing or conflicting evidence link")
+                entry_limitations.append("Illustrative or unknown Base-average N is diagnostic only")
+    if mode == "ordinary_yield_based":
+        if any(runway[(year, scenario)]["dps_source"] != "evidence_backed"
+               for year in range(1, 4) for scenario in ("Bear", "Base")):
+            entry_limitations.append("Illustrative or fallback ordinary dividend sources are diagnostic only")
+    for limitation in entry_limitations:
+        require(action["status"] != "eligible" and not action["strong_buy_eligible"]
+                and report["portfolio_role"] in ("Watchlist", "Avoid"), limitation)
     if action["status"] == "diagnostic_only":
         require(not action["strong_buy_eligible"] and report["portfolio_role"] in ("Watchlist", "Avoid"),
                 "Diagnostic entry cannot be Strong Buy or a portfolio holding recommendation")
-    if "buy_zone" in report:
-        zone = report["buy_zone"]
-        if zone["normalized_net_dps_basis"] == "historical_fundamental_fallback" or zone["bear_net_dps_is_fallback"] or (mode == "ordinary_yield_based" and zone["bear_net_dps"] == 0):
-            require(action["status"] != "eligible", "Fallback N or zero Bear dividend is diagnostic only")
     if action["strong_buy_eligible"]:
         require(income["income_eligible"] is not False, "Strong Buy cannot override income constraints")
         if income["target"]["target_policy"] == "hard_minimum":

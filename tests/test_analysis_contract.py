@@ -81,11 +81,11 @@ def full_report(growth=False):
         "limitations": EVIDENCE,
     } for scenario in ("Bear", "Base", "Bull")]
     report = {
-        "schema_version": "2.2", "mode": "full_analysis", "company": "Synthetic",
+        "schema_version": "2.3", "mode": "full_analysis", "company": "Synthetic",
         "action_assessment": {"status": "eligible", "strong_buy_eligible": False,
                               "reasons": [EVIDENCE], "capital_risk_and_total_return_check": EVIDENCE},
         "ticker": "EXAMPLE", "exchange": "Example", "as_of_date": "2026-01-01", "price_used": 40,
-        "withholding_rate": 0,
+        "withholding_rate": 0, "withholding_basis": "company_announcement",
         "key_metrics_at_a_glance": {
             "ttm_net_yield": 0.1, "normalized_net_yield": 0.1, "score_100": 75,
             "grade": "B", "portfolio_role": "Watchlist", "valuation_mode": mode,
@@ -194,6 +194,16 @@ def full_report(growth=False):
             "normalized_net_dps": 4, "normalized_net_dps_basis": "mid_cycle",
             "normalized_net_dps_source_period": "Explicit normalized model",
             "normalization_adjustments": [EVIDENCE], "bear_net_dps": 3.2, "bear_net_dps_source": EVIDENCE,
+            "normalization_evidence": {
+                link: {"status": "supported", "input_detail": detail, "source_refs": [EVIDENCE],
+                       "resolution_source": None, "consequence": "Supports the synthetic normalized cash-DPS bridge."}
+                for link, detail in {
+                    "operating_cash": "Volume and margin support normalized OCF after working capital, interest and tax.",
+                    "funding_capacity": "Maintenance, growth, mandatory uses and remittances reconcile to recurring FAD.",
+                    "payout_policy": "40% of attributable earnings, reconciled separately to actual cash capacity.",
+                    "entitled_shares": "Ten million dividend-entitled shares; cash election and unit scales reconciled.",
+                }.items()
+            },
             "bear_net_dps_is_fallback": False,
             "dps_currency": "USD", "normalization_fx_rate": 1, "normalization_fx_basis": EVIDENCE,
             "normalization_cash_deductions": 0,
@@ -591,6 +601,7 @@ class AnalysisContractTests(unittest.TestCase):
         income = report["income_assessment"]
         income["target"] = {"target_net_yield": 0.12, "target_basis": "user_explicit", "target_policy": "hard_minimum"}
         income.update(yield_fit="Below target", income_eligible=False, income_price_ceiling=4 / 0.12)
+        report["action_assessment"]["status"] = "diagnostic_only"
         self.assertValid(report)
         income["income_eligible"] = True
         self.assertInvalid(report, "False was expected")

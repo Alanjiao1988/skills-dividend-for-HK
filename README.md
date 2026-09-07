@@ -122,7 +122,7 @@ chatgpt-custom-gpt-instructions.md
 dist/
 ```
 
-Generate the single-file GPT instructions with:
+Generate the full reference bundle with:
 
 ```bash
 bash build-gpt-instructions.sh
@@ -134,7 +134,9 @@ The generated output is:
 dist/chatgpt-custom-gpt-instructions.md
 ```
 
-The root-level `chatgpt-custom-gpt-instructions.md` remains a setup guide.
+For lightweight screening, use `bash build-gpt-instructions.sh --mode screen` to generate `dist/chatgpt-screen-instructions.md`. It includes only data conventions, portfolio-target context, screening and withholding rules. Switch to the full canonical modules before Full Analysis; the Screen bundle cannot produce forecasts or valuations.
+
+The root-level `chatgpt-custom-gpt-instructions.md` remains a setup guide. Prefer its header-plus-Knowledge setup and load modules by mode. The full export is not guaranteed to fit a host's Instructions field; do not truncate required rules to make it fit.
 
 ## Validation
 
@@ -159,6 +161,10 @@ The validator checks:
 - presence of Screen Mode, explicit screening-yield parameters, sensitivity classification, and finite-life valuation contracts.
 - actual Draft 2020-12 schema validity, required new fields and local references;
 - synthetic ordinary-boundary compatibility, three/five-year coverage, no double deduction, payout bases, missing sector evidence, growth eligibility/formulas, and Screen Mode isolation.
+- paired regressions for unsupported tax, mandatory stock distributions, illustrative normalization and early-terminal contradictions, preserving ordinary cash, optional scrip and supported steady states;
+- Screen bundle isolation and fixed evaluation-packet integrity.
+
+GitHub Actions runs the same entry point on pull requests and pushes to `main`, using Python 3.10 and 3.13. No market-data credentials or model API keys are required.
 
 To validate a saved machine-readable analysis without committing the report:
 
@@ -168,12 +174,27 @@ python scripts\validate_analysis.py C:\path\outside-this-repo\analysis.json
 
 The validator checks schema, year/scenario completeness and cross-field arithmetic, not source accuracy or investment merit. Keep numerical JSON values unrounded; presentation tables may round them.
 
-Full Analysis uses `schema_version: "2.2"`. Version 2.2 requires dated source/applicability metadata when reusing a `portfolio_target`; current explicit targets and unassessed targets retain their shapes. Existing settlement, cash, action and five-year forecast contracts remain. Legacy buy-zone JSON keys remain compatible but display cash-income labels, not intrinsic-value or action judgments. See `portfolio-context.md` for migration. Synthetic cases are not BTI/GSK/Ping An backtests and do not prescribe their valuations.
+Full Analysis uses `schema_version: "2.3"`. Historical presentation fields and `three_year_fundamental_forecast` are retained; `forecast_extension` contains years four and five. Version 2.1 introduced dividend-entitlement/settlement reconciliation and action gates; main's 2.2 added dated portfolio-target provenance. Version 2.3 combines that contract with the four-link normalization evidence checklist and strengthened cash/action gates developed on a parallel branch. Synthetic cases are not BTI/GSK/Ping An backtests and do not prescribe their valuations.
 
+To migrate a 2.1 or 2.2 Full Analysis report, supply `withholding_basis` and, whenever `buy_zone` is present, `buy_zone.normalization_evidence` with `operating_cash`, `funding_capacity`, `payout_policy` and `entitled_shares`. Each record states `status`, `input_detail`, `source_refs`, `resolution_source` and `consequence`; do not fill missing evidence with supported defaults. Reused `portfolio_target` values also need genuine dated source/applicability metadata from `portfolio-context.md`; explicit and unassessed targets retain their shapes. Set `schema_version` to `"2.3"` only after reconciling both contracts. Suspended reports still omit `buy_zone`, and Screen output does not acquire a normalization audit (its optional version label, if supplied, uses 2.3). Legacy buy-zone keys retain cash-income labels, not intrinsic-value or action judgments.
+
+Eligible entry needs a stated numeric tax rate and a sourced basis, not `unknown` or `market_default`; unsupported inputs remain diagnostic. Illustrative ordinary DPS cannot become actionable through averaging or an all-supported evidence checklist. Stock-only distributions suspend cash-dividend valuation. Early terminal assumptions must reconcile with every remaining year through FY+5, including per-share dilution, using the disclosed terminal conversion assumptions. If future FX/fees or payouts require a different path, extend the explicit/transition horizon.
+
+Focused normalization audits now use an explicit four-row evidence checklist instead of a generic request for more evidence. The machine contract enforces required links, nonblank records, declared source references and action consistency; whether the text is substantively specific and the underlying sources true still requires model/human evaluation.
+
+## Model Evaluation Packets
+
+`tests/fixtures/skill-evaluation-cases.json` contains eight fixed, fictional evidence packets with a 2026-01-01 cutoff, prompts, expected checks, forbidden claims and links to arithmetic regressions. They cover special payouts, tax ranges, insurer remittance gaps, mandatory/optional scrip, unknown tax, illustrative normalization and a known year-five payout reset.
+
+`tests/fixtures/normalization-evidence-cases.json` adds two separately versioned transfer controls: a partial packet with known policy/shares but missing cash support, and a complete fictional Base cash/policy/share bridge. They check that the four-link audit neither hides missing inputs nor labels all supplied evidence missing. Keep development retests separate from the original eight-case baseline.
+
+For actual model runs, follow the file's `run_protocol`: start fresh conversations, provide only the prompt and evidence packet with the relevant canonical modules, retain unedited responses outside this repo, and score each criterion using response excerpts. Never reveal the answer rubric to the model under evaluation. Record the model/version, skill commit and latency; a false cash-income Pass or unsupported Strong Buy is a case failure, not something to average away.
+
+These focused rule-assessment packets are a first stage, not full issuer-report backtests. Packet-format checks and synthetic contract regressions do **not** run an LLM or measure its output accuracy. Live end-to-end report evaluation still needs dated, licensed/public disclosure snapshots, complete report generation and separate human review of source use and reasoning; no such run is claimed by this suite.
 ## Complete Examples and Publication
 
 - [Worked assumptions and independent answers](dividend-income-equity-analysis/examples/worked-examples.md).
 - [Ordinary analysis JSON](dividend-income-equity-analysis/examples/ordinary.analysis.json) and [growth analysis JSON](dividend-income-equity-analysis/examples/growth.analysis.json), both validated by the local entry point.
 - [Portfolio target context](dividend-income-equity-analysis/portfolio-context.md) and [report publishing contract](dividend-income-equity-analysis/publishing.md).
 
-Generated bundles identify their source commit, schema version, source dirty/clean status and deterministic build-input hash. Archives without a matching Git checkout report the commit as unknown. No hosted CI service is required. Arithmetic checks and evidence-routing reviews do not establish investment performance; see `data-conventions.md` for point-in-time evaluation requirements.
+Both generated bundle profiles identify their source commit, schema version, source dirty/clean status and deterministic build-input hash. Archives without a matching Git checkout report the commit as unknown. Local validation does not require a hosted CI service. Arithmetic checks and evidence-routing reviews do not establish investment performance; see `data-conventions.md` for point-in-time evaluation requirements.

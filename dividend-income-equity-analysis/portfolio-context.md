@@ -30,4 +30,4 @@ A percentage-yield screen does not require holdings, position sizes or account b
 
 ## Contract Version
 
-Schema 2.2 adds provenance requirements only when `target_basis` is `portfolio_target`. Existing `user_explicit` and `not_assessed` target shapes remain usable. To migrate a 2.1 report, update its version and supply genuine portfolio provenance if that source is used; if unavailable, reassess the target instead of manufacturing metadata.
+Schema 2.2 introduced provenance requirements only when `target_basis` is `portfolio_target`; 2.3 retains them and adds the normalization evidence and cash/action safeguards described in the root README. Existing `user_explicit` and `not_assessed` target shapes remain usable. When migrating a 2.1 or 2.2 report, supply genuine portfolio provenance if that source is used and reconcile the other 2.3 requirements before updating the version; if provenance is unavailable, reassess the target instead of manufacturing metadata.

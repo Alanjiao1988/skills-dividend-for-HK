@@ -4,6 +4,21 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT"
 
+usage() {
+  echo "Usage: bash build-gpt-instructions.sh [--mode all|screen]"
+}
+
+MODE="all"
+if [[ $# -eq 1 && ( "$1" == "--help" || "$1" == "-h" ) ]]; then
+  usage
+  exit 0
+elif [[ $# -eq 2 && "$1" == "--mode" && ( "$2" == "all" || "$2" == "screen" ) ]]; then
+  MODE="$2"
+elif [[ $# -ne 0 ]]; then
+  usage >&2
+  exit 2
+fi
+
 if [[ -n "${PYTHON:-}" ]]; then
   PYTHON_BIN="$PYTHON"
 elif command -v python >/dev/null 2>&1 && python -c 'import sys; sys.exit(sys.version_info < (3, 10))' >/dev/null 2>&1; then
@@ -12,20 +27,25 @@ else
   PYTHON_BIN="python3"
 fi
 
-"$PYTHON_BIN" - <<'PY'
+"$PYTHON_BIN" - "$MODE" <<'PY'
 import hashlib
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 root = Path.cwd().resolve()
 src = Path("dividend-income-equity-analysis")
-modules = (
+all_modules = (
     "SKILL.md", "data-conventions.md", "portfolio-context.md", "screen-mode.md",
     "workflow.md", "business-outlook.md", "business-fundamentals.md",
     "sector-fcf-proxies.md", "withholding-notes.md", "scoring.md",
     "visual-output-rules.md", "buy-zone.md", "holding-review.md",
     "publishing.md", "output-template.md",
+)
+mode = sys.argv[1]
+modules = all_modules if mode == "all" else (
+    "data-conventions.md", "portfolio-context.md", "screen-mode.md", "withholding-notes.md",
 )
 schema_path = src / "schema.json"
 schema = json.loads(schema_path.read_text(encoding="utf-8"))
@@ -70,8 +90,14 @@ fingerprint = hashlib.sha256()
 for path in inputs:
     fingerprint.update(path.as_posix().encode("utf-8") + b"\0")
     fingerprint.update(texts[path].encode("utf-8") + b"\0")
-
-parts = [texts[Path("gpt-header.md")], "\n---\n\n# Bundle Provenance\n\n",
+header = texts[Path("gpt-header.md")] if mode == "all" else (
+    "# Screen-Only Dividend Research Instructions\n\n"
+    "Use this bundle only for first-pass screening, not forecasts, valuation or investment actions.\n"
+    "If the user requests Full Analysis, load the full canonical modules before proceeding.\n"
+    "Use the investor scenario and evidence rules below; do not invent a screening target.\n"
+)
+parts = [header, "\n---\n\n# Bundle Provenance\n\n",
+         f"- Bundle profile: `{mode}`\n",
          f"- Source commit: `{commit}`\n",
          f"- Schema version: `{schema_version}`\n",
          f"- Source status: `{source_status}`\n",
@@ -92,7 +118,7 @@ parts += ["\n---\n\n# Machine-Readable Schema Note\n\n",
           "for JSON or machine-readable output. Upload it as a knowledge file "
           "rather than pasting the full schema into Custom GPT Instructions "
           "unless needed.\n"]
-out = Path("dist/chatgpt-custom-gpt-instructions.md")
+out = Path("dist") / ("chatgpt-custom-gpt-instructions.md" if mode == "all" else "chatgpt-screen-instructions.md")
 out.parent.mkdir(exist_ok=True)
 out.write_text("".join(parts), encoding="utf-8", newline="\n")
 print(f"Generated {out.as_posix()}")

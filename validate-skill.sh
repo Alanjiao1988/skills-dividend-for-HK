@@ -9,6 +9,7 @@ TEMPLATE="dividend-income-equity-analysis/output-template.md"
 SKELETON="dividend-income-equity-analysis/examples/example-output-skeleton.md"
 SCREEN_MODE="dividend-income-equity-analysis/screen-mode.md"
 GENERATED="dist/chatgpt-custom-gpt-instructions.md"
+SCREEN_GENERATED="dist/chatgpt-screen-instructions.md"
 
 if [[ -n "${PYTHON:-}" ]]; then
   PYTHON_BIN="$PYTHON"
@@ -85,6 +86,12 @@ for key in restored_full_fields:
 
 buy_zone_props = props.get("buy_zone", {}).get("properties", {})
 require("too_expensive_zone" in buy_zone_props, "buy_zone missing too_expensive_zone")
+require("normalization_evidence" in props["buy_zone"].get("required", []),
+        "buy_zone must require its normalization evidence checklist")
+require(set(defs["normalizationEvidence"]["required"]) ==
+        {"operating_cash", "funding_capacity", "payout_policy", "entitled_shares"},
+        "normalization evidence must retain all four links")
+require(props["schema_version"].get("const") == "2.3", "combined evidence and portfolio contract requires schema version 2.3")
 
 full_required = None
 for rule in schema.get("allOf", []):
@@ -99,7 +106,7 @@ require("sources" in full_required, "full_analysis does not require sources")
 for key in (
     "cash_flow_model", "coverage_summary", "business_outlook", "forecast_extension",
     "payout_policy", "return_requirements", "growth_assessment", "income_assessment",
-    "holding_review", "value_trap_veto", "score_limitations",
+    "holding_review", "value_trap_veto", "score_limitations", "withholding_basis",
 ):
     require(key in props and key in full_required, f"full_analysis missing required contract: {key}")
 require("total_return_based" in defs["valuationMode"]["enum"], "growth valuation mode missing")
@@ -149,6 +156,23 @@ for module in \
     exit 1
   }
 done
+
+bash build-gpt-instructions.sh --mode screen >/dev/null
+for module in data-conventions.md portfolio-context.md screen-mode.md withholding-notes.md; do
+  grep -Fq "# Module: $module" "$SCREEN_GENERATED" || {
+    echo "Screen instruction bundle missing module: $module" >&2
+    exit 1
+  }
+done
+screen_module_count=$(grep -c '^# Module: ' "$SCREEN_GENERATED")
+if [[ "$screen_module_count" -ne 4 ]]; then
+  echo "Screen instruction bundle must contain only its four canonical modules." >&2
+  exit 1
+fi
+if grep -Eq '^# Module: (buy-zone|business-fundamentals|holding-review|scoring)\.md' "$SCREEN_GENERATED"; then
+  echo "Full Analysis rules leaked into the Screen instruction bundle." >&2
+  exit 1
+fi
 
 full_template_sections=$(grep -Ec '^## ([1-9]|1[0-8])\. ' "$TEMPLATE")
 full_skeleton_sections=$(grep -Ec '^## ([1-9]|1[0-8])\. ' "$SKELETON")

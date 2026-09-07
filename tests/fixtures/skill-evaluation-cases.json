@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "data_cutoff": "2026-01-01",
+  "evidence_policy": "All packets are fictional, closed-book evaluation inputs, not issuer disclosures. Treat absent evidence as unavailable. Give the model the user_prompt and evidence_packet, but keep expected_checks and forbidden_claims private to the evaluator.",
+  "run_protocol": [
+    "Start each case in a fresh conversation with the current canonical skill modules; record model/version, skill commit, run date, loading profile and exact prompt.",
+    "Use only the supplied evidence packet. The prompt requests a focused rule assessment, not an invented complete company report.",
+    "Save the unedited response outside the skill repository. If a full analysis JSON is separately requested, validate it with scripts/validate_analysis.py; JSON validity alone does not pass the rubric.",
+    "For each expected check record pass/fail and an exact response excerpt; separately flag each forbidden claim. Report missing evidence rather than guessing.",
+    "Any false cash-income Pass, unsupported Strong Buy or contradictory terminal value fails the case regardless of other checks. Human review of evidence and reasoning remains required.",
+    "Report per-case results and latency for actual runs only. Contract regression results and packet-format tests are not model evaluation results."
+  ],
+  "cases": [
+    {
+      "id": "special-payout-screen",
+      "user_prompt": "Screen this fictional security against my hard 5% recurring net cash yield minimum. Determine Yield Fit and Full Analysis Recommended using only the packet; do not forecast.",
+      "evidence_packet": [
+        {"id": "price", "published_at": "2026-01-01", "facts": "Current unadjusted price HKD 10 per ordinary share."},
+        {"id": "dividends", "published_at": "2025-12-31", "facts": "Paid TTM cash and latest FY payouts: recurring ordinary HKD 0.40 plus one-off disposal-funded special HKD 0.50. Same share/currency basis; verified withholding 0%; before fees. Target uses that same before-fee basis."}
+      ],
+      "expected_checks": ["Keep 9% total paid TTM yield separate from 4% recurring screening yield.", "Yield Fit Below target; gap -1 percentage point; Full Analysis Recommended No."],
+      "forbidden_claims": ["Passing the 5% recurring-income minimum using the special.", "A normalized N, forecast DPS, buy zone or Strong Buy."],
+      "regression_tests": ["test_income_audit.IncomeAuditTests.test_special_ttm_cannot_pass_recurring_hard_minimum"]
+    },
+    {
+      "id": "tax-range-screen",
+      "user_prompt": "Assess the hard 5% net-yield screen from this fictional packet. Does the stock pass, fail or need more evidence?",
+      "evidence_packet": [
+        {"id": "tax-scenarios", "published_at": "2025-12-31", "facts": "The same ordinary cash dividend has two supported custody/withholding outcomes. Net yields on the target's before-fee basis are 4.5% and 5.5%; applicable custody treatment is unresolved. No independent fundamental hazard has been established."}
+      ],
+      "expected_checks": ["Yield Fit Unclear, no fabricated point gap.", "Recommend Watch and identify custody/tax evidence needed."],
+      "forbidden_claims": ["A definitive minimum Pass or Below target.", "A zero-withholding assumption chosen just to meet the target."],
+      "regression_tests": ["test_income_audit.IncomeAuditTests.test_supported_tax_range_straddles_target"]
+    },
+    {
+      "id": "insurer-capital-gap",
+      "user_prompt": "Can the proposed insurer cash coverage and buy zone be used? Give a focused assessment of this fictional analyst note; do not fill missing financials.",
+      "evidence_packet": [
+        {"id": "analyst-note", "published_at": "2025-12-31", "facts": "OPAT 100 and a 40% earnings payout policy are disclosed. The note assumes FCF=OPAT x 60%=60 and therefore coverage=1.5x. New-business capital strain, subsidiary dividend restrictions and parent remittances are all missing."}
+      ],
+      "expected_checks": ["Reject OPAT x 60% as verified cash or remittable capital.", "Coverage unavailable, safety Unclear and valuation suspended; name the missing capital/remittance bridge."],
+      "forbidden_claims": ["Verified recurring coverage of 1.5x.", "Treating low accounting payout as sufficient cash evidence."],
+      "regression_tests": ["test_analysis_contract.AnalysisContractTests.test_insurer_without_capital_remittance_cannot_invent_fcf"]
+    },
+    {
+      "id": "mandatory-stock-income",
+      "user_prompt": "Audit the proposed 13.33% cash yield and Strong Buy against a hard 10% cash-income requirement. Use only this fictional distribution packet.",
+      "evidence_packet": [
+        {"id": "stock-distribution", "published_at": "2025-12-31", "facts": "Price 30. Cash-equivalent stock entitlement 4 per share. All distributions are mandatory issuer shares with no cash alternative, and issuer cash settlement is zero. No other cash dividend is scheduled."}
+      ],
+      "expected_checks": ["Do not treat entitlement value 4 as spendable cash DPS.", "Confirmed scheduled cash income is zero; the positive hard income minimum is not met.", "Suspend cash-dividend valuation and reject Strong Buy; describe stock entitlements separately."],
+      "forbidden_claims": ["13.33% cash income or an income Pass.", "Valuing the mandatory stock entitlement as a perpetual cash dividend."],
+      "regression_tests": ["test_entry_gates.EntryGateTests.test_mandatory_stock_cannot_pass_cash_floor_or_strong_buy", "test_entry_gates.EntryGateTests.test_mandatory_stock_can_be_reported_as_suspended_without_cash"]
+    },
+    {
+      "id": "unknown-tax-entry",
+      "user_prompt": "Audit this fictional ordinary-income Strong Buy conclusion. Is the action eligibility justified without changing the supplied assumptions?",
+      "evidence_packet": [
+        {"id": "ordinary-model", "published_at": "2025-12-31", "facts": "Price 30; proposed mid-cycle net N=4, Bear B=3.2, r_low=8%, r_high=10%, Strong Buy boundary=32. The net amounts were retained from an earlier zero-tax assumption. Current withholding rate is null and basis unknown; no independently reconciled net receipts support the amounts. High confidence and Strong safety are only the analyst's top-level labels."}
+      ],
+      "expected_checks": ["The arithmetic boundary is 32 only under the unverified net-dividend inputs.", "Unresolved tax makes action diagnostic only, not Strong Buy or Core income.", "If illustrating 20% withholding on those originally gross amounts, the Bear boundary is 25.6 and price 30 is outside it; label 20% illustrative, not the actual tax rate."],
+      "forbidden_claims": ["Unknown withholding is zero.", "The mid_cycle basis bypasses tax evidence requirements."],
+      "regression_tests": ["test_entry_gates.EntryGateTests.test_unknown_or_assumed_withholding_cannot_support_entry"]
+    },
+    {
+      "id": "illustrative-normalization",
+      "user_prompt": "Audit the normalized dividend and action label in this fictional note. Distinguish numerical consistency from evidence quality.",
+      "evidence_packet": [
+        {"id": "base-dps", "published_at": "2025-12-31", "facts": "Base FY+1, FY+2 and FY+3 DPS are each 4, explicitly marked illustrative rather than evidence-backed. N uses three_year_base_average=4, tax is verified zero and FX/unit conversion is 1. The author adds High confidence and requests Strong Buy."}
+      ],
+      "expected_checks": ["The mean is arithmetically 4 but remains illustrative.", "Restrict the normalized comparison to diagnostic use and reject Strong Buy.", "Explain what operating/payout/share evidence would support the inputs."],
+      "forbidden_claims": ["Averaging illustrative dividends makes them evidence-backed.", "A High label overrides the DPS source classification."],
+      "regression_tests": ["test_entry_gates.EntryGateTests.test_non_evidenced_normalization_is_diagnostic_across_bases"]
+    },
+    {
+      "id": "early-terminal-reset",
+      "user_prompt": "Audit whether this fictional three-year dividend model can keep its terminal value unchanged after the announced year-five reset.",
+      "evidence_packet": [
+        {"id": "funded-path", "published_at": "2025-12-30", "facts": "Base DPS years 1-4: 4, 4.08, 4.1616, 4.244832. All amounts are funded and use verified zero tax, no fees, constant FX and constant share count. Model R=9%, terminal g=2%, terminal boundary at year 3, first terminal DPS=4.244832; baseline value=57.142857142857146."},
+        {"id": "board-reset", "published_at": "2025-12-31", "facts": "A permanent payout reset is already known: year-five DPS is 0.432972864, not 4.32972864. Policy-adjustment evidence supports the cut. The proposed valuation still assumes 2% perpetual growth from year 4."}
+      ],
+      "expected_checks": ["Identify the tenfold year-five contradiction despite matching year four.", "Reject unchanged early-terminal value; extend the explicit/transition path through the reset before rebuilding terminal cash.", "Do not add year-five cash separately on top of an overlapping perpetuity."],
+      "forbidden_claims": ["The unchanged 57.142857 value is still consistent.", "Calling the permanent known payout reset transient to preserve terminal assumptions."],
+      "regression_tests": ["test_entry_gates.EntryGateTests.test_early_terminal_cannot_ignore_later_dividend_reset", "test_entry_gates.EntryGateTests.test_explicit_transition_can_capture_permanent_payout_reset"]
+    },
+    {
+      "id": "optional-scrip-cash",
+      "user_prompt": "Calculate investor cash-election DPS and yield from this fictional packet, and explain how it differs from issuer settlement. Do not make a buy recommendation from these inputs alone.",
+      "evidence_packet": [
+        {"id": "payout-policy", "published_at": "2025-12-31", "facts": "Ordinary attributable profit 100, policy payout 50%, sufficient recurring FAD and actual capacity 70, 100 dividend-entitled shares. Optional scrip retains 40% of issuer settlement cash. This investor chooses the supported all-cash option; verified withholding 10%, price 10, no fees, same currency/share units."}
+      ],
+      "expected_checks": ["Total entitlement 50, issuer cash settlement 30, investor gross cash-option DPS 0.50.", "Net DPS 0.45 and net yield 4.5%; optional scrip does not reduce the cash-option DPS.", "Do not infer a position size or Strong Buy from cash coverage alone."],
+      "forbidden_claims": ["Using cash settlement 30/100 to report gross DPS 0.30.", "Treating optional scrip like a mandatory stock-only distribution."],
+      "regression_tests": ["test_entry_gates.EntryGateTests.test_optional_scrip_keeps_cash_election_value"]
+    }
+  ]
+}

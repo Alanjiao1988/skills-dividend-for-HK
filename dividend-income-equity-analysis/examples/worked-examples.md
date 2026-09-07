@@ -1,6 +1,6 @@
 # Complete Fictional Analysis Examples
 
-`ordinary.analysis.json` and `growth.analysis.json` are complete schema-2.2 records for Fictional Harbor Services, using the assumptions below as of 2026-01-01. All company data, taxes, rates and prices are teaching inputs, not fetched market facts. Validate both structure and arithmetic with `scripts/validate_analysis.py`. Display labels follow `buy-zone.md`; legacy JSON field names are compatibility keys.
+`ordinary.analysis.json` and `growth.analysis.json` are complete schema-2.3 records for Fictional Harbor Services, using the assumptions below as of 2026-01-01. Their four-link normalization evidence references these stipulated assumptions, not verified issuer disclosures. All company data, taxes, rates and prices are teaching inputs, not fetched market facts. Validate both structure and arithmetic with `scripts/validate_analysis.py`. Display labels follow `buy-zone.md`; legacy JSON field names are compatibility keys.
 
 ## Assumptions A1-A8
 
@@ -14,6 +14,8 @@
 | A6 | Quote 40; no investor income target. Medium confidence and Acceptable safety limit actions; no Strong Buy or invented trade size. |
 | A7 | Ordinary capacity is flat. Growth case assumes funded operating cash and dividends grow 2% yearly, with unchanged payout/shares and a funded steady state. Valuation uses the same R=9% in every operating scenario and year-end full cash entitlements. |
 | A8 | Historical recurring FAD is 50/60/70/80/90; dividends are 40 each year. Actual cash capacity is 45/55/65/75/35. The final year's exceptional shortfall is disclosed, not hidden in recurring coverage. A 15% growth entry discount is a stated teaching convention, not a calibrated safeguard. |
+
+The JSON `withholding_basis: company_announcement` represents a fictional announcement scenario stipulated by A4, not a real issuer notice or broker-observed payment. Likewise the supported normalization links document internal consistency of A1-A8; they do not certify external facts.
 
 ## Cash and Ordinary Income Answers
 

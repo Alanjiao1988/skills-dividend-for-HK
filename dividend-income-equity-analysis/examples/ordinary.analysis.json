@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.2",
+  "schema_version": "2.3",
   "mode": "full_analysis",
   "company": "Fictional Harbor Services - ordinary",
   "action_assessment": {
@@ -15,6 +15,7 @@
   "as_of_date": "2026-01-01",
   "price_used": 40,
   "withholding_rate": 0,
+  "withholding_basis": "company_announcement",
   "key_metrics_at_a_glance": {
     "ttm_net_yield": 0.1,
     "normalized_net_yield": 0.1,
@@ -1832,6 +1833,36 @@
     "normalization_adjustments": [
       "N=4 USD is the explicit sustainable mid-cycle net DPS at baseline service volume; no special payout or growth credit."
     ],
+    "normalization_evidence": {
+      "operating_cash": {
+        "status": "supported",
+        "input_detail": "Fictional A2 operating assumptions reconcile normalized OCF 130 minus maintenance 20 and owner claims 10 to Owner FCF 100.",
+        "source_refs": ["worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."],
+        "resolution_source": null,
+        "consequence": "Supports the baseline normalized owner-cash calculation within the stipulated teaching model."
+      },
+      "funding_capacity": {
+        "status": "supported",
+        "input_detail": "Fictional A2: growth uses 20 and mandatory uses 5 leave recurring FAD 75; exceptional uses 5 leave actual capacity 70.",
+        "source_refs": ["worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."],
+        "resolution_source": null,
+        "consequence": "Both recurring and actual capacity cover the model's baseline entitlement 40 without double deduction."
+      },
+      "payout_policy": {
+        "status": "supported",
+        "input_detail": "Fictional A3 applies 40% to attributable earnings 100, not FAD, deriving entitlement 40.",
+        "source_refs": ["worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."],
+        "resolution_source": null,
+        "consequence": "Reconciles the baseline payout policy to normalized DPS rather than an arbitrary DPS plug."
+      },
+      "entitled_shares": {
+        "status": "supported",
+        "input_detail": "Fictional A1/A4: 10 million entitled shares, all-cash election, no scrip, unit ratio 1 and stipulated zero withholding/fees.",
+        "source_refs": ["worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."],
+        "resolution_source": null,
+        "consequence": "Baseline entitlement 40 / shares 10 gives net N=4 under fictional, not independently verified, cash assumptions."
+      }
+    },
     "bear_net_dps": 3.2,
     "bear_net_dps_source": "Bear year 1 earnings 80m x payout 40% / 10m entitled shares = 3.2 USD; tax/fees assumed zero.",
     "bear_net_dps_is_fallback": false,

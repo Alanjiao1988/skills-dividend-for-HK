@@ -62,9 +62,10 @@ class BundleProvenanceTests(unittest.TestCase):
     def git(self, cwd, *args):
         return subprocess.check_output(['git', '-C', str(cwd), *args], stderr=subprocess.DEVNULL).decode().strip()
 
-    def build(self, cwd):
-        subprocess.run([self.bash, 'build-gpt-instructions.sh'], cwd=cwd, check=True, capture_output=True)
-        return (cwd / 'dist/chatgpt-custom-gpt-instructions.md').read_text(encoding='utf8')
+    def build(self, cwd, mode='all'):
+        subprocess.run([self.bash, 'build-gpt-instructions.sh', '--mode', mode], cwd=cwd, check=True, capture_output=True)
+        name = 'chatgpt-custom-gpt-instructions.md' if mode == 'all' else 'chatgpt-screen-instructions.md'
+        return (cwd / 'dist' / name).read_text(encoding='utf8')
 
     def test_source_archive_does_not_borrow_enclosing_repo_identity(self):
         self.git(self.root, 'init')
@@ -72,7 +73,7 @@ class BundleProvenanceTests(unittest.TestCase):
         self.copy_sources(child)
         text = self.build(child)
         self.assertIn('Source commit: `unknown`', text)
-        self.assertIn('Schema version: `2.2`', text)
+        self.assertIn('Schema version: `2.3`', text)
         self.assertEqual(text, self.build(child))
 
     def test_clean_commit_then_relevant_untracked_source_is_dirty(self):
@@ -87,3 +88,22 @@ class BundleProvenanceTests(unittest.TestCase):
         self.assertIn('Source status: `clean`', text)
         (self.root / 'dividend-income-equity-analysis/new-source.md').write_text('Uncommitted source', encoding='utf8')
         self.assertIn('Source status: `dirty`', self.build(self.root))
+
+    def test_screen_keeps_provenance_and_portfolio_context_without_valuation_modules(self):
+        self.copy_sources(self.root)
+        text = self.build(self.root, mode='screen')
+        self.assertIn('Bundle profile: `screen`', text)
+        self.assertIn('Source commit: `unknown`', text)
+        self.assertIn('Build-input SHA-256:', text)
+        modules = [line for line in text.splitlines() if line.startswith('# Module: ')]
+        self.assertEqual(modules, [f'# Module: {name}' for name in (
+            'data-conventions.md', 'portfolio-context.md', 'screen-mode.md', 'withholding-notes.md')])
+        self.assertEqual(text, self.build(self.root, mode='screen'))
+
+    def test_invalid_profile_does_not_overwrite_a_bundle(self):
+        self.copy_sources(self.root)
+        before = self.build(self.root)
+        result = subprocess.run([self.bash, 'build-gpt-instructions.sh', '--mode', 'invalid'],
+                                cwd=self.root, capture_output=True)
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(before, (self.root / 'dist/chatgpt-custom-gpt-instructions.md').read_text(encoding='utf8'))

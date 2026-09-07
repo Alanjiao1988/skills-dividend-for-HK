@@ -20,6 +20,23 @@ For each material derived result, preserve inputs, formula, units, and source re
 
 Missing critical dividend, tax, cash-access, refinancing, or share data produces an explicit unknown or range and affects confidence. It must not silently turn into 0% tax, full cash availability, clean veto status, or a favorable score. JSON required fields may contain null or empty histories with an explanation when data does not exist; do not fabricate five years of observations.
 
+## Focused Normalization Audits
+
+When the user asks to audit a proposed normalized DPS, N/B calculation or its action label, answer that focused question rather than inventing an 18-section company report. This is a supporting audit, not a new valuation mode. Ordinary Screen Mode does not calculate N or require this audit.
+
+Use this compact output contract even when the answer must be concise: **arithmetic conclusion; evidence/action conclusion; the four-row evidence checklist below**. Do not stop at "a dividend bridge is needed." Include all four links, distinguish facts already supplied from missing evidence, and name the missing input and disclosure needed to resolve it. Do not mark every link missing merely because one fails.
+
+| Evidence link | Specific input to assess | Where to verify it |
+|---|---|---|
+| Operating cash (`operating_cash`) | Volume/pricing, margins, working capital and cash conversion supporting normalized owner cash | Segment/operating disclosures, guidance and cash-flow notes; sector equivalent when applicable |
+| Funding capacity (`funding_capacity`) | Maintenance/growth investment, debt/regulatory uses and remittability leading to recurring FAD | Capex commitments, maturities, capital/remittance and parent-cash disclosures |
+| Payout policy (`payout_policy`) | Policy percentage or fixed DPS, its exact earnings/cash base and funding constraint | Dividend-policy announcement, results payout reconciliation or board declaration |
+| Entitled shares (`entitled_shares`) | Installment record-date shares, cash election and scrip/dilution timing; not EPS weighted-average shares | Dividend entitlement/election notice, share-capital and treasury-share records |
+
+For the actual answer, render `Link | Status / supplied evidence | Missing input / source to obtain | Consequence`. Every status is `supported`, `missing` or `conflicting`. Cite supplied evidence for supported/conflicting rows; a supported row has no invented gap. A missing disclosure means "not provided in this packet" when that is all that is known, not proof that the issuer does not publish it. An overall High label, an average or a generic "needs more evidence" sentence is not a substitute for this checklist.
+
+Full Analysis uses the same checklist in Section 15. JSON with a `buy_zone` stores its four links in `buy_zone.normalization_evidence`; each contains `status`, `input_detail`, `source_refs`, `resolution_source` and `consequence`. References must match entries in `sources`; unsupported links name the disclosure needed, while supported links set `resolution_source` to null. An incomplete normalized comparison is diagnostic only. If an otherwise eligible growth model does not have a credible ordinary comparison, omit `buy_zone` rather than attach unsupported N/B to an eligible action. The validator checks completeness and declared consistency, not the truth or semantic adequacy of the prose.
+
 ## Entitlement and Implementation
 
 For an entry decision, check the actual ex-date, approval status and election deadline. A buyer after ex-date does not receive that earlier entitlement. Dividend capture does not itself create an economic gain: the price normally reflects the entitlement loss, with market movements and taxes affecting the outcome. See [HKEX equity FAQ](https://www.hkex.com.hk/global/exchange/faq/products/securities/equity-securites?sc_lang=en) (checked 2026-09-05).
