@@ -168,4 +168,12 @@ python scripts\validate_analysis.py C:\path\outside-this-repo\analysis.json
 
 The validator checks schema, year/scenario completeness and cross-field arithmetic, not source accuracy or investment merit. Keep numerical JSON values unrounded; presentation tables may round them.
 
-Full Analysis uses `schema_version: "2.1"` and requires the new audit records. Historical presentation fields and `three_year_fundamental_forecast` are retained; `forecast_extension` contains years four and five. Old Full Analysis JSON must supply the new records before it conforms to version 2.1. Version 2.1 adds dividend-entitlement/settlement reconciliation and action gates; Screen adds selected yield/basis/range with uncertainty handling. Synthetic cases are not BTI/GSK/Ping An backtests and do not prescribe their valuations.
+Full Analysis uses `schema_version: "2.2"`. Version 2.2 requires dated source/applicability metadata when reusing a `portfolio_target`; current explicit targets and unassessed targets retain their shapes. Existing settlement, cash, action and five-year forecast contracts remain. Legacy buy-zone JSON keys remain compatible but display cash-income labels, not intrinsic-value or action judgments. See `portfolio-context.md` for migration. Synthetic cases are not BTI/GSK/Ping An backtests and do not prescribe their valuations.
+
+## Complete Examples and Publication
+
+- [Worked assumptions and independent answers](dividend-income-equity-analysis/examples/worked-examples.md).
+- [Ordinary analysis JSON](dividend-income-equity-analysis/examples/ordinary.analysis.json) and [growth analysis JSON](dividend-income-equity-analysis/examples/growth.analysis.json), both validated by the local entry point.
+- [Portfolio target context](dividend-income-equity-analysis/portfolio-context.md) and [report publishing contract](dividend-income-equity-analysis/publishing.md).
+
+Generated bundles identify their source commit, schema version, source dirty/clean status and deterministic build-input hash. Archives without a matching Git checkout report the commit as unknown. No hosted CI service is required. Arithmetic checks and evidence-routing reviews do not establish investment performance; see `data-conventions.md` for point-in-time evaluation requirements.

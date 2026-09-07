@@ -81,7 +81,7 @@ def full_report(growth=False):
         "limitations": EVIDENCE,
     } for scenario in ("Bear", "Base", "Bull")]
     report = {
-        "schema_version": "2.1", "mode": "full_analysis", "company": "Synthetic",
+        "schema_version": "2.2", "mode": "full_analysis", "company": "Synthetic",
         "action_assessment": {"status": "eligible", "strong_buy_eligible": False,
                               "reasons": [EVIDENCE], "capital_risk_and_total_return_check": EVIDENCE},
         "ticker": "EXAMPLE", "exchange": "Example", "as_of_date": "2026-01-01", "price_used": 40,

@@ -71,7 +71,7 @@ Mode routing:
 Screen Mode target rules:
 
 - Use a target explicitly provided for the current screen first.
-- Otherwise use a clearly applicable established portfolio target.
+- Otherwise use a clearly applicable established portfolio target with provenance and validity from `portfolio-context.md`.
 - If neither exists, set the screening target and Yield Fit to `Not Assessed`.
 - Never use the required-yield ranges in `buy-zone.md` as the user's screening objective.
 - Treat a target as `hard_minimum` only when the user explicitly describes it as mandatory; otherwise treat it as a `preference`.
@@ -94,6 +94,8 @@ Canonical priority:
 Guardrails:
 
 - Apply `data-conventions.md` for period, FX, corporate actions and evidence.
+- Ordinary price bands measure cash-yield requirements without dividend growth credit; display income labels from `buy-zone.md`, not legacy JSON action-like names. Action eligibility is separate.
+- Use `publishing.md` for authorized report-archive changes; validate and synchronize the index, ticker READMEs and version chains.
 - Use total dividend entitlement for cash-election DPS and actual settlement for issuer cash cost; scrip retention cannot manufacture dividend coverage.
 - Apply confidence and capital-risk action gates before Strong Buy, including for growth valuation. Historical broker withholding is event evidence, not a permanent future tax rate.
 

@@ -111,10 +111,12 @@ Do not upgrade visibility merely because the model contains five numerical years
 - If a required scoring module is Not Assessable, show the supported module scores and missing evidence, but set the total score and Grade to Not Assessable (`null` in JSON). Do not fill missing data with neutral points or scale a partial score to 100. Portfolio Role is at most Watchlist until the material gaps are resolved.
 - A Triggered value-trap veto overrides any numeric score: actionable buy zones are suspended and the security cannot be Core income. An Unclear veto also suspends actionable buy zones and caps the Portfolio Role at Watchlist; missing evidence does not mean the veto passed.
 - Low Forecast Confidence, a fallback N / B, provisional yield calibration or an unassessed capital-risk / total-return cross-check prevents an actionable Strong Buy and a Core income classification. Use diagnostic income sensitivities with Watchlist as the action. Not Forecastable suspends ordinary buy zones.
-- A Strong Buy action requires High Forecast Confidence, Strong Dividend Safety, value-trap veto Not triggered and every action gate in `buy-zone.md`. Medium confidence permits at most gradual accumulation after the other gates pass. A price inside the arithmetic Strong Buy threshold is not sufficient.
+- A Strong Buy action requires High Forecast Confidence, Strong Dividend Safety, value-trap veto Not triggered and every action gate in `buy-zone.md`. Medium confidence permits at most gradual accumulation after the other gates pass. A price inside the Bear high-end cash-yield boundary is not sufficient; ordinary band names describe cash income and never assign actions.
 - Dividend Safety Weak or Unclear prevents Core income. Income yield does not compensate for an unquantified risk of permanent loss of capital.
 
 These overlays do not create new module weights. Report a computed score separately from confidence, safety, valuation eligibility and the final Portfolio Role; a high score cannot cancel a failed gate.
+
+Bounded analyst estimates can support Medium Forecast Confidence when their operating, investment, cash, tax, capital and payout bridges reconcile; exact project-by-project management ROIC disclosures are not mandatory for `direct_operating_to_dps`. Identify ranges and limitations. Unsupported material funding, remittance or terminal facts remain gate failures and cannot be cured with a higher risk premium, a lower entry price or a larger safety discount. Do not charge the same residual uncertainty again in multiple overlays.
 
 ## Score and Valuation Separation
 

@@ -18,7 +18,7 @@ Screen Mode ends after the compact screen output. It must not continue into the 
 2. Separate paid TTM yield from the selected recurring-income screening measure, with distribution, withholding, FX and fee basis.
 3. Resolve the screening net-yield target using this priority:
    - user-explicit target for the current screen;
-   - clearly applicable portfolio-level target;
+   - clearly applicable portfolio-level target with provenance/validity from `portfolio-context.md`;
    - `Not Assessed` when neither is available.
 4. Classify target policy as `hard_minimum`, `preference`, or `not_assessed`.
 5. Calculate Yield Fit and Yield Gap:
@@ -135,7 +135,7 @@ Do not apply arbitrary percentage haircuts directly to DPS.
 
 Build one-driver-at-a-time sensitivity for three to five important drivers and classify every row:
 
-- `transient`: temporary; update affected-year cash flow, DPS, and yield only; Accumulation Upper-Bound Change = N/A;
+- `transient`: temporary; update affected-year cash flow, DPS, and yield only; normalized high-end cash-yield boundary change (N/r_high) = N/A;
 - `persistent`: expected to alter normalized economics; recalculate N before updating boundaries;
 - `structural`: rebuild Fundamental Trend, forecast, scoring, veto, and valuation mode.
 
@@ -222,7 +222,7 @@ Use `total_return_based` only after the evidence gates in `buy-zone.md` pass. Di
 
 ### Structural Decline Without Exception
 
-Use valuation mode `suspended`. Do not output Fair, Accumulation, or Strong Buy zones.
+Use valuation mode `suspended`. Do not output ordinary cash-yield bands or actionable entry conclusions.
 
 ### Structural Decline With Harvest / Managed Runoff Exception
 

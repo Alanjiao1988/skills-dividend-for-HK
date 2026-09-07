@@ -3,6 +3,7 @@
 import argparse
 import json
 import math
+from datetime import date
 from functools import lru_cache
 from pathlib import Path
 
@@ -98,9 +99,25 @@ def validate_report(report):
     if errors:
         return errors
 
+    def portfolio_target_checks(params, as_of):
+        if params["target_basis"] != "portfolio_target":
+            return
+        context = params["portfolio_context"]
+        try:
+            analysis_date = date.fromisoformat(as_of)
+            confirmed = date.fromisoformat(context["confirmed_on"])
+            expiry = date.fromisoformat(context["valid_until"]) if context["valid_until"] else None
+        except (TypeError, ValueError):
+            require(False, "Portfolio target requires valid analysis and context dates")
+            return
+        require(confirmed <= analysis_date, "Portfolio target confirmation cannot postdate the analysis")
+        require(expiry is None or confirmed <= expiry, "Portfolio target validity interval is reversed")
+        require(expiry is None or analysis_date <= expiry, "Portfolio target has expired; reassess the income target")
+
     if report["mode"] == "screen":
         params = report["screening_parameters"]
         for row in report["screen_results"]:
+            portfolio_target_checks(params, row["as_of_date"])
             same(row["screening_net_yield_target"], params["target_net_yield"], "Screen target")
             target, net_yield = params["target_net_yield"], row["screening_yield_used"]
             low, high = row["screening_yield_range"]["low"], row["screening_yield_range"]["high"]
@@ -336,6 +353,7 @@ def validate_report(report):
         same(returns["required_total_return_high"], returns["risk_free_rate"] + returns["risk_premium_high"], "Required return high")
         require(returns["required_total_return_high"] > returns["required_total_return_low"], "Return range must be ordered and nonempty")
     income = report["income_assessment"]
+    portfolio_target_checks(income["target"], report["as_of_date"])
     target, net_yield = income["target"]["target_net_yield"], income["forward_net_yield"]
     forward_dps, price = income["forward_net_dps"], report["price_used"]
     same(net_yield, forward_dps / price if forward_dps is not None and price is not None else None,

@@ -1,6 +1,6 @@
 # Holding Review
 
-This Full Analysis module is embedded in **Section 17: Score, Portfolio Role, and Holding Review**. It does not add a nineteenth section or replace the scoring, cash-flow, business-outlook or valuation contracts.
+This Full Analysis module is embedded in **Section 17C: Holding Review**, following Section 17A scoring and Section 17B portfolio role within **Section 17: Score, Portfolio Role, and Holding Review**. It does not add a nineteenth section or replace the scoring, cash-flow, business-outlook or valuation contracts.
 
 The actions `hold`, `review`, `trim`, `exit`, `switch` and `not_assessed` are **research conclusions for human consideration**, never orders or automatic trading. Set `automatic_trade: false`. Do not execute trades, infer account permissions or invent position sizes.
 
@@ -56,12 +56,12 @@ Use the applicable primary model from `buy-zone.md`:
 
 | Valuation basis | Review threshold | Meaning and limitation |
 |---|---|---|
-| Ordinary income primary | `P_current > N / r_low` | Current normalized cash yield is below the required income range; reassess prospective value/income, not automatic sale |
+| Ordinary income primary | `P_current > N / r_low` | Below required cash yield under the no-growth income comparison; review income fit and prospective total return without presuming intrinsic overvaluation or sale |
 | Growth primary | `P_current > growth_value_high`, equivalently `P_current > review_above` | Price exceeds the highest coherent scenario PV; review returns and opportunity cost |
 | Finite-life harvest | Price exceeds the documented finite-life recovery range, or expected remaining recovery/funding changes | Re-estimate the remaining dated cash and residual, retaining the discount floor and no perpetuity |
 | Suspended / unavailable | No valid price threshold | Address the thesis/veto/evidence failure; do not invent a valuation-based exit price |
 
-For a credible growth primary, an ordinary income comparison above `N / r_low` answers the cash-income question; it does not by itself mean intrinsic overvaluation. A preference shortfall may be compatible with holding for funded growth. A hard cash-income minimum still cannot be compensated by growth, capital gains or a buyback yield.
+For either an ordinary or a credible growth primary, the ordinary ladder credits no dividend growth and is not a complete estimate of intrinsic value. An income comparison above `N / r_low` answers the cash-income question; it does not by itself mean intrinsic overvaluation. The ladder's four cash-income bands do not determine hold/add/trim/exit. A preference shortfall may be compatible with holding for funded growth. A hard cash-income minimum still cannot be compensated by growth, capital gains or a buyback yield.
 
 Review forward distributions, prospective total return, risk, taxes, costs and available alternatives before suggesting a valuation-driven trim or exit. Price appreciation or lower yield is only a prompt to update those inputs. Do not create a universal stop-loss, profit-taking percentage or yield-compression sell trigger.
 
