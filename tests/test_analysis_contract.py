@@ -687,6 +687,16 @@ class AnalysisContractTests(unittest.TestCase):
             sections = [line for line in text.splitlines() if line.startswith("## ") and line[3:4].isdigit()]
             self.assertEqual(len(sections), 18)
 
+    def test_publishing_contract_tracks_archive_ruleset_fields(self):
+        skill = Path(__file__).resolve().parents[1] / "dividend-income-equity-analysis"
+        publishing = (skill / "publishing.md").read_text(encoding="utf-8")
+        # The archive index requires these; a silent drift here would let a stale
+        # ruleset label or an unevidenced summary reach the published archive.
+        for field in ("`ruleset`", "`summary_provenance`", "`summary_evidence`", "`dividend-report-meta`"):
+            self.assertIn(field, publishing)
+        self.assertIn("MIGRATION.md", publishing)
+        self.assertIn("fabricated evidence is worse than an empty array", publishing)
+
 
 if __name__ == "__main__":
     unittest.main()
