@@ -261,7 +261,7 @@ Every full analysis should include a compact sensitivity table for the three to 
 
 Use one-driver-at-a-time sensitivity around the Base case while holding other assumptions constant.
 
-| Driver Change | Sensitivity Type | Distributable Cash Change | Derived DPS Change | Net Yield Change at Current Price | Accumulation Upper-Bound Change | Interpretation |
+| Driver Change | Sensitivity Type | Distributable Cash Change | Derived DPS Change | Net Yield Change at Current Price | Normalized High-End Cash-Yield Boundary Change (N/r_high) | Interpretation |
 |---|---|---:|---:|---:|---:|---|
 
 Classify every sensitivity as:
@@ -276,9 +276,9 @@ Rules:
 - Show whether the relationship is calculated, historically observed, company-disclosed, or estimated.
 - Treat the result as local sensitivity around the Base case. Do not assume linearity under extreme conditions.
 - If the driver affects multiple variables simultaneously, explain the interaction rather than claiming false one-variable precision.
-- For `transient` changes, set Accumulation Upper-Bound Change to `N/A`. The effect belongs only in the affected forecast-year cash flow, DPS, and net yield.
+- For `transient` changes, set normalized high-end cash-yield boundary change (N/r_high) to `N/A`. The effect belongs only in the affected forecast-year cash flow, DPS, and net yield.
 - For `persistent` changes, recalculate normalized distributable cash and N before updating the accumulation boundary.
-- For `structural` changes, set Accumulation Upper-Bound Change to `Rebuild required`; rerun Fundamental Trend, the five-year outlook/forecast, scoring, value-trap checks, and valuation framework.
+- For `structural` changes, set normalized high-end cash-yield boundary change (N/r_high) to `Rebuild required`; rerun Fundamental Trend, the five-year outlook/forecast, scoring, value-trap checks, and valuation framework.
 - When a growth DDM is used, a transient **cash** change affects only its dated cash-flow present value, not terminal growth or normalized N. Report `growth_value_change` separately; the ordinary accumulation-boundary change remains `N/A`. See `buy-zone.md`.
 
 Examples:

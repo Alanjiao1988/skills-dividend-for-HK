@@ -15,12 +15,20 @@ Given OCF 100 after interest and tax, total capex 30 (maintenance 20 included), 
 
 ## Price Threshold Versus Action
 
-With N=1, B=0.50, r_low=5%, r_high=8%, the upper income boundary is 20, normalized accumulation boundary is 12.50 and Bear threshold is 6.25. A price of 5 satisfies the arithmetic Bear threshold.
+With N=1, B=0.50, r_low=5%, r_high=8%, the normalized low-end cash-yield boundary is 20, normalized high-end boundary is 12.50 and Bear high-end boundary is 6.25. The four income bands are: price above 20, below required cash yield; (12.50, 20], normalized income within required range; (6.25, 12.50], normalized income meets high-end requirement; and positive price at or below 6.25, Bear income meets high-end requirement. A price of 5 satisfies the arithmetic Bear threshold.
+
+These are cash-income comparisons with no dividend growth credited, not a complete estimate of intrinsic value. Equality at 12.50 belongs to the normalized-high-end band and equality at 6.25 to the Bear-high-end band. No band assigns a trading action.
 
 - Strong Buy still requires all evidence and capital-risk gates, High confidence and Strong safety.
 - Medium confidence permits at most gradual accumulation after the other gates pass.
 - Low confidence is diagnostic only; Unclear veto suspends valuation output.
-- B=0 gives no positive-price Strong Buy zone. B>N is an inconsistency to resolve, not a number to clamp. N<=0 or nonpositive required yield suspends ordinary valuation.
+- B=0 gives no positive-price Bear-high-end band and precludes a Strong Buy action for an ordinary-income strategy. B>N is an inconsistency to resolve, not a number to clamp. N<=0 or nonpositive required yield suspends ordinary valuation.
+
+## Growth Evidence Without Project-Level ROIC
+
+- A fictional regulated operator discloses installed capacity, commissioning dates, contracted tariffs and a funded capex plan. Bounded utilization and maintenance/working-capital estimates reconcile to owner cash, mandatory capital uses, payout policy and shares in every scenario and terminal year. This can support `direct_operating_to_dps` and Medium confidence even without management-published marginal ROIC for each project, provided the common tax, remittance, funding and terminal gates pass.
+- If the same operator's material subsidiary remittances or required capital contribution cannot be bounded, the direct bridge is not sufficient for eligible growth. Leave the affected evidence gate unresolved; a larger margin of safety does not supply the missing fact. Use any independently credible ordinary income comparison only if its own common inputs remain sound.
+- Do not apply a scenario cash haircut, a premium and a safety discount three times for the same commissioning risk. Explain which uncertainty each treatment covers.
 
 ## Screening and Total Return
 

@@ -143,7 +143,7 @@ class IncomeAuditTests(unittest.TestCase):
     def test_bad_schema_version_is_rejected(self):
         report=full_report()
         report['schema_version']='999'
-        self.assertInvalid(report,'2.1')
+        self.assertInvalid(report,'schema_version')
 
     def test_finite_life_pv_must_reconcile(self):
         report=full_report()

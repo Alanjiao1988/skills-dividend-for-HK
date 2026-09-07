@@ -152,7 +152,7 @@ Every sensitivity row must be classified:
 
 Rules:
 
-- Transient: Accumulation Upper-Bound Change = N/A.
+- Transient: normalized high-end cash-yield boundary change (N/r_high) = N/A.
 - Transient in growth valuation: show the affected-year discounted cash impact separately; do not change terminal growth.
 - Persistent: recalculate normalized distributable cash and N before updating the boundary.
 - Structural: show `Rebuild required`; rerun the full model.
@@ -221,12 +221,14 @@ Include:
 - current price position;
 - veto status.
 
+Use the cash-income band names from `buy-zone.md`, including translated equivalents where appropriate. Caption the comparison: no dividend growth is credited and this is not a complete estimate of intrinsic value. Show `action_assessment` independently; a cash-income band does not assign a buy, hold or sell action.
+
 ### Conditional Total-Return-Based Mode
 
 Require evidence-backed, funded annual dividends and the growth/transition gates in `buy-zone.md`. Show:
 
 - annual dividend-path references to Section 13, with valuation cash-flow dates/stub treatment;
-- reinvestment/ROIC or equity-retention/ROE evidence and its transmission to per-share DPS;
+- reinvestment/ROIC, equity-retention/ROE or a supported direct operating-to-DPS bridge, distinguishing public facts from bounded analyst estimates;
 - explicit horizon, steady-state transition, terminal DPS, bounded terminal growth and R-g spread;
 - scenario present values, terminal-value share and R/g sensitivity;
 - growth-value range, declared safety discount, entry limit and valuation-review threshold;
@@ -234,6 +236,8 @@ Require evidence-backed, funded annual dividends and the growth/transition gates
 - a separately labelled ordinary income entry comparison when credible, not a forced single answer.
 
 If growth is unassessable, state why and use only a credible ordinary/finite-life mode or suspend. Do not manufacture positive growth to justify a price.
+
+Exact project-level marginal-return disclosures are not required for a supported direct bridge. Explain which inputs are estimated and how they are bounded; existing Medium confidence can apply when all common and terminal funding gates pass. Material unbounded funding, tax or remittance gaps cannot be repaired by increasing the safety discount.
 
 ### Structural Decline Without Exception
 
@@ -244,7 +248,7 @@ Valuation mode: suspended
 Ordinary buy zone: suspended
 ```
 
-Do not output Fair, Accumulation, or Strong Buy zones.
+Do not output an ordinary cash-income ladder, a growth entry range or a Strong Buy action.
 
 ### Harvest / Managed Runoff Exception
 
@@ -272,6 +276,8 @@ Summarize:
 
 ## 17. Score, Portfolio Role, and Holding Review
 
+### 17A. Score and Evidence Overlays
+
 Use `scoring.md` and show module points.
 
 Output:
@@ -281,13 +287,18 @@ Output:
 - Withholding Efficiency.
 - Buyback Quality.
 - Three-Year Dividend Outlook.
-- Portfolio Role.
 - Fundamental Trend.
 - Forecast Confidence.
 - Structural Decline cap applied.
 - Harvest / Managed Runoff Exception applied.
 - Valuation mode.
 - Unadjusted score and overlay-adjusted Grade where applicable.
+
+### 17B. Portfolio Role
+
+State the final Portfolio Role and its rationale after the evidence, safety and Structural Decline overlays. Separate security quality from the user's supplied portfolio holdings, cash-income requirements and concentration limits; unknown inputs do not create an assumed portfolio fit. A score or cash-income band is not an action recommendation.
+
+### 17C. Holding Review
 
 Apply `holding-review.md` separately from the score: thesis/cash/solvency triggers, valuation-review band, concentration/mandate constraints, action and next evidence date. A valuation band is not an automatic sell order. For a proposed switch, show the named alternative, same-basis forward cash income/returns, taxes/fees/costs and documented improvement hurdle. Missing holdings/alternative information means no invented trade size or switch conclusion.
 

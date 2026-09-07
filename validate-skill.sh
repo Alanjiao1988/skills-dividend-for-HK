@@ -131,6 +131,7 @@ bash build-gpt-instructions.sh >/dev/null
 for module in \
   SKILL.md \
   data-conventions.md \
+  portfolio-context.md \
   screen-mode.md \
   workflow.md \
   business-outlook.md \
@@ -141,6 +142,7 @@ for module in \
   visual-output-rules.md \
   buy-zone.md \
   holding-review.md \
+  publishing.md \
   output-template.md; do
   grep -Fq "# Module: $module" "$GENERATED" || {
     echo "Generated GPT instructions missing module: $module" >&2
@@ -177,6 +179,10 @@ grep -Fq 'Screening net-yield target' "$SCREEN_MODE"
 grep -Fq 'Target policy: hard_minimum / preference / not_assessed' "$SCREEN_MODE"
 grep -Fq 'do not reject or downgrade a stock solely because its yield appears low' "$SCREEN_MODE"
 grep -Fq 'screen-mode.md' build-gpt-instructions.sh
+
+for example in ordinary growth; do
+  "$PYTHON_BIN" scripts/validate_analysis.py "dividend-income-equity-analysis/examples/$example.analysis.json"
+done
 
 "$PYTHON_BIN" -m unittest discover -s tests -p 'test_*.py'
 

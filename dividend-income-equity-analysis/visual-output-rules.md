@@ -45,12 +45,12 @@ Show historical actuals followed by five-year Bear/Base/Bull paths for a sector 
 
 Use the visual that matches `valuation_mode`:
 
-- `ordinary_yield_based`: Buy-Zone Ladder with Current, Fair, Accumulation, Strong Buy, N basis, confidence, and veto.
+- `ordinary_yield_based`: Cash-Income Ladder using the four band names in `buy-zone.md`, with current price, N basis, confidence and veto. Caption it: no dividend growth is credited; this is not a complete estimate of intrinsic value.
 - `total_return_based`: scenario Growth-Value Range, entry limit, valuation-review threshold, terminal-value share and R/g sensitivity; show an income entry comparison separately when credible.
 - `finite_life_harvest`: Finite-Life Cash-Recovery summary with annual net distributions, discount rate, residual value, and value range.
 - `suspended`: prominent status stating why ordinary buy-zone output is suspended.
 
-Do not display a Structural Decline company as an ordinary Fair / Accumulation / Strong Buy ladder unless the ordinary framework is explicitly shown only as a secondary cross-check permitted by `buy-zone.md`.
+For Structural Decline, show an ordinary cash-income ladder only as a secondary cross-check when specifically permitted by the finite-harvest exception in `buy-zone.md`. Ordinary ladder bands never produce action badges. A separately shown Strong Buy action needs the full independent action gates; a cash-income threshold or favorable chart color is insufficient.
 
 ## 4. Dividend Trajectory Tables
 
@@ -123,7 +123,7 @@ Text examples:
 
 ```text
 Transient: VLCC day rate +5,000 for one year -> FY+1 DPS +0.40 -> buy-zone boundary N/A
-Persistent: tariff reset +5% -> normalized N +0.20 -> Accumulation upper bound +3.30
+Persistent: tariff reset +5% -> normalized N +0.20 -> normalized high-end cash-yield boundary (N/r_high) +3.30
 Structural: regulation removes business line -> full model rebuild required
 ```
 
@@ -136,7 +136,7 @@ Structural: regulation removes business line -> full model rebuild required
 - Distinguish facts, guidance, consensus cross-checks, historical sensitivity, and analyst estimates.
 - Label partial-year data and avoid unstated annualization.
 
-## 9. Ordinary Buy-Zone Tables
+## 9. Ordinary Cash-Income Tables
 
 Use for ordinary valuation or a clearly labelled income-only comparison alongside eligible growth valuation. Do not let a growth comparison obscure an explicit income shortfall.
 
@@ -145,12 +145,12 @@ Use for ordinary valuation or a clearly labelled income-only comparison alongsid
 | Metric | Price / Level | Current Position | Comment |
 |---|---:|---:|---|
 
-### Buy-Zone Table
+### Cash-Income Band Table
 
-| Zone | Price Range | Implied Net Yield | DPS Basis | Condition Required | Action View |
-|---|---:|---:|---|---|---|
+| Cash-Income Band | Price Range | Implied Net Yield | DPS Basis | Evidence / Limitation |
+|---|---:|---:|---|---|
 
-Also show N basis, Forecast Confidence, and Value-Trap Veto.
+Use these exact band names (or the Chinese equivalents in `buy-zone.md`): Below required cash yield; Normalized income within required range; Normalized income meets high-end requirement; Bear income meets high-end requirement. Also show N basis, Forecast Confidence and Value-Trap Veto. A separate action line states `action_assessment.status`, `strong_buy_eligible` and the supporting reasons; do not populate an action column merely from these mathematical bands.
 
 ### Required Return Audit
 
@@ -190,11 +190,11 @@ Then show:
 - Coverage labels by year.
 - Development path: `FY+1 evidence | FY+3 capacity/cash | FY+5 durability | invalidation milestone`.
 - Valuation:
-  - ordinary: `Current | Fair | Accumulate | Strong Buy | Veto`;
+  - ordinary: `Current price | cash-income band | N/r_low | N/r_high | B/r_high | Veto`; use the band names above, with the no-growth/intrinsic-value limitation;
   - growth: `Income fit | scenario values | entry limit | review level | terminal dependence`;
   - finite-life: `Harvest horizon | PV distributions | residual | value range`;
   - suspended: `Buy zone suspended — reason`.
 
 ## 12. Holding Review
 
-Use a compact `Trigger | Evidence | Review Level | Research Action | Missing Inputs | Next Check` table, following `holding-review.md`. Distinguish a business/solvency red flag from a valuation-review signal. Do not display a specific trade size or a switch recommendation when the required portfolio/alternative information is absent.
+Place the compact `Trigger | Evidence | Review Level | Research Action | Missing Inputs | Next Check` table in Section 17C, following `holding-review.md`; Sections 17A and 17B contain scoring and portfolio role respectively. Distinguish a business/solvency red flag from a valuation-review signal. Do not display a specific trade size or a switch recommendation when the required portfolio/alternative information is absent.
