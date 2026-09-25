@@ -1,6 +1,8 @@
 # Holding Review
 
-This Full Analysis module is reported as one bullet in the main report's **Section 3: Entry View** when the user holds the stock or asks about holding, selling or switching, with the trigger table and switching comparison in **Audit Appendix part A12**. It does not add a report section or replace the scoring, cash-flow, business-outlook or valuation contracts.
+This Full Analysis module is reported as one bullet in the main report's **Section 3: 买点观点 (Entry View)** when the user holds the stock or asks about holding, selling or switching, with the trigger table and switching comparison in **Audit Appendix part A12** (scoring and portfolio role are in A11). It does not add a report section or replace the scoring, cash-flow, business-outlook or valuation contracts.
+
+For a request only to check a new disclosure's dividend safety, use the separate light `safety_review` mode in `safety-review.md`. Full Analysis may embed that dated baseline/delta/decision discipline here; a standalone safety update does not need a new five-year forecast, valuation or personal holdings export.
 
 The actions `hold`, `review`, `trim`, `exit`, `switch` and `not_assessed` are **research conclusions for human consideration**, never orders or automatic trading. Set `automatic_trade: false`. Do not execute trades, infer account permissions or invent position sizes.
 
@@ -13,15 +15,20 @@ Evaluate thesis/capital/payout failure first, independently of price. A cheap qu
 | `thesis` | A stated thesis invalidation signal; persistent or structural deterioration; failure of a development milestone | Original thesis, dated operating evidence, changed forecast and classification | Rebuild the thesis and evaluate holding/exit suitability without waiting for a price threshold |
 | `cash_capital` — solvency | Liquidity, refinancing, remittance or regulatory capital support fails | Maturity/funding bridge, restrictions, available capital and credible remediation | Prioritize capital protection review; evaluate exit/trim when holder constraints are known |
 | `cash_capital` — payout | Recurring FAD or actual post-exceptional-use distribution capacity no longer supports payout; material dilution | Both cash-coverage tests, policy calculation, share bridge and funding gap | Reassess sustainable forward income and the veto; distinguish planned change from unsupported payout |
+| `cash_capital` — controller | Transfers/payouts to the ultimate controller may impair the listed company's cash, investment or minority value | The sourced `controller_risk` mechanism and materiality assessment in `analysis-quality.md` | Escalate confirmed material harm or unresolved potentially material exposure; parent need alone is not proof |
 | `valuation` | Price exceeds the applicable valuation-review boundary or forward return no longer compensates for evidenced risk | Updated independent return requirements, coherent forecasts and price/date | Review valuation and possible reduction; crossing a band is not an automatic sale |
 | `opportunity_cost` | A named, researched alternative may provide a material same-basis net benefit | Comparable forward cash/returns, risks, costs and a documented switching hurdle | Complete Section 5 before concluding `switch` |
 | `portfolio` | Concentration, liquidity, currency, sector or mandate constraints are breached | Actual holdings, portfolio exposures and explicitly applicable limits | Assess rebalance/trim independently of whether the business remains attractive |
 
 Use company-specific, evidenced thresholds and investor-supplied constraints, not universal numeric stop-losses, target profits or concentration limits. Price appreciation, a percentage loss, a new high, or yield compression alone is not a mechanical sell signal.
 
+Quality /85 and security role do not change solely because the quote changes. A changed price may prompt an entry/valuation or actual portfolio-concentration review without changing the business-quality assessment. Use `income_drivers` and `fx_risk` to identify shared cash exposures, but quantify concentration only with actual holdings and exposure data. Real-income erosion is a separate purchasing-power concern, not automatically dividend insolvency.
+
 A `Triggered` veto or Structural Decline must prompt action evaluation immediately, even below cost or with valuation suspended. An `Unclear` veto prompts evidence review, not a claim of proven failure or a reassuring hold. A managed-runoff exception requires checking whether the remaining finite cash-recovery case still holds; it is not permission to ignore new funding stress.
 
 Check recurring support and actual affordability separately using `buy-zone.md`: exceptional cash uses can leave a funding gap despite apparently adequate recurring FAD, while excess cash can temporarily mask weak recurring support. An unresolved funding gap blocks an eligible growth valuation and prompts capital/payout review; it is not cured by a favourable terminal value.
+
+For controller risk, follow the listed company **paying or transferring resources to its controlling parent**, not only subsidiaries remitting cash into a listed parent. Reuse the canonical record; timing, group/state ownership, high payout or parent refinancing need alone never establishes harmful extraction. Confirmed material harm triggers the veto; unresolved material exposure needs evidence review, not an automatic sale.
 
 ## 2. Inputs and Unknowns
 
@@ -41,6 +48,8 @@ Required position-specific inputs include:
 - Explicit cash-income preference or hard minimum, including its measurement period and whether it is a yield or an absolute amount.
 - Applicable tax/account treatment, FX method, recurring fees and execution costs. Cost basis is required when it materially affects disposal tax.
 - The original thesis, current evidence, next decision-relevant milestone, and updated capital/payout/valuation analysis.
+
+These holder-specific inputs are needed for a personalized holding/size/switch assessment, not to establish security-level cash safety or descriptive income-driver tags. When assessing a change since a previous review, reference its dated cash/capital baseline and the new disclosure; without a comparable baseline, report the comparison as unavailable rather than “maintained” or “improved.”
 
 `portfolio_inputs_available` is true only when the material holdings and personal constraints needed for the conclusion are supplied. If false:
 
@@ -144,6 +153,8 @@ Every review must state:
 - **Re-entry conditions:** what must be repaired or evidenced, the applicable updated entry discipline, income constraints and required rerun of the veto/forecast. A thesis-driven exit cannot be reversed merely because price fell; a valuation-driven trim cannot be reversed merely because price returned to purchase cost.
 
 Use `business-outlook.md` milestones for the full year-1-through-5 development path. Route misses as transient, persistent or structural and apply the appropriate revaluation rules. A future recheck is a documented research plan, not an automatically scheduled trade.
+
+The next event may initially be assessed with `safety-review.md`: a supported transient update can remain light, while structural change or unresolved funding/veto requires full reassessment. Do not extrapolate a single quarter into new five-year cash, N/B or terminal growth merely to complete a routine update.
 
 The `holding_review` output contains:
 

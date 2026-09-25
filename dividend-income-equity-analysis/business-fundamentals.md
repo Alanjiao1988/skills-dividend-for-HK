@@ -6,6 +6,8 @@ Presentation follows `output-template.md`: the main report shows only the result
 
 The purpose is to derive sustainable owner cash, future DPS, normalized DPS, and valuation inputs from operating drivers rather than extrapolating historical dividends. Read `business-outlook.md` for the three-to-five-year development thesis and `sector-fcf-proxies.md` before selecting a cash-generation measure. These modules share one forecast; do not build a separate, inconsistent growth-valuation forecast.
 
+`analysis-quality.md` is canonical for the full normalization-state ledger, controller, quality, real-income, FX and income-driver records. Safety Review uses only this file's relevant cash/policy/coverage definitions under `safety-review.md`; it does not inherit the full forecast requirements.
+
 ## 1. Required Causal Chain
 
 Every full analysis must follow this chain:
@@ -31,7 +33,7 @@ Do not forecast future DPS as an independent input when the operating and cash-f
 
 ## 2. Historical Business Baseline
 
-Use at least five fiscal years when available. For cyclical sectors, use a full business cycle where possible.
+Use at least five fiscal years when available. For cyclical sectors, use a full business cycle where possible, with a window justified by supply, contracts and capital replacement rather than a default five years. Apply the comparable-perimeter and joint-assumption requirements in `analysis-quality.md` when constructing normalized states.
 
 Identify:
 
@@ -151,6 +153,8 @@ Examples:
 
 Do not use a long list of immaterial variables. Prefer a small number of auditable drivers.
 
+Summarize the dominant cash-income exposure in one or two `income_drivers` tags under `analysis-quality.md`; these are not replacement forecast variables or invented portfolio weights. Map revenue, cost and debt currencies through remittable cash to the dividend, rather than assuming the reporting currency is the economic exposure.
+
 ## 5. Sector-Specific Forecast Bridges
 
 `sector-fcf-proxies.md` is the single source for the sector bridge, required disclosures, capital constraints, prohibited shortcuts, and missing-data treatment. Identify one primary model and any holding-company overlay before calculating coverage. Never turn OPAT, embedded value, NAV, EBITDA, or AFFO into distributable cash by renaming it.
@@ -158,6 +162,8 @@ Do not use a long list of immaterial variables. Prefer a small number of auditab
 ## 6. Three-to-Five-Year Fundamental and FCF Forecast
 
 Build a five-year development outlook using `business-outlook.md`. Provide detailed annual Bear, Base, and Bull forecasts for FY+1 through FY+3, then FY+4 and FY+5 extension scenarios when supported. If later years cannot be estimated, retain the year/scenario rows with unavailable values, lower confidence and specific missing inputs; do not extrapolate a convenient CAGR. If even the first three years are unsupported, mark them similarly and use Not Forecastable.
+
+Apply `data-conventions.md` recovery before that unavailable conclusion: use sourced operating ranges, disclosed total investment, current shares plus explicit issuance/no-buyback assumptions, and bounded capital/liquidity uses. Exact future registers, board decisions or every maintenance/growth split are not prerequisites. Preserve disclosed operating/earnings values even when downstream cash is not estimable; an unbuilt downstream bridge must not erase upstream facts or all historical scoring.
 
 ### Operating Driver Forecast
 
@@ -209,6 +215,8 @@ Use the definition and deduction ledger in Section 2. Exceptional uses and exces
 
 Track opening accessible excess cash, source-specific additions, uses and closing balance through the five years. The same surplus cannot fund repeated annual payouts. Reconcile ordinary shareholder prior claims, minority interests, trapped cash and subsidiary remittances once, using the parent overlay in `sector-fcf-proxies.md`. Verify parent distributable reserves, covenants and legal/regulatory headroom; a consolidated cash balance is not permission to distribute it.
 
+Separately assess cash leaving the **listed issuer for its ultimate controller**, including an unlisted parent, using `controller_risk` in `analysis-quality.md`. Do not confuse this with incoming subsidiary remittances, assume that parent need proves harm, or deduct the same transfer twice.
+
 ### Payout-Policy Classification and Calculation Base
 
 | Policy type | Policy-implied cash-equivalent dividend entitlement | Required constraint |
@@ -236,6 +244,29 @@ Use consistent cash/share units. A single installment may use the reported `divi
 Each installment records its entitlement, entitled shares/record date, derived DPS, cash-settled fraction, actual cash cost and settlement cash adjustment. With no scrip cash retention, the fraction is 1 even if the broker reinvests the cash in market shares. Mandatory stock-only distributions have no cash-election DPS and must not populate this cash-income runway as an ordinary cash dividend. A cash adjustment represents only additional issuer settlement cash under the scheme, not withholding already included in the gross cash entitlement.
 
 New issuer scrip shares affect subsequent entitlements when their terms allow; do not dilute the payment that created them in advance. Use issue price, participation and dates to roll shares forward. Keep all-cash-equivalent coverage alongside the retained legacy cash-paid coverage so high scrip participation cannot manufacture safety. [IFRS Foundation: IAS 33](https://www.ifrs.org/issued-standards/list-of-standards/ias-33-earnings-per-share.html/) explains the distinct EPS share denominator.
+
+### Mixed Cash and Mandatory-Stock Events
+
+Do not suspend an issuer's cash analysis merely because it also distributes shares. In `dividend_installments`, classify each dated event as `cash_dividend`, `optional_scrip` or `mandatory_stock`. Stock-only events have zero cash `dividend_entitlement`, `dividend_cash_cost`, `derived_dps`, settlement fraction and adjustment; optional `noncash_value` is disclosure only. Cash and optional-cash events retain their actual cash-election entitlement. Annual cash entitlement/cost and issuer DPS sum the cash components only.
+
+An event-scoped schedule records `cash_election_confirmed`, `distribution_evidence`, `investor_entitled`, `investor_share_factor`, `stock_shares_issued`, `investor_stock_ratio`, `shares_eligible_from`, `other_share_change` and `share_change_source`. Cash/optional-cash events require confirmed cash access through the investor's actual channel; a type label alone does not establish it. Mandatory stock events have no cash election. Use the same security class and share-unit scale. A continuing holder starts with factor 1; proportional mandatory shares increase that factor only when their terms make them eligible. A cash elector receives no optional-scrip shares, although other investors' scrip can increase issuer shares. Record ex-date/eligibility evidence; a new buyer does not receive past entitlements. Same-day records follow the disclosed order, never diluting the event that creates shares in advance. Other issuance/buybacks need an explicit signed adjustment and source.
+
+Once event scoping is used, include dated installments for every estimated forecast year/scenario so later share counts cannot silently reset. Reconcile **issuer** shares separately from the continuing holder's shares:
+
+```text
+issuer shares at next event = prior shares + newly eligible issued shares + other_share_change
+holder shares awarded per starting share = factor at the award's record date x investor_stock_ratio
+holder factor at next event = prior factor + newly eligible awarded holder shares
+investor_cash_dps = sum(cash-event derived_dps x investor_share_factor, for entitled events)
+```
+
+For a proportional mandatory stock award, `investor_stock_ratio` is issued shares / the event's entitled shares when the investor is entitled, otherwise zero. It is zero for an all-cash election. `investor_cash_dps` is cash per **starting underlying share**, not stock market value or an additional dividend; the quoted-security/ADR factor and currency conversion still apply once. Keep issuer DPS as `derived_dps` and the annual dividend-weighted reconciliation denominator. A 10% pro-rata bonus alone must not falsely reduce a continuing holder's cash income by 1/1.1.
+
+Freeze each stock entitlement on its own record-date holding. Two 10% awards determined on the same original shares add 20%; they do not compound to 21% merely because both become eligible later. Compounding is appropriate only when the first award's shares already qualify on the second award's record date.
+
+N's permitted Base average, cash-income assessment, FX stress and growth valuation use this reconciled investor cash basis when present. Keep normalization-state share units comparable to the current quoted security. Event-scoped forward income names `forecast_year`, `forward_fx_rate` and `forward_cash_deductions`; it must reconcile to that year's Base cash path. A growth schedule uses cash fractions summing to one even for its first event-scoped year: already excluded entitlements must not be removed a second time as a stub.
+
+The terminal and any post-year-five transition funding record must preserve the holder factor and a dated share audit (`record_date`, `investor_share_factor`, `other_share_change`, `share_change_source`). An early terminal reconciles to the next forecast's effective investor/issuer DPS ratio. Do not invent later stock issues, share receipts or perpetual cash from the stock award; unsupported future corporate-action terms require a longer evidenced transition or unavailable growth value.
 
 Machine-readable Derived DPS uses the financial currency's whole currency unit, with `cash_unit_scale / share_unit_scale` applied. Valuation cash and prices use the return record's `valuation_unit_scale` (for example 0.01 GBP per quoted penny); disclose FX separately from unit conversion.
 
@@ -293,6 +324,8 @@ Examples:
 
 The buy-zone inputs must be traceable to the fundamental forecast.
 
+Whenever `buy_zone` is present, include `normalization_model` alongside `normalization_evidence`, following `analysis-quality.md`. The state ledger supplies the selected driver series, common operating vector, comparable current economics and policy/entitled-share arithmetic; four narrative evidence links alone are insufficient.
+
 ### Normalized Net DPS, N
 
 Use this source priority:
@@ -313,11 +346,14 @@ historical_fundamental_fallback
 
 A near-term Base case is not automatically normalized. Do not use a Base year containing temporary commodity, freight-rate, geopolitical, credit, regulatory, interest-rate, or pricing windfalls as N without normalizing those drivers.
 
+Reconcile the central sustainable state to net N through the existing tax/FX/share/quote-unit/fee bridge. Cycle-state low/high DPS are neither additional Ns nor future Bear/Bull years; keep optional uncertainty bounds on N separate. Noncyclical steady state is allowed, unavailable cyclic extremes need reasons, and insufficient mid-state support means no actionable N. A full-cycle median requires cycle-coverage evidence; a three-year average still requires the normalization gates above.
+
 N may be re-estimated through sensitivity analysis only when a driver change is classified as `persistent`. A `transient` change must not move N or the long-term buy-zone boundaries. A `structural` change requires the full model to be rebuilt rather than mechanically updating N.
 
 ### Bear Net DPS, B
 
 - `B` should come from Bear-case distributable cash, payout policy, entitled shares and investor cash-election treatment. State the selected year(s) and why they represent the adverse state; do not silently use the mildest Bear year.
+- A historical or modeled cycle-low state is not automatically B; reconcile any proposed reuse to the separately selected forward adverse period and its funding constraints.
 - Bear assumptions must represent a plausible adverse operating state, not an arbitrary DPS haircut.
 - Historical DPS averages may be used only as a cross-check or fallback when the operating forecast cannot be built.
 - If historical values are used as a fallback, label the buy zone Lower Confidence and explain why.
@@ -326,6 +362,8 @@ N may be re-estimated through sensitivity analysis only when a driver change is 
 ## 10. Forecast Confidence
 
 Rate forecast confidence as High, Medium, Low, or Not Forecastable.
+
+Assess the **ability to bound and reconcile cash**, not whether outcomes are certain. A cyclical industry, a transformation label, missing management-issued DPS guidance or absent project-level ROIC is not by itself a Low/Not Forecastable trigger. Public operating data and explicit analyst ranges can support Medium when investment, capital, payout and shares reconcile. Identify which horizon and input limits confidence; do not let an immaterial year-five detail invalidate an independently supported ordinary-income comparison.
 
 ### High
 
@@ -341,15 +379,17 @@ Rate forecast confidence as High, Medium, Low, or Not Forecastable.
 
 ### Low
 
-- High commodity, rate, credit, or volume sensitivity.
-- Uncertain capex, refinancing, policy, scrip dilution, or share issuance.
-- Scenario ranges are wide.
+- Commodity, rate, credit, or volume sensitivity whose relevant cash outcomes cannot be bounded reliably.
+- Material capex, refinancing, policy, scrip dilution, or issuance assumptions remain weakly supported.
+- Wide scenarios rely on unresolved assumptions, rather than merely showing a modeled cycle.
 
 ### Not Forecastable
 
-- Critical operating or cash-flow data is missing.
-- Business model is undergoing a major transformation.
+- Critical operating or cash-flow data remains unavailable or cannot be bounded after an appropriate disclosure lookup and reconstruction attempt.
+- A major transformation prevents a responsible operating-to-cash bridge.
 - Dividend depends on asset sales, litigation, rescue financing, or other non-repeatable events.
+
+Explain which material link remains unresolved and which narrower statements still have support. Missing detail in this report is not itself evidence of structural unpredictability; it does not automatically assign the lowest visibility band or cancel the aggregate score. Use `scoring.md` for provisional points/ranges and coverage while retaining genuine cash/entry restrictions.
 
 Required wording when a responsible forecast cannot be built:
 
@@ -362,6 +402,7 @@ Future dividend cannot be forecast responsibly from operating fundamentals. The 
 This module forecasts operating cash and dividend capacity, not an unconstrained corporate DCF.
 
 - Reuse the same operating assumptions and funded dividend path in `buy-zone.md`; conditional growth valuation does not create distributable cash.
+- Reconcile economic FX and the paired FX-only/combined-Bear stress to that same cash path under `analysis-quality.md`; investor translation, hedge cash and valuation conversion are not independent opportunities to charge the same risk twice.
 - Link the five-year outlook's milestone and invalidation signals to `holding-review.md`.
 - Use a dedicated enterprise DCF or detailed project valuation when the question extends beyond the supported dividend model.
 - If the fundamental forecast conflicts with historical dividend patterns or management targets, explain the conflict explicitly.

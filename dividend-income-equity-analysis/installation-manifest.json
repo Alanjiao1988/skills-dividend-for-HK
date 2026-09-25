@@ -1,0 +1,272 @@
+{
+  "schema_version": "3.0",
+  "scoring_rubric": "2",
+  "presentation_revision": "html-1",
+  "source_kind": "canonical_repository",
+  "source_repository": "https://github.com/Alanjiao1988/skills-dividend-for-HK",
+  "baseline_commit": "1debaef",
+  "reference_policy": "User-designated validated 2.5 installation, read-only; no local paths or credentials are packaged.",
+  "layout": {
+    "runtime": "dividend-income-equity-analysis/scripts",
+    "tests": "tests",
+    "fixtures": "tests/fixtures"
+  },
+  "preserved_reference_files": [
+    {
+      "reference_file": "analysis-quality.md",
+      "repository_file": "dividend-income-equity-analysis/analysis-quality.md",
+      "reference_sha256": "32bcf52c9e7913b7a62e2ce339ab0c095832fda5fc657b4ba72af2d32ff183ee"
+    },
+    {
+      "reference_file": "business-fundamentals.md",
+      "repository_file": "dividend-income-equity-analysis/business-fundamentals.md",
+      "reference_sha256": "d1cff4c2049f94c604d9d60fff94e708100acb9eca87d0c56fb86c3960e22217"
+    },
+    {
+      "reference_file": "business-outlook.md",
+      "repository_file": "dividend-income-equity-analysis/business-outlook.md",
+      "reference_sha256": "caf80a615b3c757152aec6e7b50d394365eaf558fe13e1d1caf99b9ba65eee2f"
+    },
+    {
+      "reference_file": "buy-zone.md",
+      "repository_file": "dividend-income-equity-analysis/buy-zone.md",
+      "reference_sha256": "bc038122925dd2e059a4eb771555d54ac44f7b60a8f3f072845891e8e99ae7a9"
+    },
+    {
+      "reference_file": "data-conventions.md",
+      "repository_file": "dividend-income-equity-analysis/data-conventions.md",
+      "reference_sha256": "1f25de01f51489e613566e01c98ee41de11b6495d3ae5ecb7dfd5285f016fddd"
+    },
+    {
+      "reference_file": "examples/calculation-checks.md",
+      "repository_file": "dividend-income-equity-analysis/examples/calculation-checks.md",
+      "reference_sha256": "d1062f7bb3af49ded3cad39d9f61cd37ec8b853b6837d4ea8a2265cfc43e67f0"
+    },
+    {
+      "reference_file": "examples/example-output-skeleton.md",
+      "repository_file": "dividend-income-equity-analysis/examples/example-output-skeleton.md",
+      "reference_sha256": "9c44886fde631e35ade06fd13d40bad4e6ef6a4c22cbcfe83b778cb183568f30"
+    },
+    {
+      "reference_file": "examples/growth.analysis.json",
+      "repository_file": "dividend-income-equity-analysis/examples/growth.analysis.json",
+      "reference_sha256": "0d7bf7a2a3de4e49e065956ee5df9c7d19bd6a6d5e1bdc61cbefe1f362ff03a6"
+    },
+    {
+      "reference_file": "examples/ordinary.analysis.json",
+      "repository_file": "dividend-income-equity-analysis/examples/ordinary.analysis.json",
+      "reference_sha256": "8f91b635e36b9ff15cf33d01814ec83c549a2c61a9eb8575a6c88f564ed34055"
+    },
+    {
+      "reference_file": "examples/safety-review.analysis.json",
+      "repository_file": "dividend-income-equity-analysis/examples/safety-review.analysis.json",
+      "reference_sha256": "7551e8287ddbeeaa97c11fa013612b27d10b0c38c2c418c4d72c38ffc4bca90c"
+    },
+    {
+      "reference_file": "examples/worked-examples.md",
+      "repository_file": "dividend-income-equity-analysis/examples/worked-examples.md",
+      "reference_sha256": "419d11fb34ec29913a664805a116b16192fdf73415d37213a3169fcce58f08fc"
+    },
+    {
+      "reference_file": "holding-review.md",
+      "repository_file": "dividend-income-equity-analysis/holding-review.md",
+      "reference_sha256": "4e78aa3dd9fc646671d6254b19139f27a7cb040afece761c6fab1052571d2c4e"
+    },
+    {
+      "reference_file": "output-template.md",
+      "repository_file": "dividend-income-equity-analysis/output-template.md",
+      "reference_sha256": "38b2d26dde4c76ade0b93f0696be17ee9c4fe976a18cc43ed881d48991168f42"
+    },
+    {
+      "reference_file": "portfolio-context.md",
+      "repository_file": "dividend-income-equity-analysis/portfolio-context.md",
+      "reference_sha256": "7ac8eb4cd58aec3712f86effa760be6d97dbfcd40e508eff2a5ca889e0fb2f97"
+    },
+    {
+      "reference_file": "publishing.md",
+      "repository_file": "dividend-income-equity-analysis/publishing.md",
+      "reference_sha256": "8a80be954f27e6f4c1aca7a45e0dd6df2e36915a16821ee4a6c05c45eee3012c"
+    },
+    {
+      "reference_file": "report-language.md",
+      "repository_file": "dividend-income-equity-analysis/report-language.md",
+      "reference_sha256": "2bb0c730bf2251aa0bf862008f75df51f088e1e3cc8d2b8ba3c57d52c0cf60d3"
+    },
+    {
+      "reference_file": "requirements-dev.txt",
+      "repository_file": "dividend-income-equity-analysis/requirements-dev.txt",
+      "reference_sha256": "5cd1633794bd0b707d9630ff441b7bdf4da2b2e54be928d0d32e9fde6c5af97f"
+    },
+    {
+      "reference_file": "safety-review.md",
+      "repository_file": "dividend-income-equity-analysis/safety-review.md",
+      "reference_sha256": "1d20a34170526f2d06b251b38fe8600ca2616df40f133681fce546c9200f37c1"
+    },
+    {
+      "reference_file": "schema.json",
+      "repository_file": "dividend-income-equity-analysis/schema.json",
+      "reference_sha256": "acb0cf48cdae2ec8b40170b7ce17b75de946c8a2759486f442be7fe75db476b8"
+    },
+    {
+      "reference_file": "scoring.md",
+      "repository_file": "dividend-income-equity-analysis/scoring.md",
+      "reference_sha256": "31e12eae502c77ed17de34ace966a6db40f14ccd7e37f2cb7458e651203e5c61"
+    },
+    {
+      "reference_file": "screen-mode.md",
+      "repository_file": "dividend-income-equity-analysis/screen-mode.md",
+      "reference_sha256": "a94a6db7214fd929bcf9bbc47394285e39b64d79b2ae3e925c00b33cdc091e88"
+    },
+    {
+      "reference_file": "scripts/decision_rules.py",
+      "repository_file": "dividend-income-equity-analysis/scripts/decision_rules.py",
+      "reference_sha256": "a81e6b50e49e19744dc4937de4826c253e2268c3e68f9962e4fd1877f7e913d9"
+    },
+    {
+      "reference_file": "scripts/local_checks.py",
+      "repository_file": "dividend-income-equity-analysis/scripts/local_checks.py",
+      "reference_sha256": "887e01d65ecdac3040a3928bab62baa8b4035bdb4765659d30e1b40a3965ba1d"
+    },
+    {
+      "reference_file": "scripts/validate_analysis.py",
+      "repository_file": "dividend-income-equity-analysis/scripts/validate_analysis.py",
+      "reference_sha256": "6fa8feb94181d516603f7fcfd86b8441596e6b71b688d2f47d11df7cc8aecdc2"
+    },
+    {
+      "reference_file": "sector-fcf-proxies.md",
+      "repository_file": "dividend-income-equity-analysis/sector-fcf-proxies.md",
+      "reference_sha256": "cf67bcbdd584b06683e58116fb7e1a0d3fa8e120eebd10c6856b8b79f6a250ae"
+    },
+    {
+      "reference_file": "SKILL.md",
+      "repository_file": "dividend-income-equity-analysis/SKILL.md",
+      "reference_sha256": "ba07e8fa7e499652a65d226d14dfdf428e488cc61f300c08cb9b57ed0afa63e0"
+    },
+    {
+      "reference_file": "templates/report.html",
+      "repository_file": "dividend-income-equity-analysis/templates/report.html",
+      "reference_sha256": "34cb5d19197492fd7d29f4ac3f5194549d7db284bbeb21ff43e3a7c81b853eb5"
+    },
+    {
+      "reference_file": "tests/fixtures/archive-score-observations.json",
+      "repository_file": "tests/fixtures/archive-score-observations.json",
+      "reference_sha256": "d2b1b2da10e3840ce712cf5f2ad4414110d7cab618b5925702492815e7872695"
+    },
+    {
+      "reference_file": "tests/fixtures/decision-evaluation-cases.json",
+      "repository_file": "tests/fixtures/decision-evaluation-cases.json",
+      "reference_sha256": "02c20d64a56f8bee65fa761d523fbafe5d685f055f6f67973936bda7ec9061a2"
+    },
+    {
+      "reference_file": "tests/fixtures/normalization-evidence-cases.json",
+      "repository_file": "tests/fixtures/normalization-evidence-cases.json",
+      "reference_sha256": "fc3d9394864dfdf93388eba1a4ca6224baf07d4b3a21fc82eafe5a80c4d261d2"
+    },
+    {
+      "reference_file": "tests/fixtures/provisional-score-evaluation-cases.json",
+      "repository_file": "tests/fixtures/provisional-score-evaluation-cases.json",
+      "reference_sha256": "29d453154b18bd76ef2f484219e72a41b36fdc6fd9321d03dccbf618329a42f6"
+    },
+    {
+      "reference_file": "tests/fixtures/skill-evaluation-cases.json",
+      "repository_file": "tests/fixtures/skill-evaluation-cases.json",
+      "reference_sha256": "f02cf42d4011e339eee2a9b2ec39c7952f16d805e2457f717269bae3c9f52f8d"
+    },
+    {
+      "reference_file": "tests/test_analysis_contract.py",
+      "repository_file": "tests/test_analysis_contract.py",
+      "reference_sha256": "e9af24c948c264b9d0bac55beacbe00229847f4b7dc07e0c827938e1dff761b3"
+    },
+    {
+      "reference_file": "tests/test_decision_rules.py",
+      "repository_file": "tests/test_decision_rules.py",
+      "reference_sha256": "cd6892daae76a4c595c7bcabfaac2d7e73109ee5eab7ba798bc4da3a89a0da14"
+    },
+    {
+      "reference_file": "tests/test_entry_gates.py",
+      "repository_file": "tests/test_entry_gates.py",
+      "reference_sha256": "0838e02708e2b98d66a6ca6774377f67daef63611589bfc3cccf42c45cb56b09"
+    },
+    {
+      "reference_file": "tests/test_evaluation_cases.py",
+      "repository_file": "tests/test_evaluation_cases.py",
+      "reference_sha256": "a6a4215c6a0251aa12aee93730d6bdb39481b582abc51ed455178f0b16555cc8"
+    },
+    {
+      "reference_file": "tests/test_html_delivery.py",
+      "repository_file": "tests/test_html_delivery.py",
+      "reference_sha256": "bd46113946c412e73c16580a0ba7b52a8cf339d2f876598e21dd54edc3833975"
+    },
+    {
+      "reference_file": "tests/test_income_audit.py",
+      "repository_file": "tests/test_income_audit.py",
+      "reference_sha256": "2fadb819d35cb1894e935d055ebcfd8205d6694bfa25b2a59dedfb444a1abeb5"
+    },
+    {
+      "reference_file": "tests/test_local_entry_consistency.py",
+      "repository_file": "tests/test_local_entry_consistency.py",
+      "reference_sha256": "642fb8afddf4f5f2f202417742565415e63ca3fe7f53f89d2a185dd8f111497b"
+    },
+    {
+      "reference_file": "tests/test_local_extensions.py",
+      "repository_file": "tests/test_local_extensions.py",
+      "reference_sha256": "32b278058d0a6895db16875adf76e7d245c94ad2634e38761350a8c89b830398"
+    },
+    {
+      "reference_file": "tests/test_normalization_evidence.py",
+      "repository_file": "tests/test_normalization_evidence.py",
+      "reference_sha256": "b79ef3e10c3f61fbc7d35e2805e69b74b64c71b436ab57c42105603a21eed2da"
+    },
+    {
+      "reference_file": "tests/test_portfolio_context.py",
+      "repository_file": "tests/test_portfolio_context.py",
+      "reference_sha256": "38f5658d4ff275b57c8a383bd455a757dd27bd89ca3af725b828a6d96a130fb9"
+    },
+    {
+      "reference_file": "tests/test_provisional_scoring.py",
+      "repository_file": "tests/test_provisional_scoring.py",
+      "reference_sha256": "b72f2773f4ab8a0f83df27f1d8cf51f2260e99b7e2a4756981cd5d215fb808f8"
+    },
+    {
+      "reference_file": "tests/test_skill_installation.py",
+      "repository_file": "tests/test_skill_installation.py",
+      "reference_sha256": "19dfc6dd722d0805cfb529aa0905f48acbc0fa8ce17355bded86f1c8cc034f14"
+    },
+    {
+      "reference_file": "tests/test_worked_examples.py",
+      "repository_file": "tests/test_worked_examples.py",
+      "reference_sha256": "21717dd45441cb312c0217cda141ae08161a2555f04fd20b0fc7f55479c28346"
+    },
+    {
+      "reference_file": "visual-output-rules.md",
+      "repository_file": "dividend-income-equity-analysis/visual-output-rules.md",
+      "reference_sha256": "8f8ee19f62363e0c1c4704b6c4cc378e877476fe39db8776d0d3b10a280278ef"
+    },
+    {
+      "reference_file": "withholding-notes.md",
+      "repository_file": "dividend-income-equity-analysis/withholding-notes.md",
+      "reference_sha256": "7fae3750d0d2400ac19ebe9b07e0eba460bf0908143ffb120ac62a8f0a45208f"
+    },
+    {
+      "reference_file": "workflow.md",
+      "repository_file": "dividend-income-equity-analysis/workflow.md",
+      "reference_sha256": "8eeb31353930c7dcbedd3d3b1f59cab6970b65225c11d25f78d6eced79ad890a"
+    }
+  ],
+  "new_contract_files": [
+    "dividend-income-equity-analysis/scripts/schema3_checks.py",
+    "dividend-income-equity-analysis/scripts/render_report.py",
+    "tests/test_schema3.py"
+  ],
+  "validation_commands": [
+    "bash validate-skill.sh",
+    "python -B -m unittest discover -s tests -p \"test_*.py\"",
+    "pytest tests"
+  ],
+  "notes": [
+    "Both allOf[4] and allOf[18] dispatch schema 2.5 and 3.0; rubric_version remains 2.",
+    "The reference installation manifest is replaced with this portable source manifest, not copied with stale machine paths.",
+    "Repository tests retain all 220 reference tests plus existing bundle regressions and new 3.0 tests.",
+    "No existing company research report, external archive or Claude installation is modified."
+  ]
+}

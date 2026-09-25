@@ -12,3 +12,5 @@
 # Python validation caches.
 __pycache__/
 *.py[cod]
+.pytest_cache/
+!/dividend-income-equity-analysis/installation-manifest.json

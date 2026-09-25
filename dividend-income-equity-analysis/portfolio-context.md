@@ -30,4 +30,6 @@ A percentage-yield screen does not require holdings, position sizes or account b
 
 ## Contract Version
 
-Schema 2.2 introduced provenance requirements only when `target_basis` is `portfolio_target`; 2.3 retains them and adds the normalization evidence and cash/action safeguards described in the root README. Existing `user_explicit` and `not_assessed` target shapes remain usable. When migrating a 2.1 or 2.2 report, supply genuine portfolio provenance if that source is used and reconcile the other 2.3 requirements before updating the version; if provenance is unavailable, reassess the target instead of manufacturing metadata.
+Schema 2.2 introduced provenance requirements only when `target_basis` is `portfolio_target`; 2.3 retained them with normalization/cash safeguards, 2.4 added auditable decisions, and 2.5 adds provisional scoring without changing target shapes. Existing `user_explicit` and `not_assessed` targets remain usable. For older reports, supply genuine portfolio provenance when that source is used and follow the compatibility contract in `schema.json` and `scoring.md` before explicitly migrating versions. If provenance is unavailable, reassess the target instead of manufacturing metadata. Unknown position size alone prevents neither a supported percentage-yield comparison nor company scoring; absent personal income targets do not make the company income module unassessable.
+
+The retained local analytical-quality and Safety Review contracts do not require a new portfolio target or holdings export for a security-level safety update.

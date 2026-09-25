@@ -1,5 +1,7 @@
 # Screen Mode
 
+Apply `report-language.md` even in the standalone Screen bundle: human-facing output is Chinese by default; preserve machine enums and identifiers. Translate the meaning of the English banners below rather than copying them as required English prose.
+
 Screen Mode is a lightweight first-pass filter for one or more dividend stocks. Its purpose is to decide whether a company deserves Full Analysis. It must not be presented as a substitute for Full Analysis.
 
 ## 1. When to Trigger
@@ -10,7 +12,7 @@ Use Screen Mode when the user asks for:
 - Chinese equivalents such as 筛选、快速评估、初步分析、批量比较、候选池、是否值得深入研究;
 - analysis of multiple tickers where completing Full Analysis for every name would be impractical.
 
-Use Full Analysis when the user asks for a complete analysis, future dividend forecast, expected buy zone, detailed fundamentals, or an investment decision on a specific stock.
+Use Full Analysis when the user asks for a complete analysis, future dividend forecast, buy points, current entry readiness, starter/add prices, complete scores/ratings, detailed fundamentals, or an investment decision. These explicit requests override "quick" wording and the multiple-ticker default. Do not respond with Screen's prohibition on buy points instead of doing the requested Full Analysis.
 
 If the requested mode is ambiguous and there are multiple tickers, default to Screen Mode. If there is one ticker and the user asks for a detailed investment view, default to Full Analysis.
 
@@ -123,10 +125,10 @@ Screen Mode must not output:
 Always state:
 
 ```text
-Mode: Screen
-Forecast Confidence: Not Assessed
-Buy Zone: Not Assessed
-This is a first-pass filter, not a full investment analysis.
+模式：轻量筛选（Screen）
+预测置信度：暂不评估（Not Assessed）
+买入区间：暂不评估（Not Assessed）
+本结果仅用于初步筛选，不构成完整投资分析。
 ```
 
 ## 5. Minimum Evidence

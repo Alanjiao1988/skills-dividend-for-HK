@@ -12,7 +12,7 @@ A low yield or a particular company name does not select a growth model. An inco
 
 ## 1. Inputs and Valuation Routing
 
-Read `business-fundamentals.md`, the applicable `sector-fcf-proxies.md` contract, and `business-outlook.md` before valuation. Required inputs include:
+Read `business-fundamentals.md`, the applicable `sector-fcf-proxies.md` contract, `business-outlook.md` and the task-specific requirements in `analysis-quality.md` before valuation. Required inputs include:
 
 - Current price, quote currency/unit, share or ADR ratio, valuation date, and data cutoff.
 - Trailing and recurring DPS separately; withholding, recurring ADR fees, cash election, FX and other material investor cash deductions.
@@ -48,6 +48,7 @@ Major veto conditions include:
 - Elevated payout alongside issuance or scrip that conceals a funding gap or destroys per-share value; an election alone is not proof of a trap.
 - Forecast DPS unreconciled to business drivers, FAD, payout policy and dividend-entitled shares.
 - N retaining temporary cycle premiums; growth depending on unfunded investment or an unsupported terminal state.
+- Confirmed material controller-driven harm to the listed issuer's funding, necessary investment, liquidity or minority value. Follow `controller_risk` in `analysis-quality.md`; parent refinancing needs, ownership category, high payout or coincident dates alone are not proof of extraction.
 
 Distinguish demonstrated failure (`value_trap_veto: Triggered`) from an unresolved material evidence gap (`Unclear`); neither is `Not triggered`. A planned, funded managed runoff must be assessed under its exception, not assumed exempt from the checklist.
 
@@ -93,6 +94,8 @@ N normalization adjustments:
 
 A near-term Base case is not automatically normalized. Remove temporary commodity, freight-rate, geopolitical, credit, regulatory, interest-rate and pricing windfalls. Normalization changes operating capacity, cash uses, policy or shares first; it is not an arbitrary percentage haircut to historical DPS.
 
+Construct `buy_zone.normalization_model` using `analysis-quality.md`: justified cycle or noncyclical steady state, dated driver series and selection, a coherent joint operating vector, comparable perimeter, and the policy/share cash bridge for each applicable cycle state. N references the central sustainable state, not the peak. Cycle-state low/high DPS are neither N estimation bounds nor automatic future Bear/Bull forecasts; unavailable extremes remain unavailable. Keep the existing source-priority rules and ordinary boundary formulas.
+
 For `three_year_base_average`, reconcile directly to the same Base year-1/2/3 net DPS used in the Dividend and Yield Runway:
 
 ```text
@@ -118,6 +121,8 @@ Here source gross DPS is in whole units of the runway's financial currency, reco
 ### 4.1 Risk-Free Anchor and Premium
 
 Print the benchmark, source, observation date, currency, tenor, nominal/real convention and investor tax/FX treatment. Explain how tenor fits the cash-flow duration and investment horizon. The valuation here uses **nominal**, same-currency cash and nominal required returns.
+
+Keep the consumption-basket `real_income` rating separate from nominal discounting. Use `fx_risk` to expose revenue/cost/debt currency effects, distribution translation, natural hedges and the isolated/combined stress paths; a currency-consistent formula alone does not establish that FX risk is immaterial. Reconcile the same scenario FX factor to the cash path rather than applying it again in present value.
 
 `return_requirements` must identify `benchmark`, `benchmark_source`, `benchmark_date`, `benchmark_currency`, `benchmark_tenor`, `valuation_currency`, `valuation_unit_scale`, `tax_and_fx_basis`, `rate_basis`, and the anchor after the disclosed treatment as `risk_free_rate`.
 
@@ -161,7 +166,7 @@ Investor income requirements are separate from these asset-specific return requi
 
 - A `preference` shortfall is an income-fit observation, not proof of intrinsic overvaluation or a stand-alone growth disqualifier.
 - A `hard_minimum` cash-income shortfall cannot be offset by growth, capital gains or buybacks. Report `income_eligible: false` and no investor-eligible entry/add conclusion at that price, even if the unconstrained growth value is higher.
-- Record `forward_net_dps` and `income_period` alongside the yield. For a positive hard yield floor on an evidenced full-year forward dividend, separately show `income_price_ceiling = forward_net_dps / target_net_yield`. A growth candidate must satisfy both this ceiling and `entry_upper`; do not change the underlying valuation formulas. The ceiling is null for a preference, no target, a zero target, or unavailable forward cash.
+- Record `forward_net_dps` and `income_period` alongside the yield. For a positive hard yield floor on an evidenced full-year forward dividend, separately show `income_price_ceiling = forward_net_dps / target_net_yield`. A candidate must satisfy both this ceiling and the applicable starter/add/strict threshold in Section 5.2; do not change the underlying valuation formulas. The ceiling is null for a preference, no target, a zero target, or unavailable forward cash.
 - A hard absolute-cash requirement needs holdings/capital and timing inputs. If these or forward cash are unknown, investor eligibility is unassessed, not assumed satisfied. A stub or normalized N must not silently replace the income period the user specified.
 
 ### 4.3 Retired Sector Yield Presets
@@ -205,11 +210,13 @@ N / r_low >= N / r_high >= B / r_high
 
 If B equals N, the normalized-high-end-only band is empty: the within-range band connects directly to the Bear-high-end band. If B is zero, the Bear boundary is zero and no positive share price qualifies. A missing Bear estimate is not assessed zero capacity.
 
-Use these cash-income names in prose, tables, chart legends and captions. Chinese equivalents are **低于要求现金收益率 / 正常化收入处于要求区间 / 正常化收入达到高端要求 / 压力情景收入达到高端要求**. Existing JSON boundary keys remain for compatibility, but their legacy names are not display labels or action recommendations. Crossing a cash-income boundary does not produce hold, add, sell or Strong Buy. Print any supported action separately under Section 5.1. `Price > N / r_low` prompts an **income requirement review**; it does not by itself establish excessive growth value or imply a sale.
+Use these cash-income names in prose, tables, chart legends and captions. Chinese equivalents are **低于要求现金收益率 / 正常化收入处于要求区间 / 正常化收入达到高端要求 / 压力情景收入达到高端要求**. Existing JSON boundary keys remain for compatibility, but their legacy names are not display labels or action recommendations. Crossing a cash-income boundary alone does not produce hold, add, sell or Strong Buy. Assess the independent gates in Section 5.1 and print the supported action under Section 5.2. `Price > N / r_low` prompts an **income requirement review**; it does not by itself establish excessive growth value or imply a sale.
 
 ### 5.1 Price Bands and Action Eligibility
 
 Print `action_assessment.status` (`eligible`, `diagnostic_only`, `suspended`), `strong_buy_eligible`, and `reasons` independently of mathematical price bands. This gate applies to both ordinary and growth entry conclusions.
+
+The separate `quality_assessment.score_85` and evidence-based portfolio role cannot improve solely because price falls. A normalized-yield spread versus independently required cash yields belongs to income attractiveness and remains price-sensitive; neither it nor the legacy mixed score selects a default Portfolio Role.
 
 - Strong Buy needs High Forecast Confidence, Strong Dividend Safety, no fallback N/B, verified tax/FX and capital access, acceptable principal-risk and total-return evidence, no unresolved veto, an applicable price entry condition and all investor hard constraints satisfied. Medium confidence permits at most gradual accumulation after other gates pass.
 - Low confidence, a historical/fundamental fallback, zero B in an ordinary strategy, or unassessed capital-return assumptions support diagnostic income comparisons and Watchlist only. Not Forecastable, an unresolved veto or invalid inputs suspend valuation.
@@ -219,11 +226,74 @@ Print `action_assessment.status` (`eligible`, `diagnostic_only`, `suspended`), `
 
 The same entry gates apply across normalization methods and valuation modes. In structured output, a numeric `withholding_rate` and a sourced `broker_observed`, `company_announcement` or `legal_structure` basis are required for eligible entry; `unknown`, a missing rate or `market_default` is diagnostic only. Historical net receipts do not establish a future rate without the event/channel reconciliation in `withholding-notes.md`. The validator checks the declared basis, not the truth of its source.
 
-Ordinary entry also requires evidence-backed Bear/Base runway sources for years 1-3. A `three_year_base_average` assembled from illustrative, historical-fallback or unknown DPS may be shown only as a diagnostic calculation. Its numeric reconciliation cannot upgrade its evidence. A hard-income shortfall or unassessed hard-income eligibility makes the current action diagnostic only even when economic valuation remains available. Diagnostic outputs cannot claim Strong Buy or a Portfolio Role more favorable than Watchlist.
+Ordinary entry also requires evidence-backed Bear/Base runway sources for years 1-3. A `three_year_base_average` assembled from illustrative, historical-fallback or unknown DPS may be shown only as a diagnostic calculation. Its numeric reconciliation cannot upgrade its evidence. A hard-income shortfall or unassessed hard-income eligibility makes the current action diagnostic only even when economic valuation remains available. Diagnostic outputs cannot claim Strong Buy; they normally restrict Portfolio Role to Watchlist/Avoid, subject only to the explicit local price-only exception below.
+
+Local schema-3.0 reconciliation: a **fully evidenced, known price-only hard-income shortfall** may retain an independently justified security role under `portfolio_role_assessment`, because a quote alone does not change the security's business role. This narrow exception does not permit buying: `action_assessment` stays `diagnostic_only`, `entry_plan.current_action` is `wait_for_price`, effective prices retain the hard-income ceiling, and Strong Buy remains false. It applies only when all non-income evidence, normalization, cash/capital/tax and principal-risk gates already pass. An unknown mandate input, actual funding failure, unsupported safety or other material gap retains the Watchlist/Avoid restriction. Legacy 2.3/2.4 role/action behavior is unchanged.
+
+In those ordinary Bear/Base rows, both the full cash-equivalent entitlement and issuer cash cost must fit actual distribution capacity. An explicit unfunded Bear payment is not a supported entry assumption merely because its `dps_source` says evidence-backed. Rebuild the payout/funding case or keep the comparison diagnostic. Documented excess-cash use may bridge a temporary recurring shortfall when included once in actual capacity; ordinary cash smoothing does not inherit growth DDM's every-year recurring-coverage gate.
 
 Use the four-row normalization evidence checklist in `data-conventions.md` for both focused audits and Full Analysis (Audit Appendix part A10). Keep arithmetic, evidence quality and action eligibility separate. JSON `buy_zone.normalization_evidence` must cover operating cash, funding capacity, payout policy and entitled shares; illustrative Base-average inputs cannot coexist with an all-supported checklist. Do not replace the checklist with a generic request for a bridge, even in a concise answer.
 
-Mandatory shares or an explicit absence of a cash option suspend this cash-dividend valuation framework. Exclude stock-only distributions from the cash-income runway and report zero confirmed cash or unavailable cash with a reason; do not substitute cash-equivalent stock value. Optional scrip still uses the supported all-cash election. If the investor elects shares or the cash election is unknown, do not claim positive spendable cash or eligible entry; label any cash-option comparison as diagnostic.
+Exclude mandatory stock awards **event by event**, not issuer wide. If cash dividends coexist with stock awards, preserve the audited cash events and use the continuing-holder reconciliation in `business-fundamentals.md`; a scheme-level absence of a cash option does not erase a separate cash dividend. Suspend cash-dividend valuation only when no supported investor cash path exists, or another common gate fails. Optional scrip still uses the supported cash election; unverified cash access cannot support positive spendable income or entry.
+
+An `unknown` normalization basis is diagnostic only, even when an independently supplied N happens to reconcile numerically or the report claims High confidence. It cannot support eligible entry, Strong Buy or Core income.
+
+### 5.2 Required Entry Plan: Price, Evidence and Action
+
+Full Analysis must answer **whether the current price supports entry, what improves the entry, and what invalidates it**. Do not stop at "not Strong Buy" or "wait for a better price". Put the short staged decision card in the main report's Section 3 (买点观点) and the full auditable `entry_plan` in Audit Appendix part A10; the plan is always completed and stored in JSON even when the appendix is not shown. A request for "buy points", "can I buy now", 买点, 建仓 or 加仓 routes here even when described as a quick review or involving multiple tickers; it must not silently fall back to Screen.
+
+Keep `action_assessment.status` as the shared evidence/mandate gate. It is not a price band: eligible evidence can coexist with `wait_for_price`. A known hard-yield shortfall makes the **current** action diagnostic but can still produce a conditional, income-capped waiting price when the other inputs are sound. An unassessed hard constraint needs evidence, not an assumed pass.
+
+Use three research stages, not automatic orders or fixed allocations:
+
+| Stage | Ordinary valuation price | Growth valuation price | Meaning after the common gates pass |
+|---|---|---|---|
+| starter | N / r_low | PV_Base x (1 - margin_of_safety) | A limited initial position can be considered on the supported central case |
+| add | N / r_high | min(starter, growth_value_low) | More attractive price support for staged accumulation |
+| strong_buy | B / r_high | entry_upper = growth_value_low x (1 - margin_of_safety) | Stress-supported price; High confidence and Strong safety are still required |
+
+The ordinary mathematical boundaries are unchanged and remain no-growth cash-income comparisons, not intrinsic values. The growth `entry_upper` retains its old formula as the **strict stress-discounted threshold**, not the only possible entry price. A starter price based on the funded Base case does not establish Strong Buy. Show Bear capital risk before permitting it.
+
+For a qualified finite-life harvest, only `starter` uses `finite_life_value_low`; `add` and `strong_buy` are unavailable. Keep Opportunistic limits and the 10% discount-rate floor. A suspended mode has no numerical stage prices.
+
+For a supported positive hard yield floor, each `effective_price = min(valuation_price, income_price_ceiling)`. Otherwise use the unchanged valuation price, except that an unassessed hard constraint leaves the effective price null. Show both values rather than rewriting the model to meet the mandate. At each stage:
+
+```text
+gap_to_current_pct = (effective_price / current_price - 1) x 100
+```
+
+A negative gap is the further price decline needed; a positive gap means current price is already below the ceiling. Do not label that positive headroom as forecast upside. Include the currency/unit, as-of date and model/source references. Coincident boundaries are allowed; zero Bear capacity never creates a positive-price strong-buy stage.
+
+Each stage has `ready`, `waiting_price`, `waiting_evidence` or `unavailable` status and a concrete confirmation condition. Missing evidence can leave a diagnostic arithmetic reference visible only where Section 5.1 permits it; it cannot create a ready stage. For Strong Buy, Medium/Low confidence is a specific evidence ceiling, not proof the business is bad.
+
+Use this deterministic current-action order:
+
+| Condition | `current_action` / display |
+|---|---|
+| Demonstrated veto, Weak safety, failed principal-risk review, or Structural Decline without a qualified harvest | `avoid` / Avoid new dividend-strategy entry; not an automatic sale |
+| A material evidence/capital/tax/forecast gate or hard-income input remains unresolved | `wait_for_evidence` / Wait for the named evidence |
+| Other gates pass but current price exceeds the effective starter ceiling | `wait_for_price` / Wait for the stated price |
+| Strict stage reached, High confidence, Strong safety, and all Strong Buy gates pass | `strong_buy` / Strong Buy |
+| Add stage reached, High confidence and Strong/Acceptable safety | `buy` / Buy in stages |
+| Starter stage reached and other gates pass, including a bounded Medium forecast | `accumulate` / Gradual accumulation |
+
+Do not invent another blocking condition because a result looks insufficiently cautious. A documented material failure must appear in the corresponding source field and blocker; refinements, ordinary business variability, no personal position size and an incomplete noncritical score are not extra vetoes. Conversely, no amount of price discount repairs unknown dividend funding or tax.
+
+### 5.3 Opportunity, Return and Monitoring Evidence
+
+An entry plan includes:
+
+- `opportunity_thesis`: why the funded cash or development path is attractive at this price, and why now rather than after every uncertainty disappears.
+- `market_expectation_gap`: a sourced market comparison or explicit reverse-price implication, separated from the analyst's thesis. If market expectations are unknown, say so; a price fall alone does not prove mispricing.
+- `return_scenarios`: Bear/Base/Bull holding-period net cash received, exit price, non-duplicated costs and cumulative total return at the current price, with the same stated horizon and source/assumption basis. These are scenario judgments, not probabilities or promised target prices.
+- `risk_review`: `pass`, `fail` or `not_assessed`, with rationale and source references. A pass must explain why the quantified Bear principal-loss path and Base prospective return are acceptable under the stated research assumptions or user constraint. Do not imply that an assumed tolerance is the user's risk preference. An unavailable return bridge cannot be represented as a pass.
+- `blockers`: each with `scope`, reason, resolution and sources. Distinguish price, evidence, income, confidence, fundamentals and position sizing; only a material entry blocker prevents entry.
+- `catalysts`: observable event or ordinary cash-delivery milestone, check date/period, confirmation threshold, source to revisit and response if missed. A catalyst need not be a predicted near-term rerating.
+- `invalidation_conditions`: business, cash, policy or capital changes that pause additions or require rebuilding the thesis. Falling through a buy price is not itself a stop-loss rule.
+
+Use `cumulative_return = (net_cash_received + exit_price - costs - current_price) / current_price`. Explicitly include ex-dividend eligibility, tax, fees, FX and any remaining stub in net cash; do not reuse a pre-purchase dividend. Exit multiples/yields are assumptions with an evidenced rationale, not guaranteed mean reversion. Annualization, if shown, requires timed IRR; do not divide cumulative return by years. Reuse the runway references instead of copying the annual DPS/cash-cost table.
+
+State what changes an action upward and downward. A waiting conclusion needs an exact price or named disclosure/metric to revisit, not just "remain cautious". Missing personal capital, holdings or concentration constraints means **position size not assessed**, not "cannot analyze entry". No default 10%/30%/50% portfolio allocations, leverage, or automatic trade instructions are permitted.
 
 ## 6. Gated Dividend Growth Valuation
 
@@ -409,14 +479,14 @@ Declare `margin_of_safety` and `margin_of_safety_basis` before price comparison,
 
 | Growth comparison | Price condition | Research interpretation |
 |---|---|---|
-| Safety-discounted entry candidate | Price <= entry_upper | At or below the weakest scenario value after the declared discount; all gates and income constraints still apply |
-| Below scenario range, without full safety discount | entry_upper < Price < growth_value_low | Not yet within the declared entry discipline |
-| Within scenario value range | growth_value_low <= Price <= growth_value_high | Assess prospective returns, cash income and uncertainty |
+| Strict stress-discounted entry candidate | Price <= entry_upper | At or below the weakest scenario value after the declared discount; all gates and income constraints still apply |
+| Below scenario range, without full stress discount | entry_upper < Price < growth_value_low | May meet a starter/add stage under Section 5.2; not Strong Buy |
+| Within scenario value range | growth_value_low <= Price <= growth_value_high | May meet the separately disclosed Base-supported starter ceiling; otherwise wait for price |
 | Valuation-review band | Price > review_above | Reassess valuation and opportunity cost, not an automatic sell |
 
 Where boundaries coincide, the entry row takes precedence at `entry_upper`. Do not turn a favourable Base/Bull value into Strong Buy when Bear does not support entry. R/g grid extrema do not replace `growth_value_low/high`.
 
-Keep a credible ordinary income comparison alongside the growth primary view and say which question each answers. If N/B are unavailable, explain why; do not fabricate the ladder. Report hard-income eligibility separately: the effective eligible ceiling for a positive hard yield floor is `min(entry_upper, income_price_ceiling)`, while the unmodified economic `entry_upper` remains auditable. Missing hard-income inputs preclude claiming investor eligibility.
+Keep a credible ordinary income comparison alongside the growth primary view and say which question each answers. If N/B are unavailable, explain why; do not fabricate the ladder. Report hard-income eligibility separately: the effective **strict** ceiling for a positive hard yield floor is `min(entry_upper, income_price_ceiling)`, with the same cap applied separately to starter/add prices. The unmodified economic values remain auditable. Missing hard-income inputs preclude claiming investor eligibility.
 
 ## 8. Structural Decline: Finite-Life Cash Recovery Only
 
@@ -512,6 +582,7 @@ All Full Analysis cases disclose mode/reason, veto status, Forecast Confidence, 
 - **Harvest:** finite distributions/horizon, independent discount derivation with floor, residual evidence and dependence, finite-life range and exception/Grade limits.
 - **Suspended:** the exact gate/evidence failure, which information could reopen valuation, and holding-review implications; no valuation ladder.
 - **Sensitivity:** keep transient ordinary changes `N/A`, but show the dated cash PV change and its audit when a dividend model exists.
+- **Entry decision:** `entry_plan` with the current action, three staged reference/effective prices and signed distance, opportunity thesis, Bear/Base/Bull holding-period returns, principal-risk review, concrete blockers, monitoring and invalidation conditions. Suspended cases retain the decision/evidence record but no numerical ladder.
 
 Visuals follow `visual-output-rules.md`: ordinary ladder, growth-value range with separate income-fit information, or finite-life cash-recovery summary as applicable. Never display a Strong Buy badge for an unsupported Bear case or while a hard income constraint fails. Keep every table to at most seven columns.
 

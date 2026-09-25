@@ -4,6 +4,8 @@ Full Analysis must explain how the business could develop, not just whether next
 
 Presentation follows `output-template.md`: the main report shows only the resulting conclusions and key numbers; the tables and ledgers defined here belong to the Audit Appendix or JSON unless that file places them in the main report. The main report's Long-Term Outlook section carries the thesis, two to four drivers and the FY+1/FY+3/FY+5 dividend table; the Key Risks section carries the milestones most likely to change the conclusion.
 
+Use `analysis-quality.md` for normalization provenance, economic FX, controller exposure and income-driver records. Historical cycle states explain sustainable economics; they are not substitutes for the dated Bear/Base/Bull development outlook below.
+
 ## 1. Required Questions
 
 Answer these with dated evidence, a counterargument, and a cash-flow consequence:
@@ -29,7 +31,9 @@ Use annual Bear/Base/Bull rows across five years. First-three-year financial row
 
 Record source, publication/data date, metric, unit, fiscal period, scenario value/range, evidence type, rationale and confidence for every material assumption. Distinguish `reported_fact`, `company_guidance`, `consensus_cross_check`, `historical_sensitivity` and `analyst_estimate`. A report's availability date must not postdate its analysis cutoff in a historical comparison.
 
-Missing year-four/five inputs require null values plus `Not estimable` and a reason, not mechanical extension. A five-year qualitative outlook is still required. Extend the **valuation transition**, separately labelled, if a patent cliff or project cycle prevents a steady state by year five; do not invent a perpetual terminal value at an unstable endpoint.
+First try a sourced driver range or reconciled analyst estimate using `data-conventions.md`; management need not publish every future input or a DPS forecast. Missing exact year-four/five figures alone does not mean those years are unestimable. If meaningful ranges still cannot be bounded, keep the affected cash values null with `Not estimable` and the material reason, not mechanical extension. Retain earlier supported years and known operating guidance. A five-year qualitative outlook is still required.
+
+Do not turn "this report has not yet modeled the cash" into a company-level forecastability verdict or an automatic 0-1 visibility score. Separate research coverage, business uncertainty and a demonstrated adverse outlook. Extend the **valuation transition**, separately labelled, if a patent cliff or project cycle prevents a steady state by year five; do not invent a perpetual terminal value at an unstable endpoint.
 
 ## 3. Development Thesis and Milestones
 
@@ -46,6 +50,8 @@ Examples of measurable signals:
 - Mature consumer/telecom: price versus volume/churn, mix, competitive response, maintenance intensity and cash conversion.
 
 Separate committed projects from optional projects. Base must not assume every option succeeds; Bear includes economically linked setbacks and the necessary spending response, not arbitrary percentage cuts to every line.
+
+Explain a coherent joint driver vector, including price/volume/cost relationships and investment lags; independent marginal medians or unrelated worst shocks are not a business scenario. The normalizing observation window follows the relevant supply, contract or capital cycle, not automatically the five-year forecast horizon. One or two controlled `income_drivers` tags summarize the cash transmission without replacing these three-to-five operating drivers.
 
 ## 4. Forecast Free Cash Flow, Not Just Earnings
 
@@ -74,6 +80,8 @@ Show the following conclusions, with ranges where appropriate:
 
 Avoid one unsupported cash-conversion percentage applied indefinitely. Reconcile any ratio assumption to history, business changes and spending commitments. Do not count acquisition growth without its purchase price, funding cost, integration risk and share-count effects.
 
+Identify revenue/cost/debt currency generation, natural offsets and remittability before payout-to-investor FX conversion; the required paired stress follows `analysis-quality.md`. Assess whether transfers to an ultimate controller compromise the listed company's funding or necessary investment, rather than treating group cash demand alone as harm.
+
 ## 5. Growth Quality and Limits
 
 Distinguish:
@@ -93,5 +101,7 @@ Show a bear outcome with slower cash conversion or less successful reinvestment.
 |---|---|---|---|---|---|
 
 Set thresholds from the model or disclosed commitments, not invented universal cutoffs. At minimum revisit after results, material guidance/capital-policy changes, major project or regulatory events, and a thesis invalidation signal. Route a miss as `transient`, `persistent`, or `structural` and connect it to `holding-review.md`.
+
+A request only to check the latest disclosure's cash safety can use `safety-review.md`. A supported transient update may stay light; structural change or unresolved funding/veto requires full reassessment. Do not rebuild five years or terminal growth merely by extrapolating one quarter.
 
 Output a concise bull thesis, base thesis and bear thesis, with the two or three facts most likely to change the conclusion. Do not assign personal holding sizes or imply a forecast is a promise.

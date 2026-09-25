@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.3",
+  "schema_version": "3.0",
   "mode": "full_analysis",
   "company": "Fictional Harbor Services - ordinary",
   "action_assessment": {
@@ -8,7 +8,7 @@
     "reasons": [
       "Illustrative calculations are eligible under the stated assumptions; no live recommendation. Medium forecast confidence prevents Strong Buy."
     ],
-    "capital_risk_and_total_return_check": "Assume cash 25m, debt 50m, no refinancing in five years and EBITDA 100m. Price risk remains: at a 10% income hurdle Bear DPS 3.2 supports 32, 20% below the assumed price 40. Flat DPS gives 10% annual cash income at 40, not a guaranteed total return; sale price and reinvestment are uncertain."
+    "capital_risk_and_total_return_check": "See entry_plan.return_scenarios and risk_review: the Bear exit loses 20% of principal before three years of cash; the Base exit yield is an explicit assumption. The stipulated cash/capital plan is funded, but neither annual cash yield nor an entry boundary guarantees total return."
   },
   "ticker": "FICTIONAL-O",
   "exchange": "Fictional teaching venue",
@@ -19,7 +19,23 @@
   "key_metrics_at_a_glance": {
     "ttm_net_yield": 0.1,
     "normalized_net_yield": 0.1,
-    "score_100": 75,
+    "quality_score_85": 62,
+    "current_action": "accumulate",
+    "score_status": "provisional",
+    "score_range": {
+      "low": 76,
+      "high": 76
+    },
+    "quality_score_range": {
+      "low": 62,
+      "high": 62
+    },
+    "score_coverage_pct": 100,
+    "grade_range": {
+      "worst": "B",
+      "best": "B"
+    },
+    "score_100": 76,
     "grade": "B",
     "portfolio_role": "Watchlist",
     "valuation_mode": "ordinary_yield_based"
@@ -1837,28 +1853,36 @@
       "operating_cash": {
         "status": "supported",
         "input_detail": "Fictional A2 operating assumptions reconcile normalized OCF 130 minus maintenance 20 and owner claims 10 to Owner FCF 100.",
-        "source_refs": ["worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."],
+        "source_refs": [
+          "worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."
+        ],
         "resolution_source": null,
         "consequence": "Supports the baseline normalized owner-cash calculation within the stipulated teaching model."
       },
       "funding_capacity": {
         "status": "supported",
         "input_detail": "Fictional A2: growth uses 20 and mandatory uses 5 leave recurring FAD 75; exceptional uses 5 leave actual capacity 70.",
-        "source_refs": ["worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."],
+        "source_refs": [
+          "worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."
+        ],
         "resolution_source": null,
         "consequence": "Both recurring and actual capacity cover the model's baseline entitlement 40 without double deduction."
       },
       "payout_policy": {
         "status": "supported",
         "input_detail": "Fictional A3 applies 40% to attributable earnings 100, not FAD, deriving entitlement 40.",
-        "source_refs": ["worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."],
+        "source_refs": [
+          "worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."
+        ],
         "resolution_source": null,
         "consequence": "Reconciles the baseline payout policy to normalized DPS rather than an arbitrary DPS plug."
       },
       "entitled_shares": {
         "status": "supported",
         "input_detail": "Fictional A1/A4: 10 million entitled shares, all-cash election, no scrip, unit ratio 1 and stipulated zero withholding/fees.",
-        "source_refs": ["worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."],
+        "source_refs": [
+          "worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."
+        ],
         "resolution_source": null,
         "consequence": "Baseline entitlement 40 / shares 10 gives net N=4 under fictional, not independently verified, cash assumptions."
       }
@@ -1884,6 +1908,93 @@
       "accumulation_lower": 32.0,
       "accumulation_upper": 40.0,
       "strong_buy_at_or_below": 32.0
+    },
+    "normalization_model": {
+      "status": "assessed",
+      "method": "steady_state",
+      "cycle_applicability": "non_cyclical",
+      "cycle_length_years": null,
+      "cycle_basis": "Fictional stable service-volume capacity, not a commodity cycle.",
+      "period_start": "2021-12-31",
+      "period_end": "2025-12-31",
+      "frequency": "annual",
+      "series_sources": [
+        "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+      ],
+      "joint_assumption_rationale": "Volume and margins use the same stipulated steady-state operating vector.",
+      "perimeter_adjustments": "Same asset scope, maintenance burden and entitled shares in the fictional reference model.",
+      "drivers": [
+        {
+          "name": "Service volume index",
+          "unit": "index",
+          "series_start": "2021-12-31",
+          "series_end": "2025-12-31",
+          "frequency": "annual",
+          "source": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources.",
+          "selection": "steady_state",
+          "selected_value": 100,
+          "observations": [
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        }
+      ],
+      "cycle_states": {
+        "low": {
+          "status": "not_applicable",
+          "operating_assumptions": "No invented cycle extreme. worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources.",
+          "owner_cash": null,
+          "growth_uses": null,
+          "mandatory_uses": null,
+          "recurring_fad": null,
+          "earnings": null,
+          "payout_basis": "earnings",
+          "payout_base": null,
+          "payout_ratio": null,
+          "dividend_entitlement": null,
+          "shares": null,
+          "gross_dps": null,
+          "evidence": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+        },
+        "mid": {
+          "status": "estimated",
+          "operating_assumptions": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources.",
+          "owner_cash": 100,
+          "growth_uses": 20,
+          "mandatory_uses": 5,
+          "recurring_fad": 75,
+          "earnings": 100,
+          "payout_basis": "earnings",
+          "payout_base": 100,
+          "payout_ratio": 0.4,
+          "dividend_entitlement": 40,
+          "shares": 10,
+          "gross_dps": 4,
+          "evidence": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+        },
+        "high": {
+          "status": "not_applicable",
+          "operating_assumptions": "No invented cycle extreme. worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources.",
+          "owner_cash": null,
+          "growth_uses": null,
+          "mandatory_uses": null,
+          "recurring_fad": null,
+          "earnings": null,
+          "payout_basis": "earnings",
+          "payout_base": null,
+          "payout_ratio": null,
+          "dividend_entitlement": null,
+          "shares": null,
+          "gross_dps": null,
+          "evidence": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+        }
+      },
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "uncertainty_basis": "No independently evidenced N uncertainty bounds; not replaced by cycle extremes."
     }
   },
   "rendering": {
@@ -1899,16 +2010,875 @@
     "valuation_summary": "Ordinary cash-income boundaries are 50, 40 and 32 USD; legacy keys do not describe full intrinsic value or authorize Strong Buy. No growth credit is included.",
     "coverage_labels": "Historical recurring aggregate 2x, worst recurring year 1.25x; worst actual year 0.875x after an exceptional cash use. Overall safety remains Acceptable, not Strong."
   },
-  "score_100": 75,
-  "score_limitations": "Illustrative 75/100 = yield 14/15 + stability 13/15 + FCF 17/20 + balance sheet 10/15 + management 10/15 + buyback 5/10 + visibility 6/10. Assumed stable 4 DPS history, 2x aggregate coverage with a disclosed 2025 liquidity draw, cash 25m/debt 50m, a discretionary but funded 40% policy, no issuance/buybacks, and Medium forecast visibility support these teaching judgments; they are not independently researched ratings.",
+  "score_100": 76,
+  "score_limitations": "Fictional rubric-2 provisional point score: quality 62/85 plus income 14/15 = 76/100, Grade B. All 100 weight is covered; income and visibility rely on explicit teaching estimates. Module points are 14, 13, 18, 10, 10, 5 and 6. Unknown refinements earn no bonus. No independent issuer research or investment-performance claim is made.",
   "grade": "B",
   "dividend_quality": "Medium",
   "dividend_safety": "Acceptable",
   "withholding_efficiency": "High",
-  "buyback_quality": "Neutral",
+  "buyback_quality": "Not Applicable",
   "three_year_outlook": "Stable",
   "portfolio_role": "Watchlist",
   "sources": [
-    "worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."
-  ]
+    "worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources.",
+    "Fictional A1-A8 (worked-examples.md, 2026-01-01)",
+    "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+  ],
+  "scorecard": {
+    "rubric_version": "2",
+    "summary": {
+      "status": "provisional",
+      "range_kind": "rubric_bounds",
+      "module_ranges": {
+        "net_yield": {
+          "low": 14,
+          "high": 14
+        },
+        "dividend_stability": {
+          "low": 13,
+          "high": 13
+        },
+        "cash_coverage": {
+          "low": 18,
+          "high": 18
+        },
+        "balance_sheet": {
+          "low": 10,
+          "high": 10
+        },
+        "capital_allocation": {
+          "low": 10,
+          "high": 10
+        },
+        "buyback_quality": {
+          "low": 5,
+          "high": 5
+        },
+        "visibility": {
+          "low": 6,
+          "high": 6
+        }
+      },
+      "score_range": {
+        "low": 76,
+        "high": 76
+      },
+      "quality_range": {
+        "low": 62,
+        "high": 62
+      },
+      "income_range": {
+        "low": 14,
+        "high": 14
+      },
+      "grade_range": {
+        "worst": "B",
+        "best": "B"
+      },
+      "quality_rating_range": {
+        "worst": "Medium",
+        "best": "Medium"
+      },
+      "bounded_weight": 0,
+      "missing_weight": 0,
+      "evidence_coverage_pct": 100,
+      "quality_coverage_pct": 100,
+      "income_coverage_pct": 100
+    },
+    "modules": [
+      {
+        "module": "net_yield",
+        "weight": 15,
+        "assessment": "assessed",
+        "evidence_basis": "estimated",
+        "metric_value": 0.1,
+        "period": "2026 normalized and forward cash at the 2026-01-01 quote",
+        "band": 1,
+        "rationale": "N/price is 10%, in the >=7% band; no special distributions are included.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "Forward net cash 4 equals N=4.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "not_met",
+            "evidence": "B/price=3.2/40=8%, below r_high=10%.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "met",
+            "evidence": "N/price=10% exceeds independently stipulated R_low=8%.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          }
+        ],
+        "raw_score": 14,
+        "cap": 15,
+        "cap_reason": "Medium confidence and Acceptable safety; no fallback or lower cap.",
+        "final_score": 14,
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ],
+        "missing_evidence": []
+      },
+      {
+        "module": "dividend_stability",
+        "weight": 15,
+        "assessment": "assessed",
+        "evidence_basis": "reported",
+        "metric_value": null,
+        "period": "FY2021-FY2025",
+        "band": 1,
+        "rationale": "The teaching case stipulates stable ordinary DPS of 4 and no cut.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "All five annual ordinary payments occurred on schedule in the stipulated history.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "unknown",
+            "evidence": "No inflation series establishes real DPS stability.",
+            "source_refs": []
+          },
+          {
+            "check": 3,
+            "status": "unknown",
+            "evidence": "A full adverse-cycle dividend record is not supplied.",
+            "source_refs": []
+          }
+        ],
+        "raw_score": 13,
+        "cap": 15,
+        "cap_reason": "No separate stability cap.",
+        "final_score": 13,
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ],
+        "missing_evidence": [
+          "Inflation and a full adverse-cycle history for refinement, not for the established no-cut band."
+        ]
+      },
+      {
+        "module": "cash_coverage",
+        "weight": 20,
+        "assessment": "assessed",
+        "evidence_basis": "reconstructed",
+        "metric_value": 2,
+        "period": "FY2023-FY2025 aggregate; FY2026-FY2028 funding checks",
+        "band": 1,
+        "rationale": "(70+80+90)/(40+40+40)=2.0x recurring coverage; actual shortfalls remain visible.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "Each first-three-year scenario funds the full entitlement from recurring FAD and actual capacity.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "not_met",
+            "evidence": "Worst actual cash coverage was 35/40=0.875x.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "unknown",
+            "evidence": "Cash availability is stipulated; a separately disclosed stress-liquidity buffer analysis is not supplied.",
+            "source_refs": []
+          }
+        ],
+        "raw_score": 18,
+        "cap": 20,
+        "cap_reason": "No unresolved recurring shortfall in the stipulated model; the actual shortfall is separately disclosed.",
+        "final_score": 18,
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ],
+        "missing_evidence": [
+          "Independent stress-liquidity corroboration beyond the bounded teaching assumptions."
+        ]
+      },
+      {
+        "module": "balance_sheet",
+        "weight": 15,
+        "assessment": "assessed",
+        "evidence_basis": "estimated",
+        "metric_value": null,
+        "period": "2026-01-01 through the five-year plan",
+        "band": 2,
+        "rationale": "Cash 25m, debt 50m, EBITDA 100m and no five-year refinancing need support manageable leverage.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "No maturities fall within 24 months; modeled cash covers committed uses.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "unknown",
+            "evidence": "No additional contractual covenant thresholds are supplied for the refinement test.",
+            "source_refs": []
+          },
+          {
+            "check": 3,
+            "status": "met",
+            "evidence": "The five-year investment plan is internally funded without uncommitted external capital.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          }
+        ],
+        "raw_score": 10,
+        "cap": 15,
+        "cap_reason": "No separate balance-sheet cap.",
+        "final_score": 10,
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ],
+        "missing_evidence": [
+          "Detailed covenant corroboration beyond the stipulated unrestricted capital access."
+        ]
+      },
+      {
+        "module": "capital_allocation",
+        "weight": 15,
+        "assessment": "assessed",
+        "evidence_basis": "reported",
+        "metric_value": null,
+        "period": "FY2026-FY2030 policy and funding plan",
+        "band": 2,
+        "rationale": "A funded 40%-of-profit policy is reasonable but remains discretionary.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "Each modeled entitlement applies 40% to attributable profit, not FAD.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "met",
+            "evidence": "Maintenance, growth and mandatory uses are funded once before distribution.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "unknown",
+            "evidence": "No acquisition or issuance decision history is supplied.",
+            "source_refs": []
+          }
+        ],
+        "raw_score": 10,
+        "cap": 15,
+        "cap_reason": "No separate allocation cap.",
+        "final_score": 10,
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ],
+        "missing_evidence": [
+          "Acquisition/issuance track record for refinement."
+        ]
+      },
+      {
+        "module": "buyback_quality",
+        "weight": 10,
+        "assessment": "assessed",
+        "evidence_basis": "reported",
+        "metric_value": null,
+        "period": "FY2021-FY2030 ownership assumption",
+        "band": 2,
+        "rationale": "No buyback program; stable ownership is neutral discipline, not automatic top points.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "No issuance, scrip or repurchases; ten million entitled shares remain outstanding.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "unknown",
+            "evidence": "No contemporaneous valuation-based abstention decision is supplied.",
+            "source_refs": []
+          },
+          {
+            "check": 3,
+            "status": "unknown",
+            "evidence": "No repurchase-program stress-capital assessment is supplied.",
+            "source_refs": []
+          }
+        ],
+        "raw_score": 5,
+        "cap": 10,
+        "cap_reason": "No program does not redistribute the weight or justify maximum points.",
+        "final_score": 5,
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ],
+        "missing_evidence": [
+          "Repurchase/abstention valuation and program-specific stress evidence."
+        ]
+      },
+      {
+        "module": "visibility",
+        "weight": 10,
+        "assessment": "assessed",
+        "evidence_basis": "estimated",
+        "metric_value": null,
+        "period": "FY2026-FY2030",
+        "band": 2,
+        "rationale": "Bounded operating, capital and payout estimates reconcile; execution is not independently corroborated.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "Years 1-3 reconcile operating cash, FAD, policy and entitled shares.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "met",
+            "evidence": "Years 4-5 use the same funded assumptions and explicit annual bridges.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "unknown",
+            "evidence": "No prior milestone-delivery record is supplied.",
+            "source_refs": []
+          }
+        ],
+        "raw_score": 6,
+        "cap": 10,
+        "cap_reason": "No illustrative-DPS or Structural Decline cap; confidence remains Medium.",
+        "final_score": 6,
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ],
+        "missing_evidence": [
+          "Independent execution-track-record corroboration."
+        ]
+      }
+    ],
+    "quality_score_85": 62,
+    "income_score_15": 14,
+    "assessed_points": 76,
+    "assessed_weight": 100,
+    "unadjusted_grade": "B",
+    "grade_cap": null,
+    "grade_cap_reason": "No Structural Decline; final Grade follows the sum."
+  },
+  "rating_audit": {
+    "dividend_quality": {
+      "label": "Medium",
+      "rule": "Quality 51-67 out of 85 is Medium; current price is excluded.",
+      "supporting_evidence": "13+18+10+10+5+6=62 quality points.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "Additional supported quality refinements raise quality to at least 68, without changing price.",
+      "downgrade_trigger": "Operating/capital deterioration reduces quality below 51."
+    },
+    "dividend_safety": {
+      "label": "Acceptable",
+      "rule": "Aggregate >=1.0x and a funded Base policy with bounded stress; 2x alone is not Strong.",
+      "supporting_evidence": "Recurring coverage is 2x; actual 0.875x in FY2025 required 5m of the assumed cash buffer.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "Corroborated stress liquidity and sustained actual coverage without exceptional buffer draws.",
+      "downgrade_trigger": "Recurring cash no longer funds policy and no credible adjustment/funding path exists."
+    },
+    "withholding_efficiency": {
+      "label": "High",
+      "rule": "Supported withholding <=10% is High, separate from company safety.",
+      "supporting_evidence": "The fictional applicable company announcement stipulates zero withholding and fees.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "Already in the highest band; retain only with applicable event/channel evidence.",
+      "downgrade_trigger": "Applicable withholding exceeds 10% or the treatment becomes unverified."
+    },
+    "buyback_quality": {
+      "label": "Not Applicable",
+      "rule": "No program keeps the label Not Applicable; per-share discipline still receives its fixed-weight score.",
+      "supporting_evidence": "Stable ten million shares and no program support neutral band 2, five points.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "A funded program or documented value-based abstention establishes stronger per-share discipline.",
+      "downgrade_trigger": "Issuance or debt-funded repurchases impair continuing owners."
+    },
+    "three_year_outlook": {
+      "label": "Stable",
+      "rule": "Funded Base year-3 net DPS is within 5% of year 1.",
+      "supporting_evidence": "Base net DPS remains 4; Bear remains 3.2 under the explicit flat-capacity case.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "A funded operating path supports more than 5% three-year per-share dividend growth.",
+      "downgrade_trigger": "A policy/cash reset implies more than 5% decline or an unbounded path."
+    },
+    "fundamental_trend": {
+      "label": "Stable",
+      "rule": "Normalized operating capacity is maintained; price performance does not select the trend.",
+      "supporting_evidence": "Maintenance and required growth uses preserve flat per-share capacity through year 5.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "Incremental funded demand and investment establish structural per-share growth.",
+      "downgrade_trigger": "Persistent demand or margin erosion changes normalized capacity."
+    },
+    "forecast_confidence": {
+      "label": "Medium",
+      "rule": "Bounded, reconciled analyst estimates can be Medium without perfect forward knowledge.",
+      "supporting_evidence": "All five cash/policy/share scenarios reconcile, but delivery assumptions lack independent corroboration.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "Contracted/observed operating outcomes and capital evidence corroborate the forecasts.",
+      "downgrade_trigger": "A material operating, investment, policy or share-count assumption becomes unbounded."
+    },
+    "portfolio_role": {
+      "label": "Watchlist",
+      "rule": "Security-level durable ordinary cash and Acceptable safety, not a score-to-role mapping.",
+      "supporting_evidence": "The stipulated recurring business and funded ordinary policy support an income role; no personal allocation is inferred.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "Already a core-income candidate under the assumptions; actual portfolio fit needs the user's mandate.",
+      "downgrade_trigger": "Cash becomes cycle-dependent, safety weakens, or a material entry/mandate gate fails."
+    }
+  },
+  "entry_plan": {
+    "current_action": "accumulate",
+    "summary": "At the fictional price 40, gradual accumulation is supported; Medium confidence and Acceptable safety prevent Strong Buy.",
+    "opportunity_thesis": "A funded ordinary dividend of 4 gives a 10% normalized yield versus an independently assumed 8%-10% requirement; waiting for every refinement would forgo supported cash income.",
+    "market_expectation_gap": "Price 40 implies a 10% normalized yield. No consensus dataset is supplied, so this is a reverse-price comparison, not a claim that the market is wrong.",
+    "stages": [
+      {
+        "stage": "starter",
+        "valuation_price": 50,
+        "effective_price": 50,
+        "gap_to_current_pct": 25,
+        "status": "ready",
+        "condition": "N/r_low; maintain the funded Base cash path and passing capital-return review. No investor hard-income floor was supplied."
+      },
+      {
+        "stage": "add",
+        "valuation_price": 40,
+        "effective_price": 40,
+        "gap_to_current_pct": 0,
+        "status": "ready",
+        "condition": "N/r_high; current price meets this threshold, but Medium confidence still limits the action to gradual accumulation."
+      },
+      {
+        "stage": "strong_buy",
+        "valuation_price": 32,
+        "effective_price": 32,
+        "gap_to_current_pct": -20,
+        "status": "waiting_evidence",
+        "condition": "B/r_high plus High confidence and Strong safety. Both the price and the stronger evidence conditions would be needed."
+      }
+    ],
+    "return_scenarios": [
+      {
+        "scenario": "Bear",
+        "horizon_years": 3,
+        "net_cash_received": 9.6,
+        "exit_price": 32,
+        "costs": 0,
+        "cumulative_return": 0.04,
+        "basis": "Three entitled full-year Bear payments; exit at year-3 Bear DPS /10%. USD, zero tax/fees and no reinvestment are explicit assumptions.",
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ]
+      },
+      {
+        "scenario": "Base",
+        "horizon_years": 3,
+        "net_cash_received": 12,
+        "exit_price": 50,
+        "costs": 0,
+        "cumulative_return": 0.55,
+        "basis": "Three entitled full-year Base payments; exit at year-3 Base DPS /8%. Exit-yield compression is a scenario assumption, not guaranteed mean reversion.",
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ]
+      },
+      {
+        "scenario": "Bull",
+        "horizon_years": 3,
+        "net_cash_received": 14.4,
+        "exit_price": 60,
+        "costs": 0,
+        "cumulative_return": 0.86,
+        "basis": "Three entitled full-year Bull payments; exit at year-3 Bull DPS /8%. Costs are stipulated zero, not omitted real broker costs.",
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ]
+      }
+    ],
+    "risk_review": {
+      "status": "pass",
+      "rationale": "Under this teaching case the Bear exit loses 20% of principal while three years of cash make cumulative return +4%; Base is +55%, partly dependent on an 8% exit yield. This research assumption accepts the modeled capital path, not an inferred personal loss tolerance. A worse/unfunded Bear case would invalidate it.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ]
+    },
+    "blockers": [
+      {
+        "scope": "confidence",
+        "reason": "Medium confidence and Acceptable safety cap the action below Strong Buy, not below accumulation.",
+        "resolution": "Corroborate contracted delivery, stress liquidity and actual coverage before a stronger rating.",
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ]
+      },
+      {
+        "scope": "position_sizing",
+        "reason": "No personal holdings or concentration budget supplied.",
+        "resolution": "Obtain portfolio and mandate inputs before sizing; do not block security-level entry analysis.",
+        "source_refs": []
+      }
+    ],
+    "catalysts": [
+      {
+        "event": "Next ordinary results and dividend declaration",
+        "check_date_or_period": "FY2026 results; announcement date not supplied",
+        "confirmation": "Recurring FAD and unrestricted parent cash continue to fund the 40%-of-profit entitlement.",
+        "source_to_revisit": "Issuer cash-flow, capital and dividend-policy disclosures",
+        "if_missed": "Pause additions and rebuild the operating/cash/policy bridge."
+      }
+    ],
+    "invalidation_conditions": [
+      "Recurring FAD or available parent cash fails to fund the policy without a credible adjustment.",
+      "A persistent operating decline, material issuance or payout restriction requires re-estimating N/B and all stage prices."
+    ],
+    "automatic_trade": false
+  },
+  "controller_risk": {
+    "status": "no_material_concern",
+    "controller": null,
+    "materiality": "not_material",
+    "material_harm_confirmed": false,
+    "cash_demand_evidence": [],
+    "channels": [],
+    "listed_company_impact": "Fictional widely held issuer with no controlling-parent funding demand by stipulation.",
+    "source_and_date": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources.",
+    "assessed_on": "2026-01-01"
+  },
+  "quality_assessment": {
+    "status": "provisional",
+    "components": {
+      "dividend_stability": 13,
+      "cash_coverage": 18,
+      "balance_sheet": 10,
+      "capital_allocation": 10,
+      "buyback_quality": 5,
+      "visibility": 6
+    },
+    "score_85": 62,
+    "price_independent": true,
+    "evidence_and_limitations": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources. Synthetic fixture reconciled to the disk-source rubric-2 scorecard; component and total bounds are not probability ranges or midpoint scores.",
+    "range_kind": "rubric_bounds",
+    "component_ranges": {
+      "dividend_stability": {
+        "low": 13,
+        "high": 13
+      },
+      "cash_coverage": {
+        "low": 18,
+        "high": 18
+      },
+      "balance_sheet": {
+        "low": 10,
+        "high": 10
+      },
+      "capital_allocation": {
+        "low": 10,
+        "high": 10
+      },
+      "buyback_quality": {
+        "low": 5,
+        "high": 5
+      },
+      "visibility": {
+        "low": 6,
+        "high": 6
+      }
+    },
+    "score_range": {
+      "low": 62,
+      "high": 62
+    },
+    "coverage_pct": 100
+  },
+  "portfolio_role_assessment": {
+    "basis": "quality_safety_and_constraints",
+    "rationale": "Fictional Medium visibility and Acceptable safety; a cheaper quote changes entry appeal, not the security role.",
+    "price_alone_changes_role": false
+  },
+  "real_income": {
+    "status": "not_assessed",
+    "currency": "USD",
+    "inflation_basket": "Investor consumption basket not supplied in this fictional case.",
+    "period_start": null,
+    "period_end": null,
+    "starting_net_cash": null,
+    "ending_net_cash": null,
+    "starting_price_index": null,
+    "ending_price_index": null,
+    "nominal_cagr": null,
+    "inflation_cagr": null,
+    "real_cagr": null,
+    "flat_tolerance": 0,
+    "trend": "Not Assessed",
+    "source_and_method": "No CPI assumption or purchasing-power rating is fabricated. worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+  },
+  "fx_risk": {
+    "status": "not_material",
+    "economic_exposure": "Stipulated USD revenue, costs and debt.",
+    "operating_currencies": [
+      "USD"
+    ],
+    "distribution_currency": "USD",
+    "investor_currency": "USD",
+    "material_exposure": false,
+    "hedge_and_natural_offsets": "Same-currency teaching case, not a ticker-based FX assumption.",
+    "stress_rows": [],
+    "evidence_and_limitations": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+  },
+  "income_drivers": [
+    {
+      "driver": "contracted_volumes",
+      "exposure_direction": "higher_supports_income",
+      "horizon": "Three to five years",
+      "transmission": "Service volumes drive revenue and fixed-cost absorption, then owner cash and dividends.",
+      "evidence": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+    }
+  ],
+  "report_output": {
+    "language": "zh-CN",
+    "user_requested_language": null,
+    "title": "虚构公司股息研究示例",
+    "summary": "仅用于验证规则，不构成真实投资意见。",
+    "sections": [
+      {
+        "heading": "结论速览",
+        "paragraphs": [
+          "本例为虚构经营公司；现金派息能力由经营现金扣除维护投资、成长投入和强制用途后推导，不使用一次性资本回收支持普通股息。预测可信度中等，不能触发强力买入。"
+        ]
+      },
+      {
+        "heading": "财务状况",
+        "paragraphs": [
+          "基准年度经常性所有者现金为一亿元，扣除两千万元成长投入及五百万元强制用途，可持续可分配现金为七千五百万元；再扣除五百万元实际特殊现金支出。权益股息四千万元有现金覆盖，所有数字均为教学假设。"
+        ]
+      },
+      {
+        "heading": "买点观点",
+        "paragraphs": [
+          "下列三档只代表对应现金与估值门槛；必须同时核对风险、资本及税务条件，不可把已到参考价格等同于所有档位均可执行。"
+        ]
+      },
+      {
+        "heading": "长期展望：业务与股息",
+        "paragraphs": [
+          "前三年逐年验证业务、现金、政策和股数桥；第四、五年延伸依赖明确经营假设。压力情景退出价格可能损害本金，即使收到股息也不保证总回报。"
+        ]
+      },
+      {
+        "heading": "风险点与跟踪信号",
+        "paragraphs": [
+          "重点跟踪经营现金低于假设、成长投资超支、派息政策改变及股数摊薄。任一变化必须重新核对每股可分配能力，不能用估值便宜掩盖质量恶化。"
+        ]
+      },
+      {
+        "heading": "数据来源与关键假设",
+        "paragraphs": [
+          "全部资料来自虚构教学案例；本例只验证算术、字段与决策一致性，不声称查询真实公司。未提供的购买力与细化证据依照下面取数日志处理。"
+        ]
+      }
+    ],
+    "appendix": [],
+    "labels": [
+      "金额单位：报告币种"
+    ]
+  },
+  "decision": {
+    "current_action": "分批建仓",
+    "can_buy_now": true,
+    "reason": "已核对资金与风险门槛，按对应状态执行；不以价格下跌替代公司质量判断。",
+    "buy_conditions": [
+      {
+        "kind": "price",
+        "observable": "市场成交价格不高于收入约束上限",
+        "operator": "<=",
+        "threshold": 50,
+        "unit": "USD",
+        "source_to_watch": "交易所实时报价"
+      }
+    ],
+    "invalidation_conditions": [
+      {
+        "kind": "event",
+        "observable": "董事会公告削减普通现金股息",
+        "operator": "published",
+        "threshold": "已公告",
+        "unit": "公告事件",
+        "source_to_watch": "公司公告与交易所披露"
+      }
+    ],
+    "trap_conclusion": "已识别现金与资本约束，保持对应风险限制，不将未知视为安全。",
+    "entry_conclusion": "参考价已列示，执行前须同时通过资金、税务、资本与风险门槛。",
+    "price_status": "reference_prices",
+    "reference_prices": {
+      "starter": 50,
+      "add": 40,
+      "strong_buy": 32,
+      "income_capped_upper": 50
+    }
+  },
+  "evidence_recovery": {
+    "scope": "provided_packet",
+    "scope_reason": "单元测试限定虚构输入，不进行真实公司研究",
+    "is_group_structure": false,
+    "records": [
+      {
+        "field_paths": [
+          "/growth_assessment/growth_method",
+          "/growth_assessment/status",
+          "/holding_review/action",
+          "/holding_review/missing_inputs",
+          "/income_assessment/target/target_basis",
+          "/income_assessment/target/target_policy",
+          "/real_income/status",
+          "/scorecard/modules/1/checks/1/status",
+          "/scorecard/modules/1/checks/2/status",
+          "/scorecard/modules/1/missing_evidence",
+          "/scorecard/modules/2/checks/2/status",
+          "/scorecard/modules/2/missing_evidence",
+          "/scorecard/modules/3/checks/1/status",
+          "/scorecard/modules/3/missing_evidence",
+          "/scorecard/modules/4/checks/2/status",
+          "/scorecard/modules/4/missing_evidence",
+          "/scorecard/modules/5/checks/1/status",
+          "/scorecard/modules/5/checks/2/status",
+          "/scorecard/modules/5/missing_evidence",
+          "/scorecard/modules/6/checks/2/status",
+          "/scorecard/modules/6/missing_evidence"
+        ],
+        "reason": "虚构测试包未提供这些输入",
+        "impact": "保留各分项的贡献区间；资金约束独立限制买入",
+        "resolution": "not_assessable",
+        "attempts": [
+          {
+            "category": "issuer_filings",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "group_disclosures",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "announcements",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "exchange_regulator",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "official_series",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "historical_comparables",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "broker_records",
+            "scope": "investor",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_provided",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          }
+        ],
+        "estimate": null,
+        "estimate_failure_reason": "虚构包未含经营与现金敏感性锚，无法有据收窄输入区间",
+        "closure_condition": {
+          "kind": "event",
+          "observable": "董事会公告现金分红已获批准并注明付款日",
+          "operator": "published",
+          "threshold": "已公告",
+          "unit": "公告事件",
+          "source_to_watch": "公司公告与交易所披露"
+        }
+      }
+    ]
+  }
 }

@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "ruleset": "2.4",
+  "rubric_version": "1",
+  "data_cutoff": "2026-01-01",
+  "evidence_policy": "Fictional local decision-audit packets, not market facts. Stipulated completed-analysis inputs may be used only for the requested rule audit; do not claim independent issuer verification.",
+  "run_protocol": [
+    "Keep this transfer set separate from the original eight-case baseline. Integrity/unit checks do not execute an LLM.",
+    "Start a fresh model conversation with the canonical skill modules and explicitly request the preserved schema-2.4/rubric-1 audit. Provide only user_prompt and evidence_packet, not expected_checks or forbidden_claims. Evaluate new rubric-2 scoring separately with provisional-score-evaluation-cases.json.",
+    "Save the unedited response outside this repository; record model/version, skill commit, latency and excerpt-based human scoring.",
+    "A fabricated financial bridge, false hard-income pass, unsupported Strong Buy or generic waiting answer that contradicts the explicitly supported entry conditions fails its case."
+  ],
+  "cases": [
+    {
+      "id": "medium-ordinary-positive-entry",
+      "user_prompt": "Audit the current action on this fictional completed Full Analysis under the supplied assumptions. Give staged prices, the decisive action and conditions for a stronger action. Do not generate a new company report or invent holdings.",
+      "evidence_packet": [
+        {"id": "cash-and-price", "published_at": "2026-01-01", "facts": "Price 40 USD, normalized N=4, credible Bear B=3.2, r_low=8%, r_high=10%. The completed operating/cash/policy/share bridge is stipulated reconciled, with no fallback and no veto; tax, cash election and capital access are supported. Required returns were derived independently of price. No investor income target is supplied."},
+        {"id": "confidence-and-risk", "published_at": "2026-01-01", "facts": "Forecast Confidence Medium; Dividend Safety Acceptable. The stated principal-risk review passes only under these research assumptions: three-year Bear/Base/Bull net cash 9.6/12/14.4, exits 32/50/60, zero costs, no reinvestment. Exit yields and acceptance of Bear principal loss are analyst assumptions, not the user's risk tolerance."}
+      ],
+      "expected_checks": [
+        "Starter/add/strict reference prices are 50/40/32; signed distances from 40 are +25%/0%/-20%.",
+        "Give gradual accumulation under the stipulated complete Medium-confidence evidence, not a blanket wait for High confidence.",
+        "Strong Buy is unavailable: it needs the strict price plus High confidence and Strong safety.",
+        "Distinguish the modeled 20% Bear principal decline from +4% cumulative cash-inclusive return; do not invent position sizing."
+      ],
+      "forbidden_claims": ["Medium always means no buying.", "Price 40 is Strong Buy.", "Positive price headroom is guaranteed upside."],
+      "regression_tests": ["test_decision_rules.DecisionRuleTests.test_latest_ordinary_and_growth_have_positive_medium_entry", "test_decision_rules.DecisionRuleTests.test_ordinary_price_stages_and_exact_boundaries"]
+    },
+    {
+      "id": "growth-starter-before-strict-entry",
+      "user_prompt": "Audit whether this fictional completed growth analysis must wait for the strict entry price. Use the supplied qualified model, without changing its rates or forecasts.",
+      "evidence_packet": [
+        {"id": "eligible-growth", "published_at": "2026-01-01", "facts": "All five growth/funding/terminal gates and the current principal-risk review are stipulated passed with supported tax/cash/capital access and no veto. Confidence is Medium and safety Acceptable; no hard income floor. Current price 40. Bear/Base/Bull present values are 45.71428571428571, 57.14285714285714 and 68.57142857142857. The independently declared safety discount is 15%; the legacy strict entry_upper is 38.857142857142854."}
+      ],
+      "expected_checks": [
+        "Starter is Base PV times 85%=48.5714285714; add is min(starter, low PV)=45.7142857143.",
+        "Keep 38.8571428571 as the strict stress-discounted threshold; do not rewrite it.",
+        "At 40 the qualified Medium-confidence action may be gradual accumulation; not Strong Buy.",
+        "Explain dependence on the funded Base path and that a scenario PV is not a guaranteed realized return."
+      ],
+      "forbidden_claims": ["No entry is possible until price reaches 38.8571.", "Raise the Base or terminal assumption to justify 40.", "A favorable Base value overrides a veto."],
+      "regression_tests": ["test_decision_rules.DecisionRuleTests.test_growth_starter_is_not_the_strict_bear_threshold"]
+    },
+    {
+      "id": "hard-income-is-a-price-condition",
+      "user_prompt": "Audit the waiting reason and effective starter price. The company evidence is complete; do not ask for unrelated disclosures or invent a portfolio.",
+      "evidence_packet": [
+        {"id": "mandate", "published_at": "2026-01-01", "facts": "Ordinary price 40, N=4, B=3.2, r_low=8%, r_high=10%; full-year forward net cash 4. Other entry and principal-risk gates pass, with Medium confidence and Acceptable safety. The user explicitly requires a 12% hard forward net-yield minimum. No absolute cash budget or position size is requested."}
+      ],
+      "expected_checks": [
+        "Unmodified starter price is 50; the hard-income ceiling is 4/0.12=33.3333333333.",
+        "Effective starter is 33.3333333333 and the signed gap from 40 is -16.6666667%.",
+        "Current action is wait_for_price, not wait_for_evidence or an unsupported buy.",
+        "A preference rather than a hard floor would not impose this ceiling."
+      ],
+      "forbidden_claims": ["Growth can compensate for the hard income shortfall.", "Missing holdings prevent calculating the percentage-yield ceiling.", "Known below-target yield is a missing company cash bridge."],
+      "regression_tests": ["test_decision_rules.DecisionRuleTests.test_hard_income_shortfall_waits_for_price_not_perfect_evidence", "test_decision_rules.DecisionRuleTests.test_preference_does_not_change_entry_prices"]
+    },
+    {
+      "id": "auditable-score-not-impression",
+      "user_prompt": "Check the score and explain what happens if only the share price changes. Audit the supplied module evidence counts; do not invent new weights or an action from the Grade.",
+      "evidence_packet": [
+        {"id": "point-inputs", "published_at": "2026-01-01", "facts": "Seven module bands in order: yield 1 (13-15), stability 1 (12-15), cash coverage 1 (17-20), balance sheet 2 (8-11), allocation 2 (8-11), buyback discipline 2 (5-7), visibility 2 (5-7). Met refinement counts are 2,1,1,2,2,1,2, respectively. All bands have support; no cap other than module weights; no Structural Decline. No program makes the Buyback Quality label Not Applicable while stable ownership is still scored."}
+      ],
+      "expected_checks": [
+        "Use band floor + floor(band width times met checks /3), yielding 14,13,18,10,10,5,6.",
+        "Quality is 62/85, income 14/15, total 76/100 and Grade B; Dividend Quality is Medium.",
+        "Changing only price cannot raise quality points or automatically change the business role.",
+        "Unknown refinement evidence earns no bonus, without being treated as proven distress or a second veto."
+      ],
+      "forbidden_claims": ["An unexplained 99/100 is compatible with these module inputs.", "Grade B automatically means buy.", "No buybacks always receives zero or maximum points."],
+      "regression_tests": ["test_decision_rules.DecisionRuleTests.test_unsupported_total_and_grade_no_longer_pass", "test_decision_rules.DecisionRuleTests.test_price_change_cannot_upgrade_quality"]
+    },
+    {
+      "id": "missing-tax-still-blocks-entry",
+      "user_prompt": "Audit this proposed Strong Buy while retaining any independently supported quality information. Do not invent a tax rate.",
+      "evidence_packet": [
+        {"id": "unsupported-net-cash", "published_at": "2026-01-01", "facts": "Price 30; an old calculation uses N=4, B=3.2, r_high=10% and a strict boundary 32, all based on an old assumed zero tax. Current applicable withholding rate is null and basis unknown. The six price-independent quality modules independently sum to 62/85. An author proposes Strong Buy because price is below 32."}
+      ],
+      "expected_checks": [
+        "Reject actionable Strong Buy and identify the missing applicable tax/cash evidence.",
+        "Retain quality 62/85, but income points, total score and Grade are unassessable.",
+        "The old 32 arithmetic is diagnostic under its unverified tax assumption, not a ready entry price.",
+        "Name the event/channel tax source needed; unknown tax is not evidence of operating distress."
+      ],
+      "forbidden_claims": ["Assume zero withholding because the investor is an HK resident.", "Price below 32 repairs missing tax evidence.", "Erase supported quality or replace the missing income score with neutral points."],
+      "regression_tests": ["test_decision_rules.DecisionRuleTests.test_missing_tax_preserves_quality_but_blocks_entry"]
+    }
+  ]
+}

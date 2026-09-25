@@ -41,15 +41,17 @@ all_modules = (
     "workflow.md", "business-outlook.md", "business-fundamentals.md",
     "sector-fcf-proxies.md", "withholding-notes.md", "scoring.md",
     "visual-output-rules.md", "buy-zone.md", "holding-review.md",
-    "publishing.md", "output-template.md",
+    "publishing.md", "output-template.md", "analysis-quality.md",
+    "report-language.md", "safety-review.md",
 )
 mode = sys.argv[1]
 modules = all_modules if mode == "all" else (
     "data-conventions.md", "portfolio-context.md", "screen-mode.md", "withholding-notes.md",
+    "report-language.md",
 )
 schema_path = src / "schema.json"
 schema = json.loads(schema_path.read_text(encoding="utf-8"))
-schema_version = schema["properties"]["schema_version"]["const"]
+schema_version = schema["properties"]["schema_version"]["default"]
 
 def git(*args):
     try:

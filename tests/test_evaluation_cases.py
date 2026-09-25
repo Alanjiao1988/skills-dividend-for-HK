@@ -9,7 +9,8 @@ from pathlib import Path
 
 class EvaluationPacketTests(unittest.TestCase):
     def test_fixed_packets_have_cutoffs_rubrics_and_linked_regressions(self):
-        for filename, count in (("skill-evaluation-cases.json", 8), ("normalization-evidence-cases.json", 2)):
+        for filename, count in (("skill-evaluation-cases.json", 8), ("normalization-evidence-cases.json", 2),
+                                ("decision-evaluation-cases.json", 5), ("provisional-score-evaluation-cases.json", 4)):
             with self.subTest(corpus=filename):
                 self.check_packet(filename, count)
 
