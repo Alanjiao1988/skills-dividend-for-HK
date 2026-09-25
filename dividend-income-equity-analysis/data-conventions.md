@@ -22,7 +22,7 @@ Missing critical dividend, tax, cash-access, refinancing, or share data produces
 
 ## Focused Normalization Audits
 
-When the user asks to audit a proposed normalized DPS, N/B calculation or its action label, answer that focused question rather than inventing an 18-section company report. This is a supporting audit, not a new valuation mode. Ordinary Screen Mode does not calculate N or require this audit.
+When the user asks to audit a proposed normalized DPS, N/B calculation or its action label, answer that focused question rather than inventing a Full Analysis company report. This is a supporting audit, not a new valuation mode. Ordinary Screen Mode does not calculate N or require this audit.
 
 Use this compact output contract even when the answer must be concise: **arithmetic conclusion; evidence/action conclusion; the four-row evidence checklist below**. Do not stop at "a dividend bridge is needed." Include all four links, distinguish facts already supplied from missing evidence, and name the missing input and disclosure needed to resolve it. Do not mark every link missing merely because one fails.
 
@@ -35,7 +35,7 @@ Use this compact output contract even when the answer must be concise: **arithme
 
 For the actual answer, render `Link | Status / supplied evidence | Missing input / source to obtain | Consequence`. Every status is `supported`, `missing` or `conflicting`. Cite supplied evidence for supported/conflicting rows; a supported row has no invented gap. A missing disclosure means "not provided in this packet" when that is all that is known, not proof that the issuer does not publish it. An overall High label, an average or a generic "needs more evidence" sentence is not a substitute for this checklist.
 
-Full Analysis uses the same checklist in Section 15. JSON with a `buy_zone` stores its four links in `buy_zone.normalization_evidence`; each contains `status`, `input_detail`, `source_refs`, `resolution_source` and `consequence`. References must match entries in `sources`; unsupported links name the disclosure needed, while supported links set `resolution_source` to null. An incomplete normalized comparison is diagnostic only. If an otherwise eligible growth model does not have a credible ordinary comparison, omit `buy_zone` rather than attach unsupported N/B to an eligible action. The validator checks completeness and declared consistency, not the truth or semantic adequacy of the prose.
+Full Analysis completes the same checklist and shows it in Audit Appendix part A10; the main report's Entry View names only the links that are missing or conflicting. JSON with a `buy_zone` stores its four links in `buy_zone.normalization_evidence`; each contains `status`, `input_detail`, `source_refs`, `resolution_source` and `consequence`. References must match entries in `sources`; unsupported links name the disclosure needed, while supported links set `resolution_source` to null. An incomplete normalized comparison is diagnostic only. If an otherwise eligible growth model does not have a credible ordinary comparison, omit `buy_zone` rather than attach unsupported N/B to an eligible action. The validator checks completeness and declared consistency, not the truth or semantic adequacy of the prose.
 
 ## Entitlement and Implementation
 

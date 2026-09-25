@@ -2,6 +2,8 @@
 
 This file defines how to connect long-term business fundamentals to future dividend capacity.
 
+Presentation follows `output-template.md`: the main report shows only the resulting conclusions and key numbers; the tables and ledgers defined here belong to the Audit Appendix or JSON unless that file places them in the main report.
+
 The purpose is to derive sustainable owner cash, future DPS, normalized DPS, and valuation inputs from operating drivers rather than extrapolating historical dividends. Read `business-outlook.md` for the three-to-five-year development thesis and `sector-fcf-proxies.md` before selecting a cash-generation measure. These modules share one forecast; do not build a separate, inconsistent growth-valuation forecast.
 
 ## 1. Required Causal Chain

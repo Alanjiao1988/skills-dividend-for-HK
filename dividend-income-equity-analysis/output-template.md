@@ -1,12 +1,40 @@
 # Output Template
 
-This file defines output modes and the 18-section Full Analysis order. Detailed rules live in the canonical screen, outlook, cash-flow, sector, valuation, visual and holding-review modules.
+This file is the single source of truth for **what the reader sees**. The other modules define **what must be worked out**: the research, calculations, gates and JSON records. Do the full analysis, but report only what changes the reader's decision.
 
-## Mode Selection
+When another module says "show", "print", "display" or "include" for Full Analysis, it means: complete that work, keep it consistent with the report, store it in JSON when machine-readable output is requested, and place it in the Audit Appendix. It enters the main report only where this file puts it.
 
-### Screen Mode
+## Report Principles
 
-When Screen Mode is triggered, follow `screen-mode.md` only. Do not produce the 18-section Full Analysis.
+1. **Answer four questions.** The main report exists to answer: (a) how healthy the finances are and whether real recurring cash funds the dividend; (b) whether the current price is a buy point, and at what price it becomes one; (c) where the business and the dividend are heading over three to five years; (d) what could break the thesis and how to spot it early. Anything that does not change one of those answers goes to the appendix or is omitted.
+2. **Conclusion first.** Every section opens with one bold sentence stating its judgment. Supporting numbers and bullets follow; they do not restate the judgment.
+3. **Each number once.** A figure appears in one place in the main report. Later sections refer to it by name rather than repeating it.
+4. **Plain language.** No schema field names, formulas, rule restatements, method explanations or checklist rows in the main report. Use the plain labels below. Explain a method only when the reader needs it to interpret the result, and then in one clause.
+5. **No placeholder rows.** Do not print rows or cells filled with N/A, Unknown or Not estimable. Collect missing inputs in the single "数据缺口 / Data gaps" line in Section 6 and state their consequence (for example, "so the buy point is indicative only").
+6. **Facts versus estimates, compactly.** Mark analyst estimates with `（估）`/`(est.)` and company guidance with `（指引）`/`(guidance)`. Unmarked numbers are reported facts. Section 6 lists the few assumptions the conclusion depends on.
+7. **One disclaimer.** State research-not-advice and the no-dividend-growth limitation of cash-income bands once, in Section 6. Do not add caveats beneath each table.
+8. **Language.** Write in the user's language; default to Chinese for Chinese requests. Always give the currency, unit and as-of date for prices and dividends.
+9. **Length budget.** Main report: about 1,200-2,000 Chinese characters (about 800-1,300 English words) excluding tables; at most five tables, each at most six columns and eight rows; at most three charts when rendering is available. When over budget, cut explanation and repetition, never the judgment, the key numbers or the named risks.
+
+### Plain Labels for the Main Report
+
+| Internal term | Main-report label |
+|---|---|
+| `ordinary_yield_based` | 收息定价 / income-yield pricing |
+| `total_return_based` | 股息增长估值 / dividend-growth valuation |
+| `finite_life_harvest` | 有限期现金回收 / finite-life cash recovery |
+| `suspended` | 暂不给出买点 / no buy point given |
+| Recurring FAD | 可持续可分配现金 / sustainable distributable cash |
+| N / B | 正常化股息 / 压力情景股息 (normalized / stress-case dividend) |
+| Value-Trap Veto Not triggered / Triggered / Unclear | 红利陷阱：未触发 / 已触发 / 待确认 |
+| Forecast Confidence High / Medium / Low / Not Forecastable | 预测可信度：高 / 中 / 低 / 无法预测 |
+| `action_assessment` eligible / diagnostic_only / suspended | 可执行 / 仅供参考 / 暂停 |
+| Cash-income bands | The Chinese or English band names in `buy-zone.md` |
+| Sensitivity transient / persistent / structural | 暂时性 / 持续性 / 结构性 |
+
+## Screen Mode
+
+When Screen Mode is triggered, follow `screen-mode.md` only. Do not produce the Full Analysis report.
 
 Required banner:
 
@@ -20,7 +48,7 @@ Buy Zone: Not Assessed
 This is a first-pass filter, not a full investment analysis.
 ```
 
-For each ticker, output the compact screening fields, including:
+Output one comparison table with one row per ticker, then one line per ticker giving the main reason for its label. Do not write a per-ticker essay. The compact screening fields include:
 
 - Paid TTM net yield and selected screening yield/basis/range (not normalized N).
 - Screening net-yield target.
@@ -31,281 +59,123 @@ For each ticker, output the compact screening fields, including:
 
 Do not infer a screening target from `buy-zone.md`. If no target is available, use `Not Assessed` and do not reject a stock solely because its yield appears low.
 
-### Full Analysis Mode
+## Focused Audit
 
-Use the following 18 sections.
+When the user only asks to check an existing N/B, normalized dividend or action label, follow `data-conventions.md`: arithmetic conclusion, evidence/action conclusion and the four-row evidence checklist. Do not produce the Full Analysis report.
 
-## 1. Executive Summary
+## Full Analysis Mode
 
-### 1A. Key Metrics at a Glance
+The main report has these six numbered sections, in this order. The Audit Appendix follows only when requested.
 
-| TTM Net Yield | Normalized Net Yield | Score / Grade | Portfolio Role |
-|---:|---:|---:|---|
-| | | | |
+## 1. 结论速览 / Bottom Line
 
-If normalized yield is a range, display `x-y%`.
+Three sentences at most: what this company is as a dividend asset, whether its dividend is safe, and what the current price means for the reader (buy gradually, wait for price X, observe only, or no buy point).
 
-### 1B. Secondary Summary
+| 现价（日期） | 税后股息率 TTM | 正常化税后股息率 | 3年股息覆盖 | 买点 | 当前位置 |
+|---|---:|---:|---:|---|---|
+| | | | | | |
 
-- Company:
-- Ticker / Exchange:
-- As-of date / Price used:
-- TTM gross yield:
-- TTM net yield:
-- Normalized net yield:
-- Fundamental Trend:
-- Forecast Confidence:
-- Valuation mode: ordinary_yield_based / total_return_based / finite_life_harvest / suspended
-- Expected buy zone or finite-life value range:
-- Income fit versus growth-value conclusion:
-- Three-to-five-year business / per-share FCF thesis:
-- Three-year aggregate / five-year worst recurring coverage:
-- Holding-review status:
-- Value-trap veto:
-- Dividend currency / Investor reporting currency:
-- Withholding rate / basis:
-- Broker-observed withholding / cash-line type:
-- Scrip / DRIP available:
-- Initial view:
+- "买点" is the price at or below which normalized income meets the high-end requirement (or the growth-valuation entry limit, or the finite-life value range). Write `暂不给出` with a two-word reason when valuation is suspended.
+- "当前位置" is the cash-income band name, or above/within/below the growth-value range.
 
-## 2. Dividend Snapshot
+One status line: `行动：… ｜ 预测可信度：… ｜ 红利陷阱：… ｜ 评分：xx/100（等级）｜ 组合角色：…`
 
-One-sentence takeaway, then the authoritative snapshot structure from `visual-output-rules.md`.
+## 2. 财务状况 / Financial Condition
 
-## 3. Standard Charts or Text Fallback
+**Opening judgment:** whether recurring cash genuinely funds the dividend, and whether the balance sheet or capital position constrains it.
 
-Follow `visual-output-rules.md`.
+One five-year table (latest comparable years; fewer if fewer exist):
 
-Rich output may include:
+| 财年 | 收入 / 行业核心指标 | 归母净利润 | 可持续可分配现金 | 每股股息 | 现金覆盖 |
+|---|---:|---:|---:|---:|---:|
 
-1. DPS Structure Chart.
-2. Yield Ladder.
-3. Coverage Chart.
-4. Fundamental Forecast Chart.
-5. Income ladder, conditional Growth-Value Range, or Finite-Life Cash-Recovery summary.
+These columns are the default. Keep at most six, choose the ones the evidence supports (for example actual versus sustainable distributable cash when they diverge), and drop a column rather than fill it with N/A. For banks, insurers, REITs, utilities and holding companies, use the sector measures from `sector-fcf-proxies.md` instead (for example capital generation, remittances, AFFO).
 
-Plain-text fallback:
+Then three to five bullets, each with numbers and a judgment:
 
-- Business and FCF trend:
-- DPS path:
-- Yield stack:
-- Driver sensitivity with type:
-- Valuation summary:
-- Coverage labels:
+- **Earnings and cash quality:** trend, cash conversion, one-off items excluded.
+- **Dividend funding:** three-year aggregate coverage, the worst year, and whether any shortfall was met by debt, asset sales, scrip or cash balances.
+- **Balance sheet and capital:** leverage or regulatory capital, refinancing needs, parent-company remittance where relevant.
+- **Per-share effects:** net dilution or buyback effect on shares over the period.
+- **Net cash to the investor:** withholding rate and basis, and any scrip/DRIP election assumption, in one line.
 
-## 4. Company and Listing Structure
+## 3. 买点观点 / Entry View
 
-Describe domicile, listing venue, security type, dividend and reporting currencies, official share count, and scrip / DRIP availability and default election.
+**Opening judgment:** where the current price stands and at what price the stock becomes attractive, in plain words.
 
-## 5. Dividend Treatment
+For income-yield pricing, one price ladder:
 
-Apply `withholding-notes.md`. State withholding rate, basis, broker-observed status, broker cash-line type, and evidence.
+| 价格区间 | 对应税后股息率 | 含义 |
+|---|---:|---|
+| > N / r_low | < r_low | 低于要求现金收益率 |
+| N / r_high – N / r_low | r_low – r_high | 正常化收入处于要求区间 |
+| B / r_high – N / r_high | ≥ r_high | 正常化收入达到高端要求 |
+| ≤ B / r_high | 压力情景 ≥ r_high | 压力情景收入达到高端要求 |
 
-For scrip / DRIP, state whether cash yield assumes an all-cash election and disclose tax, broker, fractional-share, and dilution uncertainty.
+Replace the formulas with the computed prices and mark the current price's row with `← 现价`. Then at most four bullets:
 
-## 6. Business Fundamentals and Three-to-Five-Year Outlook
+- **Required return:** risk-free anchor plus risk premium gives the required net yield range, in one line with date and currency.
+- **Action and conditions:** the independent action status in plain words (可执行 / 仅供参考 / 暂停), why Strong Buy is or is not available, and the specific evidence or price that would change the action.
+- **Evidence gaps behind the buy point:** name any of the four normalization links (operating cash, funding capacity, payout policy, entitled shares) that are missing or conflicting, in one line. Omit when all are supported.
+- **Holding review:** only when the user holds the stock or asks about holding, selling or switching: the review trigger, the level and the research action. Do not invent position sizes.
 
-Use `business-fundamentals.md` to show:
+For dividend-growth valuation, replace the ladder with one table: Bear / Base / Bull value, entry limit after the safety discount, valuation-review level and the terminal value's share of Base value. Add the separate income-yield comparison in one line when credible; growth value does not waive an explicit income minimum.
 
-- dividend funding engine;
-- historical operating trend with sector-appropriate KPIs;
-- Fundamental Trend classification;
-- three to five core drivers;
-- structural, cyclical, competitive, regulatory, and capital-intensity factors;
-- per-share dilution from issuance, scrip / DRIP, and buyback offsets.
+For finite-life cash recovery, state the harvest horizon, discount rate (at least 10%) and value range in one line each.
 
-Use `business-outlook.md` for segment/driver baselines, FY+3/FY+5 outcomes, competitive position, management delivery, project timing, reinvestment/funding, scenario theses and dated invalidation milestones. State the sector proxy and any holding-company overlay from `sector-fcf-proxies.md`. Missing quantitative evidence does not remove the qualitative five-year outlook.
+When valuation is suspended, give no price ladder: state the reason and the conditions that would reopen valuation in at most three bullets.
 
-## 7. Dividend Trajectory and Yearly Yield
+## 4. 长期展望：业务与股息 / Long-Term Business and Dividend Outlook
 
-Use `visual-output-rules.md` Section 4 and add a Dividend Pattern paragraph.
+**Opening judgment:** whether per-share cash and the dividend are likely to be higher, flat or lower in three to five years, and the main reason.
 
-## 8. Historical Cash-Flow Coverage Bridge
+- **Business drivers:** two to four bullets, each naming a driver or segment, its FY+3/FY+5 direction with a number or range, whether it is committed or optional, and the evidence.
+- **Dividend outlook table:**
 
-Use `visual-output-rules.md` Section 5. Explain whether historical distributions were funded by recurring cash flow, cash balance, asset sales, debt, equity issuance, or mixed sources.
+| 情景 | 核心假设 | FY+1 DPS | FY+3 DPS | FY+5 DPS | FY+1–3 覆盖 |
+|---|---|---:|---:|---:|---:|
+| 悲观 Bear | | | | | |
+| 基准 Base | | | | | |
+| 乐观 Bull | | | | | |
 
-Reconcile reported FCF/proxy to Recurring Owner FCF, recurring FAD and actual cash affordability. Show the once-only deduction ledger, three-year aggregate coverage, five-year worst recurring coverage and worst actual coverage with year and funding source. Identify insufficient/comparability-limited histories.
+  Leave an unsupported later-year cell blank and explain it once in Section 6.
+- **Payout policy and dividend growth:** policy and its calculation base, expected DPS growth range, and payout headroom or funding gap, in one or two lines.
 
-## 9. Management Capital Allocation
+## 5. 风险点与跟踪信号 / Key Risks and Monitoring
 
-Summarize payout policy, reinvestment, leverage, acquisitions, ordinary issuance, ATM, scrip / DRIP, and shareholder returns.
+**Opening judgment:** the dividend-trap result (未触发 / 已触发 / 待确认) and the single largest risk to the dividend.
 
-State policy type, exact earnings/cash/DPS calculation base, source and capital/funding constraints.
+| 风险 | 早期信号（可观察指标 / 阈值） | 对股息的影响 | 性质 | 下次检查 |
+|---|---|---|---|---|
 
-## 10. Buyback Quality
+- Three to five company-specific risks, ranked by their effect on the dividend. Each needs an observable signal with a threshold taken from the model or disclosures, a quantified or directional dividend impact, and a nature label (暂时性 / 持续性 / 结构性).
+- Include every dividend-trap item that is flagged or unclear; omit items that passed. Exclude generic risks (market volatility, macro uncertainty) unless their effect on this dividend is quantified.
+- Where useful, add one line naming the milestone that would confirm the Base case.
 
-Assess true diluted-share-count change and whether buybacks create value, offset ordinary issuance, merely neutralize scrip dilution, or are debt-funded.
+## 6. 数据来源与关键假设 / Sources and Key Assumptions
 
-## 11. Three-to-Five-Year Fundamental and FCF Forecast
+- **数据截至：** research cut-off and price date/source.
+- **主要来源：** at most five key official sources; the full list belongs in the appendix.
+- **关键假设：** at most five assumptions the conclusion depends on most, each marked as fact, guidance or estimate.
+- **数据缺口：** one line listing missing material inputs and their consequence for confidence or the buy point.
+- **说明：** one line: research, not personalized investment or tax advice; cash-income bands credit no dividend growth.
 
-Use `business-fundamentals.md` Sections 6 and 8.
-
-Show detailed annual Bear/Base/Bull operating and FCF forecasts for FY+1 to FY+3 and supported FY+4/FY+5 extensions. Retain unsupported rows as Not estimable with null values and reasons. Include working capital, maintenance/growth investment, owner claims, financing/capital needs, total/per-share cash outlook, cumulative FAD, cash-conversion timing and liquidity trough. Explain changes in FCF by driver, not just the final CAGR.
-
-Then show sensitivity for three to five material drivers.
-
-Every sensitivity row must be classified:
-
-- transient;
-- persistent;
-- structural.
-
-Rules:
-
-- Transient: normalized high-end cash-yield boundary change (N/r_high) = N/A.
-- Transient in growth valuation: show the affected-year discounted cash impact separately; do not change terminal growth.
-- Persistent: recalculate normalized distributable cash and N before updating the boundary.
-- Structural: show `Rebuild required`; rerun the full model.
-
-State the evidence basis and local/nonlinear limitations.
-
-## 12. Dividend Forecast Bridge
-
-Use `business-fundamentals.md` Section 7.
-
-Show:
-
-- Distributable-Cash Bridge.
-- Recurring FAD versus total distribution capacity, with separate exceptional uses and excess cash.
-- Deduction ledger and capital/remittance constraints.
-- Share Count and Scrip / DRIP Assumptions.
-- Forecast Confidence.
-
-Do not repeat Dividend Cash Cost or Derived DPS here.
-
-## 13. Dividend and Yield Runway
-
-Show a separate policy-entitlement table: Year / Scenario, Policy-Indicated Entitlement, Modeled Entitlement, Cash-Settled Fraction, Settlement Adjustment, All-Cash Funding Gap. Then show the existing cash-cost/DPS runway once. Where installments differ, calculate them separately and refer to their audit; annual EPS shares are not the dividend denominator.
-
-Use the single table in `visual-output-rules.md` Section 6:
-
-- Cash Available for Distribution.
-- Payout Policy / Ratio and correct calculation base.
-- Policy-implied amount versus justified forecast payout.
-- Dividend Cash Cost.
-- Derived DPS.
-- Net Yield at Current Price.
-- Funding gap and dividend-entitled share-count reconciliation.
-
-Cover the same five-year/scenario keys as Sections 11 and 12. Split audit detail from the main table to retain at most seven columns, without repeating Derived DPS or Dividend Cash Cost.
-
-## 14. Dividend Trap Checklist
-
-Test every required item in `workflow.md`, including:
-
-- forecast DPS versus business and cash flow;
-- normalized N basis;
-- issuance and scrip dilution;
-- Structural Decline without credible finite-life harvest logic.
-- Unsupported sector cash proxies, omitted investment and double deductions/add-backs.
-- Growth depending on unfunded reinvestment or an unsupported terminal dividend.
-
-The checklist is a precondition for valuation.
-
-## 15. Income Entry, Growth Value, or Finite-Life Value
-
-Read `buy-zone.md` and first state the valuation mode.
-
-Print the sourced risk-free anchor, currency/tenor/date/tax basis, price-independent premium range and required total return. Explain how ordinary required cash yields are derived. State the explicit income target or Not Assessed; growth cannot substitute for a hard income minimum.
-
-When N/B is assessed, include the four-row evidence checklist from `data-conventions.md`: operating cash, funding capacity, payout policy and entitled shares, each with supported/missing/conflicting status, source or resolution document and consequence. Reuse references from the earlier bridges rather than repeating their DPS/cash-cost tables. A focused audit uses this checklist and its conclusions without fabricating the rest of Full Analysis.
-
-### Ordinary Yield-Based Mode
-
-Include:
-
-- N value, basis, source period, and normalization adjustments;
-- B value and source;
-- DPS source currency, normalization FX/fees, share/ADR entitlement and quote-unit conversion;
-- r_low and r_high;
-- deterministic income boundaries, separately assessed action eligibility and principal-risk / total-return check;
-- historical price and yield context;
-- current price position;
-- veto status.
-
-Use the cash-income band names from `buy-zone.md`, including translated equivalents where appropriate. Caption the comparison: no dividend growth is credited and this is not a complete estimate of intrinsic value. Show `action_assessment` independently; a cash-income band does not assign a buy, hold or sell action.
-
-### Conditional Total-Return-Based Mode
-
-Require evidence-backed, funded annual dividends and the growth/transition gates in `buy-zone.md`. Show:
-
-- annual dividend-path references to Section 13, with valuation cash-flow dates/stub treatment;
-- reinvestment/ROIC, equity-retention/ROE or a supported direct operating-to-DPS bridge, distinguishing public facts from bounded analyst estimates;
-- explicit horizon, steady-state transition, terminal DPS, bounded terminal growth and R-g spread;
-- scenario present values, terminal-value share and R/g sensitivity;
-- growth-value range, declared safety discount, entry limit and valuation-review threshold;
-- conditional hard-income price ceiling, using the evidenced forward cash period separately from growth value;
-- a separately labelled ordinary income entry comparison when credible, not a forced single answer.
-
-If growth is unassessable, state why and use only a credible ordinary/finite-life mode or suspend. Do not manufacture positive growth to justify a price.
-
-Exact project-level marginal-return disclosures are not required for a supported direct bridge. Explain which inputs are estimated and how they are bounded; existing Medium confidence can apply when all common and terminal funding gates pass. Material unbounded funding, tax or remittance gaps cannot be repaired by increasing the safety discount.
-
-### Structural Decline Without Exception
-
-Output:
-
-```text
-Valuation mode: suspended
-Ordinary buy zone: suspended
-```
-
-Do not output an ordinary cash-income ladder, a growth entry range or a Strong Buy action.
-
-### Harvest / Managed Runoff Exception
-
-Use finite-life cash recovery and include:
-
-- harvest horizon;
-- annual forecast net distributions;
-- discount rate, with a 10% floor;
-- residual value and basis;
-- present value of distributions;
-- finite-life value range;
-- optional ordinary yield cross-check with r_low at least 10%.
-
-## 16. Visual Summary
-
-Summarize:
-
-- Business and FCF trend.
-- DPS path.
-- Yield normalization.
-- Main driver sensitivity and type.
-- Valuation mode and buy-zone or finite-life result.
-- Coverage labels.
-- FY+3/FY+5 cash development and monitoring milestones.
-
-## 17. Score, Portfolio Role, and Holding Review
-
-### 17A. Score and Evidence Overlays
-
-Use `scoring.md` and show module points.
-
-Output:
-
-- Dividend Quality.
-- Dividend Safety.
-- Withholding Efficiency.
-- Buyback Quality.
-- Three-Year Dividend Outlook.
-- Fundamental Trend.
-- Forecast Confidence.
-- Structural Decline cap applied.
-- Harvest / Managed Runoff Exception applied.
-- Valuation mode.
-- Unadjusted score and overlay-adjusted Grade where applicable.
-
-### 17B. Portfolio Role
-
-State the final Portfolio Role and its rationale after the evidence, safety and Structural Decline overlays. Separate security quality from the user's supplied portfolio holdings, cash-income requirements and concentration limits; unknown inputs do not create an assumed portfolio fit. A score or cash-income band is not an action recommendation.
-
-### 17C. Holding Review
-
-Apply `holding-review.md` separately from the score: thesis/cash/solvency triggers, valuation-review band, concentration/mandate constraints, action and next evidence date. A valuation band is not an automatic sell order. For a proposed switch, show the named alternative, same-basis forward cash income/returns, taxes/fees/costs and documented improvement hurdle. Missing holdings/alternative information means no invented trade size or switch conclusion.
-
-## 18. Sources and Data Quality
-
-List official filings, announcements, operating statistics, guidance, broker records, historical price sources, and cross-checks.
-
-State missing data, stale data, scope/restatement adjustments, every material forecast's source/date and confidence, unsupported later years, sector/cash reconciliation, payout basis, sensitivity type, scrip assumptions, N basis, rate/growth assumptions and whether future FCF/DPS is evidence-backed or illustrative. Separate observed facts from estimates and research judgments.
+## Audit Appendix (on request)
+
+Output the appendix only when the user asks for detailed workings, full calculations, an audit trail, an appendix or the complete model. Otherwise end after Section 6 with one line offering the appendix. JSON output (`schema.json`) always carries the full records regardless of what the report displays. Saving or publishing a report (`publishing.md`) uses the same main report; include the appendix only when requested.
+
+When shown, the appendix uses these parts under a single `## Audit Appendix` heading, each following its canonical module and the appendix table rules in `visual-output-rules.md`. Include only the parts relevant to the question; do not print empty parts.
+
+- **A1. Listing and dividend treatment:** domicile, security type, currencies, official and dividend-entitled share count, withholding basis, broker cash-line type, scrip/DRIP election, tax and dilution uncertainty (`withholding-notes.md`).
+- **A2. Dividend trajectory:** per-share DPS structure and yearly yield/coverage tables with quality tags and a dividend-pattern note.
+- **A3. Historical cash-flow coverage bridge:** reported FCF/proxy to Recurring Owner FCF and Recurring FAD, once-only deduction ledger, cash return and funding sources, three-year aggregate, five-year worst recurring and worst actual coverage.
+- **A4. Capital allocation and buyback quality:** payout-policy type and exact calculation base, reinvestment, leverage, issuance, scrip/DRIP and whether buybacks create value.
+- **A5. Business outlook detail:** development-thesis table, milestones, historical operating trend and sector model/holding-company overlay (`business-outlook.md`, `sector-fcf-proxies.md`).
+- **A6. Five-year forecast:** annual Bear/Base/Bull operating and financial forecasts, FCF build and capital needs, FCF change decomposition, cumulative FAD and liquidity trough; unsupported years with reasons (`business-fundamentals.md` Section 6).
+- **A7. Sensitivity:** three to five single-driver rows, each typed transient/persistent/structural, with the growth-model cash-PV audit where applicable.
+- **A8. Dividend forecast bridge and runway:** distributable-cash bridge, share count and scrip/DRIP assumptions, policy-entitlement table and the single Dividend and Yield Runway. Do not repeat Dividend Cash Cost or Derived DPS.
+- **A9. Dividend trap checklist:** every item from `workflow.md` Step 10 with status and evidence.
+- **A10. Valuation detail:** valuation mode and reason, required-return audit, N/B values/basis/period/adjustments, DPS currency and unit conversion, the four-row normalization evidence checklist from `data-conventions.md`, cash-income band table and action assessment; growth scenario PVs, R/g sensitivity and terminal funding ledger; or the finite-life harvest table (`buy-zone.md`).
+- **A11. Score and portfolio role:** module points from `scoring.md`, overlays, unadjusted score and adjusted grade, portfolio-role rationale.
+- **A12. Holding review:** trigger table, constraints and switching comparison from `holding-review.md`.
+- **A13. Sources and data quality:** the full source list, stale or restated data, forecast sources and confidence by horizon, and whether future FCF/DPS is evidence-backed or illustrative.

@@ -208,7 +208,7 @@ Set Value-Trap Veto to Not triggered / Triggered / Unclear.
 
 Read `buy-zone.md`.
 
-First print a sourced, dated, currency/tax-consistent risk-free anchor, a price-independent risk-premium range and resulting required total return. Do not derive risk from the total score, which contains yield. Resolve any explicit cash-income target separately.
+First establish a sourced, dated, currency/tax-consistent risk-free anchor, a price-independent risk-premium range and resulting required total return. Do not derive risk from the total score, which contains yield. Resolve any explicit cash-income target separately.
 
 ### Ordinary Dividend Asset
 
@@ -239,3 +239,7 @@ If the Value-Trap Veto is triggered, suspend ordinary and growth valuation outpu
 Read `holding-review.md`. Link business milestones, cash/solvency warnings, valuation-review levels and portfolio constraints to hold/review/trim/exit/switch or Not Assessed. A price threshold triggers review, not an order.
 
 Compare alternatives only with evidenced prospective cash income and risk-adjusted returns on the same currency/horizon basis, net of taxes, fees and switching costs. Without position size, constraints or an identified alternative, state the missing inputs rather than inventing a trade.
+
+## Step 13: Write the Report
+
+Read `output-template.md`. Steps 1-12 are the work; the report is a distillation of it, not a transcript. Write the six-section main report: bottom line, financial condition, entry view, long-term business and dividend outlook, key risks and monitoring, sources and key assumptions. Keep within its length budget, keep every number consistent with the underlying model, and leave the bridges, ledgers, full forecasts, sensitivities, full trap checklist, valuation audit, score detail and holding-review table to the Audit Appendix unless the user asks for it.

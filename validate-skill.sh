@@ -174,18 +174,27 @@ if grep -Eq '^# Module: (buy-zone|business-fundamentals|holding-review|scoring)\
   exit 1
 fi
 
-full_template_sections=$(grep -Ec '^## ([1-9]|1[0-8])\. ' "$TEMPLATE")
-full_skeleton_sections=$(grep -Ec '^## ([1-9]|1[0-8])\. ' "$SKELETON")
+full_template_sections=$(grep -Ec '^## [0-9]+\. ' "$TEMPLATE")
+full_skeleton_sections=$(grep -Ec '^## [0-9]+\. ' "$SKELETON")
 
-if [[ "$full_template_sections" -ne 18 ]]; then
-  echo "output-template.md must contain 18 numbered Full Analysis sections; found $full_template_sections" >&2
+if [[ "$full_template_sections" -ne 6 ]]; then
+  echo "output-template.md must contain 6 numbered Full Analysis report sections; found $full_template_sections" >&2
   exit 1
 fi
 
-if [[ "$full_skeleton_sections" -ne 18 ]]; then
-  echo "example-output-skeleton.md must contain 18 numbered Full Analysis sections; found $full_skeleton_sections" >&2
+if [[ "$full_skeleton_sections" -ne 6 ]]; then
+  echo "example-output-skeleton.md must contain 6 numbered Full Analysis report sections; found $full_skeleton_sections" >&2
   exit 1
 fi
+
+grep -Fq '## Audit Appendix' "$TEMPLATE" || {
+  echo "output-template.md must define the on-request Audit Appendix" >&2
+  exit 1
+}
+grep -Fq 'Length budget' "$TEMPLATE" || {
+  echo "output-template.md must keep the main-report length budget" >&2
+  exit 1
+}
 
 if grep -R -n -E 'B / r_low|"three_year_forecast"|Base-derived N|after-tax yield is plainly insufficient' dividend-income-equity-analysis; then
   echo "Stale rule detected" >&2

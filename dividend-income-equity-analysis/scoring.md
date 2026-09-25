@@ -2,6 +2,8 @@
 
 Use a 100-point framework for Full Analysis. Do not invent new weights during execution. Screen Mode does not use this score.
 
+The main report shows only the total score, grade and Portfolio Role in the Bottom Line status line; module points, overlays and override explanations belong to Audit Appendix part A11.
+
 ## Weights
 
 | Module | Weight |

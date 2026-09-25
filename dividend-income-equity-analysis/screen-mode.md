@@ -1,6 +1,6 @@
 # Screen Mode
 
-Screen Mode is a lightweight first-pass filter for one or more dividend stocks. Its purpose is to decide whether a company deserves Full Analysis. It must not be presented as a substitute for the full 18-section framework.
+Screen Mode is a lightweight first-pass filter for one or more dividend stocks. Its purpose is to decide whether a company deserves Full Analysis. It must not be presented as a substitute for Full Analysis.
 
 ## 1. When to Trigger
 

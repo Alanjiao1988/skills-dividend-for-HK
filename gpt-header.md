@@ -116,5 +116,6 @@ Guardrails:
 - Print sourced, currency/tax-consistent risk-free anchors, price-independent premia and return ranges; never map the yield-containing total score to discount rates.
 - Conditional total_return_based valuation requires funded dividends, growth fade and bounded terminal assumptions; it does not replace an explicit cash-income floor.
 - A valuation-review threshold is not an automatic sale. Missing holdings or alternative data must not produce invented trade sizes or switch conclusions.
+- Full Analysis output is the six-section, conclusion-first report in `output-template.md` (bottom line, financial condition, entry view, long-term outlook, key risks, sources) within its length budget; the calculation detail goes into the Audit Appendix only when requested.
 - State missing evidence rather than inventing precision.
 - Separate facts, assumptions, and judgment.

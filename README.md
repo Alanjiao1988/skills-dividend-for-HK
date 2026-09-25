@@ -69,7 +69,18 @@ Screen Mode does not output forecasts, N/B, buy zones, Strong Buy, or final scor
 
 ### Full Analysis Mode
 
-Uses the complete 18-section framework from business fundamentals through dividend capacity, sensitivity, dilution, valuation, and scoring.
+Runs the complete framework (business fundamentals, dividend capacity, sensitivity, dilution, valuation and scoring), then writes a short, conclusion-first report that answers four questions:
+
+| Section | Answers |
+|---|---|
+| 1. Bottom Line | One-sentence verdict, key numbers table and action status line. |
+| 2. Financial Condition | Is the dividend funded by real recurring cash? Five-year coverage table and balance-sheet constraints. |
+| 3. Entry View | Where the price sits, at what price it becomes attractive, and the action with its conditions. |
+| 4. Long-Term Business and Dividend Outlook | Three-to-five-year drivers and a Bear/Base/Bull FY+1/FY+3/FY+5 dividend table. |
+| 5. Key Risks and Monitoring | Three to five company-specific risks with observable early signals and dividend impact. |
+| 6. Sources and Key Assumptions | Cut-off date, key sources, key assumptions and data gaps, one line each. |
+
+The main report has a length budget (about 1,200-2,000 Chinese characters excluding tables, at most five tables and three charts), states each number once, and omits placeholder rows, formulas and rule restatements. Cash-flow bridges, the five-year annual forecast, sensitivities, the full trap checklist, valuation audit, score detail and holding-review table go into an Audit Appendix that is produced only on request; JSON output always carries the full records. See [the example report](dividend-income-equity-analysis/examples/example-output-skeleton.md).
 
 ### Three-to-Five-Year Outlook and FCF
 
@@ -155,7 +166,7 @@ bash validate-skill.sh
 The validator checks:
 
 - valid, multi-line, maintainable JSON schema formatting;
-- 18 numbered Full Analysis sections in both template and example;
+- six numbered Full Analysis report sections plus the on-request Audit Appendix in both template and example;
 - all canonical modules included in generated GPT instructions;
 - absence of selected stale rule strings;
 - presence of Screen Mode, explicit screening-yield parameters, sensitivity classification, and finite-life valuation contracts.

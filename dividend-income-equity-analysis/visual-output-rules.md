@@ -2,12 +2,13 @@
 
 These rules apply to Full Analysis. Screen Mode uses the compact output in `screen-mode.md` and does not require these charts.
 
-The Full Analysis should communicate in this order:
+`output-template.md` decides what the reader sees. The main report carries at most three charts and five slim tables; everything else in this file is the **Audit Appendix** specification, used only when the user requests the appendix and always available as JSON records.
 
-1. Four key numbers.
-2. Business, cash-flow, dividend, and valuation visuals.
-3. Slim tables as the audit trail.
-4. Long-form explanation.
+The main report communicates in this order:
+
+1. The bottom-line judgment and its key numbers.
+2. At most three visuals that each answer one of the four questions (finances, entry, outlook, risks).
+3. Short bullets with numbers and judgments, not long-form explanation.
 
 ## 1. Output Capability Detection
 
@@ -15,42 +16,38 @@ The Full Analysis should communicate in this order:
 - Otherwise use compact text visuals plus markdown tables.
 - Do not fail because chart rendering is unavailable.
 
-## 2. Key Metrics at a Glance
+## 2. Main-Report Key Numbers
 
-| TTM Net Yield | Normalized Net Yield | Score / Grade | Portfolio Role |
-|---:|---:|---:|---|
-| | | | |
+Use the Bottom Line table in `output-template.md` Section 1. Normalized yield must be derived from normalized business and cash-flow capacity. Score, grade and portfolio role go in the one-line status beneath it, not in extra tables.
 
-Normalized yield must be derived from normalized business and cash-flow capacity.
+## 3. Main-Report Charts
 
-## 3. Standard Charts
+Use at most three charts, one per question, and only when rendering is available. Each chart replaces, rather than duplicates, the corresponding table; the section's opening judgment serves as its caption.
 
-### 3.1 DPS Structure Chart
+### 3.1 Dividend and Coverage History (Section 2)
 
-Stack base / ordinary DPS separately from special, supplemental, or variable DPS by fiscal year.
+Stack base / ordinary DPS separately from special, supplemental or variable DPS by fiscal year, with sustainable coverage as a line and any actual-cash shortfall year highlighted. Label the coverage denominator. A normalized series must not hide an actual cash shortfall.
 
-### 3.2 Yield Ladder
+### 3.2 Price Position (Section 3)
 
-Show TTM net yield, normalized net-yield band, and Bear / Base / Bull forecast yields.
+Use the visual that matches the valuation mode:
 
-### 3.3 Coverage Chart
-
-Show recurring FAD against the policy-relevant cash dividends paid, alongside actual cash affordability. Label the denominator. Highlight three-year aggregate coverage, five-year worst recurring coverage and the actual worst year; a normalized series must not hide an actual cash shortfall.
-
-### 3.4 Fundamental Forecast Chart
-
-Show historical actuals followed by five-year Bear/Base/Bull paths for a sector operating measure and recurring owner cash/FAD. Distinguish detailed years one to three from the extension; render unsupported years as gaps, not zeros. Show material investment/expiry/commissioning milestones.
-
-### 3.5 Valuation Visual
-
-Use the visual that matches `valuation_mode`:
-
-- `ordinary_yield_based`: Cash-Income Ladder using the four band names in `buy-zone.md`, with current price, N basis, confidence and veto. Caption it: no dividend growth is credited; this is not a complete estimate of intrinsic value.
-- `total_return_based`: scenario Growth-Value Range, entry limit, valuation-review threshold, terminal-value share and R/g sensitivity; show an income entry comparison separately when credible.
-- `finite_life_harvest`: Finite-Life Cash-Recovery summary with annual net distributions, discount rate, residual value, and value range.
-- `suspended`: prominent status stating why ordinary buy-zone output is suspended.
+- Income-yield pricing: a Cash-Income Ladder using the four band names in `buy-zone.md`, with the current price marked.
+- Dividend-growth valuation: the Bear/Base/Bull growth-value range with entry limit, review level and current price; show the income comparison separately when credible.
+- Finite-life cash recovery: annual net distributions and the value range.
+- Suspended: no chart; state the reason in text.
 
 For Structural Decline, show an ordinary cash-income ladder only as a secondary cross-check when specifically permitted by the finite-harvest exception in `buy-zone.md`. Ordinary ladder bands never produce action badges. A separately shown Strong Buy action needs the full independent action gates; a cash-income threshold or favorable chart color is insufficient.
+
+### 3.3 Dividend Outlook (Section 4)
+
+Historical DPS followed by five-year Bear/Base/Bull paths. Distinguish detailed years one to three from the extension; render unsupported years as gaps, not zeros.
+
+Without rendering, the Section 2, 3 and 4 tables in `output-template.md` are the fallback; do not add text sparklines on top of them.
+
+## Appendix Tables
+
+Sections 4 to 12 below specify the Audit Appendix. Use them only when the appendix is requested, following the part numbering A1-A13 in `output-template.md`. They also define the JSON records' display form.
 
 ## 4. Dividend Trajectory Tables
 
@@ -129,8 +126,9 @@ Structural: regulation removes business line -> full model rebuild required
 
 ## 8. Table Slimming Rules
 
-- Precede every chart or table with a one-sentence takeaway.
-- Maximum 7 columns per table; split wider tables.
+- Main report: at most five tables, each at most six columns and eight rows; the section's opening judgment is the takeaway.
+- Appendix: precede each table with a one-sentence takeaway; maximum 7 columns per table; split wider tables.
+- Never print rows or columns that contain only N/A or Unknown; state the gap once instead.
 - When withholding is 0%, state once that gross equals net rather than repeating columns.
 - Separate TTM and normalized yield for cyclical stocks.
 - Distinguish facts, guidance, consensus cross-checks, historical sensitivity, and analyst estimates.
@@ -181,7 +179,9 @@ Then show:
 - Residual value and percentage of total value.
 - Finite-life value range.
 
-## 11. Plain-Text Fallback
+## 11. Appendix Plain-Text Fallback
+
+Use only inside the appendix when charts cannot render.
 
 - Business and FCF trend: `Historical -> Bear | Base | Bull`.
 - DPS path: `FY-4 -> FY0 -> FY+1 scenarios`.
@@ -197,4 +197,4 @@ Then show:
 
 ## 12. Holding Review
 
-Place the compact `Trigger | Evidence | Review Level | Research Action | Missing Inputs | Next Check` table in Section 17C, following `holding-review.md`; Sections 17A and 17B contain scoring and portfolio role respectively. Distinguish a business/solvency red flag from a valuation-review signal. Do not display a specific trade size or a switch recommendation when the required portfolio/alternative information is absent.
+In the main report, holding review is at most one bullet in Section 3 (Entry View), and only when the user holds the stock or asks about holding, selling or switching. Place the compact `Trigger | Evidence | Review Level | Research Action | Missing Inputs | Next Check` table in appendix part A12, following `holding-review.md`; scoring and portfolio role are in A11. Distinguish a business/solvency red flag from a valuation-review signal. Do not display a specific trade size or a switch recommendation when the required portfolio/alternative information is absent.

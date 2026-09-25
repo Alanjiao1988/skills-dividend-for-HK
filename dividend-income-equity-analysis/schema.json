@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Dividend Income Equity Analysis",
-  "description": "Machine-readable contract for Screen Mode and the 18-section Full Analysis. Includes five-year business outlook, owner cash and sector capital proxies, recurring FAD, payout bases, explicit returns, conditional growth valuation and holding review. Historical fields and the first-three-year forecast field are retained; forecast_extension contains years four and five.",
+  "description": "Machine-readable contract for Screen Mode and Full Analysis. It carries the full analysis records behind the six-section report and its Audit Appendix. Includes five-year business outlook, owner cash and sector capital proxies, recurring FAD, payout bases, explicit returns, conditional growth valuation and holding review. Historical fields and the first-three-year forecast field are retained; forecast_extension contains years four and five.",
   "type": "object",
   "$defs": {
     "nullableNumber": {"type": ["number", "null"]},

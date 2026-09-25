@@ -221,7 +221,7 @@ The same entry gates apply across normalization methods and valuation modes. In 
 
 Ordinary entry also requires evidence-backed Bear/Base runway sources for years 1-3. A `three_year_base_average` assembled from illustrative, historical-fallback or unknown DPS may be shown only as a diagnostic calculation. Its numeric reconciliation cannot upgrade its evidence. A hard-income shortfall or unassessed hard-income eligibility makes the current action diagnostic only even when economic valuation remains available. Diagnostic outputs cannot claim Strong Buy or a Portfolio Role more favorable than Watchlist.
 
-Use the four-row normalization evidence checklist in `data-conventions.md` for both focused audits and Section 15. Keep arithmetic, evidence quality and action eligibility separate. JSON `buy_zone.normalization_evidence` must cover operating cash, funding capacity, payout policy and entitled shares; illustrative Base-average inputs cannot coexist with an all-supported checklist. Do not replace the checklist with a generic request for a bridge, even in a concise answer.
+Use the four-row normalization evidence checklist in `data-conventions.md` for both focused audits and Full Analysis (Audit Appendix part A10). Keep arithmetic, evidence quality and action eligibility separate. JSON `buy_zone.normalization_evidence` must cover operating cash, funding capacity, payout policy and entitled shares; illustrative Base-average inputs cannot coexist with an all-supported checklist. Do not replace the checklist with a generic request for a bridge, even in a concise answer.
 
 Mandatory shares or an explicit absence of a cash option suspend this cash-dividend valuation framework. Exclude stock-only distributions from the cash-income runway and report zero confirmed cash or unavailable cash with a reason; do not substitute cash-equivalent stock value. Optional scrip still uses the supported all-cash election. If the investor elects shares or the cash election is unknown, do not claim positive spendable cash or eligible entry; label any cash-option comparison as diagnostic.
 
@@ -503,6 +503,8 @@ Separate recurring from special/variable dividends and identify whether historic
 
 ## 11. Required Outputs and Presentation
 
+Presentation follows `output-template.md`: the main report shows only the resulting conclusions and key numbers; the tables and ledgers defined here belong to the Audit Appendix or JSON unless that file places them in the main report. In the main report, state the valuation mode, required return, price ladder or value range, action status and its conditions in plain labels.
+
 All Full Analysis cases disclose mode/reason, veto status, Forecast Confidence, income target/eligibility, return requirements and material limitations. Unavailable values are null / `Not assessed` with reasons, not fabricated rates, zero growth or apparently precise entry prices.
 
 - **Ordinary:** N value/basis/period/adjustments; B source/fallback; r_low/high derivation; deterministic boundaries; price's income band and the hard-income check.
@@ -513,4 +515,4 @@ All Full Analysis cases disclose mode/reason, veto status, Forecast Confidence, 
 
 Visuals follow `visual-output-rules.md`: ordinary ladder, growth-value range with separate income-fit information, or finite-life cash-recovery summary as applicable. Never display a Strong Buy badge for an unsupported Bear case or while a hard income constraint fails. Keep every table to at most seven columns.
 
-Use `expected buy zone`, `income entry comparison`, `growth value range` or `finite-life value range`, not guaranteed price. This module is a conditional dividend model, not a full corporate DCF. Broader enterprise valuation may be a separate cross-check, but conflicting methods must be explained rather than forced into one answer. Excess-valuation, thesis failure and portfolio decisions belong to `holding-review.md`, embedded in Full Analysis Section 17 rather than a new report section.
+Use `expected buy zone`, `income entry comparison`, `growth value range` or `finite-life value range`, not guaranteed price. This module is a conditional dividend model, not a full corporate DCF. Broader enterprise valuation may be a separate cross-check, but conflicting methods must be explained rather than forced into one answer. Excess-valuation, thesis failure and portfolio decisions belong to `holding-review.md`, summarized in the Entry View (Section 3) when relevant and detailed in Audit Appendix part A12 rather than a new report section.

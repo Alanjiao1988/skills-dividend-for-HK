@@ -1,435 +1,92 @@
 # Example Output Skeleton
 
-This is a Full Analysis structure example only. It contains placeholders, not market facts or a recommendation. Screen Mode uses `screen-mode.md` instead.
+This shows the target length and density of a Full Analysis report. It uses the fictional Fictional Harbor Services case from `worked-examples.md` (assumptions A1-A8, cut-off 2026-01-01) and matches `ordinary.analysis.json`. It contains no market facts and no recommendation. Screen Mode uses `screen-mode.md` instead.
 
-## 1. Executive Summary
+---
 
-### Key Metrics at a Glance
+# Fictional Harbor Services（FICTIONAL-O）红利分析
 
-| TTM Net Yield | Normalized Net Yield | Score / Grade | Portfolio Role |
-|---:|---:|---:|---|
-| Not Assessed | Not Assessed | Not Assessable | Watchlist |
+## 1. 结论速览 / Bottom Line
 
-- Company / Ticker / Exchange: Example / 0000.HK / HKEX
-- As-of date / Price: YYYY-MM-DD / Not Assessed
-- Fundamental Trend: High Uncertainty
-- Forecast Confidence: Not Forecastable
-- Valuation mode: suspended
-- Action eligibility / Strong Buy: suspended / false
-- Income fit / separate growth assessment: Not Assessed / Not Assessed
-- Five-year development thesis: Placeholder, not a growth forecast
-- Three-year aggregate / five-year worst recurring coverage: N/A / N/A
-- Holding-review action: not_assessed
-- Expected buy zone or finite-life value range: N/A
-- Value-Trap Veto: Unclear
-- Dividend / reporting currency: HKD / HKD
-- Withholding rate / basis: Unknown / unknown
-- Broker cash-line type: unknown
-- Scrip / DRIP available: Unknown
+**一家现金流稳定、分红覆盖充足的维护服务公司；股息安全性可接受，现价 40 美元已进入"正常化收入达到高端要求"区间的上沿，可小额分批建仓，但不到强力买入条件。**
 
-## 2. Dividend Snapshot
+| 现价（日期） | 税后股息率 TTM | 正常化税后股息率 | 3年股息覆盖 | 买点 | 当前位置 |
+|---|---:|---:|---:|---|---|
+| 40 美元（2026-01-01） | 10.0% | 10.0% | 2.0x | ≤ 40 美元；≤ 32 美元为压力情景仍达标 | 正常化收入达到高端要求 |
 
-Takeaway: Separate trailing yield from sustainable normalized yield.
+行动：可分批建仓 ｜ 预测可信度：中 ｜ 红利陷阱：未触发 ｜ 评分：75/100（B）｜ 组合角色：观察名单（未提供持仓）
 
-| Metric | Value | Comment |
+## 2. 财务状况 / Financial Condition
+
+**分红由经常性现金支付：近三年可持续可分配现金是股息的 2.0 倍，唯一的缺口来自 2025 年一次性现金支出。**
+
+| 财年 | 可持续可分配现金（百万美元） | 实际可分配现金 | 现金股息 | 可持续覆盖 | 实际覆盖 |
+|---|---:|---:|---:|---:|---:|
+| 2021 | 50 | 45 | 40 | 1.25x | 1.13x |
+| 2022 | 60 | 55 | 40 | 1.50x | 1.38x |
+| 2023 | 70 | 65 | 40 | 1.75x | 1.63x |
+| 2024 | 80 | 75 | 40 | 2.00x | 1.88x |
+| 2025 | 90 | 35 | 40 | 2.25x | 0.88x |
+
+- **现金质量：** FY+1 基准经营现金 130（估）扣维护 20、其他股东权益 10 后，所有者自由现金流 100；再扣成长投资 20、强制性用途 5，可持续可分配现金 75（覆盖见第 4 节）。
+- **分红资金：** 2025 年实际现金 35 低于股息 40，差额 5 由既有现金支付；属一次性支出，不是经常性缺口。
+- **资产负债：** 现金 25、负债 50、EBITDA 100，五年内无再融资压力。
+- **股本：** 无增发、无回购、无以股代息，每股数据不受稀释。
+- **到手现金：** 按假设 A4 零预扣税、零费用，税前即税后。
+
+## 3. 买点观点 / Entry View
+
+**现价 40 美元恰好对应 10% 税后股息率，达到要求区间的高端；跌至 32 美元以下时，即使压力情景股息也能满足 10% 要求。**
+
+| 价格区间 | 对应税后股息率 | 含义 |
 |---|---:|---|
-| TTM DPS | N/A | Placeholder |
-| TTM net yield | N/A | Placeholder |
-| Normalized DPS | N/A | Placeholder |
-| Normalized net yield | N/A | Placeholder |
-| Five-year DPS range | N/A | Placeholder |
-| Latest DPS YoY | N/A | Placeholder |
-| Dividend type | Unknown | Placeholder |
-| Coverage status | Not Available | Placeholder |
+| > 50 美元 | < 8% | 低于要求现金收益率 |
+| 40–50 美元 | 8%–10% | 正常化收入处于要求区间 |
+| 32–40 美元 | ≥ 10% | 正常化收入达到高端要求 ← 现价 |
+| ≤ 32 美元 | 压力情景 ≥ 10% | 压力情景收入达到高端要求 |
 
-## 3. Standard Charts or Text Fallback
+- **要求回报：** 无风险锚 4% + 风险溢价 4%–6% = 要求税后股息率 8%–10%（假设 A5，美元）。
+- **行动：** 可分批建仓。预测可信度为"中"、股息安全性为"可接受"，因此不给强力买入；两者分别升至"高"和"强"后才重新评估。
+- **本金风险：** 若股价回到压力情景对应的 32 美元，账面回撤 20%；10% 现金收益不等于保证的总回报。
 
-- Business and FCF trend: `Historical -> Bear | Base | Bull`
-- DPS path: `FY-4 -> FY0 -> FY+1 scenarios`
-- Yield stack: `TTM | normalized | Bear/Base/Bull`
-- Sensitivity: `Transient / Persistent / Structural`
-- Valuation: `ordinary ladder / finite-life value / suspended`
-- Coverage labels: `Strong / Adequate / Weak`
+## 4. 长期展望：业务与股息 / Long-Term Business and Dividend Outlook
 
-## 4. Company and Listing Structure
+**未来五年每股现金和股息大致持平：业务靠续约合同，无扩张假设，派息率 40% 不变。**
 
-- Legal domicile:
-- Listing venue / Security type:
-- Reporting / Dividend / Investor currency:
-- Dividend-entitled shares / record dates; diluted EPS shares separately:
-- Scrip / DRIP available:
-- Cash or share default:
+- **服务量：** 基准情景下 FY+3/FY+5 收入维持 500（估）；悲观/乐观分别为基准的 80%/120%。仅续约现有合同，没有新市场假设。
+- **现金转化：** 经营现金约为收入的 26%（估），成长投资 20/年由自由现金流内部支付，不增发、不加杠杆。
 
-## 5. Dividend Treatment
+| 情景 | 核心假设 | FY+1 DPS | FY+3 DPS | FY+5 DPS | FY+1–3 覆盖 |
+|---|---|---:|---:|---:|---:|
+| 悲观 Bear | 经营水平为基准 80% | 3.2 | 3.2 | 3.2 | 1.9x |
+| 基准 Base | 维持现有合同 | 4.0 | 4.0 | 4.0 | 1.9x |
+| 乐观 Bull | 经营水平为基准 120% | 4.8 | 4.8 | 4.8 | 1.9x |
 
-- Withholding rate / basis:
-- Broker-observed withholding:
-- Broker cash-line type: dividend / PIL / mixed / unknown
-- Cash-election assumption:
-- Scrip / DRIP tax and broker uncertainty:
-- Evidence:
+- **派息政策：** 归母净利润的 40%（假设 A3）。三个情景的股息都低于可分配现金，约 1.9 倍覆盖，没有资金缺口；股息增长只能来自利润增长，而非提高派息率。
 
-## 6. Business Fundamentals and Three-to-Five-Year Outlook
+## 5. 风险点与跟踪信号 / Key Risks and Monitoring
 
-- Dividend funding engine:
-- Main segments:
-- Fundamental Trend:
-- Core drivers:
-- Structural and cyclical risks:
-- Historical dilution and buyback offsets:
-- Sector model / holding-company overlay:
-- Starting metric / owner perimeter / cash and share units:
-- Proxy reconciliation / capital and remittance evidence:
-- Competitive position / management delivery:
+**红利陷阱未触发；最大风险是服务量或现金转化持续低于计划，这会直接压低以利润为基数的股息。**
 
-### Development Thesis
+| 风险 | 早期信号（可观察指标 / 阈值） | 对股息的影响 | 性质 | 下次检查 |
+|---|---|---|---|---|
+| 服务量下滑 | 服务量或经营现金转化低于计划 10% 以上 | 每低 10%，股息约降 0.4 美元 | 持续性 | 下期业绩 |
+| 扩产延误 | 已承诺产能推迟超过一年 | 成长投资挤占现金，需重建模型 | 持续性 | 项目公告 |
+| 派息政策改变 | 董事会下调 40% 派息率 | 按新比例同步下调 | 结构性 | 下次派息公告 |
+| 一次性现金支出重现 | 实际可分配现金再次低于股息 | 动用存量现金，削弱安全垫 | 暂时性 | 下期现金流量表 |
 
-| Driver / Segment | Current Baseline | FY+3 Outcome | FY+5 Outcome | Investment / Funding | Evidence / Confidence | Invalidation Signal |
-|---|---|---|---|---|---|---|
-| Driver 1 | Placeholder | Not estimable | Not estimable | Placeholder | Missing evidence | Placeholder |
-| Driver 2 | Placeholder | Not estimable | Not estimable | Placeholder | Missing evidence | Placeholder |
-| Driver 3 | Placeholder | Not estimable | Not estimable | Placeholder | Missing evidence | Placeholder |
+## 6. 数据来源与关键假设 / Sources and Key Assumptions
 
-- Bear / Base / Bull business theses:
-- FCF change decomposition:
-- Per-share cash outlook:
-- Cumulative three/five-year recurring FAD by scenario: N/A
-- Liquidity trough / self-funding year: Not estimable
+- **数据截至：** 2026-01-01；价格 40 美元为教学假设。
+- **主要来源：** `worked-examples.md` 假设 A1–A8（虚构，无外部披露）。
+- **关键假设：** 40% 利润派息率（假设）；零预扣税（假设）；要求回报 8%–10%（假设）；经营水平按情景平移，无时间增长（估）。
+- **数据缺口：** 无真实的历史收入与利润序列；无持仓信息，因此不作持仓复评或仓位建议。
+- **说明：** 仅为研究示例，不构成个人投资或税务建议；现金收益区间未计入股息增长，不是完整的内在价值估计。
 
-| Milestone | Due Period | Observable KPI / Threshold | Source to Revisit | FCF Implication | Action if Missed |
-|---|---|---|---|---|---|
-| Placeholder | YYYY | Evidence needed | Official disclosure | Not estimable | Reassess sensitivity type |
+需要完整计算过程（现金流桥、五年逐年预测、敏感性、评分明细、证据清单）时，可要求输出审计附录。
 
-| Fiscal Year | Primary Business Driver | Revenue / Sector Income | Margin / Equivalent | Net Income / AFFO | FCF / Distributable Cash | Comment |
-|---|---|---:|---:|---:|---:|---|
-| FY-4 | Placeholder | N/A | N/A | N/A | N/A | Placeholder |
-| FY-3 | Placeholder | N/A | N/A | N/A | N/A | Placeholder |
-| FY-2 | Placeholder | N/A | N/A | N/A | N/A | Placeholder |
-| FY-1 | Placeholder | N/A | N/A | N/A | N/A | Placeholder |
-| FY0 | Placeholder | N/A | N/A | N/A | N/A | Placeholder |
+---
 
-## 7. Dividend Trajectory and Yearly Yield
+## Audit Appendix Placement
 
-### DPS Structure
-
-| Fiscal Year | Total DPS | Base DPS | Special / Variable DPS | DPS YoY | Quality Tag | Notes |
-|---|---:|---:|---:|---:|---|---|
-| FY-4 | N/A | N/A | N/A | N/A | Unknown | Placeholder |
-| FY-3 | N/A | N/A | N/A | N/A | Unknown | Placeholder |
-| FY-2 | N/A | N/A | N/A | N/A | Unknown | Placeholder |
-| FY-1 | N/A | N/A | N/A | N/A | Unknown | Placeholder |
-| FY0 | N/A | N/A | N/A | N/A | Unknown | Placeholder |
-
-### Yield and Coverage
-
-| Fiscal Year | Yield at Current Price | Yield at Year Price | Payout Ratio | FCF / Dividend | Coverage Label | Comment |
-|---|---:|---:|---:|---:|---|---|
-| FY-4 | N/A | N/A | N/A | N/A | Not Available | Placeholder |
-| FY-3 | N/A | N/A | N/A | N/A | Not Available | Placeholder |
-| FY-2 | N/A | N/A | N/A | N/A | Not Available | Placeholder |
-| FY-1 | N/A | N/A | N/A | N/A | Not Available | Placeholder |
-| FY0 | N/A | N/A | N/A | N/A | Not Available | Placeholder |
-
-Dividend Pattern: Placeholder.
-
-## 8. Historical Cash-Flow Coverage Bridge
-
-### Cash Generation
-
-| Fiscal Year | Reported FCF / Proxy | Recurring Owner FCF / Proxy | Remaining Growth / Mandatory Uses | Recurring FAD | Actual All-In FCF | Evidence |
-|---|---:|---:|---:|---:|---|---|
-| FY-2 | N/A | N/A | N/A | N/A | Unknown | Placeholder |
-| FY-1 | N/A | N/A | N/A | N/A | Unknown | Placeholder |
-| FY0 | N/A | N/A | N/A | N/A | Unknown | Placeholder |
-
-Use the latest five comparable years when available, not a manufactured series. Reconcile reported OCF/capex or sector capital generation to this table.
-
-| Deduction | Category | Amount | Already in Starting Metric | Incremental Deduction | Source / Reason |
-|---|---|---:|---|---:|---|
-| Maintenance already in FCF | maintenance | N/A | Yes | 0 | Do not deduct twice |
-
-### Cash Return and Funding
-
-| Fiscal Year | Cash Dividends | Buybacks | Share Issuance | Net Debt Change | FCF / Dividend | Funding Source |
-|---|---:|---:|---:|---:|---:|---|
-| FY-2 | N/A | N/A | N/A | N/A | N/A | Unknown |
-| FY-1 | N/A | N/A | N/A | N/A | N/A | Unknown |
-| FY0 | N/A | N/A | N/A | N/A | N/A | Unknown |
-
-- Coverage denominator / paid-versus-declared reconciliation:
-- Three-year aggregate recurring FAD / relevant cash dividends: N/A
-- Five-year worst recurring coverage / year: N/A
-- Worst available recurring coverage / actual coverage / years available: N/A
-- Actual shortfall funding and exceptional obligations:
-- Fiscal year-end dates used to identify the latest comparable periods:
-
-## 9. Management Capital Allocation
-
-Discuss payout policy, reinvestment, leverage, acquisitions, issuance, ATM, scrip / DRIP, and shareholder returns.
-
-- Policy type: fixed_progressive / earnings_linked / cash_flow_linked / base_variable / discretionary
-- Exact calculation base, policy ratio and disclosure:
-- Forecast reference metric and signed payout-base adjustment bridge:
-- Capital / cash constraint:
-
-## 10. Buyback Quality
-
-- Historical diluted share-count change:
-- Ordinary issuance:
-- Scrip / DRIP dilution:
-- Buyback offset:
-- Valuation discipline:
-- Buyback Quality:
-
-## 11. Three-to-Five-Year Fundamental and FCF Forecast
-
-### Operating Driver Forecast
-
-| Fiscal Year | Scenario | Primary Driver | Price / Mix | Margin / Credit / Cost | Capital Intensity | Key Assumptions |
-|---|---|---|---|---|---|---|
-| FY+1 | Bear | Placeholder | Placeholder | Placeholder | Placeholder | Placeholder |
-| FY+1 | Base | Placeholder | Placeholder | Placeholder | Placeholder | Placeholder |
-| FY+1 | Bull | Placeholder | Placeholder | Placeholder | Placeholder | Placeholder |
-
-Repeat for FY+2 through FY+5. Detailed first-three-year rows and year-four/five extensions must use the same scenario definitions; unavailable estimates stay null with reasons.
-
-### Financial Forecast
-
-| Fiscal Year | Scenario | Revenue / Sector Income | Net Income / AFFO | Operating Cash Flow | Capex / Capital Need | Recurring Owner FCF / Proxy |
-|---|---|---:|---:|---:|---:|---:|
-| FY+1 | Bear | N/A | N/A | N/A | N/A | N/A |
-| FY+1 | Base | N/A | N/A | N/A | N/A | N/A |
-| FY+1 | Bull | N/A | N/A | N/A | N/A | N/A |
-
-Repeat the three scenarios through FY+5. For JSON retain FY+1..3 in `three_year_fundamental_forecast`, and FY+4..5 in `forecast_extension`.
-
-### FCF Build and Capital Needs
-
-| Year / Scenario | Normalized OCF | Maintenance Capex | Owner Cash Claims | Owner FCF / Proxy | Remaining Growth Uses | Recurring FAD |
-|---|---:|---:|---:|---:|---:|---:|
-| FY+1 / Base | N/A | N/A | N/A | N/A | N/A | N/A |
-| FY+3 / Base | N/A | N/A | N/A | N/A | N/A | N/A |
-| FY+5 / Base | N/A | N/A | N/A | N/A | N/A | N/A |
-
-Expand all annual scenario rows in an actual analysis. State working-capital drivers, cash-conversion lags, remaining mandatory uses, refinancing and dilution. Unsupported rows: `estimate_status: not_estimable`, `Forecast Confidence: Not Forecastable`, and a specific missing-input explanation.
-
-### Single-Driver Sensitivity
-
-| Driver Change | Sensitivity Type | Distributable Cash Change | Derived DPS Change | Net Yield Change | Normalized High-End Cash-Yield Boundary Change (N/r_high) | Interpretation |
-|---|---|---:|---:|---:|---:|---|
-| Temporary driver change | transient | N/A | N/A | N/A | N/A | Affected year only |
-| Durable driver change | persistent | N/A | N/A | N/A | N/A | Recalculate N first |
-| Business-model change | structural | N/A | N/A | N/A | Rebuild required | Rerun full model |
-
-For an eligible growth DDM, separately disclose the dated PV effect of transient cash changes; do not change terminal g, normalized N or ordinary boundaries.
-
-`growth_cash_delta_audit` identifies baseline/revised net cash, fiscal period, timing, unchanged R, delta and PV change. Its sum reconciles to the transient `growth_value_change`.
-
-## 12. Dividend Forecast Bridge
-
-### Distributable-Cash Bridge
-
-| Year / Scenario | Owner FCF / Proxy | Remaining Growth Uses | Remaining Mandatory Uses | Recurring FAD | Exceptional Uses / Excess Cash | Total Distribution Capacity |
-|---|---:|---:|---:|---:|---|---:|
-| FY+1 / Bear | N/A | N/A | N/A | N/A | N/A / N/A | N/A |
-| FY+1 / Base | N/A | N/A | N/A | N/A | N/A / N/A | N/A |
-| FY+1 / Bull | N/A | N/A | N/A | N/A | N/A / N/A | N/A |
-
-Repeat through FY+5. Keep exceptional uses and excess cash as separate machine-readable values. Include a once-only deduction ledger and do not add non-remittable subsidiary cash.
-
-### Share Count and Scrip / DRIP Assumptions
-
-| Fiscal Year | Scenario | Diluted Share Count | Scrip / DRIP | Expected Dilution | Buyback Offset | Comment |
-|---|---|---:|---|---|---|---|
-| FY+1 | Bear | N/A | Unknown | N/A | N/A | Placeholder |
-| FY+1 | Base | N/A | Unknown | N/A | N/A | Placeholder |
-| FY+1 | Bull | N/A | Unknown | N/A | N/A | Placeholder |
-
-Forecast Confidence: High / Medium / Low / Not Forecastable.
-
-## 13. Dividend and Yield Runway
-
-Show a separate policy-entitlement table: Year / Scenario, Policy-Indicated Entitlement, Modeled Entitlement, Cash-Settled Fraction, Settlement Adjustment, All-Cash Funding Gap. Then show the existing cash-cost/DPS runway once. Where installments differ, calculate them separately and refer to their audit; annual EPS shares are not the dividend denominator.
-
-| Fiscal Year | Scenario | Cash Available for Distribution | Payout Policy / Ratio | Dividend Cash Cost | Derived DPS | Net Yield at Current Price |
-|---|---|---:|---|---:|---:|---:|
-| FY+1 | Bear | N/A | Placeholder | N/A | N/A | N/A |
-| FY+1 | Base | N/A | Placeholder | N/A | N/A | N/A |
-| FY+1 | Bull | N/A | Placeholder | N/A | N/A | N/A |
-| FY+2 | Bear | N/A | Placeholder | N/A | N/A | N/A |
-| FY+2 | Base | N/A | Placeholder | N/A | N/A | N/A |
-| FY+2 | Bull | N/A | Placeholder | N/A | N/A | N/A |
-| FY+3 | Bear | N/A | Placeholder | N/A | N/A | N/A |
-| FY+3 | Base | N/A | Placeholder | N/A | N/A | N/A |
-| FY+3 | Bull | N/A | Placeholder | N/A | N/A | N/A |
-| FY+4 | Bear | N/A | Placeholder | N/A | N/A | N/A |
-| FY+4 | Base | N/A | Placeholder | N/A | N/A | N/A |
-| FY+4 | Bull | N/A | Placeholder | N/A | N/A | N/A |
-| FY+5 | Bear | N/A | Placeholder | N/A | N/A | N/A |
-| FY+5 | Base | N/A | Placeholder | N/A | N/A | N/A |
-| FY+5 | Bull | N/A | Placeholder | N/A | N/A | N/A |
-
-Do not repeat Dividend Cash Cost or Derived DPS elsewhere.
-
-| Year / Scenario | Policy Calculation Base | Base Amount / Ratio | Policy-Implied Entitlement | Policy Adjustment Reason | Entitled Shares / Reconciliation | Funding Gap |
-|---|---|---|---:|---|---|---:|
-| FY+1 / Base | Placeholder | N/A / N/A | N/A | Missing evidence | N/A / Placeholder | N/A |
-
-Expand each annual scenario. A payout ratio on earnings must not be applied to FAD.
-
-## 14. Dividend Trap Checklist
-
-Keep aligned with `workflow.md` Step 10.
-
-| Red Flag | Status | Evidence |
-|---|---|---|
-| High yield from price fall | Unknown | Placeholder |
-| Weak normalized coverage | Unknown | Placeholder |
-| Debt / issuance / asset-sale funded payout | Unknown | Placeholder |
-| Rising leverage / refinancing wall | Unknown | Placeholder |
-| Peak-cycle dividend treated as recurring | Unknown | Placeholder |
-| Persistent scrip dilution | Unknown | Placeholder |
-| Forecast DPS does not reconcile | Unknown | Placeholder |
-| N contains temporary premium | Unknown | Placeholder |
-| Structural Decline without harvest case | Unknown | Placeholder |
-| Unreconciled proxy / parent remittance constraints | Unknown | Placeholder |
-| Growth funded by omitted investment / unsupported terminal cash | Unknown | Placeholder |
-
-Value-Trap Veto: Not triggered / Triggered / Unclear.
-
-## 15. Income Entry, Growth Value, or Finite-Life Value
-
-- Valuation mode: ordinary_yield_based / total_return_based / finite_life_harvest / suspended
-- Valuation reason / evidence gates:
-- Income target / basis / policy: Not Assessed / not_assessed / not_assessed
-- Risk-free benchmark / date / currency / tenor / tax and FX basis:
-- Independent risk premium / total return range:
-- Price/value unit scale / shares per quoted security / recurring fees:
-- N value / basis / source period / adjustments:
-- B value / source:
-- r_low / r_high:
-- DPS source currency / normalization FX / investor deductions:
-
-### Normalization Evidence Checklist
-
-Use when auditing N/B; this placeholder case supplies no supporting inputs.
-
-| Link | Status / Supplied Evidence | Missing Input / Source to Obtain | Consequence |
-|---|---|---|---|
-| Operating cash | missing / not supplied | Volume, margin and working-capital cash conversion / operating guidance and cash-flow notes | N is not evidence-backed |
-| Funding capacity | missing / not supplied | Committed investment, mandatory uses and remittances / capex, debt and capital disclosures | Distributable capacity is unverified |
-| Payout policy | missing / not supplied | Policy base and percentage / dividend-policy or board announcement | Dividend entitlement cannot be derived |
-| Entitled shares | missing / not supplied | Record-date shares and cash election / dividend notice and share records | Cash-election DPS cannot be reconciled |
-
-Replace each row with supplied evidence where available; do not mark known policy/share data missing. In JSON store the corresponding records in `buy_zone.normalization_evidence` only when a responsible (possibly diagnostic) N/B comparison exists; the suspended example still omits `buy_zone`.
-
-### Ordinary Yield-Based Output
-
-Alternative template only: omit all numerical entry tables while the example veto remains Unclear. Action labels require the independent action gates, not merely a placeholder price band.
-
-Cash-income comparison with no dividend growth credited; not a complete estimate of intrinsic value.
-
-| Cash-Income Band | Price Range | Implied Net Yield | DPS Basis | Evidence / Limitation |
-|---|---:|---:|---|---|
-| Below required cash yield | N/A | N/A | N | Not assessed |
-| Normalized income within required range | N/A | N/A | N | Not assessed |
-| Normalized income meets high-end requirement | N/A | N/A | N and B | Not assessed |
-| Bear income meets high-end requirement | N/A | N/A | B | Not assessed |
-
-- Independent action assessment: suspended; Strong Buy eligible: false; reason: missing material evidence.
-
-### Conditional Growth Output
-
-Show only if evidence gates pass; a low yield or desired higher valuation is not a gate.
-
-| Scenario | PV Explicit Dividends | PV Terminal Value | Total Value | Terminal Share | R / Terminal g | Evidence |
-|---|---:|---:|---:|---:|---|---|
-| Bear | N/A | N/A | N/A | N/A | N/A / N/A | Placeholder |
-| Base | N/A | N/A | N/A | N/A | N/A / N/A | Placeholder |
-| Bull | N/A | N/A | N/A | N/A | N/A / N/A | Placeholder |
-
-- Funded DPS path reference / cash-flow dates / stub treatment:
-- Reinvestment and incremental return evidence / direct operating-to-DPS bridge:
-- Public facts versus bounded analyst estimates / ranges / investment lag / invalidation evidence:
-- Growth fade / terminal cap / R-g spread:
-- R/g sensitivity / terminal-dependence warning:
-- Safety discount / entry limit / review-above level:
-- Separate income entry comparison / explicit income shortfall:
-- Forward net DPS / income period / conditional hard-income price ceiling:
-- Full-period net DPS is converted once; dated PV then applies the cash fraction once.
-- Terminal funding ledger / sustainable company growth bound / scenario return basis:
-
-### Finite-Life Harvest Output
-
-| Year | Forecast Net Distribution | Discount Factor | Present Value | Key Assumption |
-|---|---:|---:|---:|---|
-| 1 | N/A | N/A | N/A | Placeholder |
-| 2 | N/A | N/A | N/A | Placeholder |
-| 3 | N/A | N/A | N/A | Placeholder |
-
-- Harvest horizon:
-- Discount rate: at least 10%
-- Residual value and basis:
-- Finite-life value range:
-
-If Structural Decline lacks the exception, state `Ordinary buy zone: suspended` and omit numerical valuation tables. A triggered value-trap veto also blocks growth valuation.
-
-## 16. Visual Summary
-
-- Business and FCF trend:
-- DPS path:
-- Yield normalization:
-- Main driver sensitivity and type:
-- Valuation mode and result:
-- Coverage labels:
-- FY+3/FY+5 cash outlook / key milestones:
-
-## 17. Score, Portfolio Role, and Holding Review
-
-### 17A. Score and Evidence Overlays
-
-| Module | Weight | Score | Comment |
-|---|---:|---:|---|
-| Net dividend yield | 15 | N/A | Missing evidence |
-| Five-year dividend stability | 15 | N/A | Missing evidence |
-| FCF coverage | 20 | N/A | Missing evidence |
-| Balance-sheet safety | 15 | N/A | Missing evidence |
-| Capital allocation | 15 | N/A | Missing evidence |
-| Buyback quality | 10 | N/A | Missing evidence |
-| Fundamental and dividend visibility | 10 | N/A | Missing evidence |
-| Total | 100 | N/A | Not Assessable; incomplete modules |
-
-- Dividend Quality:
-- Dividend Safety:
-- Withholding Efficiency:
-- Buyback Quality:
-- Three-Year Dividend Outlook:
-- Fundamental Trend:
-- Forecast Confidence:
-- Structural Decline cap applied:
-- Harvest / Managed Runoff Exception applied:
-- Valuation mode:
-- Unadjusted score / Adjusted Grade:
-
-### 17B. Portfolio Role
-
-- Final Portfolio Role: Watchlist
-- Role rationale / evidence overlays: Material inputs unavailable
-- Applicable income objective / portfolio concentration constraints: Not Assessed
-- Supplied holdings / missing portfolio inputs: Not supplied; do not infer portfolio fit
-
-### 17C. Holding Review
-
-| Trigger | Evidence | Review Level | Research Action | Missing Inputs | Next Check |
-|---|---|---|---|---|---|
-| Placeholder | Missing | Not assessed | not_assessed | Holdings / constraints | Next disclosure |
-
-- Thesis and capital/solvency invalidation:
-- Concentration / mandate / cash-income constraints:
-- Named alternative / comparable prospective income and return:
-- Switching costs / uncertainty hurdle / net benefit:
-- No position size or trade instruction without the required portfolio inputs.
-
-## 18. Sources and Data Quality
-
-List sources and disclose missing data, fiscal comparability, forecast sources and cutoff, year-four/five limitations, sector/capital/remittance evidence, payout bases, rate and terminal assumptions, sensitivity, share-count reconciliation, N basis, valuation mode and whether FCF/DPS is evidence-backed or illustrative.
+When the user asks for the appendix, append `## Audit Appendix` after Section 6 with only the relevant parts A1-A13 listed in `output-template.md`. The complete machine-readable records for this case are in `ordinary.analysis.json`; the growth-valuation variant is in `growth.analysis.json`.
