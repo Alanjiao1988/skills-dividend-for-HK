@@ -1,0 +1,130 @@
+{
+  "version": 1,
+  "ruleset": "3.0",
+  "rubric_version": "2",
+  "data_cutoff": "2026-01-01",
+  "evidence_policy": "Fictional closed packets for recovery-first scoring. Primary bands and cash evidence are stipulated, not independently verified. Do not fetch live issuer data or treat these cases as investment recommendations.",
+  "run_protocol": [
+    "Run separately from the frozen eight-case baseline and rubric-1 decision transfer set. This file's integrity tests do not run an LLM.",
+    "In a fresh conversation provide the current canonical rules, user_prompt and evidence_packet only. Do not expose expected_checks, forbidden_claims or regression names.",
+    "Preserve the unedited response outside the skill repository with model/version, skill commit, latency and excerpt-based evaluation.",
+    "A blank aggregate despite useful partial evidence, imputed midpoint, unsupported adverse score or false cash/tax/entry pass fails the case."
+  ],
+  "cases": [
+    {
+      "id": "one-missing-module-keeps-useful-score",
+      "user_prompt": "Audit this incomplete scorecard under rubric 2. Give the overall and quality score, grading certainty and evidence coverage without inventing the missing score.",
+      "evidence_packet": [
+        {
+          "id": "six-supported-modules",
+          "published_at": "2026-01-01",
+          "facts": "Supported module scores/weights: income 14/15, stability 13/15, recurring coverage 18/20, balance sheet 10/15, allocation 10/15, visibility 6/10. No separate caps, Structural Decline or entry veto applies. The ten-point buyback primary band cannot be established from the packet. All other inputs are independently supported; missing a buyback band is not a cash/funding gap."
+        }
+      ],
+      "expected_checks": [
+        "Retain 71 points across 90 exact assessed weight; unresolved buyback contributes possible 0-10, not an assigned zero.",
+        "Display provisional 71-81/100, Grade B provisional, and 90% overall coverage.",
+        "Display quality 57-67/85 and Medium because both endpoints are in that label; quality coverage is 75/85.",
+        "Keep the scalar score null, not the numeric interval display. Name the missing source, respect packet-only scope and do not invent recovery."
+      ],
+      "forbidden_claims": [
+        "No combined score information is possible because one module is missing.",
+        "71/90 scaled to 100 or a neutral five-point buyback score is the new company score.",
+        "A provisional Grade automatically proves entry eligibility or dividend safety."
+      ],
+      "regression_tests": [
+        "test_provisional_scoring.ProvisionalScoringTests.test_one_unknown_module_retains_numeric_range_and_stable_grade",
+        "test_provisional_scoring.ProvisionalScoringTests.test_range_cannot_be_replaced_with_midpoint_or_rescaled_total"
+      ]
+    },
+    {
+      "id": "short-history-reconciled-cash-proxy",
+      "user_prompt": "Can the missing third historical year prevent all scoring here? Apply the labelled proxy route without inventing data or weakening the independent cash gates.",
+      "evidence_packet": [
+        {
+          "id": "reconciled-two-year-cash",
+          "published_at": "2026-01-01",
+          "facts": "Only FY2024 and FY2025 are comparable: recurring owner FAD 80 and 90; corresponding cash dividends 40 and 40. Ordinary entitlement is fully cash settled. Owner scope, deductions and capital/remittance constraints are stipulated reconciled. Source-supported uncertainty spans 2.0-2.3x coverage. There is no third comparable year."
+        },
+        {
+          "id": "other-points-and-checks",
+          "published_at": "2026-01-01",
+          "facts": "Other module scores are income 14, stability 13, balance sheet 10, allocation 10, buyback 5, visibility 6. Coverage refinements: first-three-year modeled cash is funded (met), known worst actual cash coverage is 0.875x (not_met), and separate liquidity corroboration is unknown. Independent forward entry evidence is stipulated complete; no Structural Decline applies."
+        }
+      ],
+      "expected_checks": [
+        "Compute (80+90)/(40+40)=2.125x over two years, leaving three_year_recurring_coverage null.",
+        "Use bounded reconciled_cash_proxy, candidate band 1 and the explicit 16/20 cap; the rubric range collapses to 16 despite unresolved refinement.",
+        "Retain provisional total 74/100 and quality 60/85, Grade B. Coverage is 100 weight: 80 exact and 20 bounded, not 100% confidence.",
+        "Do not demand a fabricated third year or five years of precise management forecasts; the proxy alone does not establish forward entry."
+      ],
+      "forbidden_claims": [
+        "Two-year 2.125x is the three-year normalized aggregate.",
+        "Use the top 20 points or remove the coverage module's weight.",
+        "No scores or entry assessment are possible solely because the historical window is short."
+      ],
+      "regression_tests": [
+        "test_provisional_scoring.ProvisionalScoringTests.test_two_year_reconciled_proxy_can_score_without_fake_three_year_history",
+        "test_provisional_scoring.ProvisionalScoringTests.test_material_capital_gap_cannot_be_relabelled_as_reconciled_coverage"
+      ]
+    },
+    {
+      "id": "unfinished-model-is-not-adverse-business-evidence",
+      "user_prompt": "Audit an author's proposed one-point visibility score. Use only this packet and distinguish research completeness from company uncertainty.",
+      "evidence_packet": [
+        {
+          "id": "operating-evidence",
+          "published_at": "2026-01-01",
+          "facts": "The synthetic issuer has sourced operating guidance, project dates and dividend policy. Pricing and execution uncertainty support moderate-to-low visibility bands 2-3, but not an established band-4 adverse business condition. No completed five-year FAD/DPS spreadsheet, exact future registers or management-issued DPS forecasts are supplied. All three visibility refinement checks remain unknown."
+        },
+        {
+          "id": "proposed-label",
+          "published_at": "2026-01-01",
+          "facts": "The author assigns visibility 1/10 only because this report has not constructed the full future cash model, and then removes the overall score. No evidence of cash impairment, policy failure or structurally unpredictable cash is supplied. Material future cash access is unresolved for investment-action purposes."
+        }
+      ],
+      "expected_checks": [
+        "Reject the claimed adverse one-point condition based solely on unfinished research.",
+        "Use the stipulated candidate bands 2-3 and unknown checks to show bounded visibility 2-7/10, with actual evidence limits.",
+        "Retain other supported modules and the aggregate interval; do not promise an exact future dividend or waive unresolved cash access.",
+        "Identify recovery using operating anchors, share-count assumptions and reconciliation rather than waiting for future registers to exist."
+      ],
+      "forbidden_claims": [
+        "Not having a five-year spreadsheet proves a one-point company outlook.",
+        "Missing input means zero growth, zero capex, or zero parent restrictions.",
+        "Providing a numeric provisional score allows buying despite the unresolved cash gate."
+      ],
+      "regression_tests": [
+        "test_provisional_scoring.ProvisionalScoringTests.test_unfinished_model_does_not_justify_lowest_visibility_band",
+        "test_provisional_scoring.ProvisionalScoringTests.test_material_cash_gap_keeps_other_scores_and_preserves_suspension",
+        "test_provisional_scoring.ProvisionalScoringTests.test_missing_future_rows_do_not_erase_reconciled_history"
+      ]
+    },
+    {
+      "id": "unknown-tax-is-local-to-income-and-entry",
+      "user_prompt": "Give the supported score result under rubric 2 and assess a proposed Strong Buy, without assuming the missing tax treatment.",
+      "evidence_packet": [
+        {
+          "id": "quality-and-tax-gap",
+          "published_at": "2026-01-01",
+          "facts": "The six price-independent quality modules independently sum to 62/85. Applicable withholding is null and its basis unknown. No lower explicit income cap or Structural Decline applies. An old price boundary used zero tax without verification; an author now proposes Strong Buy because the quote is below that boundary."
+        }
+      ],
+      "expected_checks": [
+        "Retain quality 62/85, Medium, and 100% quality evidence coverage.",
+        "Show provisional combined 62-77/100, Grade range C-B, overall coverage 85%; scalar score and Grade remain null.",
+        "Reject the Strong Buy and identify the applicable event/channel tax source needed; the old boundary is not actionable.",
+        "Do not convert unknown tax into demonstrated poor business quality or a neutral income point."
+      ],
+      "forbidden_claims": [
+        "Hong Kong residence guarantees zero tax on all dividends.",
+        "An old favorable price boundary repairs missing tax evidence.",
+        "All score information must be withheld or income can be given a midpoint."
+      ],
+      "regression_tests": [
+        "test_provisional_scoring.ProvisionalScoringTests.test_unknown_tax_retains_quality_but_not_an_entry_pass",
+        "test_provisional_scoring.ProvisionalScoringTests.test_recurring_income_proxy_is_not_normalization_or_buy_permission"
+      ]
+    }
+  ]
+}

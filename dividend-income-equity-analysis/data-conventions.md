@@ -1,6 +1,6 @@
 # Data and Evidence Conventions
 
-Read this file in either mode before calculating yield. Screen Mode needs only the inputs used in its compact output; it does not require a full forecast.
+Read the relevant definitions in this file for all three modes before calculating yield or comparable cash changes. Screen Mode and Safety Review need only their compact-contract inputs; they do not inherit a full forecast.
 
 ## Comparable Inputs
 
@@ -20,6 +20,36 @@ For each material derived result, preserve inputs, formula, units, and source re
 
 Missing critical dividend, tax, cash-access, refinancing, or share data produces an explicit unknown or range and affects confidence. It must not silently turn into 0% tax, full cash availability, clean veto status, or a favorable score. JSON required fields may contain null or empty histories with an explanation when data does not exist; do not fabricate five years of observations.
 
+## Recover Inputs Before Declaring Insufficiency
+
+When the user requests research rather than an audit of a closed packet, obtaining public inputs is part of the task. Schema 3.0 requires the ordered retrieval ladder below before declaring a gap. One authoritative source can resolve an input; no extra source is required after resolution. Remaining gaps require all applicable routes, an evidence-bounded estimate attempt, and a structured recovery record.
+
+### 3.0 取数阶梯与缺口记录
+
+按次序检查并记录实际结果：a 公司年报、中报、季度／业务回顾、附注及管理层讨论（`issuer_filings`）；b 子公司与控股层分别披露（`group_disclosures`，集团必须分别记录 `parent` 和 `subsidiary`）；c 公司公告、分红日历、董事会／股东会决议、回购与配售（`announcements`）；d 交易所与监管披露（`exchange_regulator`）；e 官方与监管序列锚点（`official_series`）；f 往年同科目与同类披露回溯（`historical_comparables`）；g 用户提供的券商现金及扣税记录（`broker_records`）；h 有据估计，或解释为什么连区间也不能成立。
+
+`evidence_recovery.records` 每条含实际字段的 JSON Pointer 列表 `field_paths`、原因与影响范围、按序 `attempts`（类别、层级、文件／URL、期间、尝试日期、结果），以及最终处置。访问失败写 `inaccessible`，未提供券商流水写 `not_provided`，不得把“没拿到”写成“公司不披露”。不适用也必须具体说明；集团的两层披露不能标不适用。真实研究使用 `live_research`；只有用户明确限定封闭材料的任务才能用 `provided_packet`，不得用此模式规避取数。
+
+`resolution: bounded` 必须有 `estimate` 的上下界、单位、推导、来源期间、来源引用与适用边界。只有无法建立有据估计时才用 `not_assessable`，写清 `estimate_failure_reason` 和具体 `closure_condition`。所有未解决输入均须对应日志；已恢复值保留原取数轨迹。评分区间并不冒充经营或现金预测区间。
+
+报告第6节简述查阅轨迹及最大剩余约束；完整日志进入结构化记录和按需附录。研究覆盖度不是公司质量；模型未完成不是公司可见性差。真实的现金、税务、资本缺口仍然限制买入，不得填中性分、取区间中点、套行业均值、移除权重或放大剩余权重。
+
+Before saying "cannot assess", identify the actual gap and its smallest affected output. Distinguish unavailable research tools, not found after a named lookup, absent from the supplied packet, and a genuine unreconciled material constraint. An incomplete calculation is unfinished work, not proof that the company cannot be evaluated. Try the relevant filing/notes and a defensible reconstruction before stopping; do not invent successful searches or bypass access restrictions.
+
+| Missing detail | Useful recovery or bounded assumption | Boundary that remains |
+|---|---|---|
+| Maintenance/growth capex split | Use disclosed total cash capex as a conservative after-investment proxy, with a once-only ledger and appropriate range | Do not add back unidentified growth or deduct the same investment again |
+| Exact future shares, record dates or repurchases | Start with latest reconciled entitled/outstanding shares, announced corporate actions and sourced dilution; explicitly model no discretionary future buybacks plus sensitivity | Historical entitlements still need actual event counts; an assumed future count is not a future register |
+| Future scrip participation | Model the full cash-equivalent entitlement and an explicit all-cash issuer stress case, then a sourced participation sensitivity if useful | This is a scenario assumption, not a factual claim of 100% future elections or a guaranteed cash-saving program |
+| A future board decision or policy renewal | Use the current declared policy/base, explain continuation and reset scenarios, test cash capacity | No invented permanent payout promise; a policy percentage still applies only to its correct base |
+| Exact annual working capital, financing or cash buffer | Anchor ranges in comparable history, commitments, maturity ladders, actual parent cash and disclosed capital/liquidity targets | Do not silently assume zero uses, unlimited refinancing or unrestricted upstream cash |
+| A third/fifth comparable historical year | Retain the actual window and independently supported modules; use a labelled bounded cash proxy where reconciled | Do not fabricate years, mix periods or call a two-year ratio the three-year aggregate |
+| Broker fees, personal holdings or income target | Show sourced issuer/tax cash on an explicitly before-fee basis; omit personal sizing/mandate conclusions | Unknown fees are not zero realized costs; no target means no target-fit judgment, not no company score |
+
+Preserve known operating/earnings facts even if a downstream FAD/DPS amount remains unknown. Public guidance can anchor an analyst range; a later-year gap does not automatically invalidate earlier-year evidence or historical quality. `cash_flow_model.evidence_status` describes the selected cash bridge, not whether every future spreadsheet cell has been completed; use individual forecast statuses for missing forecast years.
+
+Missing evidence may affect only a refinement check, one module's possible points, normalization, a future cash horizon, entry eligibility or position sizing. State which. Use `scoring.md` for provisional score ranges and coverage rather than propagating any gap into a blank overall score. Material tax, owner entitlement, cash access and capital constraints still block conclusions that actually require them.
+
 ## Focused Normalization Audits
 
 When the user asks to audit a proposed normalized DPS, N/B calculation or its action label, answer that focused question rather than inventing a Full Analysis company report. This is a supporting audit, not a new valuation mode. Ordinary Screen Mode does not calculate N or require this audit.
@@ -33,7 +63,9 @@ Use this compact output contract even when the answer must be concise: **arithme
 | Payout policy (`payout_policy`) | Policy percentage or fixed DPS, its exact earnings/cash base and funding constraint | Dividend-policy announcement, results payout reconciliation or board declaration |
 | Entitled shares (`entitled_shares`) | Installment record-date shares, cash election and scrip/dilution timing; not EPS weighted-average shares | Dividend entitlement/election notice, share-capital and treasury-share records |
 
-For the actual answer, render `Link | Status / supplied evidence | Missing input / source to obtain | Consequence`. Every status is `supported`, `missing` or `conflicting`. Cite supplied evidence for supported/conflicting rows; a supported row has no invented gap. A missing disclosure means "not provided in this packet" when that is all that is known, not proof that the issuer does not publish it. An overall High label, an average or a generic "needs more evidence" sentence is not a substitute for this checklist.
+For the actual answer, apply `report-language.md` and render `证据环节 | 状态／已提供证据 | 缺失输入／待获取来源 | 影响` by default. Every machine status remains `supported`, `missing` or `conflicting`; reader-facing Chinese labels may include the unchanged enum in parentheses. Cite supplied evidence for supported/conflicting rows; a supported row has no invented gap. A missing disclosure means "not provided in this packet" when that is all that is known, not proof that the issuer does not publish it. An overall High label, an average or a generic "needs more evidence" sentence is not a substitute for this checklist.
+
+For future links, `supported` may rest on an explicit, sourced and reconciled analyst range, not just a future issuer announcement. Mark facts versus assumptions and stress the range. Do not leave the share or policy link permanently missing solely because future registers or board resolutions do not yet exist; unresolved legal entitlement or material cash access is a different, genuine gap.
 
 Full Analysis completes the same checklist and shows it in Audit Appendix part A10; the main report's Entry View names only the links that are missing or conflicting. JSON with a `buy_zone` stores its four links in `buy_zone.normalization_evidence`; each contains `status`, `input_detail`, `source_refs`, `resolution_source` and `consequence`. References must match entries in `sources`; unsupported links name the disclosure needed, while supported links set `resolution_source` to null. An incomplete normalized comparison is diagnostic only. If an otherwise eligible growth model does not have a credible ordinary comparison, omit `buy_zone` rather than attach unsupported N/B to an eligible action. The validator checks completeness and declared consistency, not the truth or semantic adequacy of the prose.
 

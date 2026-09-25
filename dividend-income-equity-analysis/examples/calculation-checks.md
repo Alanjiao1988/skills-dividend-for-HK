@@ -24,6 +24,19 @@ These are cash-income comparisons with no dividend growth credited, not a comple
 - Low confidence is diagnostic only; Unclear veto suspends valuation output.
 - B=0 gives no positive-price Bear-high-end band and precludes a Strong Buy action for an ordinary-income strategy. B>N is an inconsistency to resolve, not a number to clamp. N<=0 or nonpositive required yield suspends ordinary valuation.
 
+## Positive Entry and Transparent Scoring Controls
+
+- With N=4, B=3.2, r_low=8%, r_high=10%, the ordinary starter/add/strict prices remain 50/40/32. At price 40, Medium confidence, Acceptable safety, verified cash/tax/capital and a passing return review produce **gradual accumulation**, not a blanket wait for High confidence. At 50, the starter boundary still qualifies; above 50, wait for price.
+- With the same evidence at price 32, High confidence and Strong safety permit Strong Buy; Medium still permits only accumulation. No portfolio allocation percentage is inferred.
+- For growth scenario values 45.7142857143 / 57.1428571429 / 68.5714285714 and a declared 15% safety discount, starter is 48.5714285714, add is 45.7142857143, strict is 38.8571428571. Price 40 can support Medium-confidence accumulation even though it has not reached the strict threshold.
+- A hard 12% forward yield target with forward net cash 4 caps the starter price at 33.3333333333; from current 40 the gap is -16.6666667%. Wait for that price when other gates pass; do not describe a known price shortfall as missing company evidence. A 12% preference does not impose that cap.
+- Coverage band 2, with floor 12 and ceiling 16, earns 12/13/14/16 points for 0/1/2/3 met checks. Unknown refinements do not become a middle-band guess or a new entry veto. Altering the total to 99 without matching module points is invalid even if the Grade is also changed to A.
+- With only income unassessable and quality 62/85, retain quality and show combined **62-77/100, C-B**, assuming no lower income cap. The scalar total/Grade stay null, not the interval display. Missing tax still blocks entry.
+- With only the ten-point buyback module unknown, the teaching scorecard retains **71 points across 90 weight**, yielding **71-81/100, B provisional** and quality **57-67/85, Medium**. Never rescale to 79, impute 5 or display the lower bound as an actual point score. This gap is not an independent entry veto.
+- With buyback candidate bands 2-3, one met and two unknown checks, its supported score range is 2-7; exact subtotal 71 plus that range gives **73-78/100**, 90 exact weight plus 10 bounded weight. Coverage is 100%, not 100% confidence.
+- With reconciled two-year FAD 80+90 and cash dividends 40+40, coverage is 2.125x, not a three-year measure. A supported proxy range 2.0-2.3x uses the explicit 16/20 cap; the teaching total becomes **74 provisional**, not an unavailable overall score.
+- With every primary band unknown, status is insufficient and coverage 0%; the 0-100 rubric bound is not an assigned zero or neutral 50. Missing forecast work alone must not manufacture a one-point visibility score.
+
 ## Growth Evidence Without Project-Level ROIC
 
 - A fictional regulated operator discloses installed capacity, commissioning dates, contracted tariffs and a funded capex plan. Bounded utilization and maintenance/working-capital estimates reconcile to owner cash, mandatory capital uses, payout policy and shares in every scenario and terminal year. This can support `direct_operating_to_dps` and Medium confidence even without management-published marginal ROIC for each project, provided the common tax, remittance, funding and terminal gates pass.

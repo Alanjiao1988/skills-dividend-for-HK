@@ -1,0 +1,103 @@
+{
+  "mode": "safety_review",
+  "schema_version": "3.0",
+  "company": "Fictional Harbor Services",
+  "ticker": "EXAMPLE",
+  "exchange": "Example",
+  "as_of_date": "2026-01-01",
+  "sources": [
+    "worked-examples.md: independent fictional safety-review variant Q4, dated 2026-01-01."
+  ],
+  "review": {
+    "previous_review_date": "2025-06-30",
+    "previous_reference": "worked-examples.md: independent fictional safety-review variant Q4, dated 2026-01-01.",
+    "event_date": "2025-12-31",
+    "event_source": "worked-examples.md: independent fictional safety-review variant Q4, dated 2026-01-01.",
+    "period_basis": "Like-for-like annual capacity/ordinary cash payouts for parent common owners; not quarterly versus annual.",
+    "cash_evidence_status": "reported_reconciled",
+    "metrics": {
+      "recurring_fad": {
+        "before": 75,
+        "after": 60,
+        "unit": "USD millions",
+        "source": "worked-examples.md: independent fictional safety-review variant Q4, dated 2026-01-01."
+      },
+      "cash_dividends": {
+        "before": 40,
+        "after": 40,
+        "unit": "USD millions",
+        "source": "worked-examples.md: independent fictional safety-review variant Q4, dated 2026-01-01."
+      },
+      "actual_capacity": {
+        "before": 70,
+        "after": 55,
+        "unit": "USD millions",
+        "source": "worked-examples.md: independent fictional safety-review variant Q4, dated 2026-01-01."
+      },
+      "liquidity": {
+        "before": 25,
+        "after": 20,
+        "unit": "USD millions",
+        "source": "worked-examples.md: independent fictional safety-review variant Q4, dated 2026-01-01."
+      },
+      "capital_headroom": {
+        "before": 1.5,
+        "after": 1.2,
+        "unit": "surplus headroom units above the applicable minimum",
+        "source": "worked-examples.md: independent fictional safety-review variant Q4, dated 2026-01-01."
+      }
+    },
+    "recurring_coverage": 1.5,
+    "actual_coverage": 1.375,
+    "funding_gap": 0,
+    "full_cash_entitlement": 40,
+    "entitlement_source": "worked-examples.md: independent fictional safety-review variant Q4; all dividends are cash, no scrip.",
+    "recurring_entitlement_coverage": 1.5,
+    "all_cash_funding_gap": 0,
+    "dividend_safety": "Acceptable",
+    "decision": "weakened",
+    "structural_change": false,
+    "veto_status": "Not triggered",
+    "requires_full_analysis": false,
+    "escalation_reasons": [],
+    "missing_inputs": [],
+    "next_review": "Next results or an earlier payout/funding change; no automatic trade.",
+    "automatic_trade": false
+  },
+  "report_output": {
+    "language": "zh-CN",
+    "user_requested_language": null,
+    "title": "虚构公司股息研究示例",
+    "summary": "仅用于验证规则，不构成真实投资意见。",
+    "sections": [
+      {
+        "heading": "基线与新披露",
+        "paragraphs": [
+          "本节仅使用虚构测试包的已知事实与明确假设。"
+        ]
+      },
+      {
+        "heading": "现金与资本",
+        "paragraphs": [
+          "本节仅使用虚构测试包的已知事实与明确假设。"
+        ]
+      },
+      {
+        "heading": "复检结论与来源",
+        "paragraphs": [
+          "本节仅使用虚构测试包的已知事实与明确假设。"
+        ]
+      }
+    ],
+    "appendix": [],
+    "labels": [
+      "金额单位：报告币种"
+    ]
+  },
+  "evidence_recovery": {
+    "scope": "provided_packet",
+    "scope_reason": "单元测试限定虚构输入，不进行真实公司研究",
+    "is_group_structure": false,
+    "records": []
+  }
+}

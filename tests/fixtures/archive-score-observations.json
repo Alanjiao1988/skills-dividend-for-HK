@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "repository": "Alanjiao1988/Dividendreport",
+  "source_commit": "fe03757a49b09cf5edb2bd687aab42109bbbc1b6",
+  "selection": "All five latest reports dated 2026-09-10 through 2026-09-12 in the pinned 45-entry index; one report per security in this window.",
+  "interpretation": "Observed output behavior, not a backtest or an issuer re-rating. Reported subpoints are transcribed for aggregation-only regression; they have not been validated against this repository's rubric. In particular, the shared one-point visibility rationale is a failure pattern to correct, not a conclusion to preserve in new research. No archived report is modified.",
+  "cases": [
+    {
+      "ticker": "0101.HK", "as_of_date": "2026-09-12",
+      "report_path": "reports/0101.HK/2026-09-12-恒隆地产-Hang-Lung-Properties-0101.HK.md",
+      "score_lines": [676, 690], "reported_ruleset": "2.4", "reported_total_status": "Not assessed",
+      "reported_quality_points": {"dividend_stability": 3, "balance_sheet": 8, "capital_allocation": 7, "buyback_quality": 3, "visibility": 1},
+      "unknown_modules": ["cash_coverage", "net_yield"],
+      "missing_evidence": "Recurring FAD, owner/remittance scope and normalization; future investment, entitled shares and scrip participation are not modeled.",
+      "visibility_reason": "The report assigns one point because funded future DPS could not be constructed despite identifiable project directions."
+    },
+    {
+      "ticker": "0005.HK", "as_of_date": "2026-09-12",
+      "report_path": "reports/0005.HK/2026-09-12-汇丰控股-HSBC-Holdings-0005.HK.md",
+      "score_lines": [798, 811], "reported_ruleset": "2.4", "reported_total_status": "Not assessed",
+      "reported_quality_points": {"dividend_stability": 13, "balance_sheet": 10, "capital_allocation": 10, "buyback_quality": 6, "visibility": 1},
+      "unknown_modules": ["cash_coverage", "net_yield"],
+      "missing_evidence": "Three-year recurring coverage and normalization; future capital retention and parent remittances are not fully reconciled despite historical parent cash disclosures.",
+      "visibility_reason": "The report assigns one point because the constrained five-year DPS model was not completed; business guidance remains documented."
+    },
+    {
+      "ticker": "1919.HK", "as_of_date": "2026-09-11",
+      "report_path": "reports/1919.HK/2026-09-11-中远海控-COSCO-SHIPPING-Holdings-1919.HK.md",
+      "score_lines": [722, 735], "reported_ruleset": "2.4", "reported_total_status": "Not assessed",
+      "reported_quality_points": {"dividend_stability": 2, "balance_sheet": 12, "capital_allocation": 9, "buyback_quality": 6, "visibility": 1},
+      "unknown_modules": ["cash_coverage", "net_yield"],
+      "missing_evidence": "Normalization and the remittance bridge; annual capex and later policy/entitlement assumptions are missing from the forecast model.",
+      "visibility_reason": "The report assigns one point because full-year future dividends are Not Forecastable in the unfinished model."
+    },
+    {
+      "ticker": "BTI", "as_of_date": "2026-09-11",
+      "report_path": "reports/BTI/2026-09-11-英美烟草-British-American-Tobacco-BTI.md",
+      "score_lines": [783, 811], "reported_ruleset": "2.4", "reported_total_status": "Not assessed",
+      "reported_quality_points": {"dividend_stability": 14, "balance_sheet": 9, "capital_allocation": 10, "buyback_quality": 6, "visibility": 1},
+      "unknown_modules": ["cash_coverage", "net_yield"],
+      "missing_evidence": "Company-defined FCF is available but recurring owner cash, settlement obligations, cash deductions and parent availability are not fully reconciled.",
+      "visibility_reason": "The report assigns one point because five-year FAD/DPS was not constructed; operating and capex guidance is present."
+    },
+    {
+      "ticker": "CVX", "as_of_date": "2026-09-10",
+      "report_path": "reports/CVX/2026-09-10-雪佛龙-Chevron-CVX.md",
+      "score_lines": [839, 856], "reported_ruleset": "2.4", "reported_total_status": "Not assessed",
+      "reported_quality_points": {"dividend_stability": 15, "balance_sheet": 11, "capital_allocation": 10, "buyback_quality": 5, "visibility": 1},
+      "unknown_modules": ["cash_coverage", "net_yield"],
+      "missing_evidence": "Historical all-in cash is available but recurring FAD and current-perimeter funding/normalization have not been modeled completely.",
+      "visibility_reason": "The report assigns one point because precise DPS could not be supported, while acknowledging sourced capex ranges and possible share-count assumptions."
+    }
+  ]
+}

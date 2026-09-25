@@ -13,6 +13,8 @@ For every proxy record:
 
 Evidence status is `reported_reconciled`, `estimated_reconciled`, or `insufficient`. Name every source, fiscal period, assumption, and missing input. Confidence cannot be High for a material estimated capital/remittance bridge. With `insufficient` evidence, do not print precise recurring coverage, treat payout safety as Unclear, and suspend valuation if the gap prevents credible N/B or a funded growth path.
 
+The sector checklists identify what to investigate, not mandatory precise values for every score. Use disclosed aggregates/equivalents and bounded, reconciled estimates when granular splits are unavailable; explain why remaining detail is nonbinding or show its sensitivity. Historical receipts and coverage can be assessed independently of an unfinished future model. A material legal/capital/remittance gap is not an innocuous missing KPI.
+
 ## 2. Banks
 
 ```text
@@ -26,7 +28,7 @@ Loans / earning assets x net interest margin
 -> distributable capital, subject to legal payout and parent cash availability
 ```
 
-Require NIM, deposit/wholesale funding mix, credit losses, NPLs, provision coverage, RWA, CET1, management target buffers, payout approvals and parent liquidity. Separate earnings generation, OCI/valuation movements, regulatory deductions and capital issued externally.
+Inspect NIM, deposit/wholesale funding mix, credit losses, NPLs, provision coverage, RWA, CET1, management target buffers, payout approvals and parent liquidity. Start with the reported capital-generation bridge, RWA sensitivity and target buffers when individual lines are aggregated. Future capital and remittances may be bounded analyst estimates; do not wait for five years of issuer projections. Separate earnings generation, OCI/valuation movements, regulatory deductions and capital issued externally.
 
 - Retained earnings are not automatically free cash. CET1 **ratios** are constraints, not cash flow.
 - Compute required capital against forecast RWA and a documented target including buffers; do not subtract the full existing required-capital stock from annual earnings.
@@ -118,4 +120,6 @@ Use operating-company owner FCF definitions, not a fresh sector-specific cash fo
 
 ## 8. What Missing Evidence Means
 
-Keep financial profitability analysis useful even if cash remittance is unknown, but never label that earnings estimate "verified FCF". State the unavailable field, document needed to resolve it, affected forecast years, and decision consequence. Do not infer comfortable coverage from a low accounting payout ratio, strong headline solvency, or historical dividend growth alone.
+Use the source-first recovery paths in `data-conventions.md`: a fully deducted total-capex cash proxy can avoid demanding an unavailable maintenance/growth split; disclosed parent receipts, costs and dated capital requirements can anchor a range instead of requiring management's exact future remittances. Any unquantified material cash restriction remains unresolved.
+
+Keep financial profitability and independently supported scoring useful even if cash remittance remains unknown, but never label earnings "verified FCF". State the field, attempted recovery, next source, affected years and decision consequence. Apply `scoring.md` to retain point/range scores and evidence coverage; unknown recurring cash must not erase unrelated dividend-history or balance-sheet evidence. Do not infer comfortable coverage from accounting payout ratios, headline solvency or dividend growth alone.

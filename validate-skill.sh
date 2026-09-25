@@ -91,7 +91,11 @@ require("normalization_evidence" in props["buy_zone"].get("required", []),
 require(set(defs["normalizationEvidence"]["required"]) ==
         {"operating_cash", "funding_capacity", "payout_policy", "entitled_shares"},
         "normalization evidence must retain all four links")
-require(props["schema_version"].get("const") == "2.3", "combined evidence and portfolio contract requires schema version 2.3")
+require(props["schema_version"].get("default") == "3.0", "new reports require schema version 3.0")
+require(props["schema_version"]["enum"] == ["2.3", "2.4", "2.5", "3.0"], "legacy versions must remain readable")
+for index in (4, 18):
+    require(schema["allOf"][index]["if"]["properties"]["schema_version"]["enum"] == ["2.5", "3.0"],
+            f"allOf[{index}] must dispatch both 2.5 and 3.0")
 
 full_required = None
 for rule in schema.get("allOf", []):
@@ -150,7 +154,10 @@ for module in \
   buy-zone.md \
   holding-review.md \
   publishing.md \
-  output-template.md; do
+  output-template.md \
+  analysis-quality.md \
+  report-language.md \
+  safety-review.md; do
   grep -Fq "# Module: $module" "$GENERATED" || {
     echo "Generated GPT instructions missing module: $module" >&2
     exit 1
@@ -158,15 +165,15 @@ for module in \
 done
 
 bash build-gpt-instructions.sh --mode screen >/dev/null
-for module in data-conventions.md portfolio-context.md screen-mode.md withholding-notes.md; do
+for module in data-conventions.md portfolio-context.md screen-mode.md withholding-notes.md report-language.md; do
   grep -Fq "# Module: $module" "$SCREEN_GENERATED" || {
     echo "Screen instruction bundle missing module: $module" >&2
     exit 1
   }
 done
 screen_module_count=$(grep -c '^# Module: ' "$SCREEN_GENERATED")
-if [[ "$screen_module_count" -ne 4 ]]; then
-  echo "Screen instruction bundle must contain only its four canonical modules." >&2
+if [[ "$screen_module_count" -ne 5 ]]; then
+  echo "Screen instruction bundle must contain its four analytical modules and shared language contract." >&2
   exit 1
 fi
 if grep -Eq '^# Module: (buy-zone|business-fundamentals|holding-review|scoring)\.md' "$SCREEN_GENERATED"; then
@@ -213,7 +220,7 @@ grep -Fq 'Target policy: hard_minimum / preference / not_assessed' "$SCREEN_MODE
 grep -Fq 'do not reject or downgrade a stock solely because its yield appears low' "$SCREEN_MODE"
 grep -Fq 'screen-mode.md' build-gpt-instructions.sh
 
-for example in ordinary growth; do
+for example in ordinary growth safety-review; do
   "$PYTHON_BIN" scripts/validate_analysis.py "dividend-income-equity-analysis/examples/$example.analysis.json"
 done
 

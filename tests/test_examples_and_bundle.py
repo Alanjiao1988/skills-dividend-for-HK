@@ -73,7 +73,7 @@ class BundleProvenanceTests(unittest.TestCase):
         self.copy_sources(child)
         text = self.build(child)
         self.assertIn('Source commit: `unknown`', text)
-        self.assertIn('Schema version: `2.3`', text)
+        self.assertIn('Schema version: `3.0`', text)
         self.assertEqual(text, self.build(child))
 
     def test_clean_commit_then_relevant_untracked_source_is_dirty(self):
@@ -97,7 +97,8 @@ class BundleProvenanceTests(unittest.TestCase):
         self.assertIn('Build-input SHA-256:', text)
         modules = [line for line in text.splitlines() if line.startswith('# Module: ')]
         self.assertEqual(modules, [f'# Module: {name}' for name in (
-            'data-conventions.md', 'portfolio-context.md', 'screen-mode.md', 'withholding-notes.md')])
+            'data-conventions.md', 'portfolio-context.md', 'screen-mode.md', 'withholding-notes.md',
+            'report-language.md')])
         self.assertEqual(text, self.build(self.root, mode='screen'))
 
     def test_invalid_profile_does_not_overwrite_a_bundle(self):
