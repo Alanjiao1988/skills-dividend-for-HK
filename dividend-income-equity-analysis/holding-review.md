@@ -1,6 +1,6 @@
 # Holding Review
 
-This Full Analysis module is embedded in **Section 17C: Holding Review**, following Section 17A scoring and Section 17B portfolio role within **Section 17: Score, Portfolio Role, and Holding Review**. It does not add a nineteenth section or replace the scoring, cash-flow, business-outlook or valuation contracts.
+This Full Analysis module is reported as one bullet in the main report's **Section 3: Entry View** when the user holds the stock or asks about holding, selling or switching, with the trigger table and switching comparison in **Audit Appendix part A12**. It does not add a report section or replace the scoring, cash-flow, business-outlook or valuation contracts.
 
 The actions `hold`, `review`, `trim`, `exit`, `switch` and `not_assessed` are **research conclusions for human consideration**, never orders or automatic trading. Set `automatic_trade: false`. Do not execute trades, infer account permissions or invent position sizes.
 

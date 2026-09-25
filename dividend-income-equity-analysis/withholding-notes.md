@@ -102,7 +102,7 @@ Use "mandatory stock dividend" or "mandatory share distribution" for a non-cash 
 
 ## Required Output Fields
 
-Full Analysis must show these fields; Screen Mode may consolidate them in one linked evidence note and concise table fields:
+Full Analysis must record these fields (Audit Appendix part A1; the main report states the rate, basis and any election assumption in one line); Screen Mode may consolidate them in one linked evidence note and concise table fields:
 
 - Investor residence / type / holding channel, and whether confirmed or assumed.
 - Withholding rate or supported range; historical observed rate separately from declared / prospective treatment.

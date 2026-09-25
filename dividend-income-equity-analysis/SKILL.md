@@ -1,6 +1,6 @@
 ---
 name: dividend-income-equity-analysis
-description: 筛选和分析港股、美股及全球红利股的税后现金收入、分红可持续性、未来三至五年现金流、红利陷阱、收入与成长估值及持仓复评。适用于以股息收入为核心的候选池比较、分红预测和投资决策；支持Screen与Full Analysis，默认香港居民个人普通券商账户，允许用户覆盖。
+description: 筛选和分析港股、美股及全球红利股的税后现金收入、分红可持续性、未来三至五年现金流、红利陷阱、收入与成长估值及持仓复评。适用于以股息收入为核心的候选池比较、分红预测和投资决策；支持Screen与Full Analysis，Full Analysis输出结论先行的精简报告（财务状况、买点观点、业务与股息长期展望、风险点），计算细节按需放入审计附录。默认香港居民个人普通券商账户，允许用户覆盖。
 ---
 
 # Dividend Income Equity Analysis Skill
@@ -48,7 +48,7 @@ Screen Mode 不得把 `buy-zone.md` 的标的必要收益率当作用户的筛�
 - `holding-review.md`：持有、复评、减仓、退出、换仓的证据与组合约束；不自动交易。
 - `withholding-notes.md`：预扣税、PIL、scrip / DRIP 税务与现金收入规则。
 - `scoring.md`：100 分评分和 Structural Decline overlay。
-- `output-template.md`：模式输出和 Full Analysis 的 18 节结构。
+- `output-template.md`：读者可见内容的唯一事实源：Screen 输出、Full Analysis 六节主报告、篇幅预算和按需审计附录。
 - `schema.json`：JSON 或机器可读输出。
 - `examples/example-output-skeleton.md`：Full Analysis 示例骨架。
 
@@ -61,6 +61,8 @@ Screen Mode 不得把 `buy-zone.md` 的标的必要收益率当作用户的筛�
 - 低于用户明确的 hard minimum 时，除非用户允许例外，否则判 `No`。
 
 ## Full Analysis 执行原则
+
+以下是分析工作要求，必须完成；但它们不等于要全部打印。报告只展示 `output-template.md` 规定的主报告内容，其余计算、表格和清单进入按需审计附录或 JSON。
 
 - 报价、派息、财务和经营数据必须注明 as-of date。
 - 普通、特别、可变、一次性、REIT 和基金分派必须分开。
@@ -92,7 +94,16 @@ Screen Mode 不得把 `buy-zone.md` 的标的必要收益率当作用户的筛�
 
 ## 输出结构
 
-输出模式和完整章节结构以 `output-template.md` 为唯一事实源。
+输出模式和章节结构以 `output-template.md` 为唯一事实源。Full Analysis 主报告只回答四个问题，结论先行：
+
+1. 结论速览：一句话定性、关键数字表和行动状态行。
+2. 财务状况：分红是否由真实的经常性现金支付，资产负债与资本是否构成约束。
+3. 买点观点：现价处于哪个区间、什么价格开始有吸引力、行动及其条件。
+4. 长期展望：未来三至五年业务驱动与 Bear / Base / Bull 股息路径。
+5. 风险点与跟踪信号：三至五个公司特有风险、可观察的早期信号和对股息的影响。
+6. 数据来源与关键假设：截至日期、核心来源、关键假设和数据缺口，各一行。
+
+主报告约 1,200-2,000 字（不含表格），最多五张表、三张图；每个数字只出现一次；不打印 N/A 占位行、公式推导、规则复述或 schema 字段名。现金流桥、五年逐年预测、敏感性、陷阱清单全表、估值审计、评分明细和持仓复评表只在用户要求详细计算或审计附录时输出。
 
 ## 报告保存与仓库边界
 

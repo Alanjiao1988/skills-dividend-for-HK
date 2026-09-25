@@ -693,10 +693,14 @@ class AnalysisContractTests(unittest.TestCase):
         self.assertIn("Three-Year Recurring Coverage = sum(Recurring FAD for 3 years) / sum(Relevant Cash Dividends for 3 years)", business)
         self.assertIn("Deduct an item exactly once", business)
         self.assertIn("earnings_linked", business)
+        expected = ["结论速览", "财务状况", "买点观点", "长期展望", "风险点", "数据来源"]
         for path in (skill / "output-template.md", skill / "examples" / "example-output-skeleton.md"):
             text = path.read_text(encoding="utf-8")
             sections = [line for line in text.splitlines() if line.startswith("## ") and line[3:4].isdigit()]
-            self.assertEqual(len(sections), 18)
+            self.assertEqual(len(sections), 6, path.name)
+            for number, (line, title) in enumerate(zip(sections, expected), start=1):
+                self.assertTrue(line.startswith(f"## {number}. {title}"), line)
+            self.assertIn("Audit Appendix", text)
 
     def test_publishing_contract_tracks_archive_ruleset_fields(self):
         skill = Path(__file__).resolve().parents[1] / "dividend-income-equity-analysis"

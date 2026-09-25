@@ -2,6 +2,8 @@
 
 Full Analysis must explain how the business could develop, not just whether next year's dividend is covered. This module supplies the operating assumptions for `business-fundamentals.md`; it is not a second forecast or a reason to override a dividend-income requirement.
 
+Presentation follows `output-template.md`: the main report shows only the resulting conclusions and key numbers; the tables and ledgers defined here belong to the Audit Appendix or JSON unless that file places them in the main report. The main report's Long-Term Outlook section carries the thesis, two to four drivers and the FY+1/FY+3/FY+5 dividend table; the Key Risks section carries the milestones most likely to change the conclusion.
+
 ## 1. Required Questions
 
 Answer these with dated evidence, a counterargument, and a cash-flow consequence:
