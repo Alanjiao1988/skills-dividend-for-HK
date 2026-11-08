@@ -12,7 +12,7 @@ A low yield or a particular company name does not select a growth model. An inco
 
 ## 1. Inputs and Valuation Routing
 
-Read `business-fundamentals.md`, the applicable `sector-fcf-proxies.md` contract, `business-outlook.md` and the task-specific requirements in `analysis-quality.md` before valuation. Required inputs include:
+Read `industry-analysis.md`, `historical-financial-trends.md`, `business-fundamentals.md`, the applicable `sector-fcf-proxies.md` contract, `business-outlook.md` and the task-specific requirements in `analysis-quality.md` before valuation. Required inputs include:
 
 - Current price, quote currency/unit, share or ADR ratio, valuation date, and data cutoff.
 - Trailing and recurring DPS separately; withholding, recurring ADR fees, cash election, FX and other material investor cash deductions.
@@ -149,6 +149,44 @@ R_base = (R_low + R_high) / 2
 ```
 
 Use decimals, `0 <= RP_low < RP_high`, and `0 < R_low < R_high`. State sources versus analyst judgments. Freeze the derivation before price comparison; an unavailable credible anchor/premium means `status: not_assessed`, null rates and no numerical entry zone, not an invented sector rate. `price_independent` must be true.
+
+### 4.1A Mandatory U.S. 10-Year Treasury Opportunity-Cost Comparison
+
+Every Full Analysis must explicitly compare the stock's prospective dividend income and required equity return with the U.S. 10-year Treasury. This is a mandatory opportunity-cost reference, not a substitute for a currency-matched valuation discount rate.
+
+**Benchmark selection and disclosure**
+
+- Retrieve the latest available U.S. 10-year constant-maturity Treasury yield (FRED DGS10 / Federal Reserve H.15 or Treasury.gov), with observation date, retrieval date, source URL and nominal yield convention. Do not hardcode or carry forward an old rate without marking it stale.
+- For USD-denominated equity cash flows, the USD 10-year Treasury is the default risk-free anchor unless the cash-flow duration or explicit investor mandate justifies another tenor. The 20-year Treasury is optional only when duration supports it or the user explicitly chooses it.
+- For HKD, CNY or another non-USD valuation currency, use a matching-currency sovereign benchmark for the primary discount-rate calculation. Still show the U.S. 10-year Treasury as the requested global opportunity-cost reference, but do not discount unchanged HKD/CNY cash flows at a USD rate. If comparing non-USD equity income with USD Treasuries, explicitly model FX conversion/hedging, currency basis and investor tax; otherwise label the comparison indicative rather than like-for-like.
+- State whether both equity dividends and Treasury interest are shown gross or after investor-specific tax. Show gross and net figures separately where tax treatment differs or is unknown. Do not assume that a foreign investor's Treasury interest is tax-free without evidence.
+
+**Required comparison table**
+
+| Measure | Stock | U.S. 10-year Treasury | Spread / interpretation |
+|---|---:|---:|---|
+| Current yield / yield to maturity | [dated] | [dated] | Gross spread |
+| Investor after-tax cash yield | [dated] | [dated / unavailable] | Net cash-income spread |
+| Forward 12-month cash yield | [sourced DPS and price] | [current benchmark] | Forward spread |
+| Five-year expected annualized total return | [Bear/Base/Bull] | [reinvestment / holding assumption] | Risk-adjusted opportunity-cost discussion |
+| Principal / cash-flow risk | [dividend and equity-price variability] | [duration and sovereign/currency/tax risk] | Not equivalent instruments |
+
+For a stock, distinguish trailing, forward and normalized recurring dividend yields. For the Treasury, use the market yield-to-maturity/constant-maturity observation, not its coupon rate. A Treasury's quoted yield is not the same as a cash coupon yield; explain the distinction where relevant.
+
+**Required spread and hurdle calculations**
+
+- Gross dividend spread = stock gross forward dividend yield − U.S. 10-year Treasury yield.
+- Net cash-income spread = stock investor after-tax forward dividend yield − Treasury investor after-tax yield, only when both tax treatments are known and currency-consistent.
+- Required equity return = currency-consistent risk-free benchmark + independently justified equity risk premium, as already defined in Section 4.1.
+- Ordinary income entry ceiling = sustainable investor net DPS / required net cash yield, using the existing N/B and Section 5 formulas. Do not use the Treasury yield alone as the required equity yield.
+- Show price sensitivity to a 10-year yield change of ±50 bp and ±100 bp, holding the independently justified equity premium and sustainable DPS constant. Recalculate the required return and the ordinary income boundary. For growth valuation, rerun the discount-rate sensitivity without double-counting changes in the equity premium.
+- Show how far the current price is from the Treasury-anchored income entry ceiling and from the independently modelled growth-value range. Explain if the two approaches disagree.
+
+**Investment interpretation**
+
+A stock yielding less than the 10-year Treasury is not automatically unattractive: evidenced per-share dividend growth and capital appreciation may compensate, but must be quantified in Layer 2/3. A stock yielding more is not automatically attractive: the spread may compensate for dividend-cut risk, structural decline, leverage, illiquidity, FX, tax or principal-loss risk. A high spread is a risk signal to investigate, not a buy signal.
+
+The report must answer directly: why should the investor accept the issuer's dividend and equity-price risk instead of holding a U.S. 10-year Treasury? Identify the specific compensation (net income spread, credible DPS growth, earnings/FCF per share growth and/or valuation upside), quantify it, and state what could eliminate it. Do not compare a risky equity's headline gross yield with a Treasury yield and call the difference an equity risk premium.
 
 ### 4.2 Ordinary Cash-Yield Derivation and Investor Objective
 
@@ -556,7 +594,7 @@ When a DDM is not assessed, use a null `growth_value_change` with reason, not ze
 
 ## 10. Historical Cross-Checks
 
-Historical yield and price are secondary context, not inputs for fitting premiums, terminal assumptions or safety discounts. They cannot override a deteriorating forecast or Structural Decline route.
+Historical yield and price are secondary context, not inputs for fitting premiums, terminal assumptions or safety discounts. The latest U.S. 10-year Treasury observation and the ±50/±100 bp sensitivity required by Section 4.1A are mandatory opportunity-cost and rate-sensitivity disclosures; they do not replace the price-independent equity-premium derivation. They cannot override a deteriorating forecast or Structural Decline route.
 
 | Period | DPS Used | Price Range | Gross Yield Range | Net Yield Range | Yield Percentile | Comment |
 |---|---:|---:|---:|---:|---:|---|
