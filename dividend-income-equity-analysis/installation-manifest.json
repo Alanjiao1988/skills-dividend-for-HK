@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0",
   "scoring_rubric": "2",
-  "presentation_revision": "html-1",
+  "presentation_revision": "html-2",
   "source_kind": "canonical_repository",
   "source_repository": "https://github.com/Alanjiao1988/skills-dividend-for-HK",
   "baseline_commit": "1debaef",
@@ -256,7 +256,9 @@
   "new_contract_files": [
     "dividend-income-equity-analysis/scripts/schema3_checks.py",
     "dividend-income-equity-analysis/scripts/render_report.py",
-    "tests/test_schema3.py"
+    "tests/test_schema3.py",
+    "dividend-income-equity-analysis/industry-analysis.md",
+    "dividend-income-equity-analysis/historical-financial-trends.md"
   ],
   "validation_commands": [
     "bash validate-skill.sh",
@@ -267,6 +269,8 @@
     "Both allOf[4] and allOf[18] dispatch schema 2.5 and 3.0; rubric_version remains 2.",
     "The reference installation manifest is replaced with this portable source manifest, not copied with stale machine paths.",
     "Repository tests retain all 220 reference tests plus existing bundle regressions and new 3.0 tests.",
-    "No existing company research report, external archive or Claude installation is modified."
+    "No existing company research report, external archive or Claude installation is modified.",
+    "Full Analysis defaults to a complete twelve-chapter report with an executive summary followed by industry, peer, five-year financial trend, cash-flow, growth, forecast, valuation and risk analysis.",
+    "The buy-zone contract requires explicit U.S. 10-year Treasury opportunity-cost comparison and ±50/±100 bp rate sensitivity, with currency-matched primary discount-rate treatment."
   ]
 }

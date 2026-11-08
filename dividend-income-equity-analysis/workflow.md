@@ -70,7 +70,7 @@ The minimal `review` record has no forecast, N/B, score, grade, trade size or au
 
 Always record the data date.
 
-Read `analysis-quality.md` for the required full-only records and their missing-data consequences. Complete them for every Full Analysis; their conclusions enter the six-section main report at the locations in `analysis-quality.md`, and the full records go to the Audit Appendix and JSON. Charts and additional presentation detail are optional, not substitutes for evidence.
+Read `analysis-quality.md` for the required full-only records and their missing-data consequences. Complete them for every Full Analysis; their conclusions enter the twelve-chapter complete report at the locations in `analysis-quality.md`, and the full records go to the Audit Appendix and JSON. Charts and additional presentation detail are optional, not substitutes for evidence.
 
 - Price must include as-of date and exchange.
 - Dividend history should come from official announcements or annual reports when available.
@@ -114,7 +114,7 @@ Show gross DPS, withholding rate and basis, net DPS, gross and net yield, broker
 
 For scrip / DRIP, state the cash-election assumption and tax, broker, fractional-share, and dilution uncertainty.
 
-## Step 3: Business Fundamentals and Long-Term Trend
+## Step 2A: Industry Classification and Sector Analysis\n\nRead `industry-analysis.md` before selecting the financial or valuation model. Identify the primary/sub-industry, value-chain position, business model, segment exposure, regulatory setting, cycle and capital intensity. Select the sector-specific KPI playbook and relevant `sector-fcf-proxies.md` cash model. Analyse demand, supply/capacity, price/mix, profit pools, competition, substitution/technology, regulation and external exposures. Select three to five genuine peers where possible. Translate industry drivers into issuer revenue, segment profit, investment, owner cash and per-share value.\n\n## Step 2B: Five-Year Historical Financial Trend Review\n\nRead `historical-financial-trends.md`. Build the latest five completed fiscal-year baseline for operating results, margins, cash generation, leverage, per-share economics, dividends and sector KPIs. Add latest TTM/interim figures separately. Identify multi-year declines, profit/OCF/FCF divergence, deteriorating cash conversion, rising leverage, falling interest cover, capex/working-capital spikes, dilution and unsupported DPS growth. Quantify first year, magnitude, cause, duration, peer context, severity and effect on dividend funding and valuation. Classify as transient, cyclical, persistent or structural.\n\n## Step 3: Business Fundamentals and Long-Term Trend
 
 Read `business-outlook.md`, `business-fundamentals.md`, and `sector-fcf-proxies.md`.
 

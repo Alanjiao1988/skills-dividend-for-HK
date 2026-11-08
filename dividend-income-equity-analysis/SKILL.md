@@ -5,7 +5,7 @@ metadata:
   source_repository: https://github.com/Alanjiao1988/skills-dividend-for-HK
   source_kind: canonical_repository
   upstream_synced_commit: 2811ffacc1679297e55bb1cf5383f8e5d3bc6a75
-  report_structure: six_section_main_report
+  report_structure: twelve_section_full_report
   schema_version: '3.0'
   scoring_rubric: '2'
   presentation_revision: html-1
@@ -59,7 +59,7 @@ Screen Mode 不得把 `buy-zone.md` 的标的必要收益率当作用户的筛�
 - `screen-mode.md`：轻量筛选、筛选收益率目标、Yield Fit 和 Yes / Watch / No 的唯一规则源。
 - `safety-review.md`：轻量安全复评的基准／事件、现金资本变化、覆盖率、结论与升级条件的唯一规则源。
 - `analysis-quality.md`：本机保留的正常化状态账本、控制人风险、独立质量／角色、实际购买力、经济汇率风险和收入驱动记录；质量字段须与 `scoring.md` 的统一评分及区间契约一致，不另设缺项取消总评规则。
-- `workflow.md`：模式路由、完整研究流程和数据源优先级。
+- `workflow.md`：模式路由、完整研究流程和数据源优先级。\n- `industry-analysis.md`：强制行业识别、价值链、供需周期、行业专用KPI、竞争结构和同行比较。\n- `historical-financial-trends.md`：强制五年财务与经营趋势、现金流恶化识别、异常归因和趋势状态。
 - `business-outlook.md`：三至五年发展展望、竞争格局、增长项目、资本需求、情景假设与可证伪里程碑。
 - `business-fundamentals.md`：Recurring Owner FCF → Recurring FAD、五年情景预测、派息计算基数、敏感性分类、scrip / DRIP 和 DPS 推导。
 - `sector-fcf-proxies.md`：银行、保险、REIT、公用事业、控股公司等行业代理与资本／上缴现金证据的唯一规则源。
@@ -68,10 +68,10 @@ Screen Mode 不得把 `buy-zone.md` 的标的必要收益率当作用户的筛�
 - `holding-review.md`：持有、复评、减仓、退出、换仓的证据与组合约束；不自动交易。
 - `withholding-notes.md`：预扣税、PIL、scrip / DRIP 税务与现金收入规则。
 - `scoring.md`：价格独立的质量／85、收入吸引力／15、逐项可复算评分、暂定区间／证据覆盖度、评级依据及 Structural Decline overlay。不以总分自动决定组合角色。
-- `output-template.md`：读者可见内容的唯一事实源：单文件 HTML 交付、Screen／Safety Review 输出、Full Analysis 六节主报告、篇幅预算和按需审计附录 A1–A13。
+- `output-template.md`：读者可见内容的唯一事实源：单文件 HTML 交付、Screen／Safety Review 输出、Full Analysis 十二章完整报告、无固定篇幅限制和默认审计附录 A1–A13。
 - `templates/report.html`：所有报告模式共用的单文件 HTML 外壳；按 `output-template.md` 填入实际内容，不交付占位模板。
 - `schema.json`：默认 3.0 版 JSON，完整分析必须包含 rubric 2 的 `scorecard.summary`、`rating_audit`、`entry_plan` 及第1节状态行的评分区间；旧 2.3／2.4／2.5 按原契约兼容读取。
-- `examples/example-output-skeleton.md`：Full Analysis 六节主报告示例骨架（篇幅与密度参考）。
+- `examples/example-output-skeleton.md`：Full Analysis 十二章完整报告示例骨架（篇幅与密度参考）。
 - `scripts/decision_rules.py`、`scripts/validate_analysis.py`：已随本机技能安装的评分／分层买点计算和跨字段校验；路径相对于技能目录，不依赖源码仓库仍在原位置。
 
 ## Screen Mode 执行原则
@@ -94,14 +94,14 @@ Schema 3.0 必须先尽力取数，再形成确定性结论：`decision.current_
 
 所有模式使用 `evidence_recovery` 记录逐项取数轨迹，使用 `report_output` 记录中文读者可见内容。完整分析另需 `decision`；既有 2.3／2.4／2.5 记录不追溯新增字段。`scripts/schema3_checks.py` 校验这些跨字段约束，`scripts/render_report.py` 将通过校验的 3.0 记录渲染为离线单文件 HTML。只读兼容不等于把旧自由评分标为已审计评分。
 
-以下是分析工作要求，必须完成；但它们不等于要全部打印。报告只展示 `output-template.md` 规定的主报告内容，其余计算、表格和清单进入按需审计附录或 JSON。凡下文写“展示”“打印”“输出”的计算与审计内容，均指完成并记录，在用户要求时于审计附录展示。
+以下是分析工作要求，必须完成并在完整报告中展示关键数据与结论。详细来源、公式、调整桥和敏感性进入默认审计附录；不能只写入 JSON 或等用户另行要求。
 
 - 报价、派息、财务和经营数据必须注明 as-of date。
 - 普通、特别、可变、一次性、REIT 和基金分派必须分开。
 - 必须识别真正为分红提供资金的业务与现金流。
-- 有数据时分析至少五年的业务、利润、现金流和每股经济趋势；不足时保留真实窗口及有依据的判断，不能伪造年份或因此取消其他评分。周期正常化窗口由供需／合约／资本周期决定，不默认五年；尽量覆盖完整周期。
+- 每份 Full Analysis 必须读取 `industry-analysis.md` 和 `historical-financial-trends.md`。先识别行业和商业模式，再选择行业KPI；至少对比过去五年收入、利润、现金流、杠杆、每股指标和行业经营数据，主动识别持续下降、现金流背离和趋势反转。数据不足时保留实际窗口并说明，不伪造年份。周期正常化窗口由供需／合约／资本周期决定，不默认五年；尽量覆盖完整周期。
 - 未限定只用给定材料时，主动获取公告及财报，按“官方披露→可复核推导→有据范围／代理→剩余未知”补数。缺未来精确股数、维持／成长投资拆分或管理层DPS预测，不自动等于无法研究；采用明确假设和敏感性，不能默认为零成本或无限资金。
-- 按 `analysis-quality.md` 完成新增分析记录，结论按其定位表写入六节主报告，完整记录进入审计附录和 JSON；图表可选，必要的分析记录不可由排版代替。
+- 按 `analysis-quality.md` 完成新增分析记录，结论和关键量化数据写入十二章完整正文，完整记录进入审计附录和 JSON；图表可选，必要的分析记录不可由排版代替。
 - 必须形成五年业务发展展望，并提供前三年逐年Bear / Base / Bull预测及第四、五年的有依据延伸；不能预测的年份保留空值、原因和较低置信度，不机械外推CAGR。
 - 未来 FCF 必须由业务量价、利润率、营运资金、维护与成长投资、融资／税务和股东现金权益推导；分别展示经常性与实际现金口径、总量与每股趋势、累计FAD及资金缺口。
 - 先选择行业代理，金融机构不得把OPAT、净资产增长或偿付能力比率直接当作现金流；控股公司还须验证子公司可上缴及母公司可用现金。
@@ -149,7 +149,7 @@ Schema 3.0 必须先尽力取数，再形成确定性结论：`decision.current_
 
 主报告约 1,200–2,000 字（不含表格），最多五张表、三张图；每个数字只出现一次；不打印 N/A 占位行、公式推导、规则复述或 schema 字段名。现金流桥、五年逐年预测、敏感性、陷阱清单全表、估值审计、评分明细、评级审计和持仓复评表只在用户要求详细计算或审计附录时输出（A1–A13）；底层分析、门槛与 JSON 记录保持完整。
 
-HTML 是交付格式，不是第四种分析模式；新报告使用 Schema 3.0，Full Analysis 使用 scoring rubric 2，呈现版本为 `html-1`。本仓库统一维护六节主报告、完整评分扩展、确定性结论与先取数契约，不再依赖本地未提交副本。旧 2.3／2.4／2.5 数据按原契约读取，不自动改写或重新评级。
+HTML 是交付格式，不是第四种分析模式；新报告使用 Schema 3.0，Full Analysis 使用 scoring rubric 2，呈现版本为 `html-2`。本仓库统一维护六节主报告、完整评分扩展、确定性结论与先取数契约，不再依赖本地未提交副本。旧 2.3／2.4／2.5 数据按原契约读取，不自动改写或重新评级。
 
 本机检查：在技能目录执行 `python -B -m unittest discover -s tests -p "test_*.py"`。校验结构化分析执行 `python -B scripts\validate_analysis.py "<分析JSON的实际路径>"`；仅在缺少依赖时按 `requirements-dev.txt` 安装。校验结果只能证明结构和算术一致，不能证明来源真实或投资安全。
 
