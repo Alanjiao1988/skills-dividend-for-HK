@@ -14,6 +14,14 @@ HEADINGS = (
     "结论速览", "财务状况", "买点观点", "长期展望：业务与股息",
     "风险点与跟踪信号", "数据来源与关键假设",
 )
+FULL_HEADINGS = (
+    "摘要与投资结论", "公司概况与行业定位", "行业结构、供需与周期",
+    "竞争格局与公司护城河", "过去五年经营与财务趋势",
+    "现金流、资产负债与股息质量", "企业成长性与资本配置",
+    "未来五年经营与现金流预测", "估值与预期总回报",
+    "买点、建仓策略与持仓复评", "风险、监测指标与论点证伪",
+    "数据来源、关键假设与研究限制",
+)
 PLACEHOLDERS = ("数据不足", "暂不给出", "暂不评估", "待确认", "不可评估",
                 "Not Assessable", "cannot score")
 GAP_VALUES = {
@@ -182,8 +190,8 @@ def validate_schema3(report):
                            for row in stages.values()),
                     "available reference prices must not be hidden behind a blocked label")
         if language == "zh-CN":
-            require(tuple(row["heading"] for row in output["sections"]) == HEADINGS,
-                    "Full Analysis must retain the six Chinese report sections")
+            require(tuple(row["heading"] for row in output["sections"]) in (HEADINGS, FULL_HEADINGS),
+                    "Full Analysis must use the legacy six-section or complete twelve-chapter Chinese structure")
 
     if language == "zh-CN":
         # Formal source names and fixed machine enums are exempt, not arbitrary prose.

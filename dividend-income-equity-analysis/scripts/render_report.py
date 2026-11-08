@@ -41,7 +41,7 @@ def render_report(report):
                 f"买点结论：{decision['entry_conclusion']}",
             )
             body = "".join(f"<p>{escape(text)}</p>" for text in headline) + body
-        if index == 3 and report["mode"] == "full_analysis":
+        if report["mode"] == "full_analysis" and ("买点" in section["heading"] or index == 3):
             decision = report["decision"]
             for label, key in (("允许买入的条件（须同时满足）", "buy_conditions"),
                                ("结论失效条件（任一触发）", "invalidation_conditions")):

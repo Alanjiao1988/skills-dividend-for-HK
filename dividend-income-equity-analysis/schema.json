@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Dividend Income Equity Analysis",
-  "description": "Schema 3.0 / rubric 2: definite decisions, ordered evidence recovery, numeric provisional bounds and Chinese single-file HTML. Full Analysis retains six main sections and an optional audit appendix. Explicit dispatch preserves 2.3/2.4/2.5 behavior without retroactive retrieval requirements or relabeling discretionary scores. Safety Review remains cash/capital-only, without new valuation, scoring or trading instructions.",
+  "description": "Schema 3.0 / rubric 2: definite decisions, ordered evidence retrieval, numeric provisional bounds and Chinese single-file HTML. Full Analysis supports legacy six-section records and the complete twelve-chapter report contract. Explicit dispatch preserves 2.3/2.4/2.5 compatibility. Safety Review remains cash/capital-only.",
   "type": "object",
   "$defs": {
     "nullableNumber": {
