@@ -94,7 +94,7 @@ class SkillInstallationTests(unittest.TestCase):
             self.assertTrue((ROOT / "scripts" / name).is_file())
         self.assertTrue((ROOT / "requirements-dev.txt").is_file())
         for name in ("analysis-quality.md", "report-language.md", "safety-review.md",
-                     "templates\\report.html", "examples\\safety-review.analysis.json"):
+                     "templates/report.html", "examples/safety-review.analysis.json"):
             self.assertTrue((ROOT / name).is_file(), name)
 
 

@@ -136,7 +136,8 @@ class HtmlDeliveryTests(unittest.TestCase):
         self.assertIn("N/B", safety)
         self.assertIn("score, grade", safety)
         self.assertIn("automatic_trade: false", safety)
-        self.assertNotIn("scorecard", safety)
+        self.assertNotIn("scorecard.summary", safety)
+        self.assertNotIn("entry_plan", safety)
         scoring = (SKILL / "scoring.md").read_text(encoding="utf-8")
         for required in ("scorecard.summary", "rating_audit", "assessed", "bounded",
                          "not_assessable", "71-81/100", "57-67/85",
