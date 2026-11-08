@@ -141,22 +141,21 @@ class HtmlDeliveryTests(unittest.TestCase):
                          "summary.quality_coverage_pct", "range_kind: rubric_bounds"):
             self.assertIn(required, full)
 
-    def test_six_section_report_keeps_appendix_on_request(self):
+    def test_twelve_chapter_report_includes_default_audit_appendix(self):
         source = (SKILL / "output-template.md").read_text(encoding="utf-8")
-        self.assertIn("## Audit Appendix（审计附录，按需）", source)
-        appendix = source.split("## Audit Appendix（审计附录，按需）", 1)[1]
+        self.assertIn("## 4. Audit Appendix（模型与证据明细）", source)
+        appendix = source.split("## 4. Audit Appendix（模型与证据明细）", 1)[1]
         for part in range(1, 14):
-            self.assertIn(f"**A{part}. ", appendix)
-        self.assertIn("Output the appendix only when the user asks", appendix)
-        self.assertIn("JSON output (`schema.json`) always carries the full records", appendix)
-        main = source.split("## 1. 结论速览", 1)[1].split("## Audit Appendix（审计附录，按需）", 1)[0]
+            self.assertIn(f"- A{part} ", appendix)
+        self.assertIn("默认组成部分", appendix)
+        self.assertIn("report_output.sections", source)
+        main = source.split("## 1. 摘要与投资结论", 1)[1].split("## 4. Audit Appendix", 1)[0]
         self.assertIn("分阶段入场决策卡", main)
         self.assertIn("覆盖度", main)
-        self.assertIn("最多五张表", source)
-        self.assertIn("Length budget", source)
+        self.assertIn("十二章", source)
         entry = (SKILL / "SKILL.md").read_text(encoding="utf-8")
-        self.assertIn("report_structure: six_section_main_report", entry)
-        self.assertIn("底层分析、门槛与 JSON 记录保持完整", entry)
+        self.assertIn("report_structure: twelve_section_full_report", entry)
+        self.assertIn("presentation_revision: html-2", entry)
 
     def test_owned_documents_have_no_merge_markers(self):
         for name in ("output-template.md", "visual-output-rules.md",
@@ -169,7 +168,7 @@ class HtmlDeliveryTests(unittest.TestCase):
     def test_entry_routes_to_html_and_preserves_publication_gate(self):
         entry = (SKILL / "SKILL.md").read_text(encoding="utf-8")
         self.assertIn("default_report_format: single_file_html", entry)
-        self.assertIn("presentation_revision: html-1", entry)
+        self.assertIn("presentation_revision: html-2", entry)
         self.assertIn("templates/report.html", entry)
         self.assertNotIn("默认在对话中输出分析；只有用户明确要求保存或发布时", entry)
         publishing = (SKILL / "publishing.md").read_text(encoding="utf-8")
