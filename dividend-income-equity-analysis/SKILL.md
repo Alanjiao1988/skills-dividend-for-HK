@@ -1,6 +1,6 @@
 ---
 name: dividend-income-equity-analysis
-description: 筛选和分析港股、美股及全球红利股的税后现金收入、分红可持续性、未来现金流、分层买点、透明评分评级及持仓复评。先补证据与合理推导，信息不全时给暂定评分区间和覆盖度，不因单项缺失取消总评；默认交付一份可独立打开的简体中文HTML文件，支持Screen、Safety Review与Full Analysis，Full Analysis输出结论先行的六节精简报告（结论、财务状况、买点观点、业务与股息长期展望、风险点、来源假设），计算细节按需放入审计附录。默认香港居民个人普通券商账户，允许用户覆盖。
+description: 面向香港税务居民普通券商账户的跨行业权益研究工具，分析全球上市公司的行业结构、商业模式、五年财务趋势、现金流、成长性、股息可持续性、估值、预期总回报与分阶段买点。适配银行、保险、通信、油轮与集装箱航运、港口、能源、REIT、制药、软件、半导体、BDC及控股公司等不同商业模式；必须先识别行业再选择指标，不得把 BTI 或任何单一行业作为默认模板。Full Analysis 默认输出完整十二章简体中文离线 HTML 报告。
 metadata:
   source_repository: https://github.com/Alanjiao1988/skills-dividend-for-HK
   source_kind: canonical_repository
@@ -8,7 +8,7 @@ metadata:
   report_structure: twelve_section_full_report
   schema_version: '3.0'
   scoring_rubric: '2'
-  presentation_revision: html-1
+  presentation_revision: html-2
   default_report_format: single_file_html
 ---
 
@@ -59,7 +59,9 @@ Screen Mode 不得把 `buy-zone.md` 的标的必要收益率当作用户的筛�
 - `screen-mode.md`：轻量筛选、筛选收益率目标、Yield Fit 和 Yes / Watch / No 的唯一规则源。
 - `safety-review.md`：轻量安全复评的基准／事件、现金资本变化、覆盖率、结论与升级条件的唯一规则源。
 - `analysis-quality.md`：本机保留的正常化状态账本、控制人风险、独立质量／角色、实际购买力、经济汇率风险和收入驱动记录；质量字段须与 `scoring.md` 的统一评分及区间契约一致，不另设缺项取消总评规则。
-- `workflow.md`：模式路由、完整研究流程和数据源优先级。\n- `industry-analysis.md`：强制行业识别、价值链、供需周期、行业专用KPI、竞争结构和同行比较。\n- `historical-financial-trends.md`：强制五年财务与经营趋势、现金流恶化识别、异常归因和趋势状态。
+- `workflow.md`：模式路由、完整研究流程和数据源优先级。
+- `industry-analysis.md`：强制行业识别、价值链、供需周期、行业专用KPI、竞争结构和同行比较。
+- `historical-financial-trends.md`：强制五年财务与经营趋势、现金流恶化识别、异常归因和趋势状态。
 - `business-outlook.md`：三至五年发展展望、竞争格局、增长项目、资本需求、情景假设与可证伪里程碑。
 - `business-fundamentals.md`：Recurring Owner FCF → Recurring FAD、五年情景预测、派息计算基数、敏感性分类、scrip / DRIP 和 DPS 推导。
 - `sector-fcf-proxies.md`：银行、保险、REIT、公用事业、控股公司等行业代理与资本／上缴现金证据的唯一规则源。
@@ -138,18 +140,11 @@ Schema 3.0 必须先尽力取数，再形成确定性结论：`decision.current_
 
 ## 输出结构
 
-输出模式、单文件 HTML 交付方式和章节结构以 `output-template.md` 为唯一事实源。Full Analysis 主报告结论先行，固定六节：
+输出模式、单文件 HTML 交付方式和章节结构以 `output-template.md` 为唯一事实源。Full Analysis 默认采用完整十二章结构：摘要与投资结论、公司概况与行业定位、行业结构与周期、竞争格局、五年财务趋势、现金流与股息质量、成长性与资本配置、未来五年预测、估值与预期总回报、买点与建仓、风险与论点证伪、来源与研究限制。不得退化为六节摘要，也不得把核心行业分析、成长分析、财务趋势或买点分析隐藏到用户另行索取的附录。
 
-1. 结论速览：一句话定性、关键数字表和行动／评分状态行。
-2. 财务状况：分红是否由真实的经常性现金支付，资产负债与资本是否构成约束。
-3. 买点观点：现价处于哪个区间、分阶段入场决策卡、行动及其条件。
-4. 长期展望：未来三至五年业务驱动与 Bear / Base / Bull 股息路径。
-5. 风险点与跟踪信号：三至五个公司特有风险、可观察的早期信号和对股息的影响。
-6. 数据来源与关键假设：截至日期、核心来源、关键假设和数据缺口，各一行。
+报告不设固定字数、表格数量或图表数量上限；按公司复杂度呈现必要数据。表格和图表必须帮助读者核对关键数值，不能替代解释。所有核心判断在正文中可见，审计附录补充来源、公式、调整桥和敏感性。Screen 与 Safety Review 仍保持轻量，不继承 Full Analysis 的完整章节要求。
 
-主报告约 1,200–2,000 字（不含表格），最多五张表、三张图；每个数字只出现一次；不打印 N/A 占位行、公式推导、规则复述或 schema 字段名。现金流桥、五年逐年预测、敏感性、陷阱清单全表、估值审计、评分明细、评级审计和持仓复评表只在用户要求详细计算或审计附录时输出（A1–A13）；底层分析、门槛与 JSON 记录保持完整。
-
-HTML 是交付格式，不是第四种分析模式；新报告使用 Schema 3.0，Full Analysis 使用 scoring rubric 2，呈现版本为 `html-2`。本仓库统一维护六节主报告、完整评分扩展、确定性结论与先取数契约，不再依赖本地未提交副本。旧 2.3／2.4／2.5 数据按原契约读取，不自动改写或重新评级。
+HTML 是交付格式，不是第四种分析模式；新报告使用 Schema 3.0、scoring rubric 2 和 `html-2` 呈现版本。行业模型必须按发行人实际业务动态选择，行业示例不是封闭白名单；旧 2.3／2.4／2.5 数据按原契约读取，不自动改写或重新评估。
 
 本机检查：在技能目录执行 `python -B -m unittest discover -s tests -p "test_*.py"`。校验结构化分析执行 `python -B scripts\validate_analysis.py "<分析JSON的实际路径>"`；仅在缺少依赖时按 `requirements-dev.txt` 安装。校验结果只能证明结构和算术一致，不能证明来源真实或投资安全。
 

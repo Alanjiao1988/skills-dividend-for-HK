@@ -4,7 +4,7 @@ This is the single source for sector routing and distributable-capacity evidence
 
 ## 1. Model Selection and Evidence
 
-Select `operating_company`, `bank`, `insurer`, `reit`, `utility_infrastructure`, or `holding_company`. Add `holding_company` as an overlay whenever the listed parent's dividend depends on subsidiary remittances. Mixed groups require segment-specific bridges plus the parent bridge, not a blended industrial FCF.
+Select `operating_company`, `bank`, `bdc`, `insurer`, `reit`, `utility_infrastructure`, or `holding_company`. Add `holding_company` as an overlay whenever the listed parent's dividend depends on subsidiary remittances. Mixed groups require segment-specific bridges plus the parent bridge, not a blended industrial FCF.
 
 For every proxy record:
 
@@ -35,7 +35,26 @@ Inspect NIM, deposit/wholesale funding mix, credit losses, NPLs, provision cover
 - Excess capital is a stock and can support a separately identified capital release only once. It is not recurring FAD.
 - Stress NIM compression, credit losses, funding costs and RWA inflation together where economically linked.
 
-## 3. Insurers
+## 3. Business Development Companies (BDCs) and Private Credit
+
+```text
+Recurring cash interest and fee income (separate cash-pay from PIK)
+- funding costs - operating expenses - base/incentive management fees - normalized credit losses - tax
+-> recurring net investment income (NII)
+-> NII/share and regular distribution coverage
++ separately identified realized gains / spillover income
+-> supplemental or special distribution capacity (not assumed recurring)
+```
+
+Require NAV/share trend, portfolio fair-value marks, non-accruals at cost and fair value, PIK income share, first-lien/senior-secured mix, borrower/industry concentration, portfolio yield, debt/equity, statutory asset coverage, unsecured vs secured funding, maturity ladder, unfunded commitments, fee hurdles and incentive-fee catch-ups. Stress falling base rates, rising credit losses, non-accrual migration, valuation markdowns and funding spreads together where relevant.
+
+- NII is not automatically cash received: isolate PIK and non-cash fee accretion from cash-pay interest.
+- NAV is a stock measure, not distributable income. Do not infer dividend safety from stable NAV alone.
+- Separate regular distributions from supplemental/special dividends and return-of-capital components; assess coverage using recurring NII after fees and cash credit losses.
+- Model statutory asset coverage and lender covenants before assuming additional leverage or portfolio growth.
+- Treat realized gains, fee waivers and one-off recoveries separately from recurring NII.
+
+## 4. Insurers
 
 ```text
 In-force run-off + new business economics + underwriting result
@@ -56,7 +75,7 @@ Prefer disclosed operating capital generation, free-surplus generation, remittan
 - Model liability guarantees and duration, reinvestment yields, asset/liability mismatch, surrender behavior, underwriting losses and equity/credit shocks. Investment marks can constrain solvency even when OPAT is smoothed.
 - IFRS 17 or local-accounting restatements need comparable periods. A consolidated solvency surplus does not prove every subsidiary can remit.
 
-## 4. REITs and Property Trusts
+## 5. REITs and Property Trusts
 
 ```text
 Occupied area x cash rent + contractual escalation / rent reversion
@@ -71,7 +90,7 @@ Remove non-cash fair-value gains, straight-line rent and other non-cash adjustme
 
 Require occupancy, rent collection, WALE/expiry ladder, tenant concentration, cap rates as a valuation cross-check, LTV, covenant headroom, debt maturity and hedges. Test higher refinancing cost, vacancy and rights-issue/DRIP dilution. Tax distribution requirements do not create cash.
 
-## 5. Utilities and Infrastructure
+## 6. Utilities and Infrastructure
 
 ```text
 Regulated asset base / contracted capacity and volume
@@ -88,7 +107,7 @@ Forecast project commissioning, regulatory lag, tariff resets, allowed versus ea
 
 Show both before-growth owner cash and **after-all-committed-investment** FAD. A utility may finance valuable growth externally; that requires an explicit debt/equity plan, interest, dilution and covenant stress. It does not make negative all-in FCF disappear. Distinguish project finance that cannot be upstreamed from parent funds.
 
-## 6. Holding Companies and Financial Groups
+## 7. Holding Companies and Financial Groups
 
 ```text
 Recurring cash dividends / distributions actually remittable from subsidiaries
@@ -106,7 +125,7 @@ Use standalone parent cash statements and subsidiary dividend declarations/recei
 - Subsidiary stake sales are one-off capital releases; show them outside recurring FAD and reassess the future income base after disposal.
 - For an insurance/banking group, use the appropriate regulated subsidiary models **and** this parent overlay. Never mechanically choose one and ignore the other.
 
-## 7. Other Operating Companies
+## 8. Other Operating Companies
 
 | Sector | Operating Drivers | Investment / Cash Risks |
 |---|---|---|
@@ -118,7 +137,7 @@ Use standalone parent cash statements and subsidiary dividend declarations/recei
 
 Use operating-company owner FCF definitions, not a fresh sector-specific cash formula. For pharmaceuticals, separate established products, approved launches and probability-sensitive pipeline; do not embed all pipeline success in Base. Model patent expiry, substitution and reinvestment before extrapolating terminal growth.
 
-## 8. What Missing Evidence Means
+## 9. What Missing Evidence Means
 
 Use the source-first recovery paths in `data-conventions.md`: a fully deducted total-capex cash proxy can avoid demanding an unavailable maintenance/growth split; disclosed parent receipts, costs and dated capital requirements can anchor a range instead of requiring management's exact future remittances. Any unquantified material cash restriction remains unresolved.
 

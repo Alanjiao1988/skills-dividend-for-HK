@@ -4,7 +4,7 @@
 
 Industry analysis is a mandatory part of every Full Analysis. It is not an optional background paragraph and cannot be replaced by company management's market-size claims.
 
-Read this module together with `industry-analysis.md`, `historical-financial-trends.md`, `business-fundamentals.md`, `business-outlook.md`, and `sector-fcf-proxies.md`.
+Read this module together with `historical-financial-trends.md`, `business-fundamentals.md`, `business-outlook.md`, and `sector-fcf-proxies.md`.
 
 The framework has three distinct investment layers:
 
@@ -69,7 +69,10 @@ Choose the relevant playbook(s) below. The listed KPIs are a minimum starting se
 |---|---|---|
 | Tobacco / nicotine | Combustible volume decline, price/mix, illicit trade, excise, market share, adult consumers/users, new-category revenue, device/consumable attachment, category contribution margin, regulatory market access | Legacy cash harvest versus substitution, new-category growth and margin ramp, excise/tax burden, litigation and stranded investment |
 | Telecom | Mobile/fixed subscribers, net adds, ARPU, churn, data usage, service revenue, EBITDA margin, capex/revenue, spectrum spending, 5G/fibre penetration, net debt | Network investment cycle, pricing competition, recurring cash flow, spectrum/concession obligations and dividend cover |
-| Shipping / ocean freight | Freight rates by route/type, TCE/day rates, cargo volumes, fleet utilization, fleet age, orderbook, scrapping, spot/contract mix, charter coverage, bunker cost | Freight-rate cycle, operating leverage, vessel capex, charter commitments, balance-sheet resilience and variable distributions |
+| Oil tankers / crude & product shipping | VLCC/Suezmax/Aframax or product-tanker TCE by route, spot vs time-charter days, laden/ballast days, fleet utilization, fleet age, orderbook, scrapping, deliveries, sanctions-compliant fleet, bunker/insurance/port costs, cash breakeven | Route and tonne-mile demand, vessel supply cycle, spot-rate operating leverage, drydock/fleet renewal, debt amortization, dividend variability and downside liquidity |
+| Dry-bulk shipping | Baltic Dry Index by vessel class, route TCE, tonne-mile demand, iron ore/coal/grain volumes, port congestion, fleet utilization, orderbook, scrapping and charter coverage | Commodity trade cycle, vessel supply, cargo mix, operating leverage and replacement capex |
+| Container shipping / liner operators | Freight indices by trade lane, TEU capacity, deployed capacity, load factor, spot/contract mix, schedule reliability, vessel charter exposure, alliance/network share, fuel and port costs | Freight-rate normalization, capacity discipline, network economics, charter commitments, working capital and cycle-normalized distributions |
+| Ports / terminals | Throughput/TEU, container mix, tariff/yield, utilization, concession duration, transshipment share, shipping-line concentration and capex | Volume/tariff growth, concession economics, incremental ROIC, maintenance/growth capex and remittable cash |
 | Ports / terminals | Throughput/TEU, container mix, tariff/yield, utilization, capacity, concession duration, transshipment share, shipping-line concentration, capex | Volume and tariff growth, concession economics, incremental ROIC, maintenance/growth capex and remittable cash |
 | Oil & gas / energy | Production, reserves and reserve life, decline rate, realized prices, lifting cost, breakeven, hedges, refining/marketing margins, sustaining capex | Commodity-price sensitivity, depletion, project returns, cash breakeven, leverage and cycle-normalized distributions |
 | Banks | Loan/deposit growth, NIM, NII, deposit beta, fee income, NPL, credit cost, coverage, CET1, ROTE/ROTCE, liquidity | Credit cycle, capital generation, regulatory payout limits and P/TBV or residual-income valuation; do not use industrial FCF |
@@ -83,7 +86,29 @@ Choose the relevant playbook(s) below. The listed KPIs are a minimum starting se
 | Pharma / healthcare | Product sales, patient funnel, pricing/reimbursement, patent/LOE dates, pipeline milestones, clinical success probabilities, R&D, launch cost and cash runway | Product concentration, patent cliffs, risk-adjusted pipeline value, pricing pressure and R&D-to-cash conversion |
 | Automotive / EV | Deliveries, ASP, model mix, unit contribution, utilization, warranty/recall cost, battery cost, order backlog and dealer inventory | Price competition, scale economics, capacity utilization, working capital and funding runway |
 | Transport / logistics | Tonnage/parcels, load factor, yield per unit, network utilization, cost per shipment, fuel, labour, fleet capex and customer concentration | Volume/yield mix, cost absorption, network density, fuel sensitivity and maintenance investment |
+| Business development companies (BDCs) / private credit | Net investment income (NII), NII/share, NAV/share, non-accruals, PIK income, first-lien mix, portfolio yield, debt/equity, asset coverage, unfunded commitments, dividend coverage | Credit losses and fair-value marks, leverage limits, funding cost, fee incentives, realized gains, spillover income and regular vs supplemental distributions |
 | Asset managers / exchanges / market infrastructure | AUM/net flows, fee rate, trading volume, product mix, client assets, recurring data revenue, margin and regulatory capital | Market-level sensitivity, fee compression, operating leverage, client retention and capital-light cash generation |
+
+### Cross-industry coverage examples (illustrative, not a whitelist)
+
+The framework must work across the user's multi-sector investment universe and any new issuer, rather than being calibrated to BTI or another single example. The following names are representative validation cases; they do not imply that every security is currently held or that the list is exhaustive.
+
+| Business model / sub-sector | Representative securities | Required analytical distinction |
+|---|---|---|
+| Banks | HSBC (0005), BOC Hong Kong (2388) | NIM, deposit beta, credit costs, CET1/ROTE, capital return and parent-level liquidity; do not use industrial FCF. |
+| Telecom | Verizon (VZ), China Mobile (0941) | Subscriber/ARPU/churn, spectrum, leases, network capex, FCF after capex and refinancing. |
+| Oil tankers | DHT, INSW, COSCO Energy (1138) | VLCC/product tanker fleet, route TCE, spot exposure, fleet supply/orderbook, cash breakeven and variable dividends. |
+| Container shipping | COSCO Shipping Holdings (1919) | Container freight rates, TEU capacity, utilization, spot/contract mix and fleet/network capacity. |
+| Port operators | China Merchants Port (0144) | Throughput, tariff, concession life, utilization, associate/JV cash remittances and parent cash. |
+| REITs | Link REIT (0823) | AFFO/DPU, occupancy, rent reversion, WALE, LTV, refinancing and NAV/cap-rate sensitivity. |
+| Oil & gas | CNOOC (0883), Chevron (CVX), Occidental (OXY), Petrobras (PBR) | Realized commodity prices, production, reserves, lifting cost, breakeven, sustaining capex and cycle-normalized cash. |
+| Pharmaceuticals | GSK, AstraZeneca (AZN), Pfizer (PFE) | Product-level sales, patent/LOE schedule, pipeline probability, reimbursement, R&D and launch economics. |
+| Semiconductors | TSMC (TSM) | Node mix, wafer pricing, utilization, yields, customer concentration, capacity and technology capex. |
+| Software / cloud / platforms | Alphabet (GOOG), Microsoft (MSFT), Adobe (ADBE), PDD | Recurring revenue, retention or user monetization, segment margins, AI/cloud capex, SBC/dilution and post-investment FCF. |
+| Diversified holding company | Berkshire Hathaway (BRK.B) | Look-through earnings, insurance float, subsidiary cash remittance, capital allocation, liquidity and intrinsic value. |
+| BDC / private credit | Ares Capital (ARCC) | NII/share, NAV, non-accruals, PIK, leverage, asset coverage and distribution coverage. |
+
+For ETFs and listed funds (for example JEPI or JPXN), do not treat the fund as an operating company or apply issuer FCF, EPS payout or corporate debt tests. Use a fund-level route covering NAV total return, distribution composition (including option premium and return of capital where relevant), holdings, concentration, expense ratio, tracking/strategy risk, currency exposure and investor tax. If the installed schema has no fund route, state the limitation instead of forcing a company template.
 
 For an industry not listed, derive a bespoke KPI set from the actual revenue and cash engines. State why those KPIs are economically causal. Do not apply an adjacent sector's metrics mechanically.
 
