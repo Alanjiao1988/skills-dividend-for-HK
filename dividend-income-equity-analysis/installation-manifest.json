@@ -271,6 +271,8 @@
     "Repository tests retain all 220 reference tests plus existing bundle regressions and new 3.0 tests.",
     "No existing company research report, external archive or Claude installation is modified.",
     "Full Analysis defaults to a complete twelve-chapter report with an executive summary followed by industry, peer, five-year financial trend, cash-flow, growth, forecast, valuation and risk analysis.",
-    "The buy-zone contract requires explicit U.S. 10-year Treasury opportunity-cost comparison and ±50/±100 bp rate sensitivity, with currency-matched primary discount-rate treatment."
+    "The buy-zone contract requires explicit U.S. 10-year Treasury opportunity-cost comparison and ±50/±100 bp rate sensitivity, with currency-matched primary discount-rate treatment.",
+    "Full Analysis output contract is twelve chapters and cross-sector by design; README and SKILL metadata explicitly reject a BTI-centric interpretation.",
+    "Sector playbooks now distinguish tanker, dry-bulk and container shipping; BDCs receive a dedicated cash/NII/NAV and distribution-coverage proxy. ETFs/funds are routed to fund-level analysis rather than issuer FCF."
   ]
 }

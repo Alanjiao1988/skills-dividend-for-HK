@@ -29,6 +29,8 @@ dividend-income-equity-analysis/
 ├── data-conventions.md
 ├── screen-mode.md
 ├── workflow.md
+├── industry-analysis.md
+├── historical-financial-trends.md
 ├── business-outlook.md
 ├── business-fundamentals.md
 ├── sector-fcf-proxies.md
@@ -45,7 +47,7 @@ dividend-income-equity-analysis/
 
 ## Schema 3.0
 
-新报告默认使用 **schema 3.0 / rubric 2**，简体中文、离线单文件 HTML，保留结论先行的六节结构。完整评分与本地扩展已纳入源码，不再依赖某台机器上的未提交安装。
+新报告默认使用 **schema 3.0 / rubric 2**，简体中文、离线单文件 HTML，Full Analysis 采用结论先行的十二章完整研究结构。框架按公司实际行业和商业模式动态选择 KPI、现金流代理和估值方法，不以 BTI 或任何单一行业为模板。覆盖银行、电信、油轮、集装箱航运、港口、REIT、能源、医药、半导体、软件／平台、控股公司和 BDC；ETF／基金需走独立基金分析路线。完整评分与本地扩展纳入源码，不依赖某台机器上的未提交安装。
 
 - **确定性结论**：`decision` 必须给出单一动作（立即买入／分批建仓／等待到价／继续观察／回避）、现价能否买、具体买入条件及失效条件。正常输出三档参考价和收入约束上限；资金受限时明确不买及具体解除事件，不编造价格。
 - **先取数**：`evidence_recovery` 逐缺口记录公司披露、集团两层、公告、交易所／监管、官方序列、历史回溯、券商流水，再记录有据区间或无法估计的具体原因。取数覆盖率不等于企业质量。
@@ -98,7 +100,7 @@ Runs the complete framework (business fundamentals, dividend capacity, sensitivi
 | 5. Key Risks and Monitoring | Three to five company-specific risks with observable early signals and dividend impact. |
 | 6. Sources and Key Assumptions | Cut-off date, key sources, key assumptions and data gaps, one line each. |
 
-The main report has a length budget (about 1,200-2,000 Chinese characters excluding tables, at most five tables and three charts), states each number once, and omits placeholder rows, formulas and rule restatements. Cash-flow bridges, the five-year annual forecast, sensitivities, the full trap checklist, valuation audit, score detail and holding-review table go into an Audit Appendix that is produced only on request; JSON output always carries the full records. See [the example report](dividend-income-equity-analysis/examples/example-output-skeleton.md).
+The Full Analysis report is a complete twelve-chapter research document with no fixed word, table or chart cap. The executive summary is followed by industry and peer analysis, five-year financial trends, cash-flow and dividend quality, business growth, forecasts, valuation, entry levels, risks and sources. Core analysis must appear in the report body; the default audit appendix adds source trails, formulas, reconciliations and sensitivities. Sector-specific methods are selected dynamically; BTI is only one illustrative example. See [the example report](dividend-income-equity-analysis/examples/example-output-skeleton.md).
 
 ### Three-to-Five-Year Outlook and FCF
 
