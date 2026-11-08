@@ -18,6 +18,14 @@ Industry research primarily informs Layer 2, but it must flow into cash generati
 
 For every issuer, establish and disclose:
 
+Before selecting the industry model, classify the issuer's shareholder-return archetype: (a) stable/contractual dividend payer, (b) cyclical or variable distributor, (c) transition/growth dividend payer, (d) low-/non-dividend growth company, or (e) fund/ETF. This is a separate axis from industry classification.
+
+- For cyclical distributors such as tanker and dry-bulk operators, never annualize a peak-quarter or trailing distribution into a sustainable dividend. Use cycle-normalized TCE, fleet supply, cash breakeven, debt and reserve policy to estimate normalized distributions.
+- For stable but capital-intensive payers such as telecoms, test dividends against post-capex cash, lease/spectrum obligations, refinancing and balance-sheet capacity; headline yield alone is insufficient.
+- For non-dividend or low-dividend growth issuers, mark dividend-income analysis as not applicable where appropriate; do not treat a zero yield as dividend distress or penalize the issuer for not paying a dividend. Focus on reinvestment returns, per-share growth, dilution, buybacks and total-return valuation.
+- For funds/ETFs, do not apply corporate issuer FCF or EPS payout tests; use a fund-level methodology or disclose that the current schema cannot support a full fund analysis.
+
+
 - Primary industry and sub-industry, using a recognized classification where available (GICS, ICB, exchange/regulatory classification or a clearly named local equivalent).
 - Actual business model and position in the value chain: producer, brand owner, distributor, platform, network operator, asset owner, service provider, financier, holding company, or a combination.
 - Main operating geographies, customer types, product/service lines and revenue currencies.
@@ -95,6 +103,7 @@ The framework must work across the user's multi-sector investment universe and a
 
 | Business model / sub-sector | Representative securities | Required analytical distinction |
 |---|---|---|
+| Tobacco / nicotine | British American Tobacco (BTI) | Combustible volume, price/mix, excise, illicit trade, new-category revenue and cash harvest versus transition investment. |
 | Banks | HSBC (0005), BOC Hong Kong (2388) | NIM, deposit beta, credit costs, CET1/ROTE, capital return and parent-level liquidity; do not use industrial FCF. |
 | Telecom | Verizon (VZ), China Mobile (0941) | Subscriber/ARPU/churn, spectrum, leases, network capex, FCF after capex and refinancing. |
 | Oil tankers | DHT, INSW, COSCO Energy (1138) | VLCC/product tanker fleet, route TCE, spot exposure, fleet supply/orderbook, cash breakeven and variable dividends. |
@@ -104,7 +113,8 @@ The framework must work across the user's multi-sector investment universe and a
 | Oil & gas | CNOOC (0883), Chevron (CVX), Occidental (OXY), Petrobras (PBR) | Realized commodity prices, production, reserves, lifting cost, breakeven, sustaining capex and cycle-normalized cash. |
 | Pharmaceuticals | GSK, AstraZeneca (AZN), Pfizer (PFE) | Product-level sales, patent/LOE schedule, pipeline probability, reimbursement, R&D and launch economics. |
 | Semiconductors | TSMC (TSM) | Node mix, wafer pricing, utilization, yields, customer concentration, capacity and technology capex. |
-| Software / cloud / platforms | Alphabet (GOOG), Microsoft (MSFT), Adobe (ADBE), PDD | Recurring revenue, retention or user monetization, segment margins, AI/cloud capex, SBC/dilution and post-investment FCF. |
+| Software / cloud | Alphabet (GOOG), Microsoft (MSFT), Adobe (ADBE) | Recurring revenue, retention, RPO, segment margins, AI/cloud capex, SBC/dilution and post-investment FCF. |
+| E-commerce / consumer platforms | PDD | Active buyers, GMV, take rate, monetization, marketing/logistics subsidies, merchant retention, cross-border mix and regulatory exposure. |
 | Diversified holding company | Berkshire Hathaway (BRK.B) | Look-through earnings, insurance float, subsidiary cash remittance, capital allocation, liquidity and intrinsic value. |
 | BDC / private credit | Ares Capital (ARCC) | NII/share, NAV, non-accruals, PIK, leverage, asset coverage and distribution coverage. |
 
