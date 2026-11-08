@@ -72,6 +72,21 @@ class SkillInstallationTests(unittest.TestCase):
         for marker in ("分层买点", "暂定区间", "中性补分", "税务", "Safety Review"):
             self.assertIn(marker, entry)
 
+    def test_cross_industry_coverage_is_not_bti_specific(self):
+        industry = (ROOT / "industry-analysis.md").read_text(encoding="utf-8")
+        proxies = (ROOT / "sector-fcf-proxies.md").read_text(encoding="utf-8")
+        entry = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        for name in ("DHT", "VZ", "COSCO Shipping", "China Merchants Port",
+                     "Link REIT", "CNOOC", "GSK", "TSM", "GOOG", "ARCC"):
+            self.assertIn(name, industry)
+        for metric in ("VLCC", "container shipping", "dry-bulk shipping",
+                       "business development companies", "fund-level route"):
+            self.assertIn(metric.lower(), industry.lower())
+        self.assertIn("Business Development Companies (BDCs)", proxies)
+        self.assertIn("industry-analysis.md", entry)
+        self.assertIn("historical-financial-trends.md", entry)
+        self.assertIn("不得把 BTI 或任何单一行业作为默认模板", entry)
+
     def test_runtime_scripts_are_self_contained(self):
         for name in ("decision_rules.py", "validate_analysis.py"):
             self.assertTrue((ROOT / "scripts" / name).is_file())

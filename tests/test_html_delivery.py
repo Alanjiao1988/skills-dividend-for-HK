@@ -152,7 +152,7 @@ class HtmlDeliveryTests(unittest.TestCase):
         main = source.split("## 1. 摘要与投资结论", 1)[1].split("## 4. Audit Appendix", 1)[0]
         self.assertIn("分阶段入场决策卡", main)
         self.assertIn("覆盖度", main)
-        self.assertIn("十二章", source)
+        self.assertIn("12 章", source)
         entry = (SKILL / "SKILL.md").read_text(encoding="utf-8")
         self.assertIn("report_structure: twelve_section_full_report", entry)
         self.assertIn("presentation_revision: html-2", entry)
