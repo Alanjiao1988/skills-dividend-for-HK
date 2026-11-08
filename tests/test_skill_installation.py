@@ -83,6 +83,8 @@ class SkillInstallationTests(unittest.TestCase):
                        "business development companies", "fund-level route"):
             self.assertIn(metric.lower(), industry.lower())
         self.assertIn("Business Development Companies (BDCs)", proxies)
+        schema = json.loads((ROOT / "schema.json").read_text(encoding="utf-8"))
+        self.assertIn("bdc", schema["$defs"]["cashFlowModel"]["properties"]["sector_model"]["enum"])
         self.assertIn("industry-analysis.md", entry)
         self.assertIn("historical-financial-trends.md", entry)
         self.assertIn("不得把 BTI 或任何单一行业作为默认模板", entry)

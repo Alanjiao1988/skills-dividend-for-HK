@@ -114,6 +114,7 @@ for key in (
 ):
     require(key in props and key in full_required, f"full_analysis missing required contract: {key}")
 require("total_return_based" in defs["valuationMode"]["enum"], "growth valuation mode missing")
+require("bdc" in defs["cashFlowModel"]["properties"]["sector_model"]["enum"], "BDC sector cash-flow model missing")
 
 def check_refs(node):
     if isinstance(node, dict):
