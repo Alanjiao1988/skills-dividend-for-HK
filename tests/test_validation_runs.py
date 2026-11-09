@@ -44,8 +44,8 @@ class ValidationRuns(unittest.TestCase):
     def test_scrip_years_use_full_entitlement(self):
         report = load("cmport-0144")
         rows = {row["fiscal_year"]: row for row in report["cash_flow_bridge"]}
-        # 2022 cash paid was 941m HKD; coverage must use the 0.82 HKD entitlement on 3,861m shares instead.
-        self.assertEqual(rows["2022"]["cash_dividends"], round(0.82 * 3861.103481))
+        # 2022 cash paid was 941m HKD; coverage must use the declared interim 866m + final 2,402m instead.
+        self.assertEqual(rows["2022"]["cash_dividends"], 866 + 2402)
 
 
 class PortGrowthModel(unittest.TestCase):
@@ -62,7 +62,7 @@ class PortGrowthModel(unittest.TestCase):
         self.assertAlmostEqual(report["decision"]["reference_prices"]["starter"], starter)
         self.assertLess(starter, report["price_used"])
         broken = copy.deepcopy(report)
-        broken["growth_valuation"]["scenarios"][1]["terminal_growth"] = 0.03
+        broken["growth_valuation"]["scenarios"][1]["terminal_growth"] = 0.035
         self.assertTrue(any("terminal growth above" in e for e in validate_report(broken)))
 
     def test_falling_dividend_history_refuses_growth_credit(self):

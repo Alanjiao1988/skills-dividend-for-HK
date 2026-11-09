@@ -91,7 +91,27 @@ def scrip_coverage_errors(report):
     """Scrip years must divide by the full entitlement, never the reduced cash paid (business-fundamentals.md)."""
     errors = []
     had_scrip = (report.get("scrip_drip", {}).get("historical_participation_rate") or 0) > 0
-    for row in report.get("cash_flow_bridge", []):
+    history = sorted(report.get("cash_flow_bridge", []), key=lambda row: row["fiscal_year_end"])
+    for row in history:
+        label, in_year, next_year = row["fiscal_year"], row.get("entitlement_settled_in_year"), row.get("entitlement_settled_next_year")
+        if had_scrip and (in_year is None or next_year is None):
+            errors.append(f"{label}: scrip history needs entitlement_settled_in_year and entitlement_settled_next_year "
+                          "(declared interim/final totals) to reconcile cash paid plus scrip across years")
+        if in_year is not None and next_year is not None and row.get("dividend_denominator_basis") == "full_entitlement":
+            if row["cash_dividends"] is not None and not math.isclose(in_year + next_year, row["cash_dividends"], rel_tol=1e-6, abs_tol=0.5):
+                errors.append(f"{label}: full entitlement {row['cash_dividends']:g} must equal the declared "
+                              f"in-year {in_year:g} plus next-year {next_year:g} parts")
+    for prev, row in zip(history, history[1:]):
+        in_year, carried = row.get("entitlement_settled_in_year"), prev.get("entitlement_settled_next_year")
+        paid, scrip = row.get("cash_paid_dividends"), row.get("scrip_settled_dividends")
+        if None in (in_year, carried, paid):
+            continue
+        settled, expected = paid + (scrip or 0), carried + in_year
+        if expected > 0 and abs(settled - expected) > 0.02 * expected and row["evidence_status"] == "reported_reconciled" \
+                and not row.get("settlement_reconciliation"):
+            errors.append(f"{row['fiscal_year']}: cash paid plus scrip {settled:g} differs from prior final plus interim "
+                          f"{expected:g} by more than 2%; explain it in settlement_reconciliation or do not mark the row reported_reconciled")
+    for row in history:
         label, settled = row["fiscal_year"], row.get("scrip_settled_dividends")
         if had_scrip and settled is None:
             errors.append(f"{label}: scrip history (historical_participation_rate > 0) needs scrip_settled_dividends "
@@ -151,6 +171,10 @@ def associate_conversion_errors(report):
             and math.isclose(actual, aggregate, rel_tol=1e-6, abs_tol=1e-6),
             f"aggregate_conversion should be {aggregate}")
     forecast = record["forecast_conversion"]
+    evidence = record["above_history_evidence"]
+    if evidence is not None:
+        require(set(evidence["source_refs"]) <= set(report.get("sources", [])),
+                "above_history_evidence source_refs must be entries of the report's sources")
     require(forecast["Bear"] <= forecast["Base"] <= forecast["Bull"], "forecast conversion must be ordered Bear <= Base <= Bull")
     if ratios and record["above_history_evidence"] is None:
         require(forecast["Base"] <= aggregate + 1e-9,
@@ -177,7 +201,9 @@ def aggregate_coverage(cash, dividends):
     return sum(cash) / sum(dividends)
 
 
-def growth_present_value(cash_flows, required_return, terminal_growth, terminal_dps, terminal_time):
+def growth_present_value(cash_flows, required_return, terminal_growth, terminal_dps, terminal_time, finite=()):
+    """Explicit PV and terminal PV. `finite` lists (cash_share, years) for assets whose share of the terminal
+    dividend stops after `years` terminal years; the rest is a growing perpetuity."""
     if required_return <= 0 or terminal_growth <= -1 or required_return - terminal_growth < 0.02 - 1e-12:
         raise ValueError("Growth valuation requires positive R, g > -1 and R-g >= 0.02")
     if terminal_dps < 0 or terminal_time <= 0:
@@ -190,8 +216,49 @@ def growth_present_value(cash_flows, required_return, terminal_growth, terminal_
     if any(not 0 < row["cash_fraction"] <= 1 for row in cash_flows):
         raise ValueError("Cash fractions must be in (0, 1]")
     explicit = sum(row["net_dps"] * row["cash_fraction"] * math.exp(-row["years_from_valuation"] * math.log1p(required_return)) for row in cash_flows)
-    terminal = terminal_dps / (required_return - terminal_growth) * math.exp(-terminal_time * math.log1p(required_return))
+    if any(share < 0 or years < 0 for share, years in finite) or sum(share for share, _ in finite) > 1 + 1e-9:
+        raise ValueError("Finite terminal assets need nonnegative shares summing to at most 1")
+    fade = (1 + terminal_growth) / (1 + required_return)
+    remaining = 1 - sum(share * fade ** years for share, years in finite)
+    terminal = terminal_dps / (required_return - terminal_growth) * remaining * math.exp(-terminal_time * math.log1p(required_return))
     return explicit, terminal
+
+
+def terminal_finite_terms(report, growth, runway, horizon):
+    """(cash_share, terminal years) per expiring asset, checked against economic_profile.finite_life_assets."""
+    errors = []
+    profile_assets = {row["name"]: row for row in report.get("economic_profile", {}).get("finite_life_assets", [])}
+    records = growth.get("terminal_finite_assets") or []
+    if not profile_assets:
+        if records:
+            errors.append("Growth: terminal_finite_assets without economic_profile.finite_life_assets")
+        return [], errors
+    if not records:
+        return [], ["Growth: finite-life assets in economic_profile must enter the terminal value through "
+                    "terminal_finite_assets, not only a lower perpetual growth rate"]
+    names = [row["name"] for row in records]
+    if sorted(names) != sorted(profile_assets):
+        errors.append("Growth: terminal_finite_assets must list exactly the economic_profile finite-life assets")
+    first = runway.get((min(horizon, 5), "Base"))
+    base_year = None
+    if first is not None and str(first["fiscal_year"]).isdigit():
+        base_year = int(first["fiscal_year"]) + max(0, horizon - 5)
+    if growth.get("terminal_base_fiscal_year") != base_year:
+        errors.append(f"Growth: terminal_base_fiscal_year should be {base_year}, the last explicit/transition fiscal year")
+    terms = []
+    for row in records:
+        source = profile_assets.get(row["name"])
+        if source is None:
+            continue
+        if row["end_year"] != source["end_year"] or not math.isclose(row["cash_share"], source["operating_cash_share_pct"] / 100, abs_tol=1e-9):
+            errors.append(f"Growth: terminal asset '{row['name']}' must match the profile end year and cash share")
+        if row["treatment"] == "renewal_evidenced":
+            if source["extension_evidence"] is None:
+                errors.append(f"Growth: '{row['name']}' cannot stay in the perpetuity without profile extension_evidence")
+            continue
+        if base_year is not None:
+            terms.append((row["cash_share"], max(0, row["end_year"] - base_year)))
+    return terms, errors
 
 
 @lru_cache(maxsize=1)
@@ -612,6 +679,9 @@ def validate_report(report):
             if dividend["dividend_entitlement"] is not None and forecast["recurring_fad"] is not None:
                 require(dividend["dividend_entitlement"] <= forecast["recurring_fad"] and dividend["funding_gap"] == 0 and dividend["all_cash_funding_gap"] == 0,
                         f"{key}: growth requires funded dividends throughout the five-year outlook")
+        finite, finite_errors = terminal_finite_terms(report, growth, runway,
+                                                      growth["explicit_horizon_years"] + growth["transition_years"])
+        errors.extend(finite_errors)
         for row in growth["scenarios"]:
             label = f"Growth {row['scenario']}"
             path = row["forecast_cash_flows"]
@@ -654,7 +724,7 @@ def validate_report(report):
                         same(cash["net_dps"], net, f"{label}: cash path / runway reconciliation")
             try:
                 explicit, terminal = growth_present_value(path, row["required_return"], row["terminal_growth"],
-                                                          row["terminal_net_dps"], row["terminal_time_years"])
+                                                          row["terminal_net_dps"], row["terminal_time_years"], finite)
             except ValueError as error:
                 errors.append(f"{label}: {error}")
                 continue
@@ -716,7 +786,7 @@ def validate_report(report):
                                    if cash["forecast_year"] == terminal_year) * (1 + g)
                 try:
                     explicit, terminal = growth_present_value(base["forecast_cash_flows"], rate, g,
-                                                              terminal_dps, base["terminal_time_years"])
+                                                              terminal_dps, base["terminal_time_years"], finite)
                 except ValueError as error:
                     errors.append(f"R/g sensitivity: {error}")
                 else:

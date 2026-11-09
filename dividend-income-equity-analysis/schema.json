@@ -2686,6 +2686,17 @@
               "basis"
             ]
           }
+        },
+        "terminal_base_fiscal_year": {
+          "type": "integer",
+          "description": "Last fiscal year of the explicit/transition path; terminal year 1 is the next fiscal year."
+        },
+        "terminal_finite_assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/terminalFiniteAsset"
+          },
+          "description": "Required when economic_profile.finite_life_assets is non-empty: each asset's share of the terminal dividend runs only to its end_year (buy-zone.md Section 6)."
         }
       },
       "required": [
@@ -3417,6 +3428,25 @@
             "cash_paid"
           ],
           "description": "Which dividend cash_dividends measures. A year with scrip_settled_dividends > 0 must use full_entitlement, so scrip cannot manufacture coverage."
+        },
+        "entitlement_settled_in_year": {
+          "$ref": "#/$defs/nullableNonnegative",
+          "description": "Part of this fiscal year's declared dividend settled (cash or scrip) within the same calendar year, e.g. the interim; from the dividends note."
+        },
+        "entitlement_settled_next_year": {
+          "$ref": "#/$defs/nullableNonnegative",
+          "description": "Part of this fiscal year's declared dividend settled in the following year, e.g. the final. in_year + next_year = cash_dividends on the full_entitlement basis."
+        },
+        "settlement_reconciliation": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/nonemptyText"
+            }
+          ],
+          "description": "Explains a gap above 2% between cash paid plus scrip in a year and the prior final plus current interim (record-date share changes, fractional shares, cancelled entitlements). Without it a gap blocks reported_reconciled."
         }
       },
       "required": [
@@ -6444,10 +6474,10 @@
               "type": "null"
             },
             {
-              "$ref": "#/$defs/nonemptyText"
+              "$ref": "#/$defs/sourcedEvidence"
             }
           ],
-          "description": "Specific evidence (e.g. a new associate payout policy) needed when Base exceeds the aggregate or any scenario exceeds the best historical year."
+          "description": "Specific sourced evidence (e.g. a new associate payout policy) needed when Base exceeds the aggregate or any scenario exceeds the best historical year."
         },
         "explanation": {
           "$ref": "#/$defs/nonemptyText"
@@ -6460,6 +6490,59 @@
         "forecast_conversion",
         "above_history_evidence",
         "explanation"
+      ]
+    },
+    "sourcedEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "$ref": "#/$defs/nonemptyText"
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nonemptyText"
+          },
+          "minItems": 1,
+          "description": "Exact entries from the report's sources array."
+        }
+      },
+      "required": [
+        "evidence",
+        "source_refs"
+      ]
+    },
+    "terminalFiniteAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nonemptyText",
+          "description": "Same name as in economic_profile.finite_life_assets."
+        },
+        "cash_share": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "description": "operating_cash_share_pct / 100 from the profile."
+        },
+        "end_year": {
+          "type": "integer"
+        },
+        "treatment": {
+          "enum": [
+            "expires",
+            "renewal_evidenced"
+          ],
+          "description": "expires: the asset's share of the terminal dividend stops after end_year. renewal_evidenced: kept in the perpetuity, only when the profile records extension_evidence."
+        }
+      },
+      "required": [
+        "name",
+        "cash_share",
+        "end_year",
+        "treatment"
       ]
     }
   },

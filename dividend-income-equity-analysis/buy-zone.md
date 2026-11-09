@@ -477,6 +477,16 @@ PV_terminal = terminal_net_dps / (R - g_terminal)
 Value = PV_dividends + PV_terminal
 ```
 
+**Finite-life assets in the terminal value.** When `economic_profile.finite_life_assets` is non-empty, a lower perpetual growth rate is not an acceptable stand-in for expiry. Record `terminal_base_fiscal_year` (the last explicit/transition fiscal year) and one `terminal_finite_assets` entry per profile asset with the same name, `cash_share = operating_cash_share_pct / 100`, `end_year` and `treatment`. An asset that `expires` contributes its share of the terminal dividend only for `n = end_year - terminal_base_fiscal_year` terminal years; `renewal_evidenced` keeps it in the perpetuity and requires the profile's `extension_evidence`:
+
+```text
+fade = (1 + g_terminal) / (1 + R)
+PV_terminal = terminal_net_dps / (R - g_terminal) x (1 - sum(cash_share_i x fade^n_i))
+              / (1 + R)^terminal_time_years
+```
+
+`g_terminal` then describes the going-concern business, not a blend that already haircuts expiring assets. The validator recomputes every scenario and the R/g sensitivity this way.
+
 `net_dps` is the full-period net dividend already converted into the valuation currency/unit; retain `fx_to_valuation_currency` as the conversion audit, not a second multiplier in PV. Convert gross underlying-share DPS after withholding using `shares_per_quoted_security` and FX, subtract `investor_cash_deductions` (full-period fees per quoted security in whole valuation currency), then divide by `valuation_unit_scale`. Explicitly record zero deductions when there are none; missing material fee evidence cannot be silently treated as zero.
 
 `cash_fraction` is the evidenced remaining **net** cash entitlement, not automatically elapsed months divided by twelve. Exclude distributions already received or no longer attached to the purchased security. If several cash dates represent a fiscal year, reconcile their fractions: first-year fractions sum to at most one, and subsequent full-year fractions sum to one. Use the sum of the final full fiscal year's dated net cash, not an individual quarterly payment, as the steady-state terminal-year bridge.

@@ -47,12 +47,14 @@ PERP = [223, 224, 225, 60, 60]
 CASH_DIV_PAID = [1194, 941, 1248, 3065, 3719]    # cash actually paid; scrip shares issued 2021-2023
 SCRIP_SETTLED = [1496, 2651, 2063, 0, 0]         # scrip shares issued, HKD m (share-capital notes, AR2022/AR2023)
 SCRIP_RATE = sum(SCRIP_SETTLED) / (sum(SCRIP_SETTLED) + sum(CASH_DIV_PAID[:3]))
+DECL_INTERIM = [823, 866, 909, 1050, 1050]      # declared interim totals, HKD m (dividends notes, AR2022/23/25)
+DECL_FINAL = [2726, 2402, 2015, 2670, 2053]      # declared final totals, settled the following year
 ASSOC_PROFIT = [7254, 8112, 5646, 6513, 4970]    # share of profits less losses of associates and JVs
 ASSOC_PROFIT_2025 = ASSOC_PROFIT[4]
-ASSOC_CONV = [ASSOC_DIV[i] / ASSOC_PROFIT[i] for i in range(5)]
-ASSOC_AGG = sum(ASSOC_DIV) / sum(ASSOC_PROFIT)
-CONV_CAL = ASSOC_CONV[4]                         # OCF_K was calibrated on FY2025 cash, i.e. 55% conversion
-CONV_FC = {"Bear": 0.32, "Base": 0.41, "Bull": 0.54}  # worst year / five-year aggregate / just below the best year
+# associates pay out of the previous year's profit (SIPG pays mid-year), so conversion = dividends(t) / profit(t-1)
+ASSOC_CONV = [None] + [ASSOC_DIV[i] / ASSOC_PROFIT[i - 1] for i in range(1, 5)]
+ASSOC_AGG = sum(ASSOC_DIV[1:]) / sum(ASSOC_PROFIT[:4])
+CONV_FC = {"Bear": 0.25, "Base": 0.36, "Bull": 0.48}  # worst year (2023) / 2022-2025 aggregate / best year (2024)
 ASSOC_SHARE = ASSOC_PROFIT_2025 / 6457            # associates share of attributable profit, FY2025
 TEMPLATE_TWO = r["three_year_fundamental_forecast"][1]
 
@@ -63,11 +65,12 @@ SCEN = {
 }
 PAYOUT = 0.48
 OCF_K, CLAIMS_K, MAINT = 1.137, 0.20, 500.0
+NONASSOC_K = OCF_K - ASSOC_DIV[4] / PROFIT[4]     # OCF_K less the FY2025 associate cash already inside it
 R_LOW, R_HIGH = RF + 0.04, RF + 0.06
 
 # ---------------- history bridge (full cash-equivalent entitlement) ----------------
 owner = [OCF[i] - INTEREST[i] - LEASE[i] - CAPEX[i] - NCI_DIV[i] - PERP[i] for i in range(5)]
-entitle = [round(DPS[i] * WSHARES[i]) for i in range(5)]
+entitle = [DECL_INTERIM[i] + DECL_FINAL[i] for i in range(5)]
 covs = [owner[i] / entitle[i] for i in range(5)]
 bridge = []
 for i, fy in enumerate(YEARS):
@@ -78,28 +81,31 @@ for i, fy in enumerate(YEARS):
                 "actual_cash_coverage": owner[i] / entitle[i], "evidence_status": "reported_reconciled",
                 "funding_source": "Mixed" if fy in ("2021", "2022", "2023") else "Operating FCF",
                 "cash_paid_dividends": CASH_DIV_PAID[i], "scrip_settled_dividends": SCRIP_SETTLED[i],
-                "dividend_denominator_basis": "full_entitlement"})
+                "dividend_denominator_basis": "full_entitlement",
+                "entitlement_settled_in_year": DECL_INTERIM[i], "entitlement_settled_next_year": DECL_FINAL[i],
+                "settlement_reconciliation": None})
     bridge.append(row)
 r["cash_flow_bridge"] = bridge
 
 # ---------------- forecasts ----------------
 def fc(template, fy, year, s_):
     p_ = SCEN[s_]["profit"][year - 1]
-    k_eff = OCF_K + ASSOC_SHARE * (CONV_FC[s_] - CONV_CAL)
-    nocf = p_ * k_eff
+    prev_assoc = ASSOC_PROFIT[4] if year == 1 else ASSOC_SHARE * SCEN[s_]["profit"][year - 2]
+    assoc_cash = CONV_FC[s_] * prev_assoc
+    nocf = p_ * NONASSOC_K + assoc_cash
     claims = p_ * CLAIMS_K
     own = nocf - MAINT - claims
     g = SCEN[s_]["growth"]
     row = copy.deepcopy(template)
     row.update({"fiscal_year": fy, "forecast_year": year, "scenario": s_,
                 "primary_driver_name": "Container throughput and associate dividends",
-                "primary_driver_assumption": f"{s_}: attributable profit {p_}m HKD; associate cash conversion {CONV_FC[s_]:.0%}, so normalized OCF after interest and leases = {k_eff:.3f} x profit; minority and perpetual claims 20% of profit.",
+                "primary_driver_assumption": f"{s_}: attributable profit {p_}m HKD; non-associate operating cash {NONASSOC_K:.3f} x profit plus associate dividends {assoc_cash:.0f}m ({CONV_FC[s_]:.0%} of the prior year's associate profit {prev_assoc:.0f}m); minority and perpetual claims 20% of profit.",
                 "revenue_or_sector_income": SCEN[s_]["revenue"][year - 1], "net_income_or_affo": p_,
                 "operating_cash_flow": nocf, "normalized_ocf": nocf, "maintenance_capex": MAINT, "other_owner_claims": claims,
                 "remaining_growth_investment": g, "fcf_or_distributable_cash": own, "nonrecurring_operating_cash_inflow": 0,
                 "actual_all_in_fcf": own - g, "recurring_fad": own - g, "estimate_status": "estimated",
                 "forecast_confidence": "Medium", "assumption_basis": "analyst_estimate",
-                "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; OCF_K 1.137 embeds the 2025 associate conversion of 55%; each scenario resets it to its own conversion on the 77% associate share of profit."})
+                "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."})
     return row
 
 
@@ -150,22 +156,22 @@ r.update({"company": "China Merchants Port Holdings Company Limited", "ticker": 
           "withholding_rate": 0, "withholding_basis": "company_announcement", "sources": SOURCES})
 cfm = r["cash_flow_model"]
 cfm.update({"sector_model": "operating_company", "overlays": ["holding_company"],
-            "starting_metric": "Consolidated OCF (includes dividends received from associates and JVs) after cash interest and lease payments",
+            "starting_metric": "Net cash generated from operating activities (after taxes paid, including dividends received from associates and JVs); interest paid and lease repayments are financing cash flows and are deducted separately, once",
             "owner_perimeter": "Equity holders of China Merchants Port Holdings",
             "financial_currency": "HKD", "cash_unit_scale": 1000000, "share_unit_scale": 1000000,
             "evidence_status": "reported_reconciled",
             "proxy_reconciliation": "FY2025: OCF 9,472 - interest 1,193 - leases 466 - capex 873 - minority dividends 1,216 - perpetual 60 = 5,664 HKD m owner cash after all capex.",
-            "capital_and_remittance_evidence": f"Associates and JVs contributed {ASSOC_PROFIT_2025}m of 2025 profit but paid only 2,730m in cash dividends (55%, the best of 2021-2025; five-year aggregate {ASSOC_AGG:.0%}); parent cash depends on these remittances plus consolidated terminals in Shenzhen, Hong Kong and overseas.",
+            "capital_and_remittance_evidence": f"Associates and JVs contributed {ASSOC_PROFIT_2025}m of 2025 profit but paid only 2,730m in cash dividends (42% of the prior year's associate profit; 2022-2025 aggregate {ASSOC_AGG:.0%}); parent cash depends on these remittances plus consolidated terminals in Shenzhen, Hong Kong and overseas.",
             "sources": S, "missing_inputs": []})
 cfm["deduction_ledger"] = copy.deepcopy(dfb[1]["deduction_ledger"])
 cfm["associate_cash_conversion"] = {
-    "timing_basis": "same_year",
+    "timing_basis": "prior_year_profit",
     "history": [{"fiscal_year": YEARS[i], "share_of_profit": ASSOC_PROFIT[i], "cash_dividends_received": ASSOC_DIV[i],
                  "conversion": ASSOC_CONV[i]} for i in range(5)],
     "aggregate_conversion": ASSOC_AGG, "forecast_conversion": CONV_FC, "above_history_evidence": None,
     "explanation": (f"应占联营合营利润取年报“应占联营及合营公司溢利减亏损”，现金取现金流量表“已收联营及合营公司股息”。"
-                    f"2025 年的 {ASSOC_CONV[4]:.0%} 是五年最高，部分因为当年应占利润下降而股息按上一年利润派发；"
-                    f"Base 取五年合计 {ASSOC_AGG:.0%}，Bear 取最差年份 2022 年的 32%，Bull 取略低于最高年份的 54%。")}
+                    "上港集团等联营公司按上一年利润在年中派息，所以用“当年收到的股息 ÷ 上一年应占利润”；按同年口径 2025 年是 55%，会高估。"
+                    f"2022–2025 年合计 {ASSOC_AGG:.0%}；Base 取 {CONV_FC['Base']:.0%}，Bear 取最差年份 2023 年的 {CONV_FC['Bear']:.0%}，Bull 取最高年份 2024 年的 {CONV_FC['Bull']:.0%}。")}
 r["scrip_drip"].update({"historical_participation_rate": SCRIP_RATE,
                         "evidence_notes": f"2021–2023 年以股代息发行新股合计 {sum(SCRIP_SETTLED):,} 百万港元，占同期派息结算的 {SCRIP_RATE:.0%}；2023 年末期起改为纯现金。"})
 cs = r["coverage_summary"]
@@ -206,7 +212,7 @@ r["economic_profile"] = {
                   "exception_evidence": None, "refunds_excluded_from_cash": True},
     "kpis": [
         {"name": "集装箱吞吐量（权益口径）", "why_causal": "量价决定码头收入，占收入九成以上；2026 年上半年吞吐量 7,821 万标箱，同比增 4.5%"},
-        {"name": "联营及合营公司现金分红 ÷ 应占利润", "why_causal": "约四分之三的利润来自联营合营，2021–2025 年合计只有约 41% 以现金上缴（2025 年 55%），决定母公司可派现金"},
+        {"name": "联营及合营公司现金分红 ÷ 应占利润", "why_causal": "约四分之三的利润来自联营合营，按上一年利润计，2022–2025 年合计只有约 37% 以现金上缴，决定母公司可派现金"},
         {"name": "净有息负债与利息支出", "why_causal": "利息约占经营现金流的 13%，直接从股东现金中扣除"},
         {"name": "少数股东分红", "why_causal": "控股码头的少数股东每年取走 4–19 亿港元，波动大，影响可分配现金"}],
     "classification_evidence": "2025 年报分部资料（附注 5）、现金流量表及特许经营权附注；分部现金占比按 2025 年分部归属利润估算，海外特许权占比为分析估算",
@@ -246,7 +252,7 @@ bz.update({"normalized_net_dps": N, "normalized_net_dps_source_period": "FY2026 
            "boundaries": {"too_expensive_above": starter, "fair_lower": add, "fair_upper": starter,
                           "accumulation_lower": strong, "accumulation_upper": add, "strong_buy_at_or_below": strong}})
 for key, text in (("operating_cash", "FY2025 OCF 9,472 reconciled to owner cash 5,664 after interest, leases, capex, minority and perpetual claims."),
-                  ("funding_capacity", f"Base FY2026 recurring FAD covers the 48% dividend about {fc_map[(1, 'Base')]['recurring_fad'] / (6850 * PAYOUT):.1f}x at 41% associate conversion."),
+                  ("funding_capacity", f"Base FY2026 recurring FAD covers the 48% dividend about {fc_map[(1, 'Base')]['recurring_fad'] / (6850 * PAYOUT):.1f}x at {CONV_FC['Base']:.0%} associate conversion."),
                   ("payout_policy", "Discretionary policy; payout 46%-48% in 2023-2025."),
                   ("entitled_shares", "4,198.0m shares; 2026 interim paid in cash with no scrip; no withholding.")):
     bz["normalization_evidence"][key].update({"input_detail": text, "source_refs": S,
@@ -284,8 +290,11 @@ rr["income_growth_credit_basis"] = {
 # ---------------- growth dividend-discount model (primary) ----------------
 R_MID = (R_LOW + R_HIGH) / 2
 MOS = 0.15
-G_TERM = {"Bear": 0.0, "Base": 0.015, "Bull": 0.025}
-G_BOUND = {"Bear": 0.01, "Base": 0.02, "Bull": 0.025}
+G_TERM = {"Bear": 0.005, "Base": 0.02, "Bull": 0.025}   # going-concern growth; concessions now expire explicitly
+G_BOUND = {"Bear": 0.01, "Base": 0.025, "Bull": 0.03}
+IMPL_G = (0.02, 0.025)
+BASE_FY = 2030
+FINITE = [(a["operating_cash_share_pct"] / 100, a["end_year"] - BASE_FY) for a in r["economic_profile"]["finite_life_assets"]]
 INTERIM_PAID = 0.25               # FY2026 interim, paid in cash before the valuation date
 TIMES = [0.65, 1.4, 2.4, 3.4, 4.4]  # FY2026 final Jul-2027; later years weight Oct interim and Jul final
 run_map = {(q["forecast_year"], q["scenario"]): q for q in run}
@@ -293,7 +302,8 @@ run_map = {(q["forecast_year"], q["scenario"]): q for q in run}
 
 def pv(path, rate, g, tdps, ttime):
     explicit = sum(c["net_dps"] * c["cash_fraction"] / (1 + rate) ** c["years_from_valuation"] for c in path)
-    return explicit, tdps / (rate - g) / (1 + rate) ** ttime
+    remaining = 1 - sum(share * ((1 + g) / (1 + rate)) ** n for share, n in FINITE)
+    return explicit, tdps / (rate - g) * remaining / (1 + rate) ** ttime
 
 
 TIMING_NOTE = ("估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；"
@@ -317,8 +327,8 @@ for s_ in ("Bear", "Base", "Bull"):
         "terminal_growth": g, "sustainable_terminal_growth_bound": G_BOUND[s_], "terminal_net_dps": tdps,
         "terminal_time_years": TIMES[-1],
         "terminal_funding_and_fade_evidence": (
-            f"第 6 年起按 {g:.1%} 永续增长：吞吐量长期增长约 2%–3%，但约 34% 的现金来自 2035–2049 年到期的海外特许权，"
-            "无续期证据，因此永续增长下调约 1 个百分点；第 6 年股东现金与成长投资同比例增长，派息率 48%、股数不变。"),
+            f"第 6 年起按 {g:.1%} 增长：持续经营部分（66%）为永续；海外特许权（34%）按各自到期年份（2046／2048／2049）停止计入，"
+            "无续期证据；第 6 年股东现金与成长投资同比例增长，派息率 48%、股数不变。"),
         "terminal_funding": {"owner_cash_or_proxy": own6, "remaining_growth_uses": gro6, "remaining_mandatory_uses": 0,
                              "recurring_fad": own6 - gro6, "dividend_cash_cost": q5["dividend_entitlement"] * (1 + g),
                              "dividend_entitlement": q5["dividend_entitlement"] * (1 + g), "cash_settled_fraction": 1,
@@ -331,15 +341,18 @@ g_low, g_high = min(gv_vals.values()), max(gv_vals.values())
 base_path = gscen[1]["forecast_cash_flows"]
 g_sens = []
 for rate in (R_LOW, R_MID, R_HIGH):
-    for g in (0.01, 0.015, 0.02, 0.025):
+    for g in (0.015, 0.02, 0.025, 0.03):
         ok = g <= G_BOUND["Base"]
         val = sum(pv(base_path, rate, g, run_map[(5, "Base")]["derived_dps"] * (1 + g), TIMES[-1])) if ok else None
         g_sens.append({"required_return": rate, "terminal_growth": g, "value": val,
                        "status": "calculated" if ok else "invalid_growth_cap",
-                       "basis": "Base 现金路径不变，只改变折现率与永续增长；超过 Base 可持续增长上限 2% 的组合不计算。"})
+                       "basis": "Base 现金路径和特许权到期安排不变，只改变折现率与增长；超过 Base 可持续增长上限 2.5% 的组合不计算。"})
 r["growth_valuation"] = {
     "explicit_horizon_years": 5, "transition_years": 0, "terminal_growth_cap": 0.03, "long_run_nominal_growth_bound": LONG_RUN,
-    "growth_cap_evidence": "港元／人民币现金对应的长期名义增长约 4%；码头行业成熟、海外特许权有期限，终值增长上限取 3%，各情景另设更低的公司上限。",
+    "growth_cap_evidence": "港元／人民币现金对应的长期名义增长约 4%；码头行业成熟，终值增长上限取 3%，各情景另设更低的公司上限；海外特许权按到期年份单独停止，不再靠下调增长率处理。",
+    "terminal_base_fiscal_year": BASE_FY,
+    "terminal_finite_assets": [{"name": a["name"], "cash_share": a["operating_cash_share_pct"] / 100, "end_year": a["end_year"],
+                                "treatment": "expires"} for a in r["economic_profile"]["finite_life_assets"]],
     "minimum_return_growth_spread": 0.02, "scenarios": gscen,
     "growth_value_low": g_low, "growth_value_high": g_high, "base_case_value": gv_vals["Base"],
     "margin_of_safety": MOS,
@@ -352,8 +365,8 @@ r["growth_assessment"] = {
     "capital_remittance_verified": True, "credible_terminal_state": True, "growth_method": "direct_operating_to_dps",
     "evidence_and_reason": (f"三种情景五年股息均由经常性可分配现金覆盖（Base 约 {fc_map[(1, 'Base')]['recurring_fad'] / (6850 * PAYOUT):.1f} 倍）；"
                             "成长投资每年 3–9 亿港元对应吞吐量 2%–4% 增长，"
-                            "按 48% 派息率直接转化为每股股息，股数不变；联营现金上缴率 Base 按 2021–2025 年合计 41%（Bear 32%、Bull 54%）；"
-                            "终值已为海外特许权到期下调增长。预测可信度为中等，不支持强力买入。")}
+                            "按 48% 派息率直接转化为每股股息，股数不变；联营现金上缴率按上一年利润计，Base 36%（Bear 25%、Bull 48%）；"
+                            "海外特许权在终值中按到期年份逐项停止。预测可信度为中等，不支持强力买入。")}
 
 def market_implied(g):
     lo, hi = g + 0.02, 0.2
@@ -362,7 +375,7 @@ def market_implied(g):
         v = sum(pv(base_path, m, g, run_map[(5, "Base")]["derived_dps"] * (1 + g), TIMES[-1]))
         lo, hi = (m, hi) if v > PRICE else (lo, m)
     return m
-implied = {g: market_implied(g) for g in (0.015, 0.02)}
+implied = {g: market_implied(g) for g in IMPL_G}
 
 inc_starter, inc_add, inc_strong = starter, add, strong          # income comparison (no credit)
 starter = gv_vals["Base"] * (1 - MOS)
@@ -375,7 +388,7 @@ r["valuation_reason"] = ("Operating port holding company with evidenced, funded 
 # ---------------- entry plan and decision ----------------
 ep = r["entry_plan"]
 ep.update({"current_action": "wait_for_price",
-           "summary": f"At HKD {PRICE} the forward yield is {fwd:.1%}, below the US 10-year Treasury ({UST_RATE:.2%}) and {(fwd - RF) * 100:.1f} points above the HK government bond ({RF:.2%}); the Base dividend-discount value is HKD {gv_vals['Base']:.2f} at a {R_MID:.2%} required return, and the price implies only about {implied[0.015]:.1%}-{implied[0.02]:.1%}.",
+           "summary": f"At HKD {PRICE} the forward yield is {fwd:.1%}, below the US 10-year Treasury ({UST_RATE:.2%}) and {(fwd - RF) * 100:.1f} points above the HK government bond ({RF:.2%}); the Base dividend-discount value is HKD {gv_vals['Base']:.2f} at a {R_MID:.2%} required return, and the price implies only about {implied[IMPL_G[0]]:.1%}-{implied[IMPL_G[1]]:.1%}.",
            "opportunity_thesis": "Stable port cash with modest growth, but associate cash conversion and the low yield leave no income margin of safety.",
            "market_expectation_gap": f"Price is 0.64x book value (26.3 HKD/share) and about {PRICE / 1.538:.1f}x 2025 EPS; the market discounts associate cash conversion and geopolitical risk."})
 ep["stages"] = [
@@ -393,23 +406,23 @@ ep["return_scenarios"] = [{"scenario": s_, "horizon_years": 3, "net_cash_receive
                                      "Bull": "Exit at Bull FY2028 DPS / 4.5%."}[s_] + " No reinvestment or costs.",
                            "source_refs": [IR26, PX]} for s_ in ("Bear", "Base", "Bull")]
 ep["risk_review"].update({"rationale": f"Bear re-rating to the required yield loses {-ep['return_scenarios'][0]['cumulative_return']:.0%} including three years of dividends.", "source_refs": [IR26, PX]})
-ep["blockers"] = [{"scope": "price", "reason": f"Price {PRICE} is above the Base DDM starter HKD {starter:.2f}; implied return about {implied[0.015]:.1%} versus required {R_LOW:.2%}-{R_HIGH:.2%}.",
+ep["blockers"] = [{"scope": "price", "reason": f"Price {PRICE} is above the Base DDM starter HKD {starter:.2f}; implied return about {implied[IMPL_G[0]]:.1%} versus required {R_LOW:.2%}-{R_HIGH:.2%}.",
                    "resolution": f"Price at or below HKD {starter:.2f}, or evidence of materially higher sustainable dividends.", "source_refs": [IR26, PX]},
                   {"scope": "position_sizing", "reason": "Existing holding size and cost not supplied.",
                    "resolution": "Provide holdings before any sizing discussion.", "source_refs": []}]
 ep["catalysts"] = [{"event": "FY2026 results and final dividend", "check_date_or_period": "March 2027",
-                    "confirmation": "Full-year DPS near 0.78 HKD and associate cash dividends at least 41% of their profits.",
+                    "confirmation": "Full-year DPS near 0.78 HKD and associate cash dividends at least 36% of their prior-year profits.",
                     "source_to_revisit": "HKEXnews results announcement", "if_missed": "Rebuild N and stage prices."}]
-ep["invalidation_conditions"] = ["Associate/JV cash dividends below 32% of their attributable profit (the Bear assumption).",
+ep["invalidation_conditions"] = ["Associate/JV cash dividends below 25% of their prior-year attributable profit (the Bear assumption).",
                                  "Reintroduction of a scrip dividend or a payout ratio below 40%."]
 r["action_assessment"].update({"status": "eligible", "strong_buy_eligible": False,
                                "reasons": ["Evidence supports a funded growth DDM; price is above every stage."],
                                "capital_risk_and_total_return_check": "See entry_plan.return_scenarios."})
 r["decision"].update({"current_action": "等待到价", "can_buy_now": False,
-    "reason": f"计入股息增长后（成长股息折现模型），Base 情景每股价值约 {gv_vals['Base']:.2f} 港元，现价 {PRICE} 港元高出约 {(PRICE / gv_vals['Base'] - 1):.0%}；按现价买入的预期年回报只有约 {implied[0.015]:.1%}–{implied[0.02]:.1%}，低于 {R_LOW:.2%}–{R_HIGH:.2%} 的必要回报（香港政府债券 {RF:.2%} 加 4–6 个百分点）。远期股息率约 {fwd:.1%}，低于美国 10 年期国债 {UST_RATE:.2%}。",
+    "reason": f"计入股息增长后（成长股息折现模型），Base 情景每股价值约 {gv_vals['Base']:.2f} 港元，现价 {PRICE} 港元高出约 {(PRICE / gv_vals['Base'] - 1):.0%}；按现价买入的预期年回报只有约 {implied[IMPL_G[0]]:.1%}–{implied[IMPL_G[1]]:.1%}，低于 {R_LOW:.2%}–{R_HIGH:.2%} 的必要回报（香港政府债券 {RF:.2%} 加 4–6 个百分点）。远期股息率约 {fwd:.1%}，低于美国 10 年期国债 {UST_RATE:.2%}。",
     "buy_conditions": [{"kind": "price", "observable": "招商局港口收盘价", "operator": "<=", "threshold": round(starter, 2), "unit": "HKD", "source_to_watch": "港交所实时报价"}],
     "invalidation_conditions": [
-        {"kind": "metric", "observable": "联营及合营公司现金分红占应占利润比例", "operator": "<", "threshold": 32, "unit": "%", "source_to_watch": "年报现金流量表与分部资料"},
+        {"kind": "metric", "observable": "联营及合营公司现金分红占应占利润比例", "operator": "<", "threshold": 25, "unit": "%", "source_to_watch": "年报现金流量表与分部资料"},
         {"kind": "event", "observable": "公司恢复以股代息或派息率降至 40% 以下", "operator": "published", "threshold": "已公告", "unit": "公告事件", "source_to_watch": "港交所派息公告"}],
     "trap_conclusion": "未触发红利陷阱：股息有经营现金覆盖；需警惕联营公司现金上缴率和以股代息历史。",
     "entry_conclusion": f"成长股息折现口径参考价：初始建仓 {starter:.2f} 港元、逐步增持 {add:.2f} 港元、强力买入 {strong:.2f} 港元；收息口径（不计增长）对照为 {inc_starter:.2f}／{inc_add:.2f}／{inc_strong:.2f} 港元。两种方法结论一致，现价高出较多。",
@@ -438,7 +451,7 @@ spec = {
    ["Share count reconciles: 3,704m (2021) to 4,198m (2024-2025) via scrip.", "No buybacks; scrip issued well below book value.", "No capital return strains the investment plan."],
    "No buybacks; past scrip dilution."),
  "visibility": (10, None, 2, 5, 7, ["met", "met", "not_met"],
-   ["Years 1-3 tie to 1H26 profit and FY2025 cash ratios.", "Years 4-5 bounded Bear/Bull extensions.", "Associate dividend conversion swung 32%-55% in 2021-2025."],
+   ["Years 1-3 tie to 1H26 profit and FY2025 cash ratios.", "Years 4-5 bounded Bear/Bull extensions.", "Associate dividend conversion (prior-year profit basis) swung 25%-48% in 2022-2025."],
    "Moderate visibility: trade volumes and associate payouts."),
 }
 mods, ranges = [], {}
@@ -574,7 +587,7 @@ bo.update({"data_cutoff": AS_OF,
                 "evidence_type": "reported_fact", "source_and_date": IR26, "confidence": "Medium", "invalidation_signal": inv})
                 for d, sg, bl, y3, y5, inv in (
                   ("Throughput", "Group ports", "78.21m TEU in 1H26, +4.5%", "Base +3%-4% a year", "Base +2%-3% a year", "Two consecutive halves of throughput decline"),
-                  ("Associate cash conversion", "SIPG and other associates", "2,730m HKD received vs 4,970m profit in 2025 (55%); 41% over 2021-2025", "Base 41%", "Base 41%", "Below 32% for a full year"),
+                  ("Associate cash conversion", "SIPG and other associates", "2,730m HKD received in 2025 vs 6,513m 2024 profit (42%); 37% over 2022-2025", "Base 36%", "Base 36%", "Below 25% for a full year"),
                   ("Interest cost", "Group", "Interest paid 1,193m HKD in 2025", "Base stable", "Base stable", "Net debt above 30% of equity"))]})
 for m in bo.get("milestones", []):
     m["source_to_revisit"] = "CMPort FY2026 annual results on HKEXnews"
@@ -584,12 +597,32 @@ r["business_fundamentals"] = {"dividend_funding_engine": "Consolidated terminal 
 r["controller_risk"].update({"status": "no_material_concern", "listed_company_impact": "China Merchants Group controls the company through China Merchants Port Group; the 2021-2023 scrip dividend schemes settled most dividends in new shares, retaining cash in the listed company.",
                              "source_and_date": AR25, "assessed_on": AS_OF})
 r["real_income"].update({"currency": "HKD", "inflation_basket": "Hong Kong CPI not retrieved in this run.", "source_and_method": "Not assessed: inflation series not retrieved; nominal DPS fell from 0.94 to 0.739 HKD (2021-2025)."})
-r["fx_risk"].update({"status": "not_material", "economic_exposure": "HKD dividends; group earns RMB, HKD, USD and EUR-linked tariffs.",
-                     "operating_currencies": ["CNY", "HKD", "USD"], "distribution_currency": "HKD", "investor_currency": "HKD",
-                     "material_exposure": False, "hedge_and_natural_offsets": "RMB translation affects reported profit; dividends declared in HKD.",
-                     "evidence_and_limitations": AR25})
+# RMB-linked attributable profit, FY2025 segment note: Yangtze 3,456 + Bohai 195 + other mainland -14 + bonded 70
+# + 80% of Pearl River Delta 1,155 (Shenzhen; the rest is Hong Kong terminals) = about 72% of 6,457.
+RMB_PROFIT = 3456 + 195 - 14 + 70 + 0.8 * 1155
+RMB_SHARE = RMB_PROFIT / 6457
+RMB_SHOCK = 0.10
+fx_rows = []
+for kind, scen in (("fx_only", "Base"), ("combined_bear", "Bear")):
+    base_dps, op_dps = run_map[(1, "Base")]["derived_dps"], run_map[(1, scen)]["derived_dps"]
+    delta = -RMB_SHOCK * RMB_SHARE * op_dps
+    fx_rows.append({"kind": kind, "forecast_year": 1, "base_fx": 1, "stressed_fx": 1,
+                    "base_gross_dps": base_dps, "operating_gross_dps": op_dps, "economic_gross_dps_delta": delta,
+                    "economic_fx_in_runway": False,
+                    "economic_fx_bridge": (f"RMB 10% weaker versus HKD: about {RMB_SHARE:.0%} of attributable profit is RMB-linked "
+                                           f"(FY2025 segment note), so profit and the 48% dividend fall about {RMB_SHOCK * RMB_SHARE:.1%}; "
+                                           "HKD corporate interest does not shrink, so this is not offset. Coverage stays above 1x."),
+                    "hedge_cash_adjustment": 0, "investor_fees": 0, "base_net_cash": base_dps,
+                    "stressed_net_cash": op_dps + delta, "delta_cash": op_dps + delta - base_dps, "evidence": AR25})
+r["fx_risk"].update({"status": "assessed",
+                     "economic_exposure": f"About {RMB_SHARE:.0%} of FY2025 attributable profit comes from RMB-earning mainland terminals and associates (SIPG, Ningbo-Zhoushan, West Shenzhen); overseas concessions earn USD-, BRL- and LKR-linked tariffs. Dividends are declared in HKD out of translated profit.",
+                     "operating_currencies": ["CNY", "HKD", "USD", "BRL", "LKR"], "distribution_currency": "HKD", "investor_currency": "HKD",
+                     "material_exposure": True,
+                     "hedge_and_natural_offsets": "No dividend-level FX hedge is disclosed. The currency mix of borrowings was not analysed in this run, so no natural offset is credited; corporate finance costs (about 950m HKD) do not shrink when the RMB weakens.",
+                     "stress_rows": fx_rows,
+                     "evidence_and_limitations": "Segment profit by region from the FY2025 segment note; the RMB share of Pearl River Delta profit (80%) and the 10% shock are analyst estimates."})
 r["holding_review"].update({"rationale": "User holds the stock but did not supply size, cost or income target; no trade instruction is given.", "next_review": "FY2026 results, March 2027"})
-r["holding_review"]["triggers"][0].update({"threshold": "Revisit if associate cash conversion falls below 32% or scrip is reintroduced.", "evidence": AR25})
+r["holding_review"]["triggers"][0].update({"threshold": "Revisit if associate cash conversion falls below 25% or scrip is reintroduced.", "evidence": AR25})
 r["portfolio_role_assessment"]["rationale"] = "Medium quality and Acceptable safety; income mandate unknown, so the role stays Watchlist."
 for k_, v in r["rating_audit"].items():
     for fld in ("supporting_evidence", "rule", "upgrade_trigger", "downgrade_trigger"):
@@ -615,17 +648,17 @@ bv = 110403 / SHARES
 sections = [
  ("摘要与投资结论", [
    "招商局港口是周期／稳定之间的港口控股公司：盈利来自珠三角控股码头、上港集团等联营码头和海外特许经营码头，股息按归属利润约 48% 派发。",
-   f"主估值采用成长股息折现模型（逐年折现五年股息，再加逐步放缓的永续部分）：Base 情景每股价值约 {gv_vals['Base']:.2f} 港元（Bear {gv_vals['Bear']:.2f}，Bull {gv_vals['Bull']:.2f}），初始建仓约 {starter:.2f} 港元；不计增长的收息口径对照为 {inc_starter:.2f} 港元，两者接近。现价 {PRICE} 港元隐含的预期年回报只有约 {implied[0.015]:.1%}–{implied[0.02]:.1%}，比香港政府债券（{RF:.2%}）高约 {(implied[0.015] - RF) * 100:.1f}–{(implied[0.02] - RF) * 100:.1f} 个百分点，低于本报告要求的 4–6 个百分点风险补偿，新资金动作“等待到价”。",
-   f"最重要的结构性特点：2025 年约 {ASSOC_PROFIT_2025 / 6457:.0%} 的归属利润来自联营及合营公司，但当年只收到 {2730 / ASSOC_PROFIT_2025:.0%} 的现金分红，且这是五年最高值（2021–2025 年合计 {ASSOC_AGG:.0%}）；2021–2023 年股息部分以股代息，股数增加约 13%。"],
+   f"主估值采用成长股息折现模型（逐年折现五年股息，再加逐步放缓的永续部分）：Base 情景每股价值约 {gv_vals['Base']:.2f} 港元（Bear {gv_vals['Bear']:.2f}，Bull {gv_vals['Bull']:.2f}），初始建仓约 {starter:.2f} 港元；不计增长的收息口径对照为 {inc_starter:.2f} 港元，两者接近。现价 {PRICE} 港元隐含的预期年回报只有约 {implied[IMPL_G[0]]:.1%}–{implied[IMPL_G[1]]:.1%}，比香港政府债券（{RF:.2%}）高约 {(implied[IMPL_G[0]] - RF) * 100:.1f}–{(implied[IMPL_G[1]] - RF) * 100:.1f} 个百分点，低于本报告要求的 4–6 个百分点风险补偿，新资金动作“等待到价”。",
+   f"最重要的结构性特点：2025 年约 {ASSOC_PROFIT_2025 / 6457:.0%} 的归属利润来自联营及合营公司，但联营公司按上一年利润派息，2025 年收到的现金只相当于 2024 年应占利润的 {ASSOC_CONV[4]:.0%}，2022–2025 年合计上缴率只有 {ASSOC_AGG:.0%}；2021–2023 年股息部分以股代息，股数增加约 13%。"],
   [T("摘要关键数字", ["指标", "数值", "说明"], [
      ["现价", f"{PRICE} 港元", "2026-11-09 收盘"],
      ["2025 年每股股息", "0.739 港元", f"TTM 股息率 {ttm_dps / PRICE:.1%}，派息率 48.1%"],
      ["2026 年 Base 每股股息", f"{N:.3f} 港元", f"远期股息率 {fwd:.1%}"],
      ["香港政府债券（约 10 年）", f"{RF:.2%}", "2026-10-30，金管局；港元无风险利率"],
      ["美国 10 年期国债", f"{UST_RATE:.2%}", "2026-11-05；仅作机会成本对照"],
-     ["成长折现 Base 每股价值", f"{gv_vals['Base']:.2f} 港元", f"必要回报 {R_MID:.2%}，永续增长 1.5%"],
+     ["成长折现 Base 每股价值", f"{gv_vals['Base']:.2f} 港元", f"必要回报 {R_MID:.2%}，持续经营部分增长 {G_TERM['Base']:.1%}，特许权按期到期"],
      ["初始建仓价（成长口径）", f"{starter:.2f} 港元", f"较现价 {pct(starter):+.0f}%；收息口径对照 {inc_starter:.2f}"],
-     ["现价隐含年回报", f"{implied[0.015]:.1%}–{implied[0.02]:.1%}", "Base 现金路径，永续增长 1.5%–2%"],
+     ["现价隐含年回报", f"{implied[IMPL_G[0]]:.1%}–{implied[IMPL_G[1]]:.1%}", f"Base 现金路径，增长 {IMPL_G[0]:.1%}–{IMPL_G[1]:.1%}"],
      ["三年股息覆盖（全部应派）", f"{sum(owner[2:]) / sum(entitle[2:]):.2f} 倍", "2023–2025，扣除全部资本开支后"],
      ["质量／综合评分", f"{quality}/85，{total}/100（{grade}）", "完整评估"]],
      "股价来自 Yahoo Finance，港债收益率来自香港金管局，美国国债来自 FRED，其余来自招商局港口年报与 2026 年中报")]),
@@ -650,7 +683,7 @@ sections = [
  ("现金流、资产负债与股息质量", [
    f"股东可分配现金 = 经营现金流（已含联营合营分红）− 利息 − 租赁 − 全部资本开支 − 少数股东分红 − 永续债分派。2023–2025 年合计覆盖全部应派股息 {sum(owner[2:]) / sum(entitle[2:]):.2f} 倍，最差年份 {YEARS[covs.index(min(covs))]} 年为 {min(covs):.2f} 倍（当年少数股东分红高达 18.8 亿港元）。",
    f"这里按“全部应派股息”计算，而不是实际付出的现金：2021–2023 年股东可选择以股代息，大部分股息以新股支付，实际现金派息只有 9–12 亿港元，若按现金计算覆盖率会被高估到 3–4 倍。2021–2023 年以股代息合计 {sum(SCRIP_SETTLED):,} 百万港元，占派息结算的 {SCRIP_RATE:.0%}；2023 年末期起均为纯现金派息。",
-   f"联营合营现金上缴：2021–2025 年应占利润合计 {sum(ASSOC_PROFIT):,} 百万港元，实际收到现金股息 {sum(ASSOC_DIV):,} 百万港元，合计上缴率 {ASSOC_AGG:.0%}，逐年在 32%–55% 之间。2025 年的 55% 是五年最高，因此预测 Base 改用五年合计 41%（Bear 32%，Bull 54%），而不是 2025 年水平。",
+   f"联营合营现金上缴：上港集团等联营公司按上一年利润在年中派息，所以按“当年收到的股息 ÷ 上一年应占利润”计算。2022–2025 年收到现金股息 {sum(ASSOC_DIV[1:]):,} 百万港元，对应 2021–2024 年应占利润 {sum(ASSOC_PROFIT[:4]):,} 百万港元，合计上缴率 {ASSOC_AGG:.0%}，逐年在 25%–48% 之间。若按同年口径，2025 年会显示为 55%，高估了上缴能力。预测 Base 取 {CONV_FC['Base']:.0%}（Bear {CONV_FC['Bear']:.0%}，Bull {CONV_FC['Bull']:.0%}）。",
    "资产负债：2026 年 6 月末净有息负债 216.8 亿港元，约为权益的 17%；但存在 74 亿港元净流动负债，一年内到期债务 217 亿港元，依赖 276 亿港元未动用额度滚动。香港注册公司，派息不预扣税。股息安全性判断为“可接受”。"],
   [T("历年股东现金与股息覆盖", ["财年", "经营现金流", "资本开支", "利息与租赁", "少数股东与永续", "股东可分配现金", "全部应派股息", "覆盖倍数", "实付现金股息", "以股代息"],
      [[YEARS[i], OCF[i], CAPEX[i], INTEREST[i] + LEASE[i], NCI_DIV[i] + PERP[i], owner[i], entitle[i], round(covs[i], 2), CASH_DIV_PAID[i], SCRIP_SETTLED[i]] for i in range(5)],
@@ -663,14 +696,14 @@ sections = [
    "资本配置：派息率稳定在 46%–48%；以股代息在 2024 年后停止，是对小股东有利的变化；没有回购。海外新项目的单项回报未披露，无法判断再投资是否创造每股价值。"]),
  ("未来五年经营与现金流预测", [
    "Base：2026 年归属利润约 68.5 亿港元（上半年 38.3 亿，下半年按去年同期增长 5%），此后每年增长约 2%–3%。Bear：贸易摩擦导致吞吐量下滑、联营分红减少，2027–2028 年利润降至 57–59 亿港元。Bull：吞吐量和联营派息超预期。",
-   f"派息率按 48%，股数不变。现金比例按 2025 年校准：扣除利息租赁后的经营现金约为利润的 1.14 倍（含 2025 年 55% 的联营上缴率），再按各情景的联营上缴率调整：Base 41% 对应约 {OCF_K + ASSOC_SHARE * (CONV_FC['Base'] - CONV_CAL):.2f} 倍、Bear 32% 约 {OCF_K + ASSOC_SHARE * (CONV_FC['Bear'] - CONV_CAL):.2f} 倍；少数股东与永续债约占利润的 20%。股息按利润派发，不受上缴率影响，但覆盖倍数会下降。"],
+   f"派息率按 48%，股数不变。现金分两部分：控股及其他业务的经营现金约为利润的 {NONASSOC_K:.2f} 倍（按 2025 年校准，已扣税，未含联营股息）；联营股息 = 上一年联营应占利润 × 上缴率（Base {CONV_FC['Base']:.0%}，Bear {CONV_FC['Bear']:.0%}，Bull {CONV_FC['Bull']:.0%}）。利息和租赁还款在融资活动中，单独扣除一次。少数股东与永续债约占利润的 20%。股息按利润派发，不受上缴率影响，但覆盖倍数会下降。"],
   [T("情景每股股息（港元）", ["情景", "2026", "2027", "2028", "2029", "2030"],
      [[s_] + [round(d, 3) for d in dps[s_]] for s_ in ("Bear", "Base", "Bull")],
      "按 48% 派息率 ÷ 41.98 亿股；分析师估算")]),
  ("估值与预期总回报", [
    f"主估值：成长股息折现模型。逐年折现 2026–2030 年预测股息（2026 年中期 0.25 港元已派，只计末期），第 6 年起按永续增长计算终值。必要回报统一取 {R_MID:.2%}（区间中点），安全边际 15%。Bear／Base／Bull 每股价值 {gv_vals['Bear']:.2f}／{gv_vals['Base']:.2f}／{gv_vals['Bull']:.2f} 港元。",
-   f"永续增长为何只取 0%／1.5%／2.5%：吞吐量长期增长约 2%–3%，但约 34% 的现金来自 2035–2049 年到期的海外特许权，没有续期证据，所以把永续增长下调约 1 个百分点。约 {min(x['terminal_value_share'] for x in gscen):.0%}–{max(x['terminal_value_share'] for x in gscen):.0%} 的价值来自第 5 年之后，结论对折现率和永续增长较敏感，见下表。",
-   f"反推：要让现价 {PRICE} 港元成立，在 Base 现金路径和 1.5%–2% 永续增长下，投资者只要求约 {implied[0.015]:.1%}–{implied[0.02]:.1%} 的年回报，即比香港政府债券（{RF:.2%}）高约 {(implied[0.015] - RF) * 100:.1f}–{(implied[0.02] - RF) * 100:.1f} 个百分点、比美国 10 年期国债高约 {(implied[0.015] - UST_RATE) * 100:.1f}–{(implied[0.02] - UST_RATE) * 100:.1f} 个百分点。本报告认为联营现金上缴、地缘与特许权风险需要 4–6 个百分点补偿，所以现价偏贵。",
+   f"终值分两部分：持续经营部分（约 66% 的现金）按 Bear {G_TERM['Bear']:.1%}／Base {G_TERM['Base']:.1%}／Bull {G_TERM['Bull']:.1%} 永续增长；海外特许权（约 34%）没有续期证据，按到期年份逐项停止（斯里兰卡与多哥 2046 年、巴西 2048 年、印尼等 2049 年），不再用下调整体增长率的方式近似。约 {min(x['terminal_value_share'] for x in gscen):.0%}–{max(x['terminal_value_share'] for x in gscen):.0%} 的价值来自第 5 年之后，结论对折现率和永续增长较敏感，见下表。",
+   f"反推：要让现价 {PRICE} 港元成立，在 Base 现金路径和 {IMPL_G[0]:.1%}–{IMPL_G[1]:.1%} 增长下，投资者只要求约 {implied[IMPL_G[0]]:.1%}–{implied[IMPL_G[1]]:.1%} 的年回报，即比香港政府债券（{RF:.2%}）高约 {(implied[IMPL_G[0]] - RF) * 100:.1f}–{(implied[IMPL_G[1]] - RF) * 100:.1f} 个百分点、比美国 10 年期国债高约 {(implied[IMPL_G[0]] - UST_RATE) * 100:.1f}–{(implied[IMPL_G[1]] - UST_RATE) * 100:.1f} 个百分点。本报告认为联营现金上缴、地缘与特许权风险需要 4–6 个百分点补偿，所以现价偏贵。",
    f"收息口径对照（不计增长）：Base 2026 年每股股息 {N:.3f} 港元 ÷ {R_LOW:.2%}–{R_HIGH:.2%}，对应 {inc_add:.2f}–{inc_starter:.2f} 港元；与成长口径接近，说明结论不取决于方法选择。增长抵扣检验未通过（每股股息 2021–2025 年年均 {hist_cagr:.1%}），收息口径不计抵扣。",
    f"对照指标：每股账面净资产约 {bv:.1f} 港元，现价约 {PRICE / bv:.2f} 倍市净率；2025 年市盈率约 {PRICE / 1.538:.1f} 倍。低市净率反映市场对联营公司现金上缴、海外特许权到期和地缘风险的折价。",
    "三年持有情景（不计再投资）：Bear 若估值回落到必要收益率约亏损 {:.0%}，Base 估值不变约赚 {:.0%}，Bull 约赚 {:.0%}。".format(
@@ -679,10 +712,10 @@ sections = [
      [[row["scenario"], f"{row['terminal_growth']:.1%}", round(row["present_value_of_dividends"], 2), round(row["present_value_of_terminal"], 2),
        round(row["total_value"], 2), f"{row['terminal_value_share']:.0%}"] for row in gscen],
      f"必要回报 {R_MID:.2%}；股息来自五年预测（48% 派息率、股数不变）；终值资金由第 6 年经常性可分配现金覆盖"),
-   T("Base 每股价值对折现率与永续增长的敏感性（港元）", ["必要回报", "永续 1.0%", "永续 1.5%", "永续 2.0%"],
+   T("Base 每股价值对折现率与永续增长的敏感性（港元）", ["必要回报", "增长 1.5%", "增长 2.0%", "增长 2.5%"],
      [[f"{rate:.2%}"] + [round(next(x["value"] for x in g_sens if x["required_return"] == rate and x["terminal_growth"] == g), 2)
-                         for g in (0.01, 0.015, 0.02)] for rate in (R_LOW, R_MID, R_HIGH)],
-     "Base 现金路径不变；永续增长超过 2%（Base 可持续上限）不计算"),
+                         for g in (0.015, 0.02, 0.025)] for rate in (R_LOW, R_MID, R_HIGH)],
+     "Base 现金路径和特许权到期安排不变；增长超过 2.5%（Base 可持续上限）不计算"),
    T("三年持有情景（每股，港元）", ["情景", "三年累计股息", "第三年末价格", "累计回报"],
      [[row["scenario"], round(row["net_cash_received"], 2), round(row["exit_price"], 2), f"{row['cumulative_return']:.1%}"] for row in ep["return_scenarios"]],
      f"退出价格 = 第三年每股股息 ÷ 假设股息率（Bear {R_LOW:.2%}、Base 维持现有、Bull 4.5%）")]),
@@ -695,20 +728,22 @@ sections = [
      "较现价按成长口径计算；成长口径为主估值"),
    T("无风险利率敏感性", ["香港政府债券收益率", "必要回报（中点）", "Base 每股价值（港元）", "初始建仓价（港元）"],
      [[f"{(RF + d) * 100:.2f}%", f"{(R_MID + d) * 100:.2f}%", round(v, 2), round(v * (1 - MOS), 2)]
-      for d, v in [(d, sum(pv(base_path, R_MID + d, 0.015, run_map[(5, "Base")]["derived_dps"] * 1.015, TIMES[-1]))) for d in (-0.01, -0.005, 0, 0.005, 0.01)]],
-     "风险溢价 5% 不变；Base 现金路径，永续增长 1.5%；联系汇率下美国国债变动通常会传导到港债")]),
+      for d, v in [(d, sum(pv(base_path, R_MID + d, G_TERM["Base"], run_map[(5, "Base")]["derived_dps"] * (1 + G_TERM["Base"]), TIMES[-1]))) for d in (-0.01, -0.005, 0, 0.005, 0.01)]],
+     f"风险溢价 5% 不变；Base 现金路径，持续经营部分增长 {G_TERM['Base']:.1%}；联系汇率下美国国债变动通常会传导到港债")]),
  ("风险、监测指标与论点证伪", [
-   "最大风险：联营公司（尤其上港集团）减少现金分红，或控股股东恢复以股代息，会直接降低小股东可收到的现金。"],
+   "最大风险：联营公司（尤其上港集团）减少现金分红，或控股股东恢复以股代息，会直接降低小股东可收到的现金。",
+   f"汇率风险：约 {RMB_SHARE:.0%} 的归属利润来自人民币业务，股息按港元宣派。人民币兑港元贬值 10% 时，利润和按 48% 派发的股息约少 {RMB_SHOCK * RMB_SHARE:.1%}；与 Bear 经营情景叠加后，2026 年每股股息约 {fx_rows[1]['stressed_net_cash']:.3f} 港元，现金覆盖仍在 1 倍以上。公司未披露股息层面的汇率对冲。"],
   [T("风险与监测阈值", ["风险／指标", "当前值", "预警阈值", "影响", "复查时间"], [
-     ["联营合营现金分红 ÷ 应占利润", "55%（2025），五年合计 41%", "低于 32%（Bear 假设）", "每低 10 个百分点，母公司现金约少 5 亿港元", "年报"],
+     ["联营合营现金分红 ÷ 上一年应占利润", "42%（2025），2022–2025 合计 37%", "低于 25%（Bear 假设）", "每低 10 个百分点，母公司现金约少 5 亿港元", "年报"],
      ["集装箱吞吐量增速", "+4.5%（2026 上半年）", "连续两个半年下降", "Bear 情景成立", "半年报"],
      ["以股代息", "已停止", "重新推出", "小股东被摊薄", "派息公告"],
+     ["人民币兑港元", f"约 {RMB_SHARE:.0%} 的归属利润来自人民币业务", "贬值 10%", f"每股股息约少 {RMB_SHOCK * RMB_SHARE:.1%}（Base 2026 年 {fx_rows[0]['base_net_cash']:.3f}→{fx_rows[0]['stressed_net_cash']:.3f} 港元；叠加 Bear {fx_rows[1]['stressed_net_cash']:.3f}）", "半年报"],
      ["一年内到期债务 ÷ 未动用额度", "217 亿 ÷ 276 亿", "未动用额度低于到期债务", "再融资风险", "年报"],
      ["海外特许权到期", "首个 2035 年（印尼）", "无续期安排且贡献超过 10%", "到期次年股息下降", "持续"]],
      "阈值为分析判断；当前值来自招商局港口 2025 年报与 2026 年中报")]),
  ("数据来源、关键假设与研究限制", [
    "数据截至 2026-11-09。来源：招商局港口 2022、2023、2025 年报，2026 年中报及中期派息公告（均来自港交所披露易），Yahoo Finance 行情，香港金管局政府债券收益率，FRED 美国国债收益率。",
-   f"关键假设：派息率 48%；股数不变；成长模型必要回报 {R_MID:.2%}、永续增长 0%／1.5%／2.5%、安全边际 15%；联营现金上缴率 Bear 32%／Base 41%／Bull 54%；少数股东与永续债约占利润 20%；无风险利率取香港政府债券 {RF:.2%}，风险溢价 4%–6%。",
+   f"关键假设：派息率 48%；股数不变；成长模型必要回报 {R_MID:.2%}、持续经营部分增长 0.5%／2%／2.5%、海外特许权按到期年份停止、安全边际 15%；联营现金上缴率（按上一年利润）Bear 25%／Base 36%／Bull 48%；人民币兑港元贬值 10% 的压力测试；少数股东与永续债约占利润 20%；无风险利率取香港政府债券 {RF:.2%}，风险溢价 4%–6%。",
    "研究限制：未取得上港集团年报（上交所网站不在本环境白名单内）、同业数据与香港通胀；港债收益率为 2026-10-30 的月度统计数据，比估值日早约一周；海外特许权的现金占比为估算；成长模型的永续增长与联营现金上缴率为有界估计；用户持仓与收息目标未提供。本报告仅为研究资料，不构成投资建议。"]),
 ]
 r["report_output"].update({"title": "招商局港口（0144.HK）完整研究报告",

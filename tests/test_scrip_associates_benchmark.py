@@ -49,6 +49,27 @@ class ScripCoverage(unittest.TestCase):
         rows(report)["2021"]["cash_paid_dividends"] = None
         self.assertTrue(any("cash_paid_dividends" in e for e in scrip_coverage_errors(report)))
 
+    def test_declared_parts_must_add_up(self):
+        report = cmport()
+        rows(report)["2023"]["entitlement_settled_next_year"] = 2000
+        self.assertTrue(any("2023" in e and "declared" in e for e in scrip_coverage_errors(report)))
+
+    def test_cross_year_settlement_reconciles(self):
+        report = cmport()
+        row = rows(report)["2022"]
+        # 941 cash + 2,651 scrip = 2021 final 2,726 + 2022 interim 866
+        self.assertEqual(row["cash_paid_dividends"] + row["scrip_settled_dividends"],
+                         rows(report)["2021"]["entitlement_settled_next_year"] + row["entitlement_settled_in_year"])
+        row["cash_paid_dividends"] = 700
+        self.assertTrue(any("settlement_reconciliation" in e for e in scrip_coverage_errors(report)))
+        row["settlement_reconciliation"] = "Test: entitlement on shares cancelled before payment."
+        self.assertEqual(scrip_coverage_errors(report), [])
+
+    def test_scrip_history_needs_declared_parts(self):
+        report = cmport()
+        rows(report)["2024"]["entitlement_settled_in_year"] = None
+        self.assertTrue(any("entitlement_settled_in_year" in e for e in scrip_coverage_errors(report)))
+
     def test_no_scrip_history_needs_no_fields(self):
         example = json.loads((SKILL / "examples" / "ordinary.analysis.json").read_text(encoding="utf-8"))
         self.assertEqual(scrip_coverage_errors(example), [])
@@ -62,7 +83,9 @@ class AssociateConversion(unittest.TestCase):
         report = cmport()
         record = report["cash_flow_model"]["associate_cash_conversion"]
         self.assertEqual(associate_conversion_errors(report), [])
-        self.assertAlmostEqual(record["aggregate_conversion"], 13419 / 32495)
+        self.assertEqual(record["timing_basis"], "prior_year_profit")
+        self.assertIsNone(record["history"][0]["conversion"])
+        self.assertAlmostEqual(record["aggregate_conversion"], (2592 + 2034 + 2716 + 2730) / (7254 + 8112 + 5646 + 6513))
         self.assertLessEqual(record["forecast_conversion"]["Base"], record["aggregate_conversion"])
         self.assertIn("联营及合营公司现金上缴率", render_report(report))
 
@@ -74,11 +97,14 @@ class AssociateConversion(unittest.TestCase):
     def test_best_year_cannot_become_base_without_evidence(self):
         report = cmport()
         forecast = report["cash_flow_model"]["associate_cash_conversion"]["forecast_conversion"]
-        forecast["Base"] = 0.549
+        forecast["Base"] = 0.42
         self.assertTrue(any("multi-year aggregate" in e for e in associate_conversion_errors(report)))
         forecast["Bull"] = 0.60
         self.assertTrue(any("best historical year" in e for e in associate_conversion_errors(report)))
-        report["cash_flow_model"]["associate_cash_conversion"]["above_history_evidence"] = "New associate payout policy."
+        record = report["cash_flow_model"]["associate_cash_conversion"]
+        record["above_history_evidence"] = {"evidence": "New associate payout policy.", "source_refs": ["not a report source"]}
+        self.assertTrue(any("source_refs" in e for e in associate_conversion_errors(report)))
+        record["above_history_evidence"]["source_refs"] = [report["sources"][0]]
         self.assertEqual(associate_conversion_errors(report), [])
 
     def test_ratios_are_recomputed(self):
@@ -86,20 +112,18 @@ class AssociateConversion(unittest.TestCase):
         report["cash_flow_model"]["associate_cash_conversion"]["history"][4]["conversion"] = 0.7
         self.assertTrue(any("2025" in e for e in associate_conversion_errors(report)))
 
-    def test_prior_year_timing(self):
+    def test_same_year_timing_inflates_2025(self):
         report = cmport()
         record = report["cash_flow_model"]["associate_cash_conversion"]
-        record["timing_basis"] = "prior_year_profit"
-        history = record["history"]
-        history[0]["conversion"] = None
-        for prev, row in zip(history, history[1:]):
-            row["conversion"] = row["cash_dividends_received"] / prev["share_of_profit"]
-        received = sum(row["cash_dividends_received"] for row in history[1:])
-        record["aggregate_conversion"] = received / sum(row["share_of_profit"] for row in history[:-1])
-        record["forecast_conversion"] = {"Bear": 0.25, "Base": 0.35, "Bull": 0.45}
-        self.assertEqual(associate_conversion_errors(report), [])
-        history[0]["conversion"] = 0.4
+        record["history"][0]["conversion"] = 0.4
         self.assertTrue(any("must be null" in e for e in associate_conversion_errors(report)))
+        record["timing_basis"] = "same_year"
+        for row in record["history"]:
+            row["conversion"] = row["cash_dividends_received"] / row["share_of_profit"]
+        record["aggregate_conversion"] = (sum(row["cash_dividends_received"] for row in record["history"])
+                                          / sum(row["share_of_profit"] for row in record["history"]))
+        self.assertEqual(associate_conversion_errors(report), [])
+        self.assertGreater(record["history"][4]["conversion"], 0.54)
 
     def test_too_short_history_fails_schema(self):
         report = cmport()
@@ -112,6 +136,47 @@ class AssociateConversion(unittest.TestCase):
         report["economic_profile"]["cash_attribution"] = "wholly_owned"
         del report["cash_flow_model"]["associate_cash_conversion"]
         self.assertEqual(associate_conversion_errors(report), [])
+
+
+class FiniteLifeTerminal(unittest.TestCase):
+    def test_concessions_expire_in_the_terminal(self):
+        from scripts.validate_analysis import growth_present_value
+        report = cmport()
+        growth = report["growth_valuation"]
+        self.assertEqual(validate_report(report), [])
+        self.assertEqual(growth["terminal_base_fiscal_year"], 2030)
+        self.assertEqual({row["name"] for row in growth["terminal_finite_assets"]},
+                         {row["name"] for row in report["economic_profile"]["finite_life_assets"]})
+        base = next(row for row in growth["scenarios"] if row["scenario"] == "Base")
+        _, perpetual = growth_present_value(base["forecast_cash_flows"], base["required_return"], base["terminal_growth"],
+                                            base["terminal_net_dps"], base["terminal_time_years"])
+        self.assertLess(base["present_value_of_terminal"], perpetual)
+
+    def test_growth_haircut_alone_is_rejected(self):
+        report = cmport()
+        del report["growth_valuation"]["terminal_finite_assets"]
+        self.assertTrue(any("terminal_finite_assets" in e for e in validate_report(report)))
+
+    def test_assets_must_match_profile(self):
+        report = cmport()
+        report["growth_valuation"]["terminal_finite_assets"][0]["end_year"] = 2060
+        self.assertTrue(any("profile end year" in e for e in validate_report(report)))
+        renewed = cmport()
+        renewed["growth_valuation"]["terminal_finite_assets"][0]["treatment"] = "renewal_evidenced"
+        self.assertTrue(any("extension_evidence" in e for e in validate_report(renewed)))
+
+    def test_terminal_value_recomputed(self):
+        report = cmport()
+        report["growth_valuation"]["scenarios"][1]["present_value_of_terminal"] *= 1.05
+        self.assertTrue(any("terminal PV" in e for e in validate_report(report)))
+
+
+class CurrencyRisk(unittest.TestCase):
+    def test_rmb_exposure_is_stressed(self):
+        fx = cmport()["fx_risk"]
+        self.assertTrue(fx["material_exposure"])
+        self.assertEqual({row["kind"] for row in fx["stress_rows"]}, {"fx_only", "combined_bear"})
+        self.assertTrue(all(row["stressed_net_cash"] < row["base_net_cash"] for row in fx["stress_rows"]))
 
 
 class MatchingCurrencyBenchmark(unittest.TestCase):
