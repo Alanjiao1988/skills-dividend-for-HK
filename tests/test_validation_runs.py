@@ -48,5 +48,34 @@ class ValidationRuns(unittest.TestCase):
         self.assertEqual(rows["2022"]["cash_dividends"], round(0.82 * 3861.103481))
 
 
+class PortGrowthModel(unittest.TestCase):
+    """China Merchants Port: growth DDM primary, income ladder as comparison, growth credit refused."""
+
+    def test_ddm_is_primary_and_reconciles(self):
+        from scripts.decision_rules import stage_prices
+        report = load("cmport-0144")
+        self.assertEqual(report["valuation_mode"], "total_return_based")
+        growth = report["growth_valuation"]
+        starter, add, strong = stage_prices(report)
+        self.assertAlmostEqual(starter, growth["base_case_value"] * (1 - growth["margin_of_safety"]))
+        self.assertAlmostEqual(strong, growth["entry_upper"])
+        self.assertAlmostEqual(report["decision"]["reference_prices"]["starter"], starter)
+        self.assertLess(starter, report["price_used"])
+        broken = copy.deepcopy(report)
+        broken["growth_valuation"]["scenarios"][1]["terminal_growth"] = 0.03
+        self.assertTrue(any("terminal growth above" in e for e in validate_report(broken)))
+
+    def test_falling_dividend_history_refuses_growth_credit(self):
+        report = load("cmport-0144")
+        basis = report["return_requirements"]["income_growth_credit_basis"]
+        self.assertLess(basis["historical_cagr"], 0)
+        self.assertEqual(basis["credit_cap"], 0)
+        self.assertEqual(report["return_requirements"]["income_growth_credit"], 0)
+        forced = copy.deepcopy(report)
+        forced["return_requirements"]["income_growth_credit"] = 0.02
+        self.assertTrue(any("Income growth credit" in e for e in validate_report(forced)))
+        self.assertIn("收息口径增长抵扣检验", render_report(report))
+
+
 if __name__ == "__main__":
     unittest.main()

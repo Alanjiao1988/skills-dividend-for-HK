@@ -150,10 +150,11 @@ def stage_prices(report):
     mode = report["valuation_mode"]
     if mode == "ordinary_yield_based":
         zone = report["buy_zone"]
+        credit = report["return_requirements"].get("income_growth_credit") or 0
         return (
             zone["normalized_net_dps"] / zone["required_net_yield_low"],
             zone["normalized_net_dps"] / zone["required_net_yield_high"],
-            zone["bear_net_dps"] / zone["required_net_yield_high"],
+            zone["bear_net_dps"] / (zone["required_net_yield_high"] + credit),  # strong buy takes no growth credit
         )
     if mode == "total_return_based":
         growth = report["growth_valuation"]
@@ -317,7 +318,8 @@ def validate_decision_framework(report, *, tax_supported, cash_supported, eviden
                 expected_checks = {
                     1: (None if report["income_assessment"]["forward_net_dps"] is None
                         else report["income_assessment"]["forward_net_dps"] >= zone["normalized_net_dps"]),
-                    2: zone["bear_net_dps"] / price >= zone["required_net_yield_high"],
+                    2: zone["bear_net_dps"] / price >= zone["required_net_yield_high"]
+                       + (report["return_requirements"].get("income_growth_credit") or 0),
                     3: None if required_low is None else normalized_yield >= required_low,
                 }
                 for number, result in expected_checks.items():

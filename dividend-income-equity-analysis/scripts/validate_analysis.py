@@ -24,17 +24,67 @@ SCENARIOS = ("Bear", "Base", "Bull")
 SUPPORTED_WITHHOLDING_BASES = ("broker_observed", "company_announcement", "legal_structure")
 
 
-def ordinary_boundaries(n, b, r_low, r_high):
-    if not (0 <= b <= n and n > 0 and 0 < r_low < r_high):
+def ordinary_boundaries(n, b, r_low, r_high, credit=0):
+    """Ordinary income ladder; a gated growth credit lowers r_low/r_high but never the Bear strong-buy rate."""
+    if not (0 <= b <= n and n > 0 and 0 < r_low < r_high and 0 <= credit):
         raise ValueError("Ordinary valuation requires 0 <= B <= N, N > 0 and 0 < r_low < r_high")
+    strong = b / (r_high + credit)
     return {
         "too_expensive_above": n / r_low,
         "fair_lower": n / r_high,
         "fair_upper": n / r_low,
-        "accumulation_lower": b / r_high,
+        "accumulation_lower": strong,
         "accumulation_upper": n / r_high,
-        "strong_buy_at_or_below": b / r_high,
+        "strong_buy_at_or_below": strong,
     }
+
+CREDIT_TRENDS = ("Structural Growth", "Stable", "Mature")
+CREDIT_CAP = 0.03
+
+
+def _cagr(start, end, years):
+    return (end / start) ** (1 / years) - 1
+
+
+def income_growth_credit_errors(report, runway, mode):
+    """Gate the ordinary income growth credit (buy-zone.md Section 4.2A)."""
+    errors = []
+    returns = report["return_requirements"]
+    credit = returns.get("income_growth_credit") or 0
+    basis = returns.get("income_growth_credit_basis")
+    tol = dict(rel_tol=1e-6, abs_tol=1e-6)
+
+    def require(ok, message):
+        if not ok:
+            errors.append(f"Income growth credit: {message}")
+
+    if basis is None:
+        require(credit == 0, "a positive credit needs income_growth_credit_basis")
+        return errors
+    first, last = runway.get((1, "Base")), runway.get((5, "Base"))
+    dps = [row and row.get("derived_dps") for row in (first, last)]
+    if all(isinstance(value, (int, float)) and value > 0 for value in dps):
+        require(math.isclose(basis["base_dps_cagr_fy1_fy5"], _cagr(dps[0], dps[1], 4), **tol),
+                "Base FY1->FY5 DPS CAGR does not match the runway")
+    else:
+        require(credit == 0, "needs positive Base FY1 and FY5 runway DPS")
+    require(math.isclose(basis["historical_cagr"], _cagr(basis["historical_start_value"], basis["historical_end_value"],
+                                                          basis["historical_years"]), **tol),
+            "historical CAGR does not match its start/end values")
+    cap = max(0.0, min(CREDIT_CAP, basis["base_dps_cagr_fy1_fy5"], basis["historical_cagr"], basis["long_run_growth_bound"]))
+    require(math.isclose(basis["credit_cap"], cap, **tol), "credit_cap must be min(3%, Base CAGR, historical CAGR, long-run bound)")
+    gates = (mode == "ordinary_yield_based" and report["fundamental_trend"] in CREDIT_TRENDS
+             and report["dividend_safety"] in ("Strong", "Acceptable")
+             and report["forecast_confidence"] in ("High", "Medium")
+             and report.get("value_trap_veto") == "Not triggered" and returns["status"] == "assessed")
+    require(basis["gates_passed"] == (gates and cap > 0), "gates_passed disagrees with mode, trend, safety, confidence, veto or cap")
+    if credit:
+        require(gates, "only for ordinary_yield_based with Stable/Mature/Structural Growth trend, Strong/Acceptable "
+                       "safety, High/Medium confidence and no value-trap veto")
+        require(credit <= cap + 1e-12, "exceeds min(3%, Base CAGR, historical per-share growth, long-run bound)")
+        if returns["status"] == "assessed":
+            require(returns["required_total_return_low"] - credit > 0, "R_low - c must stay positive")
+    return errors
 
 
 def distribution_capacity(owner_cash, growth_uses, mandatory_uses, exceptional_uses, excess_cash):
@@ -413,6 +463,8 @@ def validate_report(report):
     elif net_yield is None:
         require(income["yield_fit"] == "Not Assessed" and income["income_eligible"] is None, "Missing cash yield cannot pass an income requirement")
 
+    credit = returns.get("income_growth_credit") or 0
+    errors.extend(income_growth_credit_errors(report, runway, mode))
     if "buy_zone" in report:
         zone = report["buy_zone"]
         if zone["normalized_net_dps_basis"] == "three_year_base_average":
@@ -427,7 +479,8 @@ def validate_report(report):
                 same(zone["normalized_net_dps"], average, "Three-year Base-average N")
         try:
             boundaries = ordinary_boundaries(zone["normalized_net_dps"], zone["bear_net_dps"],
-                                              zone["required_net_yield_low"], zone["required_net_yield_high"])
+                                              zone["required_net_yield_low"], zone["required_net_yield_high"],
+                                              credit if mode == "ordinary_yield_based" else 0)
         except ValueError as error:
             errors.append(str(error))
         else:
@@ -436,8 +489,9 @@ def validate_report(report):
         if mode == "finite_life_harvest":
             require(zone["required_net_yield_low"] >= 0.1, "Harvest ordinary cross-check needs r_low >= 10%")
         else:
-            same(zone["required_net_yield_low"], returns["required_total_return_low"], "Zero-growth income r_low")
-            same(zone["required_net_yield_high"], returns["required_total_return_high"], "Zero-growth income r_high")
+            label = "Growth-credited" if credit else "Zero-growth"
+            same(zone["required_net_yield_low"], returns["required_total_return_low"] - credit, f"{label} income r_low")
+            same(zone["required_net_yield_high"], returns["required_total_return_high"] - credit, f"{label} income r_high")
 
     if mode == "finite_life_harvest":
         harvest = report["finite_life_valuation"]

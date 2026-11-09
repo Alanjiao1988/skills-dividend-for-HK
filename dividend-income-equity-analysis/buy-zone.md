@@ -191,7 +191,7 @@ The report must answer directly: why should the investor accept the issuer's div
 
 ### 4.2 Ordinary Cash-Yield Derivation and Investor Objective
 
-The conservative ordinary anchor gives **no growth credit**:
+The ordinary anchor gives **no growth credit by default**:
 
 ```text
 income_growth_credit = 0
@@ -199,7 +199,24 @@ r_low = R_low
 r_high = R_high
 ```
 
-Print this derivation. Do not silently subtract assumed growth from required total return to improve the yield-based price. The finite-harvest cross-check separately retains its 10% floor. With fixed N, B, r_low and r_high, the legacy ordinary formulas in Section 5 are unchanged.
+**Gated income growth credit (4.2A).** A stable, low-growth company whose per-share dividend has *evidenced* long-run growth may earn a small credit `c`, so that the income thresholds approximate a Gordon value without a full Section 6 model:
+
+```text
+0 < c <= min(3%, Base per-share net DPS CAGR FY1->FY5,
+             historical per-share growth, long-run nominal growth bound)
+r_low  = R_low  - c        -> starter boundary  N / (R_low - c)
+r_high = R_high - c        -> add boundary      N / (R_high - c)
+Strong-buy boundary stays B / R_high (no credit)
+```
+
+All gates must pass; otherwise `c = 0`:
+
+- `valuation_mode` is `ordinary_yield_based`; Fundamental Trend is Structural Growth, Stable or Mature; Dividend Safety is Strong or Acceptable; Forecast Confidence is High or Medium; value-trap veto is not triggered.
+- Base FY1->FY5 per-share DPS CAGR (from the runway, never a plug) is at least `c`.
+- Historical per-share growth across at least five fiscal years, i.e. four or more growth intervals (DPS, or recurring EPS when the payout policy changed; state which) is at least `c`. Dilution from scrip, rights or placings is already inside a per-share measure; a falling per-share record means no credit, however strong the forecast.
+- `c` does not exceed a sourced long-run nominal growth bound for the cash-generating economies (inflation plus real GDP, or a contractual indexation rate).
+
+Record the test in `return_requirements.income_growth_credit_basis` and print it in Chapter 9 next to the no-credit ladder. When growth is material to value, or the evidence would support more than 3%, use the full Section 6 growth model instead of stretching the credit. Do not silently subtract assumed growth from required total return to improve the yield-based price. The finite-harvest cross-check separately retains its 10% floor and never takes a credit.
 
 Investor income requirements are separate from these asset-specific return requirements. Carry `income_assessment.target`, `forward_net_yield`, `yield_fit`, `income_eligible` and the reason. A target comes only from an explicit current request or an explicitly applicable portfolio objective; otherwise it is `Not Assessed`. Never substitute this module's rates or sector ranges for the Screen Mode target.
 
@@ -216,7 +233,7 @@ Earlier versions contained fixed sector yield ranges. They are historical proven
 
 Use as the primary ladder for `ordinary_yield_based`. In `total_return_based`, retain a separately labelled **ordinary income entry comparison** whenever its inputs are credible. A harvest case may use it only subject to Section 8.
 
-Caption every ordinary ladder: **Cash-income comparison with no dividend growth credited; not a complete estimate of intrinsic value.** A constant perpetual dividend can mathematically have value D/R, but these normalized/Bear income thresholds do not establish a complete expected dividend path or realized total return. A yield shortfall therefore does not alone establish that the company is overvalued.
+Caption every ordinary ladder: **Cash-income comparison with no dividend growth credited; not a complete estimate of intrinsic value.** When a gated credit `c > 0` applies (Section 4.2A), caption it **Cash-income comparison with c of evidenced dividend growth credited** and still show the no-credit starter price beside it. `c` is zero unless stated, so `B / r_high` below means `B / R_high`. A constant perpetual dividend can mathematically have value D/R, but these normalized/Bear income thresholds do not establish a complete expected dividend path or realized total return. A yield shortfall therefore does not alone establish that the company is overvalued.
 
 Definitions and validity:
 
@@ -236,8 +253,8 @@ Boundary formulas:
 ```text
 Normalized low-end cash-yield boundary = N / r_low
 Normalized high-end cash-yield boundary = N / r_high
-Bear high-end cash-yield boundary = B / r_high
-N / r_low >= N / r_high >= B / r_high
+Bear high-end cash-yield boundary = B / (r_high + c) = B / R_high
+N / r_low >= N / r_high >= B / R_high
 ```
 
 | Cash-income band | Deterministic Boundary | Income meaning |

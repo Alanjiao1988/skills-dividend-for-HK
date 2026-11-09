@@ -2093,7 +2093,10 @@
           "const": true
         },
         "income_growth_credit": {
-          "const": 0
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.03,
+          "description": "Gated per-share dividend growth credit subtracted from R_low/R_high for the ordinary starter/add thresholds (buy-zone.md 4.2A). 0 unless every gate passes."
         },
         "limitations": {
           "$ref": "#/$defs/nonemptyText"
@@ -2112,6 +2115,17 @@
           ],
           "exclusiveMinimum": 0,
           "description": "Quote-currency units per valuation-currency unit, e.g. 7.8395 HKD per USD."
+        },
+        "income_growth_credit_basis": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/incomeGrowthCreditBasis"
+            }
+          ],
+          "description": "Evidence for the gated growth credit; required when income_growth_credit > 0, optional record of a failed test otherwise."
         }
       },
       "required": [
@@ -6244,6 +6258,76 @@
         "shareholder_return_policy",
         "capital_constraint",
         "price_independent"
+      ]
+    },
+    "incomeGrowthCreditBasis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "base_dps_cagr_fy1_fy5": {
+          "type": "number",
+          "description": "Base per-share net DPS CAGR from runway FY1 to FY5."
+        },
+        "historical_metric": {
+          "enum": [
+            "dps",
+            "recurring_eps"
+          ]
+        },
+        "historical_start_period": {
+          "$ref": "#/$defs/nonemptyText"
+        },
+        "historical_end_period": {
+          "$ref": "#/$defs/nonemptyText"
+        },
+        "historical_years": {
+          "type": "number",
+          "minimum": 4,
+          "description": "Growth intervals; at least four (five fiscal years observed)."
+        },
+        "historical_start_value": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "historical_end_value": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "historical_cagr": {
+          "type": "number"
+        },
+        "long_run_growth_bound": {
+          "type": "number",
+          "minimum": 0
+        },
+        "long_run_growth_bound_basis": {
+          "$ref": "#/$defs/nonemptyText"
+        },
+        "credit_cap": {
+          "type": "number",
+          "description": "min(3%, Base CAGR, historical CAGR, long-run bound), floored at 0."
+        },
+        "gates_passed": {
+          "type": "boolean"
+        },
+        "explanation": {
+          "$ref": "#/$defs/nonemptyText"
+        }
+      },
+      "required": [
+        "base_dps_cagr_fy1_fy5",
+        "historical_metric",
+        "historical_start_period",
+        "historical_end_period",
+        "historical_years",
+        "historical_start_value",
+        "historical_end_value",
+        "historical_cagr",
+        "long_run_growth_bound",
+        "long_run_growth_bound_basis",
+        "credit_cap",
+        "gates_passed",
+        "explanation"
       ]
     }
   },

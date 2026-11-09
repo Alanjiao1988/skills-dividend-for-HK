@@ -99,7 +99,7 @@ Canonical priority:
 Guardrails:
 
 - Apply `data-conventions.md` for period, FX, corporate actions and evidence.
-- Ordinary price bands measure cash-yield requirements without dividend growth credit; display income labels from `buy-zone.md`, not legacy JSON action-like names. Action eligibility is separate.
+- Ordinary price bands measure cash-yield requirements with no dividend growth credit unless the gated credit in `buy-zone.md` 4.2A passes (at most 3%, never above historical or forecast per-share DPS growth; strong buy never takes it). Display income labels from `buy-zone.md`, not legacy JSON action-like names. Action eligibility is separate.
 - Use `publishing.md` for authorized report-archive changes; validate and synchronize the index, ticker READMEs and version chains.
 - Use total dividend entitlement for cash-election DPS and actual settlement for issuer cash cost; scrip retention cannot manufacture dividend coverage.
 - Apply confidence and capital-risk action gates before Strong Buy, including for growth valuation. Historical broker withholding is event evidence, not a permanent future tax rate.

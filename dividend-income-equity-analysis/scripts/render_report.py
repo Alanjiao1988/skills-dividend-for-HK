@@ -223,6 +223,26 @@ def render_appendix(report):
     return "".join(parts)
 
 
+def render_growth_credit(returns):
+    """Gated income growth credit test (buy-zone.md Section 4.2A)."""
+    basis = returns["income_growth_credit_basis"]
+    metric = {"dps": "每股股息", "recurring_eps": "每股经常性利润"}[basis["historical_metric"]]
+    pct = lambda value: f"{value * 100:.2f}%"
+    rows = [
+        ["Base 情景每股股息年增长（预测第 1→5 年）", pct(basis["base_dps_cagr_fy1_fy5"])],
+        [f"历史{metric}年增长（{basis['historical_start_period']}→{basis['historical_end_period']}）",
+         pct(basis["historical_cagr"])],
+        [f"长期名义增长上限（{basis['long_run_growth_bound_basis']}）", pct(basis["long_run_growth_bound"])],
+        ["规则上限", "3.00%"],
+        ["可抵扣上限（取以上最小值，不低于 0）", pct(basis["credit_cap"])],
+        ["质量门槛", "通过" if basis["gates_passed"] else "未通过"],
+        ["实际采用的增长抵扣", pct(returns["income_growth_credit"])],
+    ]
+    return "<h3>收息口径增长抵扣检验</h3>" + render_table({
+        "title": "增长抵扣：起始与增持价按 N/(R−c)，强力买入仍按 B/R_high",
+        "columns": ["检验项", "数值"], "rows": rows, "note": basis["explanation"]})
+
+
 def render_report(report):
     errors = validate_report(report)
     if errors:
@@ -289,6 +309,9 @@ def render_report(report):
                     quoted = (f"<td>{value * rate:.1f} {escape(quote)}</td>" if value is not None else "<td>—</td>") if extra else ""
                     body += f"<tr><td>{label}</td><td>{displayed}</td>{quoted}</tr>"
                 body += "</tbody></table><p>参考价不替代资金、税务、资本与风险门槛；未就绪档位不可执行。</p>"
+        credit_basis = report.get("return_requirements", {}).get("income_growth_credit_basis")
+        if report["mode"] == "full_analysis" and "买点" in section["heading"] and credit_basis:
+            body += render_growth_credit(report["return_requirements"])
         if index == len(output["sections"]):
             for record in report["evidence_recovery"]["records"]:
                 body += f"<p>取数范围：{escape(record['reason'])}；影响：{escape(record['impact'])}</p><ul>"

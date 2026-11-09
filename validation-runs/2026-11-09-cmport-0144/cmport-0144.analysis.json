@@ -6,7 +6,7 @@
     "status": "eligible",
     "strong_buy_eligible": false,
     "reasons": [
-      "Evidence supports the income comparison; price does not meet the required yield."
+      "Evidence supports a funded growth DDM; price is above every stage."
     ],
     "capital_risk_and_total_return_check": "See entry_plan.return_scenarios."
   },
@@ -38,7 +38,7 @@
     "score_100": 63,
     "grade": "C",
     "portfolio_role": "Watchlist",
-    "valuation_mode": "ordinary_yield_based"
+    "valuation_mode": "total_return_based"
   },
   "dividend_snapshot": {
     "ttm_dps": 0.739,
@@ -315,7 +315,22 @@
     "income_growth_credit": 0,
     "limitations": "HK government bond yield not retrieved; US 10-year used through the HKD peg. No growth credit in the income thresholds.",
     "quote_currency": null,
-    "quote_per_valuation_unit": null
+    "quote_per_valuation_unit": null,
+    "income_growth_credit_basis": {
+      "base_dps_cagr_fy1_fy5": 0.024622987388101425,
+      "historical_metric": "dps",
+      "historical_start_period": "FY2021",
+      "historical_end_period": "FY2025",
+      "historical_years": 4,
+      "historical_start_value": 0.94,
+      "historical_end_value": 0.739,
+      "historical_cagr": -0.058372472432812184,
+      "long_run_growth_bound": 0.04,
+      "long_run_growth_bound_basis": "中国与全球名义增长约 4%（2% 通胀 + 2% 实际增长）",
+      "credit_cap": 0.0,
+      "gates_passed": false,
+      "explanation": "每股股息 2021→2025 年由 0.94 降至 0.739 港元（年均 -5.8%，含以股代息摊薄），历史证据不支持增长抵扣；Base 预测 2.5% 的增长只进入成长股息折现模型，不进入收息口径。本报告主估值为成长股息折现，收息口径仅作对照，按规则也不适用抵扣。"
+    }
   },
   "income_assessment": {
     "target": {
@@ -332,13 +347,13 @@
     "reason": "No investor income target supplied. Base FY2026 DPS 0.783 HKD / price 16.72 = 4.68%."
   },
   "growth_assessment": {
-    "status": "not_assessed",
-    "funded_dividend_path": false,
-    "reinvestment_to_dps_reconciled": false,
-    "capital_remittance_verified": false,
-    "credible_terminal_state": false,
-    "growth_method": "not_assessed",
-    "evidence_and_reason": "No growth valuation requested or supported; use flat cash-income thresholds and separately disclose capital/total-return uncertainty."
+    "status": "eligible",
+    "funded_dividend_path": true,
+    "reinvestment_to_dps_reconciled": true,
+    "capital_remittance_verified": true,
+    "credible_terminal_state": true,
+    "growth_method": "direct_operating_to_dps",
+    "evidence_and_reason": "三种情景五年股息均由经常性可分配现金覆盖（Base 约 1.7 倍）；成长投资每年 3–9 亿港元对应吞吐量 2%–4% 增长，按 48% 派息率直接转化为每股股息，股数不变；联营现金上缴率按 2025 年 55% 的有界估计；终值已为海外特许权到期下调增长。预测可信度为中等，不支持强力买入。"
   },
   "holding_review": {
     "action": "not_assessed",
@@ -373,9 +388,9 @@
   },
   "fundamental_trend": "Stable",
   "forecast_confidence": "Medium",
-  "valuation_mode": "ordinary_yield_based",
+  "valuation_mode": "total_return_based",
   "value_trap_veto": "Not triggered",
-  "valuation_reason": "Operating port holding company (not a balance-sheet spread business): ordinary cash-income thresholds; P/B and P/E shown as cross-checks.",
+  "valuation_reason": "Operating port holding company with evidenced, funded modest growth: a five-year dividend-discount model with a fading terminal sets the stages; the no-credit income ladder is kept as a comparison.",
   "structural_decline_cap_applied": false,
   "harvest_managed_runoff_exception_applied": false,
   "business_fundamentals": {
@@ -1793,7 +1808,7 @@
     "dps_path": "Base DPS 0.783/0.829/0.863 HKD in 2026/2028/2030.",
     "yield_normalization": "Forward yield 4.68% vs US 10y 4.84%.",
     "main_driver_sensitivity": "Associate cash conversion and throughput drive the Bear case.",
-    "valuation_summary": "Income thresholds HKD 8.86/7.23/6.22; price 0.64x book.",
+    "valuation_summary": "DDM stages HKD 8.51/7.06/6.00; income comparison 8.86/7.23/6.22; price 0.64x book.",
     "coverage_labels": "Three-year entitlement coverage 1.34x; worst 1.03x."
   },
   "score_100": 63,
@@ -2317,33 +2332,33 @@
   },
   "entry_plan": {
     "current_action": "wait_for_price",
-    "summary": "At HKD 16.72 the forward yield is 4.7%, below the US 10-year Treasury and far below the 8.8%-10.8% required income yield.",
+    "summary": "At HKD 16.72 the forward yield is 4.7%, below the US 10-year Treasury; the Base dividend-discount value is HKD 10.01 at a 9.84% required return, and the price implies only about 6.5%-6.9%.",
     "opportunity_thesis": "Stable port cash with modest growth, but associate cash conversion and the low yield leave no income margin of safety.",
     "market_expectation_gap": "Price is 0.64x book value (26.3 HKD/share) and about 10.9x 2025 EPS; the market discounts associate cash conversion and geopolitical risk.",
     "stages": [
       {
         "stage": "starter",
-        "valuation_price": 8.86004972542397,
-        "effective_price": 8.86004972542397,
-        "gap_to_current_pct": -47.009271977129366,
+        "valuation_price": 8.507035308065921,
+        "effective_price": 8.507035308065921,
+        "gap_to_current_pct": -49.120602224486106,
         "status": "waiting_price",
-        "condition": "N/R_low = 0.7832/0.0884 = HKD 8.86."
+        "condition": "Base DDM value 10.01 x (1 - 15%) = HKD 8.51."
       },
       {
         "stage": "add",
-        "valuation_price": 7.225354204128035,
-        "effective_price": 7.225354204128035,
-        "gap_to_current_pct": -56.78615906621989,
+        "valuation_price": 7.056731001392707,
+        "effective_price": 7.056731001392707,
+        "gap_to_current_pct": -57.79467104430198,
         "status": "waiting_price",
-        "condition": "N/R_high = HKD 7.23."
+        "condition": "Lowest scenario (Bear) DDM value = HKD 7.06."
       },
       {
         "stage": "strong_buy",
-        "valuation_price": 6.223297781657724,
-        "effective_price": 6.223297781657724,
-        "gap_to_current_pct": -62.779319487693044,
+        "valuation_price": 5.998221351183801,
+        "effective_price": 5.998221351183801,
+        "gap_to_current_pct": -64.12547038765669,
         "status": "waiting_evidence",
-        "condition": "B/R_high = HKD 6.22, plus High confidence and Strong safety."
+        "condition": "Bear DDM value x (1 - 15%) = HKD 6.00, plus High confidence and Strong safety."
       }
     ],
     "return_scenarios": [
@@ -2398,8 +2413,8 @@
     "blockers": [
       {
         "scope": "price",
-        "reason": "Forward yield 4.7% is below R_low 8.84%.",
-        "resolution": "Price at or below HKD 8.86, or evidence of materially higher sustainable dividends.",
+        "reason": "Price 16.72 is above the Base DDM starter HKD 8.51; implied return about 6.5% versus required 8.84%-10.84%.",
+        "resolution": "Price at or below HKD 8.51, or evidence of materially higher sustainable dividends.",
         "source_refs": [
           "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0924/2026092400588.pdf",
           "https://query1.finance.yahoo.com/v8/finance/chart/0144.HK"
@@ -2533,13 +2548,13 @@
   "decision": {
     "current_action": "等待到价",
     "can_buy_now": false,
-    "reason": "远期股息率约 4.7%，低于美国 10 年期国债 4.84%，更远低于 8.8%–10.8% 的必要收益率；且约四分之三利润来自联营合营，现金上缴率只有约 55%。新资金按收息逻辑不宜买入。",
+    "reason": "计入股息增长后（成长股息折现模型），Base 情景每股价值约 10.01 港元，现价 16.72 港元高出约 67%；按现价买入的预期年回报只有约 6.5%–6.9%，低于 8.84%–10.84% 的必要回报。远期股息率约 4.7%，也低于美国 10 年期国债 4.84%。",
     "buy_conditions": [
       {
         "kind": "price",
         "observable": "招商局港口收盘价",
         "operator": "<=",
-        "threshold": 8.86,
+        "threshold": 8.51,
         "unit": "HKD",
         "source_to_watch": "港交所实时报价"
       }
@@ -2563,13 +2578,13 @@
       }
     ],
     "trap_conclusion": "未触发红利陷阱：股息有经营现金覆盖；需警惕联营公司现金上缴率和以股代息历史。",
-    "entry_conclusion": "收息口径参考价：初始建仓 8.86 港元、逐步增持 7.23 港元、强力买入 6.22 港元，现价 16.72 港元高出较多。",
+    "entry_conclusion": "成长股息折现口径参考价：初始建仓 8.51 港元、逐步增持 7.06 港元、强力买入 6.00 港元；收息口径（不计增长）对照为 8.86／7.23／6.22 港元。两种方法结论一致，现价高出较多。",
     "price_status": "reference_prices",
     "reference_prices": {
-      "starter": 8.86004972542397,
-      "add": 7.225354204128035,
-      "strong_buy": 6.223297781657724,
-      "income_capped_upper": 8.86004972542397
+      "starter": 8.507035308065921,
+      "add": 7.056731001392707,
+      "strong_buy": 5.998221351183801,
+      "income_capped_upper": 8.507035308065921
     }
   },
   "evidence_recovery": {
@@ -2579,16 +2594,14 @@
     "records": [
       {
         "field_paths": [
-          "/growth_assessment/growth_method",
-          "/growth_assessment/status",
           "/holding_review/action",
           "/holding_review/missing_inputs",
           "/income_assessment/target/target_basis",
           "/income_assessment/target/target_policy",
           "/real_income/status"
         ],
-        "reason": "用户未提供收息目标、持仓与成本；本次未建立成长股息折现模型，也未做通胀测算",
-        "impact": "不判断收入匹配度、不给仓位建议；估值只用收息口径，市净率与市盈率仅作对照",
+        "reason": "用户未提供收息目标、持仓与成本；未做通胀测算",
+        "impact": "不判断收入匹配度、不给仓位建议；不评估实际购买力",
         "resolution": "not_assessable",
         "attempts": [
           {
@@ -2665,7 +2678,7 @@
           }
         ],
         "estimate": null,
-        "estimate_failure_reason": "缺少用户输入；成长估值需逐年股息折现与终值资金证明，本次未完成",
+        "estimate_failure_reason": "缺少用户输入与香港通胀序列，无法收窄",
         "closure_condition": {
           "kind": "event",
           "observable": "用户提供持仓、成本及收息目标",
@@ -2861,13 +2874,13 @@
     "language": "zh-CN",
     "user_requested_language": null,
     "title": "招商局港口（0144.HK）完整研究报告",
-    "summary": "数据截至 2026-11-09；收息口径初始建仓约 8.86 港元，现价 16.72 港元，等待到价。",
+    "summary": "数据截至 2026-11-09；成长股息折现口径初始建仓约 8.51 港元（收息口径对照 8.86），现价 16.72 港元，等待到价。",
     "sections": [
       {
         "heading": "摘要与投资结论",
         "paragraphs": [
           "招商局港口是周期／稳定之间的港口控股公司：盈利来自珠三角控股码头、上港集团等联营码头和海外特许经营码头，股息按归属利润约 48% 派发。",
-          "估值采用收息口径（不是银行，不适用资本回报路线）：远期股息率约 4.7%，低于美国 10 年期国债 4.84%，远低于 8.84%–10.84% 的必要收益率，收息口径初始建仓价约 8.86 港元，新资金动作“等待到价”。对照指标：现价约 0.64 倍市净率、约 10.9 倍 2025 年市盈率，市场已对联营现金和地缘风险给出折价。",
+          "主估值采用成长股息折现模型（逐年折现五年股息，再加逐步放缓的永续部分）：Base 情景每股价值约 10.01 港元（Bear 7.06，Bull 12.23），初始建仓约 8.51 港元；不计增长的收息口径对照为 8.86 港元，两者接近。现价 16.72 港元隐含的预期年回报只有约 6.5%–6.9%，比美国 10 年期国债只高约 1.6–2.0 个百分点，新资金动作“等待到价”。",
           "最重要的结构性特点：2025 年约 77% 的归属利润来自联营及合营公司，但当年只收到 55% 的现金分红；2021–2023 年股息部分以股代息，股数增加约 13%。"
         ],
         "tables": [
@@ -2900,9 +2913,19 @@
                 "2026-11-05；联系汇率下作港元无风险锚"
               ],
               [
-                "收息口径初始建仓价",
-                "8.86 港元",
-                "较现价 -47%"
+                "成长折现 Base 每股价值",
+                "10.01 港元",
+                "必要回报 9.84%，永续增长 1.5%"
+              ],
+              [
+                "初始建仓价（成长口径）",
+                "8.51 港元",
+                "较现价 -49%；收息口径对照 8.86"
+              ],
+              [
+                "现价隐含年回报",
+                "6.5%–6.9%",
+                "Base 现金路径，永续增长 1.5%–2%"
               ],
               [
                 "三年股息覆盖（全部应派）",
@@ -3232,11 +3255,82 @@
       {
         "heading": "估值与预期总回报",
         "paragraphs": [
-          "收息口径（主估值，不计成长）：Base 2026 年每股股息 0.783 港元除以 8.84%–10.84% 的必要收益率，对应 7.23–8.86 港元，现价远高于此区间。",
-          "对照指标：每股账面净资产约 26.3 港元，现价约 0.64 倍市净率；2025 年市盈率约 10.9 倍。低市净率反映市场对联营公司现金上缴、海外特许权到期和地缘风险的折价；本报告未建立成长股息折现模型，因此不据此给出更高的买点。",
+          "主估值：成长股息折现模型。逐年折现 2026–2030 年预测股息（2026 年中期 0.25 港元已派，只计末期），第 6 年起按永续增长计算终值。必要回报统一取 9.84%（区间中点），安全边际 15%。Bear／Base／Bull 每股价值 7.06／10.01／12.23 港元。",
+          "永续增长为何只取 0%／1.5%／2.5%：吞吐量长期增长约 2%–3%，但约 34% 的现金来自 2035–2049 年到期的海外特许权，没有续期证据，所以把永续增长下调约 1 个百分点。约三分之二的价值来自第 5 年之后，结论对折现率和永续增长较敏感，见下表。",
+          "反推：要让现价 16.72 港元成立，在 Base 现金路径和 1.5%–2% 永续增长下，投资者只要求约 6.5%–6.9% 的年回报，即比美国国债高约 1.6–2.0 个百分点。本报告认为联营现金上缴、地缘与特许权风险需要 4–6 个百分点补偿，所以现价偏贵。",
+          "收息口径对照（不计增长）：Base 2026 年每股股息 0.783 港元 ÷ 8.84%–10.84%，对应 7.23–8.86 港元；与成长口径接近，说明结论不取决于方法选择。增长抵扣检验未通过（每股股息 2021–2025 年年均 -5.8%），收息口径不计抵扣。",
+          "对照指标：每股账面净资产约 26.3 港元，现价约 0.64 倍市净率；2025 年市盈率约 10.9 倍。低市净率反映市场对联营公司现金上缴、海外特许权到期和地缘风险的折价。",
           "三年持有情景（不计再投资）：Bear 若估值回落到必要收益率约亏损 43%，Base 估值不变约赚 20%，Bull 约赚 35%。"
         ],
         "tables": [
+          {
+            "title": "成长股息折现模型（每股，港元）",
+            "columns": [
+              "情景",
+              "永续增长",
+              "五年股息现值",
+              "终值现值",
+              "每股价值",
+              "终值占比"
+            ],
+            "rows": [
+              [
+                "Bear",
+                "0.0%",
+                2.52,
+                4.54,
+                7.06,
+                "64%"
+              ],
+              [
+                "Base",
+                "1.5%",
+                3.06,
+                6.95,
+                10.01,
+                "69%"
+              ],
+              [
+                "Bull",
+                "2.5%",
+                3.3,
+                8.93,
+                12.23,
+                "73%"
+              ]
+            ],
+            "note": "必要回报 9.84%；股息来自五年预测（48% 派息率、股数不变）；终值资金由第 6 年经常性可分配现金覆盖"
+          },
+          {
+            "title": "Base 每股价值对折现率与永续增长的敏感性（港元）",
+            "columns": [
+              "必要回报",
+              "永续 1.0%",
+              "永续 1.5%",
+              "永续 2.0%"
+            ],
+            "rows": [
+              [
+                "8.84%",
+                10.79,
+                11.35,
+                11.99
+              ],
+              [
+                "9.84%",
+                9.58,
+                10.01,
+                10.49
+              ],
+              [
+                "10.84%",
+                8.62,
+                8.95,
+                9.32
+              ]
+            ],
+            "note": "Base 现金路径不变；永续增长超过 2%（Base 可持续上限）不计算"
+          },
           {
             "title": "三年持有情景（每股，港元）",
             "columns": [
@@ -3273,44 +3367,80 @@
         "heading": "买点、建仓策略与持仓复评",
         "paragraphs": [
           "美国 10 年期国债对比：国债 4.84%，招商局港口远期股息率 4.68%，利差约 -0.16 个百分点，即持有港口股的当期收入还不如国债。补偿只能来自股息增长和估值修复。",
-          "分阶段参考价：初始建仓 8.86 港元、逐步增持 7.23 港元、强力买入 6.22 港元。已持有部分：用户未提供仓位和成本，本报告不给出加减仓指令；若联营现金上缴率维持在 55% 以上且不恢复以股代息，持有逻辑不变。"
+          "分阶段参考价（成长口径）：初始建仓 = Base 价值 × 85% = 8.51 港元；逐步增持 = 最低情景价值 = 7.06 港元；强力买入 = 最低情景价值 × 85% = 6.00 港元。收息口径对照：8.86／7.23／6.22 港元。已持有部分：用户未提供仓位和成本，本报告不给出加减仓指令；若联营现金上缴率维持在 55% 以上且不恢复以股代息，持有逻辑不变。"
         ],
         "tables": [
+          {
+            "title": "两种方法的分阶段参考价（港元）",
+            "columns": [
+              "档位",
+              "成长股息折现",
+              "收息口径（不计增长）",
+              "较现价"
+            ],
+            "rows": [
+              [
+                "初始建仓",
+                "8.51",
+                "8.86",
+                "-49%"
+              ],
+              [
+                "逐步增持",
+                "7.06",
+                "7.23",
+                "-58%"
+              ],
+              [
+                "强力买入",
+                "6.00",
+                "6.22",
+                "-64%"
+              ]
+            ],
+            "note": "较现价按成长口径计算；成长口径为主估值"
+          },
           {
             "title": "国债收益率敏感性",
             "columns": [
               "美国 10 年期国债",
-              "必要收益率下限",
+              "必要回报（中点）",
+              "Base 每股价值（港元）",
               "初始建仓价（港元）"
             ],
             "rows": [
               [
                 "3.84%",
-                "7.84%",
-                9.99
+                "8.84%",
+                11.35,
+                9.65
               ],
               [
                 "4.34%",
-                "8.34%",
-                9.39
+                "9.34%",
+                10.64,
+                9.04
               ],
               [
                 "4.84%",
-                "8.84%",
-                8.86
+                "9.84%",
+                10.01,
+                8.51
               ],
               [
                 "5.34%",
-                "9.34%",
-                8.39
+                "10.34%",
+                9.45,
+                8.03
               ],
               [
                 "5.84%",
-                "9.84%",
-                7.96
+                "10.84%",
+                8.95,
+                7.61
               ]
             ],
-            "note": "风险溢价 4% 不变；Base 每股股息 0.783 港元"
+            "note": "风险溢价 5% 不变；Base 现金路径，永续增长 1.5%"
           }
         ]
       },
@@ -3374,8 +3504,8 @@
         "heading": "数据来源、关键假设与研究限制",
         "paragraphs": [
           "数据截至 2026-11-09。来源：招商局港口 2022、2023、2025 年报，2026 年中报及中期派息公告（均来自港交所披露易），Yahoo Finance 行情，FRED 美国国债收益率。",
-          "关键假设：派息率 48%；股数不变；扣除利息租赁后的经营现金约为利润 1.14 倍；少数股东与永续债约占利润 20%；风险溢价 4%–6%；以美国国债作港元无风险锚。",
-          "研究限制：未取得上港集团年报（上交所网站不在本环境白名单内）、同业数据、香港通胀与港债收益率；海外特许权的现金占比为估算；未建立成长股息折现模型；用户持仓与收息目标未提供。本报告仅为研究资料，不构成投资建议。"
+          "关键假设：派息率 48%；股数不变；成长模型必要回报 9.84%、永续增长 0%／1.5%／2.5%、安全边际 15%；扣除利息租赁后的经营现金约为利润 1.14 倍；少数股东与永续债约占利润 20%；风险溢价 4%–6%；以美国国债作港元无风险锚。",
+          "研究限制：未取得上港集团年报（上交所网站不在本环境白名单内）、同业数据、香港通胀与港债收益率；海外特许权的现金占比为估算；成长模型的永续增长与联营现金上缴率为有界估计；用户持仓与收息目标未提供。本报告仅为研究资料，不构成投资建议。"
         ]
       }
     ],
@@ -3384,6 +3514,332 @@
     ],
     "labels": [
       "金额单位：港币百万，另有注明除外"
+    ]
+  },
+  "growth_valuation": {
+    "explicit_horizon_years": 5,
+    "transition_years": 0,
+    "terminal_growth_cap": 0.03,
+    "long_run_nominal_growth_bound": 0.04,
+    "growth_cap_evidence": "港元／人民币现金对应的长期名义增长约 4%；码头行业成熟、海外特许权有期限，终值增长上限取 3%，各情景另设更低的公司上限。",
+    "minimum_return_growth_spread": 0.02,
+    "scenarios": [
+      {
+        "scenario": "Bear",
+        "required_return": 0.0984,
+        "required_return_basis": "所有情景统一用必要回报区间中点 9.84%（无风险 4.84% + 风险溢价 5%），不在 Bear 情景重复加风险折价。",
+        "terminal_growth": 0.0,
+        "sustainable_terminal_growth_bound": 0.01,
+        "terminal_net_dps": 0.6746054795316972,
+        "terminal_time_years": 4.4,
+        "terminal_funding_and_fade_evidence": "第 6 年起按 0.0% 永续增长：吞吐量长期增长约 2%–3%，但约 34% 的现金来自 2035–2049 年到期的海外特许权，无续期证据，因此永续增长下调约 1 个百分点；第 6 年股东现金与成长投资同比例增长，派息率 48%、股数不变。",
+        "terminal_funding": {
+          "owner_cash_or_proxy": 5028.3,
+          "remaining_growth_uses": 300.0,
+          "remaining_mandatory_uses": 0,
+          "recurring_fad": 4728.3,
+          "dividend_cash_cost": 2832.0,
+          "dividend_entitlement": 2832.0,
+          "cash_settled_fraction": 1,
+          "settlement_cash_adjustment": 0,
+          "dividend_entitled_shares": 4198.009186,
+          "fx_to_valuation_currency": 1,
+          "investor_cash_deductions": 0
+        },
+        "forecast_cash_flows": [
+          {
+            "forecast_year": 1,
+            "years_from_valuation": 0.65,
+            "net_dps": 0.7603604133704722,
+            "cash_fraction": 0.6712085537280701,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          },
+          {
+            "forecast_year": 2,
+            "years_from_valuation": 1.4,
+            "net_dps": 0.6746054795316972,
+            "cash_fraction": 1,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          },
+          {
+            "forecast_year": 3,
+            "years_from_valuation": 2.4,
+            "net_dps": 0.6517374971746905,
+            "cash_fraction": 1,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          },
+          {
+            "forecast_year": 4,
+            "years_from_valuation": 3.4,
+            "net_dps": 0.6631714883531938,
+            "cash_fraction": 1,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          },
+          {
+            "forecast_year": 5,
+            "years_from_valuation": 4.4,
+            "net_dps": 0.6746054795316972,
+            "cash_fraction": 1,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          }
+        ],
+        "present_value_of_dividends": 2.5203611087430495,
+        "present_value_of_terminal": 4.536369892649658,
+        "total_value": 7.056731001392707,
+        "terminal_value_share": 0.6428429667723434
+      },
+      {
+        "scenario": "Base",
+        "required_return": 0.0984,
+        "required_return_basis": "所有情景统一用必要回报区间中点 9.84%（无风险 4.84% + 风险溢价 5%），不在 Bear 情景重复加风险折价。",
+        "terminal_growth": 0.015,
+        "sustainable_terminal_growth_bound": 0.02,
+        "terminal_net_dps": 0.8762153289866573,
+        "terminal_time_years": 4.4,
+        "terminal_funding_and_fade_evidence": "第 6 年起按 1.5% 永续增长：吞吐量长期增长约 2%–3%，但约 34% 的现金来自 2035–2049 年到期的海外特许权，无续期证据，因此永续增长下调约 1 个百分点；第 6 年股东现金与成长投资同比例增长，派息率 48%、股数不变。",
+        "terminal_funding": {
+          "owner_cash_or_proxy": 6672.965249999999,
+          "remaining_growth_uses": 608.9999999999999,
+          "remaining_mandatory_uses": 0,
+          "recurring_fad": 6063.965249999999,
+          "dividend_cash_cost": 3678.3599999999997,
+          "dividend_entitlement": 3678.3599999999997,
+          "cash_settled_fraction": 1,
+          "settlement_cash_adjustment": 0,
+          "dividend_entitled_shares": 4198.009186,
+          "fx_to_valuation_currency": 1,
+          "investor_cash_deductions": 0
+        },
+        "forecast_cash_flows": [
+          {
+            "forecast_year": 1,
+            "years_from_valuation": 0.65,
+            "net_dps": 0.7832283957274789,
+            "cash_fraction": 0.6808083039841849,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          },
+          {
+            "forecast_year": 2,
+            "years_from_valuation": 1.4,
+            "net_dps": 0.8060963780844856,
+            "cash_fraction": 1,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          },
+          {
+            "forecast_year": 3,
+            "years_from_valuation": 2.4,
+            "net_dps": 0.8289643604414924,
+            "cash_fraction": 1,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          },
+          {
+            "forecast_year": 4,
+            "years_from_valuation": 3.4,
+            "net_dps": 0.8461153472092473,
+            "cash_fraction": 1,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          },
+          {
+            "forecast_year": 5,
+            "years_from_valuation": 4.4,
+            "net_dps": 0.8632663339770024,
+            "cash_fraction": 1,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          }
+        ],
+        "present_value_of_dividends": 3.0564572999191237,
+        "present_value_of_terminal": 6.9518195330996075,
+        "total_value": 10.008276833018732,
+        "terminal_value_share": 0.694607038662696
+      },
+      {
+        "scenario": "Bull",
+        "required_return": 0.0984,
+        "required_return_basis": "所有情景统一用必要回报区间中点 9.84%（无风险 4.84% + 风险溢价 5%），不在 Bear 情景重复加风险折价。",
+        "terminal_growth": 0.025,
+        "sustainable_terminal_growth_bound": 0.025,
+        "terminal_net_dps": 0.9903265609481207,
+        "terminal_time_years": 4.4,
+        "terminal_funding_and_fade_evidence": "第 6 年起按 2.5% 永续增长：吞吐量长期增长约 2%–3%，但约 34% 的现金来自 2035–2049 年到期的海外特许权，无续期证据，因此永续增长下调约 1 个百分点；第 6 年股东现金与成长投资同比例增长，派息率 48%、股数不变。",
+        "terminal_funding": {
+          "owner_cash_or_proxy": 7603.091249999999,
+          "remaining_growth_uses": 922.4999999999999,
+          "remaining_mandatory_uses": 0,
+          "recurring_fad": 6680.591249999999,
+          "dividend_cash_cost": 4157.4,
+          "dividend_entitlement": 4157.4,
+          "cash_settled_fraction": 1,
+          "settlement_cash_adjustment": 0,
+          "dividend_entitled_shares": 4198.009186,
+          "fx_to_valuation_currency": 1,
+          "investor_cash_deductions": 0
+        },
+        "forecast_cash_flows": [
+          {
+            "forecast_year": 1,
+            "years_from_valuation": 0.65,
+            "net_dps": 0.800379382495234,
+            "cash_fraction": 0.6876481260416667,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          },
+          {
+            "forecast_year": 2,
+            "years_from_valuation": 1.4,
+            "net_dps": 0.8518323427984991,
+            "cash_fraction": 1,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          },
+          {
+            "forecast_year": 3,
+            "years_from_valuation": 2.4,
+            "net_dps": 0.8975683075125124,
+            "cash_fraction": 1,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          },
+          {
+            "forecast_year": 4,
+            "years_from_valuation": 3.4,
+            "net_dps": 0.9318702810480224,
+            "cash_fraction": 1,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          },
+          {
+            "forecast_year": 5,
+            "years_from_valuation": 4.4,
+            "net_dps": 0.9661722545835324,
+            "cash_fraction": 1,
+            "fx_to_valuation_currency": 1,
+            "investor_cash_deductions": 0,
+            "cash_timing_and_fx_evidence": "估值日 2026-11-09；2026 年中期 0.25 港元已现金派付，第 1 年只计末期部分（2027 年 7 月）；此后每年按 10 月中期与次年 7 月末期加权计时；港元收款，无预扣税和费用"
+          }
+        ],
+        "present_value_of_dividends": 3.297883642217983,
+        "present_value_of_terminal": 8.927627486488815,
+        "total_value": 12.225511128706797,
+        "terminal_value_share": 0.7302457453517668
+      }
+    ],
+    "growth_value_low": 7.056731001392707,
+    "growth_value_high": 12.225511128706797,
+    "base_case_value": 10.008276833018732,
+    "margin_of_safety": 0.15,
+    "margin_of_safety_basis": "15%：联营现金上缴率、贸易摩擦与特许权续期均为有界估计，安全边际不替代缺失证据。",
+    "entry_upper": 5.998221351183801,
+    "review_above": 12.225511128706797,
+    "terminal_dependence_warning": "约 64%–73% 的价值来自第 5 年之后的永续部分，结论对永续增长和折现率敏感，见敏感性表。",
+    "return_growth_sensitivity": [
+      {
+        "required_return": 0.0884,
+        "terminal_growth": 0.01,
+        "value": 10.787035934686257,
+        "status": "calculated",
+        "basis": "Base 现金路径不变，只改变折现率与永续增长；超过 Base 可持续增长上限 2% 的组合不计算。"
+      },
+      {
+        "required_return": 0.0884,
+        "terminal_growth": 0.015,
+        "value": 11.349405324409725,
+        "status": "calculated",
+        "basis": "Base 现金路径不变，只改变折现率与永续增长；超过 Base 可持续增长上限 2% 的组合不计算。"
+      },
+      {
+        "required_return": 0.0884,
+        "terminal_growth": 0.02,
+        "value": 11.99399246116879,
+        "status": "calculated",
+        "basis": "Base 现金路径不变，只改变折现率与永续增长；超过 Base 可持续增长上限 2% 的组合不计算。"
+      },
+      {
+        "required_return": 0.0884,
+        "terminal_growth": 0.025,
+        "value": null,
+        "status": "invalid_growth_cap",
+        "basis": "Base 现金路径不变，只改变折现率与永续增长；超过 Base 可持续增长上限 2% 的组合不计算。"
+      },
+      {
+        "required_return": 0.0984,
+        "terminal_growth": 0.01,
+        "value": 9.582765912262396,
+        "status": "calculated",
+        "basis": "Base 现金路径不变，只改变折现率与永续增长；超过 Base 可持续增长上限 2% 的组合不计算。"
+      },
+      {
+        "required_return": 0.0984,
+        "terminal_growth": 0.015,
+        "value": 10.008276833018732,
+        "status": "calculated",
+        "basis": "Base 现金路径不变，只改变折现率与永续增长；超过 Base 可持续增长上限 2% 的组合不计算。"
+      },
+      {
+        "required_return": 0.0984,
+        "terminal_growth": 0.02,
+        "value": 10.488062105912357,
+        "status": "calculated",
+        "basis": "Base 现金路径不变，只改变折现率与永续增长；超过 Base 可持续增长上限 2% 的组合不计算。"
+      },
+      {
+        "required_return": 0.0984,
+        "terminal_growth": 0.025,
+        "value": null,
+        "status": "invalid_growth_cap",
+        "basis": "Base 现金路径不变，只改变折现率与永续增长；超过 Base 可持续增长上限 2% 的组合不计算。"
+      },
+      {
+        "required_return": 0.1084,
+        "terminal_growth": 0.01,
+        "value": 8.623234087696053,
+        "status": "calculated",
+        "basis": "Base 现金路径不变，只改变折现率与永续增长；超过 Base 可持续增长上限 2% 的组合不计算。"
+      },
+      {
+        "required_return": 0.1084,
+        "terminal_growth": 0.015,
+        "value": 8.95421631635463,
+        "status": "calculated",
+        "basis": "Base 现金路径不变，只改变折现率与永续增长；超过 Base 可持续增长上限 2% 的组合不计算。"
+      },
+      {
+        "required_return": 0.1084,
+        "terminal_growth": 0.02,
+        "value": 9.322639973594496,
+        "status": "calculated",
+        "basis": "Base 现金路径不变，只改变折现率与永续增长；超过 Base 可持续增长上限 2% 的组合不计算。"
+      },
+      {
+        "required_return": 0.1084,
+        "terminal_growth": 0.025,
+        "value": null,
+        "status": "invalid_growth_cap",
+        "basis": "Base 现金路径不变，只改变折现率与永续增长；超过 Base 可持续增长上限 2% 的组合不计算。"
+      }
     ]
   }
 }
