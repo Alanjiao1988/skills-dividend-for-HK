@@ -300,7 +300,8 @@ def validate_report(report):
         owner = forecast["fcf_or_distributable_cash"]
         same(bridge["fcf_or_capital_generation"], owner, f"{label} owner cash / proxy")
         same(bridge["required_reinvestment"], forecast["remaining_growth_investment"], f"{label} growth investment")
-        if model["sector_model"] in ("operating_company", "utility_infrastructure"):
+        if model["sector_model"] in ("operating_company", "utility_infrastructure",
+                                    "concession_infrastructure", "midstream_partnership"):
             inputs = [forecast[field] for field in ("normalized_ocf", "maintenance_capex", "other_owner_claims")]
             require(all(value is not None for value in inputs), f"{label}: missing operating owner-FCF inputs")
             if all(value is not None for value in inputs):

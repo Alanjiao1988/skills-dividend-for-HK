@@ -126,6 +126,16 @@ def validate_schema3(report):
     visible = [output["title"], output["summary"], *output["appendix"], *output["labels"]]
     for section in output["sections"]:
         visible.extend([section["heading"], *section["paragraphs"]])
+        for table in section.get("tables", []):
+            visible.extend([table["title"], table["note"]])
+            require(all(len(row) == len(table["columns"]) for row in table["rows"]),
+                    f"table '{table['title']}' rows must match its column count")
+        for chart in section.get("charts", []):
+            visible.extend([chart["title"], chart["source"]])
+            require(all(len(row["values"]) == len(chart["x_labels"]) for row in chart["series"]),
+                    f"chart '{chart['title']}' series must match its x labels")
+            require(any(value is not None for row in chart["series"] for value in row["values"]),
+                    f"chart '{chart['title']}' needs at least one observed value")
     for record in research["records"]:
         visible.extend([record["reason"], record["impact"]])
         visible.extend(row["result"] for row in record["attempts"])

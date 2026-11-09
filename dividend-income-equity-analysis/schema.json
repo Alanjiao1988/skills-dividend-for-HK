@@ -1383,7 +1383,10 @@
             "bdc",
             "insurer",
             "reit",
+            "mortgage_reit",
             "utility_infrastructure",
+            "concession_infrastructure",
+            "midstream_partnership",
             "holding_company"
           ]
         },
@@ -5687,6 +5690,18 @@
                   "$ref": "#/$defs/auditText"
                 },
                 "minItems": 1
+              },
+              "tables": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/reportTable"
+                }
+              },
+              "charts": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/reportChart"
+                }
               }
             },
             "required": [
@@ -5719,6 +5734,113 @@
         "sections",
         "appendix",
         "labels"
+      ]
+    },
+    "reportTable": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Static table shown in the chapter body. Every row has exactly as many cells as columns; null renders as an explicit gap, never zero.",
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/auditText"
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/auditText"
+          },
+          "minItems": 1
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": [
+                "string",
+                "number",
+                "null"
+              ]
+            },
+            "minItems": 1
+          },
+          "minItems": 1
+        },
+        "note": {
+          "$ref": "#/$defs/auditText",
+          "description": "Currency, unit, period, reported/adjusted basis and source."
+        }
+      },
+      "required": [
+        "title",
+        "columns",
+        "rows",
+        "note"
+      ]
+    },
+    "reportChart": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Static chart rendered as inline SVG. Each series has one value per x label; null is a gap, not zero.",
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/auditText"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "line",
+            "bar"
+          ]
+        },
+        "unit": {
+          "$ref": "#/$defs/auditText"
+        },
+        "x_labels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/auditText"
+          },
+          "minItems": 2
+        },
+        "series": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "$ref": "#/$defs/auditText"
+              },
+              "values": {
+                "type": "array",
+                "items": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "minItems": 2
+              }
+            },
+            "required": [
+              "name",
+              "values"
+            ]
+          }
+        },
+        "source": {
+          "$ref": "#/$defs/auditText"
+        }
+      },
+      "required": [
+        "title",
+        "kind",
+        "unit",
+        "x_labels",
+        "series",
+        "source"
       ]
     }
   },

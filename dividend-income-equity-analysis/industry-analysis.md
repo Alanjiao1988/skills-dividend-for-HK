@@ -16,8 +16,6 @@ Industry research primarily informs Layer 2, but it must flow into cash generati
 
 ## 1. Identify the Industry Before Selecting the Model
 
-For every issuer, establish and disclose:
-
 Before selecting the industry model, classify the issuer's shareholder-return archetype: (a) stable/contractual dividend payer, (b) cyclical or variable distributor, (c) transition/growth dividend payer, (d) low-/non-dividend growth company, or (e) fund/ETF. This is a separate axis from industry classification.
 
 - For cyclical distributors such as tanker and dry-bulk operators, never annualize a peak-quarter or trailing distribution into a sustainable dividend. Use cycle-normalized TCE, fleet supply, cash breakeven, debt and reserve policy to estimate normalized distributions.
@@ -25,6 +23,7 @@ Before selecting the industry model, classify the issuer's shareholder-return ar
 - For non-dividend or low-dividend growth issuers, mark dividend-income analysis as not applicable where appropriate; do not treat a zero yield as dividend distress or penalize the issuer for not paying a dividend. Focus on reinvestment returns, per-share growth, dilution, buybacks and total-return valuation.
 - For funds/ETFs, do not apply corporate issuer FCF or EPS payout tests; use a fund-level methodology or disclose that the current schema cannot support a full fund analysis.
 
+For every issuer, establish and disclose:
 
 - Primary industry and sub-industry, using a recognized classification where available (GICS, ICB, exchange/regulatory classification or a clearly named local equivalent).
 - Actual business model and position in the value chain: producer, brand owner, distributor, platform, network operator, asset owner, service provider, financier, holding company, or a combination.
@@ -80,13 +79,19 @@ Choose the relevant playbook(s) below. The listed KPIs are a minimum starting se
 | Oil tankers / crude & product shipping | VLCC/Suezmax/Aframax or product-tanker TCE by route, spot vs time-charter days, laden/ballast days, fleet utilization, fleet age, orderbook, scrapping, deliveries, sanctions-compliant fleet, bunker/insurance/port costs, cash breakeven | Route and tonne-mile demand, vessel supply cycle, spot-rate operating leverage, drydock/fleet renewal, debt amortization, dividend variability and downside liquidity |
 | Dry-bulk shipping | Baltic Dry Index by vessel class, route TCE, tonne-mile demand, iron ore/coal/grain volumes, port congestion, fleet utilization, orderbook, scrapping and charter coverage | Commodity trade cycle, vessel supply, cargo mix, operating leverage and replacement capex |
 | Container shipping / liner operators | Freight indices by trade lane, TEU capacity, deployed capacity, load factor, spot/contract mix, schedule reliability, vessel charter exposure, alliance/network share, fuel and port costs | Freight-rate normalization, capacity discipline, network economics, charter commitments, working capital and cycle-normalized distributions |
-| Ports / terminals | Throughput/TEU, container mix, tariff/yield, utilization, concession duration, transshipment share, shipping-line concentration and capex | Volume/tariff growth, concession economics, incremental ROIC, maintenance/growth capex and remittable cash |
 | Ports / terminals | Throughput/TEU, container mix, tariff/yield, utilization, capacity, concession duration, transshipment share, shipping-line concentration, capex | Volume and tariff growth, concession economics, incremental ROIC, maintenance/growth capex and remittable cash |
 | Oil & gas / energy | Production, reserves and reserve life, decline rate, realized prices, lifting cost, breakeven, hedges, refining/marketing margins, sustaining capex | Commodity-price sensitivity, depletion, project returns, cash breakeven, leverage and cycle-normalized distributions |
 | Banks | Loan/deposit growth, NIM, NII, deposit beta, fee income, NPL, credit cost, coverage, CET1, ROTE/ROTCE, liquidity | Credit cycle, capital generation, regulatory payout limits and P/TBV or residual-income valuation; do not use industrial FCF |
 | Insurance | Premium growth, retention, combined ratio, investment spread, VNB, CSM, claims development, solvency/capital generation | Underwriting quality, reserve risk, capital release, reinvestment yield and distributable remittances |
 | REITs / property | Occupancy, same-store NOI, rent reversion, WALE, tenant concentration, FFO/AFFO, cap rate, LTV, debt maturity and interest cover | Property cash yield, refinancing cost, asset valuation, recurring capex and distribution coverage |
 | Utilities | Rate base/RAB, allowed and earned ROE, tariff resets, generation mix, availability, capex pipeline, leverage and interest cover | Regulated return, project funding, rate-case lag, dilution and dividend coverage |
+| Toll roads / concession infrastructure | Traffic volume by vehicle class, toll tariff and indexation, revenue per km, concession end date and remaining life, extension/compensation terms, resurfacing and major-repair schedule, policy toll-free days, competing routes | Finite-life cash harvest: equity value ends at concession expiry unless an extension is evidenced; separate maintenance resurfacing from expansion capex; refinancing and tariff-review risk |
+| Gas distribution / city gas | Gas sales volume by customer type, connection count and connection-fee revenue, dollar margin per cubic metre, cost pass-through lag, regulated returns, integrated energy/new-business mix | Connection-fee decline as new housing slows, margin pass-through regulation, capex for pipeline network, receivables and cash remittance from project companies |
+| Coal / metals mining | Production and sales volume, realized price versus benchmark, long-term contract share, unit cash cost and strip ratio, reserve life, rail/port logistics integration, power/chemical segment margins, safety and environmental capex | Commodity-cycle normalization over a full cycle, payout policy as % of profit, reserve replacement and mine-closure costs, policy/price-cap risk and energy-transition terminal value |
+| Mortgage REITs (agency / commercial) | Net interest spread, cost of funds and hedge book, leverage (debt/equity), book value per share, prepayment speed (CPR), duration gap, repo funding, non-accruals and CECL reserves for commercial mREITs | Distributions follow earnings available for distribution (EAD/core earnings), not property cash; book-value erosion and dilutive issuance below book can fund an unsustainable dividend |
+| Midstream pipelines / MLPs | Throughput volume, contracted capacity and take-or-pay share, fee-based versus commodity-exposed margin, contract tenor and counterparty quality, adjusted EBITDA, maintenance capex, distribution coverage, net debt/EBITDA, IDRs | Distributable cash flow (DCF) after maintenance capex and preferred/minority claims; growth capex funding mix; distribution cuts in leverage resets; partnership tax and withholding for non-US holders |
+| Business trusts / stapled securities | Distributable income under the trust deed, payout policy (often near 100%), parent-company operating cash, sponsor support, unit issuance and distribution reinvestment | Distributions can exceed accounting profit because of depreciation; test against post-capex operating cash and debt at the trust/company level, not reported EPS |
+| Aircraft / equipment lessors | Fleet size and age, lease rate factor, utilization, remaining lease term, lessee credit concentration, order book and delivery schedule, cost of funds, gain on sale | Lease yield minus funding spread, residual-value and impairment risk, growth capex funded by debt, cyclical gains on asset disposal treated as non-recurring |
 | Consumer staples / branded products | Volume, price/mix, market share, distribution, sell-through, repeat purchase, gross margin, marketing intensity and inventory | Brand/pricing power, elasticity, channel inventory, product mix and cash conversion |
 | Industrials / manufacturing | Orders, backlog quality, book-to-bill, shipment, capacity utilization, yield/scrap, unit cost, inventory, receivable days, maintenance and growth capex | Order conversion, operating leverage, working-capital absorption, replacement cycle and incremental ROIC |
 | SaaS / software / technology | ARR/MRR, net/gross revenue retention, churn, customer cohort, ACV, RPO/cRPO, gross margin, CAC payback, sales efficiency, SBC and FCF margin | Recurring growth quality, retention, acquisition efficiency, dilution and post-SBC free cash flow |
@@ -117,12 +122,19 @@ The framework must work across the user's multi-sector investment universe and a
 | E-commerce / consumer platforms | PDD | Active buyers, GMV, take rate, monetization, marketing/logistics subsidies, merchant retention, cross-border mix and regulatory exposure. |
 | Diversified holding company | Berkshire Hathaway (BRK.B) | Look-through earnings, insurance float, subsidiary cash remittance, capital allocation, liquidity and intrinsic value. |
 | BDC / private credit | Ares Capital (ARCC) | NII/share, NAV, non-accruals, PIK, leverage, asset coverage and distribution coverage. |
+| Toll roads | Jiangsu Expressway (0177), Shenzhen Expressway (0548) | Traffic and tariff, remaining concession life, resurfacing capex and finite-life equity value. |
+| Coal / mining | China Shenhua (1088), Yankuang Energy (1171) | Long-term contract share, realized price versus benchmark, unit cost, reserve life and cycle-normalized payout. |
+| Gas distribution | Hong Kong and China Gas (0003), ENN Energy (2688) | Gas volume, dollar margin, connection-fee decline and remittance from project companies. |
+| Mortgage REITs | AGNC, Annaly (NLY) | Spread, hedged leverage, book value per share and EAD coverage; equity-REIT AFFO does not apply. |
+| Midstream pipelines | Enterprise Products (EPD), Energy Transfer (ET), Kinder Morgan (KMI) | Fee-based DCF coverage, leverage, growth capex funding; MLP versus C-corp tax and withholding route. |
+| Business trusts / stapled | HKT Trust (6823) | Trust-deed distributable income versus post-capex operating cash and debt. |
+| Aircraft lessors | BOC Aviation (2588) | Lease yield, funding spread, fleet age, residual value and order-book capex. |
 
 For ETFs and listed funds (for example JEPI or JPXN), do not treat the fund as an operating company or apply issuer FCF, EPS payout or corporate debt tests. Use a fund-level route covering NAV total return, distribution composition (including option premium and return of capital where relevant), holdings, concentration, expense ratio, tracking/strategy risk, currency exposure and investor tax. If the installed schema has no fund route, state the limitation instead of forcing a company template.
 
 For an industry not listed, derive a bespoke KPI set from the actual revenue and cash engines. State why those KPIs are economically causal. Do not apply an adjacent sector's metrics mechanically.
 
-For banks, insurers, REITs, utilities and holding companies, combine this module with `sector-fcf-proxies.md`; that file remains the authority for distributable-cash and capital/remittance calculations.
+For banks, BDCs, insurers, equity and mortgage REITs, utilities, toll roads and other finite concessions, midstream pipelines/MLPs and holding companies, combine this module with `sector-fcf-proxies.md`; that file remains the authority for distributable-cash and capital/remittance calculations.
 
 ## 5. Industry Outlook and Company-Specific Translation
 

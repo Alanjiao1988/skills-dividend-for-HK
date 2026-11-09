@@ -32,7 +32,7 @@ When the user requests research rather than an audit of a closed packet, obtaini
 
 `resolution: bounded` 必须有 `estimate` 的上下界、单位、推导、来源期间、来源引用与适用边界。只有无法建立有据估计时才用 `not_assessable`，写清 `estimate_failure_reason` 和具体 `closure_condition`。所有未解决输入均须对应日志；已恢复值保留原取数轨迹。评分区间并不冒充经营或现金预测区间。
 
-报告第6节简述查阅轨迹及最大剩余约束；完整日志进入结构化记录和按需附录。研究覆盖度不是公司质量；模型未完成不是公司可见性差。真实的现金、税务、资本缺口仍然限制买入，不得填中性分、取区间中点、套行业均值、移除权重或放大剩余权重。
+报告第12章简述查阅轨迹及最大剩余约束；完整日志进入结构化记录和默认审计附录 A13。研究覆盖度不是公司质量；模型未完成不是公司可见性差。真实的现金、税务、资本缺口仍然限制买入，不得填中性分、取区间中点、套行业均值、移除权重或放大剩余权重。
 
 Before saying "cannot assess", identify the actual gap and its smallest affected output. Distinguish unavailable research tools, not found after a named lookup, absent from the supplied packet, and a genuine unreconciled material constraint. An incomplete calculation is unfinished work, not proof that the company cannot be evaluated. Try the relevant filing/notes and a defensible reconstruction before stopping; do not invent successful searches or bypass access restrictions.
 
@@ -67,7 +67,7 @@ For the actual answer, apply `report-language.md` and render `证据环节 | 状
 
 For future links, `supported` may rest on an explicit, sourced and reconciled analyst range, not just a future issuer announcement. Mark facts versus assumptions and stress the range. Do not leave the share or policy link permanently missing solely because future registers or board resolutions do not yet exist; unresolved legal entitlement or material cash access is a different, genuine gap.
 
-Full Analysis completes the same checklist and shows it in Audit Appendix part A10; the main report's Entry View names only the links that are missing or conflicting. JSON with a `buy_zone` stores its four links in `buy_zone.normalization_evidence`; each contains `status`, `input_detail`, `source_refs`, `resolution_source` and `consequence`. References must match entries in `sources`; unsupported links name the disclosure needed, while supported links set `resolution_source` to null. An incomplete normalized comparison is diagnostic only. If an otherwise eligible growth model does not have a credible ordinary comparison, omit `buy_zone` rather than attach unsupported N/B to an eligible action. The validator checks completeness and declared consistency, not the truth or semantic adequacy of the prose.
+Full Analysis completes the same checklist and shows it in Audit Appendix part A10; Chapter 10 names the links that are missing or conflicting. JSON with a `buy_zone` stores its four links in `buy_zone.normalization_evidence`; each contains `status`, `input_detail`, `source_refs`, `resolution_source` and `consequence`. References must match entries in `sources`; unsupported links name the disclosure needed, while supported links set `resolution_source` to null. An incomplete normalized comparison is diagnostic only. If an otherwise eligible growth model does not have a credible ordinary comparison, omit `buy_zone` rather than attach unsupported N/B to an eligible action. The validator checks completeness and declared consistency, not the truth or semantic adequacy of the prose.
 
 ## Entitlement and Implementation
 

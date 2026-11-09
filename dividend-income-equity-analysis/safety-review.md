@@ -82,7 +82,7 @@ Controller concern must run in the correct direction: the listed issuer may fund
 
 A supported transient timing update may remain light with `requires_full_analysis: false` when cash, capital and veto checks remain adequately supported; explain why it does not alter sustainable economics. Do not extrapolate five-year cash or a terminal reset from a single quarter. Route persistent/structural changes to the appropriate full reassessment rather than creating new N/B inside the light review.
 
-Escalation is a **research requirement**, not an automatic sell. Set `automatic_trade: false`. Even a confirmed funding failure does not authorize orders, trade sizes or a personalized exit decision. Full Analysis can embed these dated safety checks in Audit Appendix part A12 under `holding-review.md`, without adding a report section.
+Escalation is a **research requirement**, not an automatic sell. Set `automatic_trade: false`. Even a confirmed funding failure does not authorize orders, trade sizes or a personalized exit decision. Full Analysis can embed these dated safety checks in Audit Appendix part A12 under `holding-review.md`, without adding a report chapter.
 
 ## 4. Compact Output and Required Record
 

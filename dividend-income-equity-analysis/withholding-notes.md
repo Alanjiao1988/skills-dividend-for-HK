@@ -54,6 +54,7 @@ Do not describe PIL as tax-free or as bypassing issuer tax. IBKR distinguishes P
 | Offshore shipping issuer | Obtain current issuer tax disclosure for the actual domicile and payment. Do not assign zero withholding from a Marshall Islands, Bermuda, or Liberia label alone. Check source, distribution classification, broker deductions, and PIL separately. |
 | ADR / depositary receipt | Check underlying issuer domicile, source-country tax, depositary ratio, fee per receipt, custody chain, and cash currency. US trading does not by itself make the dividend US-source. |
 | HK REIT, other REIT, BDC, MLP, fund, trust, or partnership | Read the vehicle and distribution tax disclosures. Separate ordinary income, capital-gain distributions, return of capital, and non-cash distributions; no ordinary-company default applies automatically. |
+| US publicly traded partnership (MLP units) | Distributions to non-US partners are generally treated as effectively connected income and withheld at the highest applicable US rate under IRC §1446(a), not the 30% dividend rate; sale proceeds are also subject to 10% withholding under §1446(f), and a US tax filing plus Schedule K-1 may be required. Verify the issuer's current tax disclosure and the broker's handling before calculating net yield. A C-corp midstream issuer or a 1099 share class follows the ordinary US dividend route instead. [IRS: partnership withholding §1446](https://www.irs.gov/individuals/international-taxpayers/partnership-withholding) |
 
 ### Worked Custody Example: China Mobile
 
@@ -102,7 +103,7 @@ Use "mandatory stock dividend" or "mandatory share distribution" for a non-cash 
 
 ## Required Output Fields
 
-Full Analysis must record these fields (Audit Appendix part A1; the main report states the rate, basis and any election assumption in one line); Screen Mode may consolidate them in one linked evidence note and concise table fields:
+Full Analysis must record these fields (Audit Appendix part A1; Chapter 6 states the rate, basis and any election assumption); Screen Mode may consolidate them in one linked evidence note and concise table fields:
 
 - Investor residence / type / holding channel, and whether confirmed or assumed.
 - Withholding rate or supported range; historical observed rate separately from declared / prospective treatment.

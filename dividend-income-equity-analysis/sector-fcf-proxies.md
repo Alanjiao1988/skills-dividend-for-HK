@@ -4,7 +4,7 @@ This is the single source for sector routing and distributable-capacity evidence
 
 ## 1. Model Selection and Evidence
 
-Select `operating_company`, `bank`, `bdc`, `insurer`, `reit`, `utility_infrastructure`, or `holding_company`. Add `holding_company` as an overlay whenever the listed parent's dividend depends on subsidiary remittances. Mixed groups require segment-specific bridges plus the parent bridge, not a blended industrial FCF.
+Select `operating_company`, `bank`, `bdc`, `insurer`, `reit`, `mortgage_reit`, `utility_infrastructure`, `concession_infrastructure`, `midstream_partnership`, or `holding_company`. `concession_infrastructure` and `midstream_partnership` use the operating owner-FCF arithmetic (normalized OCF − maintenance − other owner claims) with the extra evidence below; `mortgage_reit` is a spread-income proxy like `bank` and `bdc`. An industry with no dedicated model uses `operating_company` with the bespoke KPI set from `industry-analysis.md`. Add `holding_company` as an overlay whenever the listed parent's dividend depends on subsidiary remittances. Mixed groups require segment-specific bridges plus the parent bridge, not a blended industrial FCF.
 
 For every proxy record:
 
@@ -90,6 +90,22 @@ Remove non-cash fair-value gains, straight-line rent and other non-cash adjustme
 
 Require occupancy, rent collection, WALE/expiry ladder, tenant concentration, cap rates as a valuation cross-check, LTV, covenant headroom, debt maturity and hedges. Test higher refinancing cost, vacancy and rights-issue/DRIP dilution. Tax distribution requirements do not create cash.
 
+### 5.1 Mortgage REITs (`mortgage_reit`)
+
+```text
+Interest income on mortgage assets / loans (cash coupon; separate amortization of premiums and PIK)
+- repo and other funding costs +/- realized hedge settlements
+- operating and management expenses - normalized credit losses (commercial mREITs)
+-> earnings available for distribution (EAD / core earnings), reconciled to disclosures
+-> recurring FAD per share -> dividend coverage
+```
+
+Equity-REIT AFFO, occupancy and cap rates do not apply. Require net interest spread, hedge book and swap roll-off, leverage (debt/equity and repo concentration), duration gap, prepayment speed, book value per share trend, and for commercial mREITs non-accruals, risk ratings, CECL reserves and loan maturities. Core earnings that exclude hedge losses or rely on drop income must be reconciled to cash.
+
+- A sustained decline in book value per share while the dividend is maintained is a red flag: the payout may be returning capital.
+- Share issuance below book value dilutes existing holders; do not count it as funding for the dividend.
+- Stress funding spread, curve shape, prepayment and credit losses together; a dividend yield above the spread-implied return on equity is not recurring.
+
 ## 6. Utilities and Infrastructure
 
 ```text
@@ -106,6 +122,34 @@ x allowed return / tariff, with regulatory timing
 Forecast project commissioning, regulatory lag, tariff resets, allowed versus earned return, collection delays, fuel pass-through and financing. An approved regulated-asset increase is not immediately available dividend cash.
 
 Show both before-growth owner cash and **after-all-committed-investment** FAD. A utility may finance valuable growth externally; that requires an explicit debt/equity plan, interest, dilution and covenant stress. It does not make negative all-in FCF disappear. Distinguish project finance that cannot be upstreamed from parent funds.
+
+### 6.1 Toll Roads and Finite Concessions (`concession_infrastructure`)
+
+```text
+Traffic volume by vehicle class x toll tariff (after toll-free days / discounts)
+- operating costs - cash tax - cash interest
+-> normalized OCF
+- resurfacing, major repair and safety capex (maintenance)
+-> Recurring Owner FCF
+- committed expansion / new-concession investment - scheduled debt amortization
+-> recurring FAD
+```
+
+Record each concession's end date and the share of cash flow expiring within ten years. Without a legally evidenced extension or compensation, equity value ends at expiry: route valuation to the finite-life harvest in `buy-zone.md`, not a perpetual-yield anchor. Separate cyclical resurfacing from expansion, and treat acquisitions of new concessions as growth investment with their own return evidence. Tariff reviews, policy toll-free periods and competing routes belong in the stress set.
+
+### 6.2 Midstream Pipelines and MLPs (`midstream_partnership`)
+
+```text
+Fee-based and contracted margin + commodity-exposed margin (separately)
+- operating costs - cash interest - cash tax
+-> normalized OCF (reconciled to adjusted EBITDA - interest - cash tax)
+- maintenance capex - preferred and minority distributions (other owner claims)
+-> distributable cash flow (DCF) = Recurring Owner FCF
+- growth capex funded from retained cash - mandatory debt reduction
+-> recurring FAD -> distribution coverage
+```
+
+Require take-or-pay and fee-based share, contract tenor, counterparty credit, throughput, maintenance versus growth capex definition, net debt/EBITDA target, IDRs or general-partner claims, and units outstanding. Management-defined DCF often excludes growth capex entirely: show coverage both before growth capex and after the portion not funded by debt or new units. Distinguish MLP units from C-corp shares; for non-US holders the withholding and filing route differs materially (`withholding-notes.md`).
 
 ## 7. Holding Companies and Financial Groups
 
@@ -130,7 +174,9 @@ Use standalone parent cash statements and subsidiary dividend declarations/recei
 | Sector | Operating Drivers | Investment / Cash Risks |
 |---|---|---|
 | Telecom | Subscribers, churn, ARPU, enterprise mix | Spectrum, network replacement and growth capex, leases, collection |
-| Energy / mining | Normalized commodity prices, volumes, unit costs | Sustaining capex, reserve replacement, decommissioning, royalties, project commitments |
+| Energy / mining (incl. coal and metals) | Normalized commodity prices over a full cycle, long-term contract share, volumes, unit cash costs | Sustaining capex, reserve replacement, mine closure and decommissioning, royalties, price-cap or policy risk, project commitments |
+| Aircraft / equipment lessors | Lease rate factor, utilization, lessee credit, funding spread | Order-book capex funded by debt, residual-value impairment, disposal gains kept outside recurring cash |
+| Business trusts / stapled securities | Trust-deed distributable income, operating cash at the trust and company level | Distribution above accounting profit is normal only when post-capex operating cash covers it; test debt and capex at both levels, and add the `holding_company` overlay when cash is upstreamed |
 | Shipping | Available days, charter/spot mix, normalized rates | Drydock, fleet renewal, debt amortization, vessel disposal versus recurring cash |
 | Consumer / industrial / technology | Volume, price/mix, unit margins, customer retention | Working capital, capacity, maintenance, stock dilution, recurring software development |
 | Pharmaceuticals | Product-level volume/net price, exclusivity expiry, launch uptake | Expensed R&D, licensing/milestones, royalties, manufacturing investment, litigation |

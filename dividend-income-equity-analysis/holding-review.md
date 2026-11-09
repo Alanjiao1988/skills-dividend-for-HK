@@ -1,6 +1,6 @@
 # Holding Review
 
-This Full Analysis module is reported as one bullet in the main report's **Section 3: 买点观点 (Entry View)** when the user holds the stock or asks about holding, selling or switching, with the trigger table and switching comparison in **Audit Appendix part A12** (scoring and portfolio role are in A11). It does not add a report section or replace the scoring, cash-flow, business-outlook or valuation contracts.
+This Full Analysis module is reported as a short paragraph in **Chapter 10: 买点、建仓策略与持仓复评** when the user holds the stock or asks about holding, selling or switching, with the trigger table and switching comparison in **Audit Appendix part A12** (scoring and portfolio role are in A11). It does not add a report chapter or replace the scoring, cash-flow, business-outlook or valuation contracts.
 
 For a request only to check a new disclosure's dividend safety, use the separate light `safety_review` mode in `safety-review.md`. Full Analysis may embed that dated baseline/delta/decision discipline here; a standalone safety update does not need a new five-year forecast, valuation or personal holdings export.
 

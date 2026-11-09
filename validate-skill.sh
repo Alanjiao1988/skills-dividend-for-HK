@@ -228,7 +228,7 @@ grep -Fq 'Target policy: hard_minimum / preference / not_assessed' "$SCREEN_MODE
 grep -Fq 'do not reject or downgrade a stock solely because its yield appears low' "$SCREEN_MODE"
 grep -Fq 'screen-mode.md' build-gpt-instructions.sh
 
-for example in ordinary growth safety-review; do
+for example in ordinary growth safety-review full-report; do
   "$PYTHON_BIN" scripts/validate_analysis.py "dividend-income-equity-analysis/examples/$example.analysis.json"
 done
 

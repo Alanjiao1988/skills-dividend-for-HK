@@ -72,7 +72,7 @@ Screen Mode 不得把 `buy-zone.md` 的标的必要收益率当作用户的筛�
 - `scoring.md`：价格独立的质量／85、收入吸引力／15、逐项可复算评分、暂定区间／证据覆盖度、评级依据及 Structural Decline overlay。不以总分自动决定组合角色。
 - `output-template.md`：读者可见内容的唯一事实源：单文件 HTML 交付、Screen／Safety Review 输出、Full Analysis 十二章完整报告、无固定篇幅限制和默认审计附录 A1–A13。
 - `templates/report.html`：所有报告模式共用的单文件 HTML 外壳；按 `output-template.md` 填入实际内容，不交付占位模板。
-- `schema.json`：默认 3.0 版 JSON，完整分析必须包含 rubric 2 的 `scorecard.summary`、`rating_audit`、`entry_plan` 及第1节状态行的评分区间；旧 2.3／2.4／2.5 按原契约兼容读取。
+- `schema.json`：默认 3.0 版 JSON，完整分析必须包含 rubric 2 的 `scorecard.summary`、`rating_audit`、`entry_plan` 及第1章状态行的评分区间；旧 2.3／2.4／2.5 按原契约兼容读取。
 - `examples/example-output-skeleton.md`：Full Analysis 十二章完整报告示例骨架（篇幅与密度参考）。
 - `scripts/decision_rules.py`、`scripts/validate_analysis.py`：已随本机技能安装的评分／分层买点计算和跨字段校验；路径相对于技能目录，不依赖源码仓库仍在原位置。
 
@@ -121,7 +121,7 @@ Schema 3.0 必须先尽力取数，再形成确定性结论：`decision.current_
 - Fundamental Trend 为 Structural Decline 时，普通买入区间默认暂停。
 - 只有满足 Harvest / Managed Runoff Exception 时，才使用有限期现金回收估值；折现率下限为 10%，不得假设永续分红。
 - 必要回报必须打印币种／期限／税务一致的无风险锚、与价格独立的风险溢价和最终回报区间；不得用含股息率的总评分反推溢价。
-- 第1节结论速览先说明当前行动及其决定性原因，状态行列质量／85、综合评分（单点或暂定区间＋覆盖度）与组合角色，关键数字表列税后收益率及买点；第3节列分层买点；100 分及 Grade 不能代替买入结论。收入吸引力／15 与模块明细在附录 A11。
+- 第1章摘要与投资结论先说明当前行动及其决定性原因，状态行列质量／85、综合评分（单点或暂定区间＋覆盖度）与组合角色，关键数字表列税后收益率及买点；第10章列分层买点；100 分及 Grade 不能代替买入结论。收入吸引力／15 与模块明细在附录 A11。
 - 基本面不变时降价不提高质量或自动改变证券角色；组合角色独立说明，收益率差仍是价格相关指标。
 - 普通收息价格带不计股息增长，只说明现金收益率要求的满足程度，不等于公司完整内在价值或买入动作；旧 JSON 字段名仅为兼容，展示名称遵循 `buy-zone.md`。
 - 必须独立输出 `entry_plan`：试建仓、加仓、强买的模型价与收入约束后价格、距现价幅度、满足／待满足条件、Bear/Base/Bull 持有期总回报、具体催化与失效条件。不能只写“不够 Strong Buy”或“谨慎观察”。
