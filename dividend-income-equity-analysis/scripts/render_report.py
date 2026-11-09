@@ -21,7 +21,7 @@ def _cell(value):
     if isinstance(value, float):
         return f"{value:,.2f}".rstrip("0").rstrip(".")
     if isinstance(value, int) and not isinstance(value, bool):
-        return f"{value:,}"
+        return str(value) if 1800 <= value <= 2300 else f"{value:,}"  # years print without separators
     return str(value)
 
 
