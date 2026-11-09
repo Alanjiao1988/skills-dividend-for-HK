@@ -74,6 +74,8 @@ The economic model and the legal wrapper are independent: a midstream C-corp use
 
 `wholly_owned`, `material_minorities` (minority holders take a material share of subsidiary cash) or `material_jv_associates` (material cash arrives only as dividends from joint ventures/associates). The latter two require the attributable share, the actual cash received from those entities and, for `material_jv_associates`, the `holding_company` overlay or model so that equity-accounted profit is never treated as parent cash.
 
+`material_jv_associates` also requires `cash_flow_model.associate_cash_conversion`: at least three bridge years of equity-accounted share of profit and dividends received from associates/JVs, the conversion each year (`same_year`, or `prior_year_profit` when associates pay out of last year's earnings), the multi-year aggregate, and the conversion each forecast scenario assumes. Base may not exceed the aggregate and no scenario may exceed the best historical year unless `above_history_evidence` cites something specific, such as a new associate payout policy; one good year is not a trend. The validator recomputes every ratio, and the report prints the table in Chapter 6.
+
 ## 3. Rules Triggered Across Dimensions
 
 ### 3.1 Finite-life assets

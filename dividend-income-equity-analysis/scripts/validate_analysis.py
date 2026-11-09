@@ -87,6 +87,79 @@ def income_growth_credit_errors(report, runway, mode):
     return errors
 
 
+def scrip_coverage_errors(report):
+    """Scrip years must divide by the full entitlement, never the reduced cash paid (business-fundamentals.md)."""
+    errors = []
+    had_scrip = (report.get("scrip_drip", {}).get("historical_participation_rate") or 0) > 0
+    for row in report.get("cash_flow_bridge", []):
+        label, settled = row["fiscal_year"], row.get("scrip_settled_dividends")
+        if had_scrip and settled is None:
+            errors.append(f"{label}: scrip history (historical_participation_rate > 0) needs scrip_settled_dividends "
+                          "on every bridge row, 0 for a year without scrip")
+            continue
+        if not settled:
+            continue
+        paid, div = row.get("cash_paid_dividends"), row["cash_dividends"]
+        if row.get("dividend_denominator_basis") != "full_entitlement":
+            errors.append(f"{label}: a scrip year must use dividend_denominator_basis full_entitlement")
+        if paid is None:
+            errors.append(f"{label}: a scrip year must record cash_paid_dividends")
+        elif div is not None and div <= paid:
+            errors.append(f"{label}: coverage denominator {div:g} must be the full entitlement, "
+                          f"above the {paid:g} cash actually paid in a scrip year")
+    return errors
+
+
+def associate_conversion_errors(report):
+    """Equity-accounted profit versus cash received from associates/JVs (economic-profile.md)."""
+    profile = report.get("economic_profile")
+    record = report.get("cash_flow_model", {}).get("associate_cash_conversion")
+    if not profile or profile["cash_attribution"] != "material_jv_associates":
+        return []
+    if record is None:
+        return ["Associate cash conversion: material_jv_associates needs cash_flow_model.associate_cash_conversion"]
+    errors = []
+
+    def require(ok, message):
+        if not ok:
+            errors.append(f"Associate cash conversion: {message}")
+
+    history = record["history"]
+    years = [row["fiscal_year"] for row in history]
+    require(years == sorted(set(years)), "history years must be unique and ascending")
+    bridge_years = {row["fiscal_year"] for row in report.get("cash_flow_bridge", [])}
+    require(set(years) <= bridge_years, "history years must come from the cash_flow_bridge periods")
+    received, profits, ratios = [], [], []
+    for index, row in enumerate(history):
+        if record["timing_basis"] == "same_year":
+            profit = row["share_of_profit"]
+        else:
+            profit = history[index - 1]["share_of_profit"] if index else None
+        expected = row["cash_dividends_received"] / profit if profit is not None and profit > 0 else None
+        if expected is None:
+            require(row["conversion"] is None, f"{row['fiscal_year']}: conversion must be null without positive matching profit")
+            continue
+        require(row["conversion"] is not None and math.isclose(row["conversion"], expected, rel_tol=1e-6, abs_tol=1e-6),
+                f"{row['fiscal_year']}: conversion should be {expected:.4f}")
+        received.append(row["cash_dividends_received"])
+        profits.append(profit)
+        ratios.append(expected)
+    require(len(ratios) >= 3, "needs at least three years with a computable conversion")
+    aggregate = sum(received) / sum(profits) if ratios else None
+    actual = record["aggregate_conversion"]
+    require(actual is not None and aggregate is not None
+            and math.isclose(actual, aggregate, rel_tol=1e-6, abs_tol=1e-6),
+            f"aggregate_conversion should be {aggregate}")
+    forecast = record["forecast_conversion"]
+    require(forecast["Bear"] <= forecast["Base"] <= forecast["Bull"], "forecast conversion must be ordered Bear <= Base <= Bull")
+    if ratios and record["above_history_evidence"] is None:
+        require(forecast["Base"] <= aggregate + 1e-9,
+                f"Base {forecast['Base']:.1%} exceeds the {aggregate:.1%} multi-year aggregate without above_history_evidence")
+        require(forecast["Bull"] <= max(ratios) + 1e-9,
+                f"Bull {forecast['Bull']:.1%} exceeds the best historical year {max(ratios):.1%} without above_history_evidence")
+    return errors
+
+
 def distribution_capacity(owner_cash, growth_uses, mandatory_uses, exceptional_uses, excess_cash):
     if min(growth_uses, mandatory_uses, exceptional_uses, excess_cash) < 0:
         raise ValueError("Cash uses and excess cash must be nonnegative")
@@ -237,6 +310,9 @@ def validate_report(report):
         same(row["actual_cash_coverage"], actual, f"{label} actual coverage")
         if row["evidence_status"] == "insufficient":
             require(row["recurring_fad"] is None, f"{label}: insufficient evidence cannot give precise FAD")
+
+    errors.extend(scrip_coverage_errors(report))
+    errors.extend(associate_conversion_errors(report))
 
     window = history[-5:]
     coverage = report["coverage_summary"]
@@ -422,6 +498,9 @@ def validate_report(report):
     returns = report["return_requirements"]
     if returns["status"] == "assessed":
         require(returns["benchmark_date"] <= report["as_of_date"], "Risk-free observation cannot postdate the analysis")
+        require(returns["benchmark_currency"] == returns["valuation_currency"] or returns.get("benchmark_currency_basis"),
+                "A risk-free benchmark in another currency needs benchmark_currency_basis "
+                "(matching sovereign source tried, why not used, peg/hedge treatment)")
         same(returns["required_total_return_low"], returns["risk_free_rate"] + returns["risk_premium_low"], "Required return low")
         same(returns["required_total_return_high"], returns["risk_free_rate"] + returns["risk_premium_high"], "Required return high")
         require(returns["required_total_return_high"] > returns["required_total_return_low"], "Return range must be ordered and nonempty")

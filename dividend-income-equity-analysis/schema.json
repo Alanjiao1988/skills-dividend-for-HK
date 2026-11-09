@@ -1444,6 +1444,10 @@
             "$ref": "#/$defs/nonemptyText"
           },
           "minItems": 1
+        },
+        "associate_cash_conversion": {
+          "$ref": "#/$defs/associateCashConversion",
+          "description": "Required when economic_profile.cash_attribution is material_jv_associates: equity-accounted profit versus cash actually received, and the conversion each forecast scenario assumes."
         }
       },
       "required": [
@@ -2126,6 +2130,17 @@
             }
           ],
           "description": "Evidence for the gated growth credit; required when income_growth_credit > 0, optional record of a failed test otherwise."
+        },
+        "benchmark_currency_basis": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/nonemptyText"
+            }
+          ],
+          "description": "Required when benchmark_currency differs from valuation_currency: which matching-currency sovereign source was tried, why it was not used, and the peg/hedge treatment that makes the substitute acceptable."
         }
       },
       "required": [
@@ -3386,6 +3401,22 @@
         },
         "comment": {
           "type": "string"
+        },
+        "cash_paid_dividends": {
+          "$ref": "#/$defs/nullableNonnegative",
+          "description": "Dividend cash the issuer actually paid in the period (cash-flow statement), before any scrip alternative is taken into account."
+        },
+        "scrip_settled_dividends": {
+          "$ref": "#/$defs/nullableNonnegative",
+          "description": "Value of dividends settled by issuing new shares (scrip) in the period; 0 for a year without scrip. Required on every row once scrip_drip.historical_participation_rate > 0."
+        },
+        "dividend_denominator_basis": {
+          "type": "string",
+          "enum": [
+            "full_entitlement",
+            "cash_paid"
+          ],
+          "description": "Which dividend cash_dividends measures. A year with scrip_settled_dividends > 0 must use full_entitlement, so scrip cannot manufacture coverage."
         }
       },
       "required": [
@@ -6327,6 +6358,107 @@
         "long_run_growth_bound_basis",
         "credit_cap",
         "gates_passed",
+        "explanation"
+      ]
+    },
+    "associateConversionRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fiscal_year": {
+          "type": "string"
+        },
+        "share_of_profit": {
+          "type": "number",
+          "description": "Equity-accounted share of profits less losses of associates and joint ventures."
+        },
+        "cash_dividends_received": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Dividends received from associates and joint ventures (cash-flow statement)."
+        },
+        "conversion": {
+          "$ref": "#/$defs/nullableNumber",
+          "description": "cash_dividends_received / matching share_of_profit; null when that profit is not positive or unavailable."
+        }
+      },
+      "required": [
+        "fiscal_year",
+        "share_of_profit",
+        "cash_dividends_received",
+        "conversion"
+      ]
+    },
+    "associateCashConversion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "timing_basis": {
+          "type": "string",
+          "enum": [
+            "same_year",
+            "prior_year_profit"
+          ],
+          "description": "same_year divides a year's dividends received by that year's share of profit; prior_year_profit uses the previous year's profit."
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/associateConversionRow"
+          },
+          "minItems": 3
+        },
+        "aggregate_conversion": {
+          "$ref": "#/$defs/nullableNumber",
+          "description": "Sum of dividends received / sum of matching profit over rows with a conversion."
+        },
+        "forecast_conversion": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "Bear": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1.5
+            },
+            "Base": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1.5
+            },
+            "Bull": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1.5
+            }
+          },
+          "required": [
+            "Bear",
+            "Base",
+            "Bull"
+          ]
+        },
+        "above_history_evidence": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/nonemptyText"
+            }
+          ],
+          "description": "Specific evidence (e.g. a new associate payout policy) needed when Base exceeds the aggregate or any scenario exceeds the best historical year."
+        },
+        "explanation": {
+          "$ref": "#/$defs/nonemptyText"
+        }
+      },
+      "required": [
+        "timing_basis",
+        "history",
+        "aggregate_conversion",
+        "forecast_conversion",
+        "above_history_evidence",
         "explanation"
       ]
     }

@@ -104,6 +104,8 @@ Maintain a deduction ledger with `item`, `category`, `amount`, `already_in_start
 
 Keep both actual-period cash coverage and recurring FAD coverage. Use the relevant **cash paid** dividend denominator for the same fiscal periods and owner perimeter. Reconcile declared DPS, record-date shares, cash payments, and scrip elections; never divide paid cash by declared dividends without explaining timing.
 
+**Scrip years use the full entitlement.** When part of a year's dividend was settled in new shares, the cash actually paid understates what the policy cost; dividing by it manufactures coverage (a 0.82 HKD dividend settled 70% in scrip looks covered 4.9x instead of 1.45x). In such a year `cash_dividends` is the full cash-equivalent entitlement (DPS × entitled shares), `dividend_denominator_basis` is `full_entitlement`, and the row also records `cash_paid_dividends` and `scrip_settled_dividends` (value of shares issued, from the share-capital note). Once `scrip_drip.historical_participation_rate` is above zero, every bridge row records `scrip_settled_dividends`, 0 for a year without scrip. `scripts/validate_analysis.py` rejects a scrip year whose denominator is not above the cash paid.
+
 ```text
 Three-Year Recurring Coverage = sum(Recurring FAD for 3 years) / sum(Relevant Cash Dividends for 3 years)
 Annual Recurring Coverage = Recurring FAD / Relevant Cash Dividends

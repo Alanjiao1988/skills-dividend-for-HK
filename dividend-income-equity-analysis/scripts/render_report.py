@@ -174,16 +174,22 @@ def render_appendix(report):
     """Default audit appendix built from the structured records, so it cannot silently go missing."""
     parts = []
     if report.get("cash_flow_bridge"):
+        bridge = report["cash_flow_bridge"]
+        scrip = any(row.get("scrip_settled_dividends") for row in bridge)
         parts.append("<h3>A3 历史现金覆盖桥</h3>" + render_table({
             "title": "历年经常性与实际现金覆盖",
-            "columns": ["财年", "经常性所有者现金", "经常性 FAD", "实际可分配", "现金股息", "经常性覆盖", "实际覆盖"],
+            "columns": ["财年", "经常性所有者现金", "经常性 FAD", "实际可分配",
+                        "覆盖口径股息" if scrip else "现金股息", "经常性覆盖", "实际覆盖"]
+                       + (["实付现金股息", "以股代息"] if scrip else []),
             "rows": [[row["fiscal_year"], row["recurring_owner_fcf_or_proxy"], row["recurring_fad"],
                       row["actual_distribution_capacity"], row["cash_dividends"],
                       row["fcf_dividend_coverage"], row["actual_cash_coverage"]]
-                     for row in report["cash_flow_bridge"]],
+                     + ([row.get("cash_paid_dividends"), row.get("scrip_settled_dividends")] if scrip else [])
+                     for row in bridge],
             "note": f"{report['cash_flow_model']['financial_currency']}，单位："
                     f"{ {1: '元', 1e3: '千', 1e6: '百万', 1e9: '十亿'}.get(report['cash_flow_model']['cash_unit_scale'], report['cash_flow_model']['cash_unit_scale'])}；"
-                    "来自 cash_flow_bridge"}))
+                    "来自 cash_flow_bridge"
+                    + ("；有以股代息的年份按全部应派股息计算覆盖，实付现金只作对照" if scrip else "")}))
     if report.get("economic_profile"):
         profile = report["economic_profile"]
         parts.append("<h3>A5 业务与行业明细</h3>" + render_table({
@@ -221,6 +227,25 @@ def render_appendix(report):
         parts.append("<h3>A13 来源与数据质量</h3><ol>" + "".join(
             f"<li>{html.escape(source)}</li>" for source in report["sources"]) + "</ol>")
     return "".join(parts)
+
+
+def render_associate_conversion(record):
+    """Equity-accounted associate/JV profit versus cash actually received (economic-profile.md)."""
+    pct = lambda value: "—" if value is None else f"{value * 100:.1f}%"
+    timing = {"same_year": "当年股息 ÷ 当年应占利润", "prior_year_profit": "当年股息 ÷ 上一年应占利润"}
+    forecast = record["forecast_conversion"]
+    amount = lambda value: f"{value:,.0f}"  # explicit, so 1800-2300 amounts are not printed as years
+    rows = [[row["fiscal_year"], amount(row["share_of_profit"]), amount(row["cash_dividends_received"]),
+             pct(row["conversion"])] for row in record["history"]]
+    rows.append(["历史合计", "", "", pct(record["aggregate_conversion"])])
+    rows.append(["预测 Bear／Base／Bull", "", "",
+                 "／".join(pct(forecast[key]) for key in ("Bear", "Base", "Bull"))])
+    note = f"{timing[record['timing_basis']]}。{record['explanation']}"
+    if record["above_history_evidence"]:
+        note += f" 高于历史的依据：{record['above_history_evidence']}"
+    return "<h3>联营及合营公司现金上缴率</h3>" + render_table({
+        "title": "应占利润与实际收到的现金股息",
+        "columns": ["财年", "应占联营合营利润", "收到现金股息", "上缴率"], "rows": rows, "note": note})
 
 
 def render_growth_credit(returns):
@@ -309,6 +334,9 @@ def render_report(report):
                     quoted = (f"<td>{value * rate:.1f} {escape(quote)}</td>" if value is not None else "<td>—</td>") if extra else ""
                     body += f"<tr><td>{label}</td><td>{displayed}</td>{quoted}</tr>"
                 body += "</tbody></table><p>参考价不替代资金、税务、资本与风险门槛；未就绪档位不可执行。</p>"
+        conversion = report.get("cash_flow_model", {}).get("associate_cash_conversion")
+        if report["mode"] == "full_analysis" and "现金流、资产负债" in section["heading"] and conversion:
+            body += render_associate_conversion(conversion)
         credit_basis = report.get("return_requirements", {}).get("income_growth_credit_basis")
         if report["mode"] == "full_analysis" and "买点" in section["heading"] and credit_basis:
             body += render_growth_credit(report["return_requirements"])

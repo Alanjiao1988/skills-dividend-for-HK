@@ -101,7 +101,8 @@ Guardrails:
 - Apply `data-conventions.md` for period, FX, corporate actions and evidence.
 - Ordinary price bands measure cash-yield requirements with no dividend growth credit unless the gated credit in `buy-zone.md` 4.2A passes (at most 3%, never above historical or forecast per-share DPS growth; strong buy never takes it). Display income labels from `buy-zone.md`, not legacy JSON action-like names. Action eligibility is separate.
 - Use `publishing.md` for authorized report-archive changes; validate and synchronize the index, ticker READMEs and version chains.
-- Use total dividend entitlement for cash-election DPS and actual settlement for issuer cash cost; scrip retention cannot manufacture dividend coverage.
+- Use total dividend entitlement for cash-election DPS and actual settlement for issuer cash cost; scrip retention cannot manufacture dividend coverage. Historical scrip years divide by the full entitlement and record cash paid and scrip settled separately.
+- Issuers that depend on associate/JV dividends record equity-accounted profit versus cash received for at least three years; Base conversion may not exceed the multi-year aggregate without specific evidence.
 - Apply confidence and capital-risk action gates before Strong Buy, including for growth valuation. Historical broker withholding is event evidence, not a permanent future tax rate.
 
 - PIL is not withholding-rate evidence.
@@ -118,7 +119,7 @@ Guardrails:
 - Structural Decline defaults to suspended ordinary buy-zone output.
 - A credible managed-runoff case uses finite-life cash recovery with a discount-rate floor of 10%, not perpetual dividend capitalization.
 - Account for scrip / DRIP dilution in diluted share count.
-- Print sourced, currency/tax-consistent risk-free anchors, price-independent premia and return ranges; never map the yield-containing total score to discount rates.
+- Print sourced, currency/tax-consistent risk-free anchors (HKD: HKSAR Government Bond yield from the HKMA, not the US Treasury via the peg), price-independent premia and return ranges; never map the yield-containing total score to discount rates.
 - Conditional total_return_based valuation requires funded dividends, growth fade and bounded terminal assumptions; it does not replace an explicit cash-income floor.
 - A valuation-review threshold is not an automatic sale. Missing holdings or alternative data must not produce invented trade sizes or switch conclusions.
 - Full Analysis output is the complete twelve-chapter report in `output-template.md` (bottom line, financial condition, entry view, long-term outlook, key risks, sources) within its length budget; the calculation detail goes into the Audit Appendix by default.

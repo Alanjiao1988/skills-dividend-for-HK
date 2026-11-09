@@ -127,6 +127,8 @@ Keep the consumption-basket `real_income` rating separate from nominal discounti
 
 `return_requirements` must identify `benchmark`, `benchmark_source`, `benchmark_date`, `benchmark_currency`, `benchmark_tenor`, `valuation_currency`, `valuation_unit_scale`, `tax_and_fx_basis`, `rate_basis`, and the anchor after the disclosed treatment as `risk_free_rate`.
 
+Matching-currency sources: for HKD use the HKSAR Government Bond closing reference rate published by the HKMA (`https://api.hkma.gov.hk/public/market-data-and-statistics/monthly-statistical-bulletin/gov-bond/instit-bond-price-yield-daily?segment=OutstandYields`; pick the outstanding institutional issue whose remaining life is nearest the tenor, and record its code, maturity and observation date — the series is published with a lag of about a week). The linked exchange rate does not make the US Treasury an HKD risk-free rate: HKD and USD yields have differed by a percentage point or more. When `benchmark_currency` differs from `valuation_currency`, `benchmark_currency_basis` must record which matching source was tried, why it was not used and the peg/hedge treatment; the validator rejects a mismatch without it.
+
 A US 20-year Treasury may be used when the user chooses it or a USD valuation/duration makes it suitable. It is neither a universal benchmark nor a hardcoded current rate. A non-USD security requires a matching-currency benchmark or an explicit, consistent cash-conversion/hedging treatment; do not simply discount unchanged foreign-currency DPS at a USD rate. Explain any unavoidable tenor mismatch.
 
 Derive the equity premium **before looking at the security's price or implied yield**:
