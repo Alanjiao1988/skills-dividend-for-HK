@@ -1,0 +1,3302 @@
+{
+  "schema_version": "3.0",
+  "mode": "full_analysis",
+  "company": "HSBC Holdings plc",
+  "action_assessment": {
+    "status": "eligible",
+    "strong_buy_eligible": false,
+    "reasons": [
+      "Evidence supports the income comparison; the price does not meet the required income yield."
+    ],
+    "capital_risk_and_total_return_check": "See entry_plan.return_scenarios: Bear re-rating loses principal; dividends alone do not offset it."
+  },
+  "ticker": "0005.HK",
+  "exchange": "Hong Kong Stock Exchange",
+  "as_of_date": "2026-11-09",
+  "price_used": 17.55,
+  "withholding_rate": 0,
+  "withholding_basis": "company_announcement",
+  "key_metrics_at_a_glance": {
+    "ttm_net_yield": 0.042735042735042736,
+    "normalized_net_yield": 0.04895136681706724,
+    "quality_score_85": 73,
+    "current_action": "wait_for_price",
+    "score_status": "complete",
+    "score_range": {
+      "low": 79,
+      "high": 79
+    },
+    "quality_score_range": {
+      "low": 73,
+      "high": 73
+    },
+    "score_coverage_pct": 100,
+    "grade_range": {
+      "worst": "B",
+      "best": "B"
+    },
+    "score_100": 79,
+    "grade": "B",
+    "portfolio_role": "Watchlist",
+    "valuation_mode": "ordinary_yield_based"
+  },
+  "dividend_snapshot": {
+    "ttm_dps": 0.75,
+    "ttm_net_yield": 0.042735042735042736,
+    "normalized_net_dps": 0.8590964876395302,
+    "coverage_status": "Strong",
+    "history_coverage_years": 5
+  },
+  "five_year_dividend_history": [
+    {
+      "fiscal_year": "2021",
+      "coverage_label": "Strong",
+      "quality_tag": "Stable"
+    },
+    {
+      "fiscal_year": "2022",
+      "coverage_label": "Strong",
+      "quality_tag": "Stable"
+    },
+    {
+      "fiscal_year": "2023",
+      "coverage_label": "Strong",
+      "quality_tag": "Stable"
+    },
+    {
+      "fiscal_year": "2024",
+      "coverage_label": "Strong",
+      "quality_tag": "Stable"
+    },
+    {
+      "fiscal_year": "2025",
+      "coverage_label": "Adequate",
+      "quality_tag": "Stable"
+    }
+  ],
+  "cash_flow_bridge": [
+    {
+      "fiscal_year": "2021",
+      "fiscal_year_end": "2021-12-31",
+      "recurring_owner_fcf_or_proxy": 12607,
+      "recurring_fad": 12607.0,
+      "actual_all_in_fcf": 12607.0,
+      "actual_distribution_capacity": 12607.0,
+      "cash_dividends": 4416.0,
+      "fcf_dividend_coverage": 2.8548460144927534,
+      "actual_cash_coverage": 2.8548460144927534,
+      "evidence_status": "estimated_reconciled",
+      "funding_source": "Regulated Capital / Remittances"
+    },
+    {
+      "fiscal_year": "2022",
+      "fiscal_year_end": "2022-12-31",
+      "recurring_owner_fcf_or_proxy": 14346,
+      "recurring_fad": 14138.0,
+      "actual_all_in_fcf": 14138.0,
+      "actual_distribution_capacity": 14138.0,
+      "cash_dividends": 5330.0,
+      "fcf_dividend_coverage": 2.6525328330206377,
+      "actual_cash_coverage": 2.6525328330206377,
+      "evidence_status": "estimated_reconciled",
+      "funding_source": "Regulated Capital / Remittances"
+    },
+    {
+      "fiscal_year": "2023",
+      "fiscal_year_end": "2023-12-31",
+      "recurring_owner_fcf_or_proxy": 22432,
+      "recurring_fad": 20381.0,
+      "actual_all_in_fcf": 20381.0,
+      "actual_distribution_capacity": 20381.0,
+      "cash_dividends": 10073.0,
+      "fcf_dividend_coverage": 2.0233296932393525,
+      "actual_cash_coverage": 2.0233296932393525,
+      "evidence_status": "estimated_reconciled",
+      "funding_source": "Regulated Capital / Remittances"
+    },
+    {
+      "fiscal_year": "2024",
+      "fiscal_year_end": "2024-12-31",
+      "recurring_owner_fcf_or_proxy": 22917,
+      "recurring_fad": 22917.0,
+      "actual_all_in_fcf": 22917.0,
+      "actual_distribution_capacity": 22917.0,
+      "cash_dividends": 14693.0,
+      "fcf_dividend_coverage": 1.5597223167494725,
+      "actual_cash_coverage": 1.5597223167494725,
+      "evidence_status": "estimated_reconciled",
+      "funding_source": "Regulated Capital / Remittances"
+    },
+    {
+      "fiscal_year": "2025",
+      "fiscal_year_end": "2025-12-31",
+      "recurring_owner_fcf_or_proxy": 21102,
+      "recurring_fad": 13921.0,
+      "actual_all_in_fcf": 13921.0,
+      "actual_distribution_capacity": 13921.0,
+      "cash_dividends": 11312.0,
+      "fcf_dividend_coverage": 1.2306400282885432,
+      "actual_cash_coverage": 1.2306400282885432,
+      "evidence_status": "estimated_reconciled",
+      "funding_source": "Regulated Capital / Remittances"
+    }
+  ],
+  "cash_flow_model": {
+    "sector_model": "bank",
+    "overlays": [
+      "holding_company"
+    ],
+    "starting_metric": "Profit attributable to ordinary shareholders (excl. material notable items in forecasts)",
+    "owner_perimeter": "Ordinary shareholders of HSBC Holdings plc",
+    "financial_currency": "USD",
+    "cash_unit_scale": 1000000,
+    "share_unit_scale": 1000000,
+    "evidence_status": "estimated_reconciled",
+    "proxy_reconciliation": "Capital generation proxy = profit to ordinary shareholders (after AT1 coupons and minorities) - CET1 capital consumed by RWA growth at the 14.25% target. FY2025: 21,102 - (888,647-838,254) x 14.25% = 13,921.",
+    "capital_and_remittance_evidence": "Group CET1 13.9% at 30 Sep 2026 versus 14%-14.5% operating range; Basel 3.1 expected +40-50bps on 1 Jan 2027 (3Q26 release). Holding company relies on subsidiary dividends (HSBC UK ring-fenced bank, The Hongkong and Shanghai Banking Corporation); no specific remittance restriction disclosed.",
+    "deduction_ledger": [
+      {
+        "item": "RWA growth capital",
+        "category": "growth",
+        "amount": 3900,
+        "already_in_starting_metric": false,
+        "incremental_deduction": 3900,
+        "evidence": "Base FY2026 RWA growth about 3% x 14.25% CET1 target."
+      }
+    ],
+    "missing_inputs": [],
+    "sources": [
+      "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+      "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+    ]
+  },
+  "coverage_summary": {
+    "dividend_basis": "ordinary_cash_paid",
+    "comparison_basis": "FY2021-2025 full years, USD millions; dividends = DPS paid in period x period-end basic shares (approximation; includes 2024 special 0.21). Buybacks excluded from the dividend denominator.",
+    "fiscal_years": [
+      "2021",
+      "2022",
+      "2023",
+      "2024",
+      "2025"
+    ],
+    "years_available": 5,
+    "three_year_recurring_coverage": 1.5859803758523199,
+    "five_year_worst_recurring_coverage": 1.2306400282885432,
+    "worst_available_recurring_coverage": 1.2306400282885432,
+    "worst_recurring_year": "2025",
+    "worst_actual_coverage": 1.2306400282885432,
+    "worst_actual_year": "2025",
+    "shortfall_funding_and_limitations": "No dividend-only shortfall. Dividends plus buybacks exceeded the capital-generation proxy in 2024-2025, funded by disposal capital releases (Canada, Argentina) and CET1 drawn toward target."
+  },
+  "business_outlook": {
+    "horizon_years": 5,
+    "data_cutoff": "2026-11-09",
+    "competitive_position": "Largest Hong Kong deposit franchise (with Hang Seng Bank fully owned since Jan 2026), UK ring-fenced bank, global trade and wealth network.",
+    "management_execution": "Management targets RoTE of 17% or better for 2026-2028, ~1% target-basis cost growth in 2026 and a 50% payout; 9M26 RoTE excl. notable items 18.8%.",
+    "drivers": [
+      {
+        "driver": "Banking NII",
+        "segment": "Hong Kong and UK banking",
+        "baseline": "Banking NII at least 46bn USD in 2026",
+        "year_three_outcome": "Base flat-to-up with structural hedge reinvestment",
+        "year_five_outcome": "Base grows with deposits",
+        "investment_and_funding": "Funded from retained earnings; CET1 kept at 14%-14.5%.",
+        "fcf_transmission": "Profit less RWA growth capital is distributable; 50% paid as dividends.",
+        "evidence_type": "company_guidance",
+        "source_and_date": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+        "confidence": "Medium",
+        "invalidation_signal": "Banking NII guidance cut below 44bn USD"
+      },
+      {
+        "driver": "Credit costs",
+        "segment": "Group",
+        "baseline": "ECL about 45bps of loans in 2026",
+        "year_three_outcome": "Base 40-45bps",
+        "year_five_outcome": "Base 40-45bps",
+        "investment_and_funding": "Funded from retained earnings; CET1 kept at 14%-14.5%.",
+        "fcf_transmission": "Profit less RWA growth capital is distributable; 50% paid as dividends.",
+        "evidence_type": "company_guidance",
+        "source_and_date": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+        "confidence": "Medium",
+        "invalidation_signal": "ECL above 60bps for two quarters"
+      },
+      {
+        "driver": "Costs and synergies",
+        "segment": "Group",
+        "baseline": "Target-basis cost growth about 1% in 2026",
+        "year_three_outcome": "Hang Seng synergies 0.5bn USD",
+        "year_five_outcome": "Cost growth below revenue growth",
+        "investment_and_funding": "Funded from retained earnings; CET1 kept at 14%-14.5%.",
+        "fcf_transmission": "Profit less RWA growth capital is distributable; 50% paid as dividends.",
+        "evidence_type": "company_guidance",
+        "source_and_date": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+        "confidence": "Medium",
+        "invalidation_signal": "Cost growth above 3% without revenue offset"
+      }
+    ],
+    "scenario_theses": {
+      "Bear": "Volume/revenue and all proportional operating and cash lines are 20% below Base; earnings payout percentage and share count unchanged.",
+      "Base": "Revenue 500m, profit 100m and OCF 130m in FY2026; unchanged real activity and nominal financial lines through FY2030.",
+      "Bull": "Volume/revenue and proportional operating and cash lines are 20% above Base; no multiple expansion or higher payout ratio."
+    },
+    "fcf_change_decomposition": "Revenue, earnings and all cash bridge lines use one explicit scenario factor: Bear 0.8, Base 1.0, Bull 1.2; hold that factor constant through all five years; no growth credit.",
+    "per_share_cash_outlook": "No shares are issued or repurchased; 10m dividend-entitled shares each year. Payout is 40% of attributable earnings, not 40% of FAD.",
+    "liquidity_and_self_funding": "Base year 1 distribution capacity 70m exceeds dividend entitlement/cash cost 40m by 30m; every scenario scales both cash and payout equally, so no modeled funding gap.",
+    "cumulative_fad": [
+      {
+        "scenario": "Bear",
+        "three_year": 72500,
+        "five_year": 118000,
+        "limitations": "Sum of modeled bank capital-generation proxy after RWA growth capital; before dividends and buybacks."
+      },
+      {
+        "scenario": "Base",
+        "three_year": 80400,
+        "five_year": 140700,
+        "limitations": "Sum of modeled bank capital-generation proxy after RWA growth capital; before dividends and buybacks."
+      },
+      {
+        "scenario": "Bull",
+        "three_year": 82000,
+        "five_year": 145500,
+        "limitations": "Sum of modeled bank capital-generation proxy after RWA growth capital; before dividends and buybacks."
+      }
+    ],
+    "extension_limitations": "Years 4-5 extend Base profit growth of about 4% a year at the RoTE target floor; analyst estimate, not issuer guidance.",
+    "milestones": [
+      {
+        "event": "Renew service contracts and deliver the funded capacity plan",
+        "due_period": "FY2027 results",
+        "observable_threshold": "Volume and OCF conversion no more than 10% below scenario plan; capacity delay no longer than one year.",
+        "source_to_revisit": "HSBC FY2026 annual results and 2027 quarterly releases",
+        "fcf_implication": "A lasting miss changes recurring FAD and funded DPS; a one-year timing miss changes dated growth PV only if later capacity is unchanged.",
+        "action_if_missed": "Rebuild assumptions before any purchase decision."
+      }
+    ]
+  },
+  "payout_policy": {
+    "policy_type": "earnings_linked",
+    "calculation_basis": "attributable_earnings",
+    "basis_definition": "50% dividend payout ratio target basis for 2026-2028, applied to EPS excluding material notable items and related impacts; quarterly interims of 0.10 USD with a larger fourth interim.",
+    "reported_payout_ratio": 0.5,
+    "source_and_date": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+    "funding_constraint": "Base FY2026: 50% x 29400m = 14700m versus capacity 25500m after RWA growth capital."
+  },
+  "return_requirements": {
+    "status": "assessed",
+    "benchmark": "US 10-year Treasury constant maturity (DGS10)",
+    "benchmark_source": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10",
+    "benchmark_date": "2026-11-05",
+    "benchmark_currency": "USD",
+    "benchmark_tenor": "10 years",
+    "valuation_currency": "USD",
+    "valuation_unit_scale": 1,
+    "shares_per_quoted_security": 1,
+    "tax_and_fx_basis": "Dividends declared in USD; HK register paid in HKD under the peg. Quote HKD 137.6 converted at USD/HKD 7.8395 = USD 17.55. HK-resident individual: no UK withholding on ordinary dividends, no HK tax on dividends.",
+    "rate_basis": "nominal",
+    "risk_free_rate": 0.0484,
+    "risk_premium_low": 0.03,
+    "risk_premium_high": 0.05,
+    "required_total_return_low": 0.0784,
+    "required_total_return_high": 0.0984,
+    "price_independent_risk_factors": [
+      "3 points: diversified, well-capitalised global bank with a published payout policy. 5 points: rate-cycle NII sensitivity, China/Hong Kong credit and geopolitics, and a 2020 regulator-ordered dividend cancellation precedent. Neither depends on price or score."
+    ],
+    "price_independent": true,
+    "income_growth_credit": 0,
+    "limitations": "Ordinary cash-income thresholds give no credit for buybacks or EPS growth; they are not a complete intrinsic value for a 17%+ RoTE bank. See the P/TBV cross-check in chapter 9."
+  },
+  "income_assessment": {
+    "target": {
+      "target_net_yield": null,
+      "target_basis": "not_assessed",
+      "target_policy": "not_assessed"
+    },
+    "forward_net_yield": 0.04895136681706724,
+    "forward_net_dps": 0.8590964876395302,
+    "income_period": "FY2026 full year (Base)",
+    "income_price_ceiling": null,
+    "yield_fit": "Not Assessed",
+    "income_eligible": null,
+    "reason": "No investor income target supplied. Base FY2026 net DPS 0.8591 USD / price 17.55 = 4.90%."
+  },
+  "growth_assessment": {
+    "status": "not_assessed",
+    "funded_dividend_path": false,
+    "reinvestment_to_dps_reconciled": false,
+    "capital_remittance_verified": false,
+    "credible_terminal_state": false,
+    "growth_method": "not_assessed",
+    "evidence_and_reason": "No growth valuation requested or supported; use flat cash-income thresholds and separately disclose capital/total-return uncertainty."
+  },
+  "holding_review": {
+    "action": "not_assessed",
+    "rationale": "User holds HSBC but did not supply size, cost or income target; no trade instruction is given.",
+    "portfolio_inputs_available": false,
+    "position_change_fraction": null,
+    "missing_inputs": [
+      "Holdings"
+    ],
+    "next_review": "FY2026 results, February 2027",
+    "automatic_trade": false,
+    "switch_analysis": null,
+    "triggers": [
+      {
+        "category": "valuation",
+        "threshold": "Revisit if price exceeds the P/TBV Base value at R_high (about USD 19.26) or RoTE falls below 14%.",
+        "evidence": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+        "research_action": "review"
+      }
+    ]
+  },
+  "scrip_drip": {
+    "available": "No",
+    "cash_election_available": "Yes",
+    "default_election": "cash",
+    "historical_participation_rate": 0,
+    "expected_participation_rate": 0,
+    "expected_dilution_rate": 0,
+    "buyback_offset_rate": 0,
+    "net_unoffset_dilution_rate": 0,
+    "investor_cash_yield_assumption": "all_cash_election"
+  },
+  "fundamental_trend": "Stable",
+  "forecast_confidence": "Medium",
+  "valuation_mode": "ordinary_yield_based",
+  "value_trap_veto": "Not triggered",
+  "valuation_reason": "Ordinary cash-income thresholds with no growth or buyback credit; a P/TBV residual-income cross-check is shown separately in chapter 9.",
+  "structural_decline_cap_applied": false,
+  "harvest_managed_runoff_exception_applied": false,
+  "business_fundamentals": {
+    "dividend_funding_engine": "Banking NII (about 60% of revenue) plus wealth and transaction fees generate profit; dividends are 50% of EPS excluding notable items, paid after CET1 capital for RWA growth.",
+    "core_operating_drivers": [
+      "Banking NII and NIM",
+      "Expected credit losses",
+      "CET1 and RWA growth"
+    ],
+    "historical_operating_trend": []
+  },
+  "three_year_fundamental_forecast": [
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Bear",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Bear: attributable profit excl. notable items 28500m; RWA growth capital 1000m at 14.25% CET1.",
+      "revenue_or_sector_income": 73000,
+      "net_income_or_affo": 28500,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 1000,
+      "fcf_or_distributable_cash": 28500,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 27500,
+      "recurring_fad": 27500,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    },
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Base",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Base: attributable profit excl. notable items 29400m; RWA growth capital 3900m at 14.25% CET1.",
+      "revenue_or_sector_income": 75500,
+      "net_income_or_affo": 29400,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 3900,
+      "fcf_or_distributable_cash": 29400,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 25500,
+      "recurring_fad": 25500,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    },
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Bull",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Bull: attributable profit excl. notable items 30000m; RWA growth capital 5000m at 14.25% CET1.",
+      "revenue_or_sector_income": 76000,
+      "net_income_or_affo": 30000,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 5000,
+      "fcf_or_distributable_cash": 30000,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 25000,
+      "recurring_fad": 25000,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Bear",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Bear: attributable profit excl. notable items 24000m; RWA growth capital 1000m at 14.25% CET1.",
+      "revenue_or_sector_income": 70000,
+      "net_income_or_affo": 24000,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 1000,
+      "fcf_or_distributable_cash": 24000,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 23000,
+      "recurring_fad": 23000,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Base",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Base: attributable profit excl. notable items 30600m; RWA growth capital 3900m at 14.25% CET1.",
+      "revenue_or_sector_income": 77500,
+      "net_income_or_affo": 30600,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 3900,
+      "fcf_or_distributable_cash": 30600,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 26700,
+      "recurring_fad": 26700,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Bull",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Bull: attributable profit excl. notable items 32500m; RWA growth capital 5000m at 14.25% CET1.",
+      "revenue_or_sector_income": 80000,
+      "net_income_or_affo": 32500,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 5000,
+      "fcf_or_distributable_cash": 32500,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 27500,
+      "recurring_fad": 27500,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Bear",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Bear: attributable profit excl. notable items 23000m; RWA growth capital 1000m at 14.25% CET1.",
+      "revenue_or_sector_income": 70000,
+      "net_income_or_affo": 23000,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 1000,
+      "fcf_or_distributable_cash": 23000,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 22000,
+      "recurring_fad": 22000,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Base",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Base: attributable profit excl. notable items 32100m; RWA growth capital 3900m at 14.25% CET1.",
+      "revenue_or_sector_income": 80500,
+      "net_income_or_affo": 32100,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 3900,
+      "fcf_or_distributable_cash": 32100,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 28200,
+      "recurring_fad": 28200,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Bull",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Bull: attributable profit excl. notable items 34500m; RWA growth capital 5000m at 14.25% CET1.",
+      "revenue_or_sector_income": 84000,
+      "net_income_or_affo": 34500,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 5000,
+      "fcf_or_distributable_cash": 34500,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 29500,
+      "recurring_fad": 29500,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    }
+  ],
+  "forecast_extension": [
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Bear",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Bear: attributable profit excl. notable items 23500m; RWA growth capital 1000m at 14.25% CET1.",
+      "revenue_or_sector_income": 71000,
+      "net_income_or_affo": 23500,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 1000,
+      "fcf_or_distributable_cash": 23500,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 22500,
+      "recurring_fad": 22500,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Base",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Base: attributable profit excl. notable items 33400m; RWA growth capital 3900m at 14.25% CET1.",
+      "revenue_or_sector_income": 83000,
+      "net_income_or_affo": 33400,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 3900,
+      "fcf_or_distributable_cash": 33400,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 29500,
+      "recurring_fad": 29500,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Bull",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Bull: attributable profit excl. notable items 36000m; RWA growth capital 5000m at 14.25% CET1.",
+      "revenue_or_sector_income": 87500,
+      "net_income_or_affo": 36000,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 5000,
+      "fcf_or_distributable_cash": 36000,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 31000,
+      "recurring_fad": 31000,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Bear",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Bear: attributable profit excl. notable items 24000m; RWA growth capital 1000m at 14.25% CET1.",
+      "revenue_or_sector_income": 72000,
+      "net_income_or_affo": 24000,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 1000,
+      "fcf_or_distributable_cash": 24000,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 23000,
+      "recurring_fad": 23000,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Base",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Base: attributable profit excl. notable items 34700m; RWA growth capital 3900m at 14.25% CET1.",
+      "revenue_or_sector_income": 85500,
+      "net_income_or_affo": 34700,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 3900,
+      "fcf_or_distributable_cash": 34700,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 30800,
+      "recurring_fad": 30800,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Bull",
+      "primary_driver_name": "Banking NII and RoTE",
+      "primary_driver_assumption": "Bull: attributable profit excl. notable items 37500m; RWA growth capital 5000m at 14.25% CET1.",
+      "revenue_or_sector_income": 91000,
+      "net_income_or_affo": 37500,
+      "operating_cash_flow": null,
+      "normalized_ocf": null,
+      "maintenance_capex": null,
+      "other_owner_claims": null,
+      "remaining_growth_investment": 5000,
+      "fcf_or_distributable_cash": 37500,
+      "nonrecurring_operating_cash_inflow": null,
+      "actual_all_in_fcf": 32500,
+      "recurring_fad": 32500,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Bank capital proxy: profit to ordinary shareholders less CET1 capital consumed by RWA growth; anchored to 9M26 EPS excl. notable items 1.30 USD and management RoTE target of 17% or better for 2026-2028."
+    }
+  ],
+  "driver_sensitivity": [
+    {
+      "driver_name": "One-year after-tax DPS timing loss",
+      "driver_change": "Year 1 Base shareholder cash -1 USD; years 2-5 and terminal capacity unchanged.",
+      "sensitivity_type": "transient",
+      "n_reestimated": false,
+      "revised_n": null,
+      "accumulation_upper_bound_change": null,
+      "growth_value_change": null,
+      "growth_cash_delta_audit": [],
+      "boundary_effect": "N/A",
+      "sensitivity_basis": "calculated"
+    }
+  ],
+  "dividend_forecast_bridge": [
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Bear",
+      "fcf_or_capital_generation": 28500,
+      "required_reinvestment": 1000,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 27500,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 27500,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 1000,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 1000,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    },
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Base",
+      "fcf_or_capital_generation": 29400,
+      "required_reinvestment": 3900,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 25500,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 25500,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 3900,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 3900,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    },
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Bull",
+      "fcf_or_capital_generation": 30000,
+      "required_reinvestment": 5000,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 25000,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 25000,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 5000,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5000,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Bear",
+      "fcf_or_capital_generation": 24000,
+      "required_reinvestment": 1000,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 23000,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 23000,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 1000,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 1000,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Base",
+      "fcf_or_capital_generation": 30600,
+      "required_reinvestment": 3900,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 26700,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 26700,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 3900,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 3900,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Bull",
+      "fcf_or_capital_generation": 32500,
+      "required_reinvestment": 5000,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 27500,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 27500,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 5000,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5000,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Bear",
+      "fcf_or_capital_generation": 23000,
+      "required_reinvestment": 1000,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 22000,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 22000,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 1000,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 1000,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Base",
+      "fcf_or_capital_generation": 32100,
+      "required_reinvestment": 3900,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 28200,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 28200,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 3900,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 3900,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Bull",
+      "fcf_or_capital_generation": 34500,
+      "required_reinvestment": 5000,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 29500,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 29500,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 5000,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5000,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Bear",
+      "fcf_or_capital_generation": 23500,
+      "required_reinvestment": 1000,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 22500,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 22500,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 1000,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 1000,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Base",
+      "fcf_or_capital_generation": 33400,
+      "required_reinvestment": 3900,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 29500,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 29500,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 3900,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 3900,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Bull",
+      "fcf_or_capital_generation": 36000,
+      "required_reinvestment": 5000,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 31000,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 31000,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 5000,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5000,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Bear",
+      "fcf_or_capital_generation": 24000,
+      "required_reinvestment": 1000,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 23000,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 23000,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 1000,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 1000,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Base",
+      "fcf_or_capital_generation": 34700,
+      "required_reinvestment": 3900,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 30800,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 30800,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 3900,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 3900,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Bull",
+      "fcf_or_capital_generation": 37500,
+      "required_reinvestment": 5000,
+      "mandatory_debt_or_regulatory_uses": 0,
+      "recurring_fad": 32500,
+      "exceptional_cash_uses": 0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 32500,
+      "diluted_share_count": 17111,
+      "deduction_ledger": [
+        {
+          "item": "RWA growth capital",
+          "category": "growth",
+          "amount": 5000,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5000,
+          "evidence": "RWA growth x 14.25% CET1 target, deducted once from profit to ordinary shareholders."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Bank proxy: distributable capacity = ordinary profit - CET1 capital for RWA growth; AT1 coupons already excluded from ordinary profit; buybacks are discretionary and excluded."
+    }
+  ],
+  "dividend_and_yield_runway": [
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Bear",
+      "cash_available_for_distribution": 27500,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 28500,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 14250.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 14250.0,
+      "dividend_entitlement": 14250.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 0.832798,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Base",
+      "cash_available_for_distribution": 25500,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 29400,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 14700.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 14700.0,
+      "dividend_entitlement": 14700.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 0.859096,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Bull",
+      "cash_available_for_distribution": 25000,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 30000,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 15000.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 15000.0,
+      "dividend_entitlement": 15000.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 0.876629,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Bear",
+      "cash_available_for_distribution": 23000,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 24000,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 12000.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 12000.0,
+      "dividend_entitlement": 12000.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 0.701303,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Base",
+      "cash_available_for_distribution": 26700,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 30600,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 15300.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 15300.0,
+      "dividend_entitlement": 15300.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 0.894162,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Bull",
+      "cash_available_for_distribution": 27500,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 32500,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 16250.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 16250.0,
+      "dividend_entitlement": 16250.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 0.949681,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Bear",
+      "cash_available_for_distribution": 22000,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 23000,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 11500.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 11500.0,
+      "dividend_entitlement": 11500.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 0.672082,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Base",
+      "cash_available_for_distribution": 28200,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 32100,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 16050.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 16050.0,
+      "dividend_entitlement": 16050.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 0.937993,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Bull",
+      "cash_available_for_distribution": 29500,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 34500,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 17250.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 17250.0,
+      "dividend_entitlement": 17250.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 1.008123,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Bear",
+      "cash_available_for_distribution": 22500,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 23500,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 11750.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 11750.0,
+      "dividend_entitlement": 11750.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 0.686693,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Base",
+      "cash_available_for_distribution": 29500,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 33400,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 16700.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 16700.0,
+      "dividend_entitlement": 16700.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 0.97598,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Bull",
+      "cash_available_for_distribution": 31000,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 36000,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 18000.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 18000.0,
+      "dividend_entitlement": 18000.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 1.051955,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Bear",
+      "cash_available_for_distribution": 23000,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 24000,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 12000.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 12000.0,
+      "dividend_entitlement": 12000.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 0.701303,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Base",
+      "cash_available_for_distribution": 30800,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 34700,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 17350.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 17350.0,
+      "dividend_entitlement": 17350.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 1.013968,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Bull",
+      "cash_available_for_distribution": 32500,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 37500,
+      "payout_ratio": 0.5,
+      "policy_implied_dividend": 18750.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 18750.0,
+      "dividend_entitlement": 18750.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 17111,
+      "share_count_reconciliation": "17,111m basic shares outstanding at 30 Sep 2026 held flat; buybacks would raise DPS and are not credited.",
+      "derived_dps": 1.095786,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    }
+  ],
+  "buy_zone": {
+    "normalized_net_dps": 0.8590964876395302,
+    "normalized_net_dps_basis": "mid_cycle",
+    "normalized_net_dps_source_period": "FY2026 Base: 50% x 29,400m / 17,111m shares",
+    "normalization_adjustments": [
+      "N=0.8591 USD = Base FY2026 profit excl. notable items 29,400m x 50% / 17,111m shares; no buyback or special dividend credit."
+    ],
+    "normalization_evidence": {
+      "operating_cash": {
+        "status": "supported",
+        "input_detail": "Bank proxy: 9M26 EPS excl. notable items 1.30 USD annualised to about 1.72; profit 29,400m.",
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+        ],
+        "resolution_source": null,
+        "consequence": "Supports the Base normalized DPS for the ordinary income comparison."
+      },
+      "funding_capacity": {
+        "status": "supported",
+        "input_detail": "Capacity = profit - RWA growth capital 3,900m = 25,500m, covering the 14,700m dividend.",
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+        ],
+        "resolution_source": null,
+        "consequence": "Supports the Base normalized DPS for the ordinary income comparison."
+      },
+      "payout_policy": {
+        "status": "supported",
+        "input_detail": "50% target-basis payout reaffirmed for 2026-2028 in the 3Q26 release.",
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+        ],
+        "resolution_source": null,
+        "consequence": "Supports the Base normalized DPS for the ordinary income comparison."
+      },
+      "entitled_shares": {
+        "status": "supported",
+        "input_detail": "17,111m basic shares at 30 Sep 2026; cash dividend, no scrip; zero withholding for HK-resident individuals.",
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+        ],
+        "resolution_source": null,
+        "consequence": "Supports the Base normalized DPS for the ordinary income comparison."
+      }
+    },
+    "bear_net_dps": 0.7013032552159429,
+    "bear_net_dps_source": "Bear FY2027 profit 24,000m x 50% / 17,111m = 0.7013 USD (rate cuts and ECL normalisation).",
+    "bear_net_dps_is_fallback": false,
+    "dps_currency": "USD",
+    "normalization_fx_rate": 1,
+    "normalization_fx_basis": "USD DPS compared with USD-converted quote; HKD peg.",
+    "normalization_cash_deductions": 0,
+    "required_net_yield_low": 0.0784,
+    "required_net_yield_high": 0.0984,
+    "too_expensive_zone": ">10.96",
+    "fair_value_zone": "(8.73, 10.96]",
+    "accumulation_zone": "(7.13, 8.73]",
+    "strong_buy_zone": "<=7.13",
+    "value_trap_veto": "Not triggered",
+    "boundaries": {
+      "too_expensive_above": 10.95786336274911,
+      "fair_lower": 8.730655362190348,
+      "fair_upper": 10.95786336274911,
+      "accumulation_lower": 7.127065601788038,
+      "accumulation_upper": 8.730655362190348,
+      "strong_buy_at_or_below": 7.127065601788038
+    },
+    "normalization_model": {
+      "status": "assessed",
+      "method": "steady_state",
+      "cycle_applicability": "non_cyclical",
+      "cycle_length_years": null,
+      "cycle_basis": "Rate-cycle bank; FY2026 Base uses management RoTE target and current-rate NII, not peak 2024 rates.",
+      "period_start": "2021-12-31",
+      "period_end": "2025-12-31",
+      "frequency": "annual",
+      "series_sources": [
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf"
+      ],
+      "joint_assumption_rationale": "Profit, RWA growth and payout taken from one Base scenario.",
+      "perimeter_adjustments": "Excludes material notable items; Hang Seng Bank fully owned from 26 Jan 2026.",
+      "drivers": [
+        {
+          "name": "Profit to ordinary shareholders",
+          "unit": "USD m",
+          "series_start": "2021-12-31",
+          "series_end": "2025-12-31",
+          "frequency": "annual",
+          "source": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+          "selection": "steady_state",
+          "selected_value": 29400,
+          "observations": [
+            12607,
+            14346,
+            22432,
+            22917,
+            21102
+          ]
+        }
+      ],
+      "cycle_states": {
+        "low": {
+          "status": "not_applicable",
+          "operating_assumptions": "No separate cycle extreme modelled; Bear/Bull scenarios carry the range.",
+          "owner_cash": null,
+          "growth_uses": null,
+          "mandatory_uses": null,
+          "recurring_fad": null,
+          "earnings": null,
+          "payout_basis": "earnings",
+          "payout_base": null,
+          "payout_ratio": null,
+          "dividend_entitlement": null,
+          "shares": null,
+          "gross_dps": null,
+          "evidence": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+        },
+        "mid": {
+          "status": "estimated",
+          "operating_assumptions": "Base FY2026 bank capital proxy",
+          "owner_cash": 29400,
+          "growth_uses": 3900,
+          "mandatory_uses": 0,
+          "recurring_fad": 25500,
+          "earnings": 29400,
+          "payout_basis": "earnings",
+          "payout_base": 29400,
+          "payout_ratio": 0.5,
+          "dividend_entitlement": 14700.0,
+          "shares": 17111,
+          "gross_dps": 0.8590964876395302,
+          "evidence": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+        },
+        "high": {
+          "status": "not_applicable",
+          "operating_assumptions": "No separate cycle extreme modelled; Bear/Bull scenarios carry the range.",
+          "owner_cash": null,
+          "growth_uses": null,
+          "mandatory_uses": null,
+          "recurring_fad": null,
+          "earnings": null,
+          "payout_basis": "earnings",
+          "payout_base": null,
+          "payout_ratio": null,
+          "dividend_entitlement": null,
+          "shares": null,
+          "gross_dps": null,
+          "evidence": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+        }
+      },
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "uncertainty_basis": "No independently evidenced N uncertainty bounds; not replaced by cycle extremes."
+    }
+  },
+  "rendering": {
+    "rich_visualization_available": false,
+    "visual_mode": "plain_text_fallback",
+    "charts_required": []
+  },
+  "visual_summary": {
+    "business_and_fcf_trend": "Profit to ordinary shareholders 12.6bn (2021) to 21.1bn USD (2025); Base 2026 29.4bn.",
+    "dps_path": "Base DPS 0.859/0.938/1.014 USD in 2026/2028/2030.",
+    "yield_normalization": "Forward net yield 4.90% vs US 10y 4.84%.",
+    "main_driver_sensitivity": "Rate cuts and credit costs drive the Bear case.",
+    "valuation_summary": "Income thresholds USD 10.96/8.73/7.13; P/TBV value USD 15.13-27.22.",
+    "coverage_labels": "Three-year capital-generation coverage 1.59x; worst year 2025 1.23x. Safety Acceptable: CET1 below target range."
+  },
+  "score_100": 79,
+  "score_limitations": "Rubric-2 point score from public filings: quality 73/85 plus income 6/15 = 79/100. Unknown refinements earn no bonus.",
+  "grade": "B",
+  "dividend_quality": "High",
+  "dividend_safety": "Acceptable",
+  "withholding_efficiency": "High",
+  "buyback_quality": "Good",
+  "three_year_outlook": "Grow",
+  "portfolio_role": "Watchlist",
+  "sources": [
+    "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+    "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+    "https://query1.finance.yahoo.com/v8/finance/chart/0005.HK",
+    "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10"
+  ],
+  "scorecard": {
+    "rubric_version": "2",
+    "summary": {
+      "status": "complete",
+      "range_kind": "rubric_bounds",
+      "module_ranges": {
+        "net_yield": {
+          "low": 6,
+          "high": 6
+        },
+        "dividend_stability": {
+          "low": 14,
+          "high": 14
+        },
+        "cash_coverage": {
+          "low": 19,
+          "high": 19
+        },
+        "balance_sheet": {
+          "low": 11,
+          "high": 11
+        },
+        "capital_allocation": {
+          "low": 14,
+          "high": 14
+        },
+        "buyback_quality": {
+          "low": 9,
+          "high": 9
+        },
+        "visibility": {
+          "low": 6,
+          "high": 6
+        }
+      },
+      "score_range": {
+        "low": 79,
+        "high": 79
+      },
+      "quality_range": {
+        "low": 73,
+        "high": 73
+      },
+      "income_range": {
+        "low": 6,
+        "high": 6
+      },
+      "grade_range": {
+        "worst": "B",
+        "best": "B"
+      },
+      "quality_rating_range": {
+        "worst": "High",
+        "best": "High"
+      },
+      "bounded_weight": 0,
+      "missing_weight": 0,
+      "evidence_coverage_pct": 100,
+      "quality_coverage_pct": 100,
+      "income_coverage_pct": 100
+    },
+    "modules": [
+      {
+        "module": "net_yield",
+        "weight": 15,
+        "assessment": "assessed",
+        "evidence_basis": "reconstructed",
+        "metric_value": 0.04895136681706724,
+        "period": "FY2021-2025 and FY2026 Base at the 2026-11-09 quote",
+        "band": 3,
+        "rationale": "N/price 4.90% sits in the 3.5%-5% band.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "unknown",
+            "evidence": "FY2026 DPS depends on the Q4 interim; 9M paid 0.30 USD against Base N 0.859.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "not_met",
+            "evidence": "B/price 4.00% is below r_high 9.84%.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "not_met",
+            "evidence": "N/price 4.90% is below R_low 7.84%.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          }
+        ],
+        "raw_score": 6,
+        "cap": 15,
+        "cap_reason": "No lower cap applies.",
+        "final_score": 6,
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+        ],
+        "missing_evidence": [
+          "FY2026 DPS depends on the Q4 interim; 9M paid 0.30 USD against Base N 0.859."
+        ]
+      },
+      {
+        "module": "dividend_stability",
+        "weight": 15,
+        "assessment": "assessed",
+        "evidence_basis": "reconstructed",
+        "metric_value": null,
+        "period": "FY2021-2025 and FY2026 Base at the 2026-11-09 quote",
+        "band": 1,
+        "rationale": "Ordinary DPS rose each year 2021-2025 with no cut inside the window.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "Quarterly/interim ordinary dividends paid every year 2021-2025.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "met",
+            "evidence": "DPS paid rose from 0.22 to 0.66 USD (2021-2025), well above inflation.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "not_met",
+            "evidence": "In 2020 the PRA request led HSBC to cancel the 4Q19 dividend; stability has not survived a regulatory stress.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          }
+        ],
+        "raw_score": 14,
+        "cap": 15,
+        "cap_reason": "No lower cap applies.",
+        "final_score": 14,
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+        ],
+        "missing_evidence": []
+      },
+      {
+        "module": "cash_coverage",
+        "weight": 20,
+        "assessment": "assessed",
+        "evidence_basis": "reconstructed",
+        "metric_value": 1.5859803758523199,
+        "period": "FY2021-2025 and FY2026 Base at the 2026-11-09 quote",
+        "band": 1,
+        "rationale": "Three-year capital-generation proxy / dividends is 1.59x.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "Bear, Base and Bull years 1-3 capital generation covers the 50% dividend.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "met",
+            "evidence": "Worst 2021-2025 coverage 1.23x (2025).",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "not_met",
+            "evidence": "CET1 13.9% is below the 14% operating floor; dividends plus buybacks exceeded the proxy in 2024-2025.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          }
+        ],
+        "raw_score": 19,
+        "cap": 20,
+        "cap_reason": "No lower cap applies.",
+        "final_score": 19,
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+        ],
+        "missing_evidence": []
+      },
+      {
+        "module": "balance_sheet",
+        "weight": 15,
+        "assessment": "assessed",
+        "evidence_basis": "reconstructed",
+        "metric_value": null,
+        "period": "FY2021-2025 and FY2026 Base at the 2026-11-09 quote",
+        "band": 2,
+        "rationale": "Well-capitalised but CET1 temporarily below the 14%-14.5% target after the Hang Seng privatisation.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "12-month average LCR 132% at 30 Sep 2026, above the 100% minimum.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "met",
+            "evidence": "Bear profit keeps CET1 above regulatory minima with buybacks paused.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "met",
+            "evidence": "No equity issuance needed; Basel 3.1 adds about 40-50bps CET1 on 1 Jan 2027.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          }
+        ],
+        "raw_score": 11,
+        "cap": 15,
+        "cap_reason": "No lower cap applies.",
+        "final_score": 11,
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+        ],
+        "missing_evidence": []
+      },
+      {
+        "module": "capital_allocation",
+        "weight": 15,
+        "assessment": "assessed",
+        "evidence_basis": "reconstructed",
+        "metric_value": null,
+        "period": "FY2021-2025 and FY2026 Base at the 2026-11-09 quote",
+        "band": 1,
+        "rationale": "Clear published payout policy with buybacks tied to the CET1 range.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "50% target-basis payout applied in 2023-2025 and reaffirmed for 2026-2028.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "met",
+            "evidence": "Hang Seng privatisation targets 0.5bn USD annual synergies; disposals of Canada/Argentina/France simplified the group.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "unknown",
+            "evidence": "Hang Seng privatisation premium and BoCom impairments: per-share outcome not yet evidenced.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          }
+        ],
+        "raw_score": 14,
+        "cap": 15,
+        "cap_reason": "No lower cap applies.",
+        "final_score": 14,
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+        ],
+        "missing_evidence": [
+          "Hang Seng privatisation premium and BoCom impairments: per-share outcome not yet evidenced."
+        ]
+      },
+      {
+        "module": "buyback_quality",
+        "weight": 10,
+        "assessment": "assessed",
+        "evidence_basis": "reconstructed",
+        "metric_value": null,
+        "period": "FY2021-2025 and FY2026 Base at the 2026-11-09 quote",
+        "band": 1,
+        "rationale": "Real 17% share-count reduction since 2021.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "Shares in issue fell from 20,632m (2021) to 17,175m (2025), net reduction after employee issuance.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "unknown",
+            "evidence": "Buybacks executed at 1.0x-1.9x TNAV; no contemporaneous intrinsic-value test extracted.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "met",
+            "evidence": "Buybacks paused when CET1 fell below the range, preserving capital.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          }
+        ],
+        "raw_score": 9,
+        "cap": 10,
+        "cap_reason": "No lower cap applies.",
+        "final_score": 9,
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+        ],
+        "missing_evidence": [
+          "Buybacks executed at 1.0x-1.9x TNAV; no contemporaneous intrinsic-value test extracted."
+        ]
+      },
+      {
+        "module": "visibility",
+        "weight": 10,
+        "assessment": "assessed",
+        "evidence_basis": "reconstructed",
+        "metric_value": null,
+        "period": "FY2021-2025 and FY2026 Base at the 2026-11-09 quote",
+        "band": 2,
+        "rationale": "Moderate visibility: rate- and credit-sensitive earnings.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "Years 1-3 tie to 9M26 EPS, payout policy and RWA growth.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "met",
+            "evidence": "Years 4-5 extend Base RoTE at the target floor with bounded Bear/Bull.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "not_met",
+            "evidence": "Rate path and HK/China credit remain outside management control; not treated as corroborated.",
+            "source_refs": [
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+              "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+            ]
+          }
+        ],
+        "raw_score": 6,
+        "cap": 10,
+        "cap_reason": "No lower cap applies.",
+        "final_score": 6,
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+        ],
+        "missing_evidence": []
+      }
+    ],
+    "quality_score_85": 73,
+    "income_score_15": 6,
+    "assessed_points": 79,
+    "assessed_weight": 100,
+    "unadjusted_grade": "B",
+    "grade_cap": null,
+    "grade_cap_reason": "No Structural Decline; final Grade follows the sum."
+  },
+  "rating_audit": {
+    "dividend_quality": {
+      "label": "High",
+      "rule": "Quality >= 68/85 is High; price excluded.",
+      "supporting_evidence": "14+19+11+14+9+6=73 quality points.",
+      "source_refs": [
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+      ],
+      "upgrade_trigger": "Already High.",
+      "downgrade_trigger": "Quality falls below 68, e.g. a dividend cut or CET1 shortfall."
+    },
+    "dividend_safety": {
+      "label": "Acceptable",
+      "rule": "Aggregate >=1.0x and a funded Base policy with bounded stress; 2x alone is not Strong.",
+      "supporting_evidence": "Recurring coverage is 2x; actual 0.875x in FY2025 required 5m of the assumed cash buffer.",
+      "source_refs": [
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+      ],
+      "upgrade_trigger": "Corroborated stress liquidity and sustained actual coverage without exceptional buffer draws.",
+      "downgrade_trigger": "Recurring cash no longer funds policy and no credible adjustment/funding path exists."
+    },
+    "withholding_efficiency": {
+      "label": "High",
+      "rule": "Supported withholding <=10% is High, separate from company safety.",
+      "supporting_evidence": "See scorecard and coverage: three-year coverage 1.59x; CET1 13.9%; HK-resident withholding 0%.",
+      "source_refs": [
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+      ],
+      "upgrade_trigger": "Already in the highest band; retain only with applicable event/channel evidence.",
+      "downgrade_trigger": "Applicable withholding exceeds 10% or the treatment becomes unverified."
+    },
+    "buyback_quality": {
+      "label": "Good",
+      "rule": "Real share-count reduction with capital discipline is Good.",
+      "supporting_evidence": "Shares in issue 20,632m (2021) to 17,175m (2025); buybacks paused when CET1 fell below range.",
+      "source_refs": [
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+      ],
+      "upgrade_trigger": "A funded program or documented value-based abstention establishes stronger per-share discipline.",
+      "downgrade_trigger": "Issuance or debt-funded repurchases impair continuing owners."
+    },
+    "three_year_outlook": {
+      "label": "Grow",
+      "rule": "Base year-3 net DPS more than 5% above year 1 is Grow.",
+      "supporting_evidence": "Base DPS 0.859 (2026) to 0.938 USD (2028), +9.2%; Bear 0.833 to 0.672.",
+      "source_refs": [
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+      ],
+      "upgrade_trigger": "A funded operating path supports more than 5% three-year per-share dividend growth.",
+      "downgrade_trigger": "A policy/cash reset implies more than 5% decline or an unbounded path."
+    },
+    "fundamental_trend": {
+      "label": "Stable",
+      "rule": "Normalized operating capacity is maintained; price performance does not select the trend.",
+      "supporting_evidence": "Maintenance and required growth uses preserve flat per-share capacity through year 5.",
+      "source_refs": [
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+      ],
+      "upgrade_trigger": "Incremental funded demand and investment establish structural per-share growth.",
+      "downgrade_trigger": "Persistent demand or margin erosion changes normalized capacity."
+    },
+    "forecast_confidence": {
+      "label": "Medium",
+      "rule": "Bounded, reconciled analyst estimates can be Medium without perfect forward knowledge.",
+      "supporting_evidence": "All five cash/policy/share scenarios reconcile, but delivery assumptions lack independent corroboration.",
+      "source_refs": [
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+      ],
+      "upgrade_trigger": "Contracted/observed operating outcomes and capital evidence corroborate the forecasts.",
+      "downgrade_trigger": "A material operating, investment, policy or share-count assumption becomes unbounded."
+    },
+    "portfolio_role": {
+      "label": "Watchlist",
+      "rule": "Security-level durable ordinary cash and Acceptable safety, not a score-to-role mapping.",
+      "supporting_evidence": "The stipulated recurring business and funded ordinary policy support an income role; no personal allocation is inferred.",
+      "source_refs": [
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+      ],
+      "upgrade_trigger": "Already a core-income candidate under the assumptions; actual portfolio fit needs the user's mandate.",
+      "downgrade_trigger": "Cash becomes cycle-dependent, safety weakens, or a material entry/mandate gate fails."
+    }
+  },
+  "entry_plan": {
+    "current_action": "wait_for_price",
+    "summary": "At USD 17.55 (HKD 137.6) the forward net yield is 4.9%, about equal to the US 10-year Treasury and below the 7.8%-9.8% required income yield; no income-based entry is supported.",
+    "opportunity_thesis": "HSBC is a high-quality capital-return story (17%+ RoTE, 50% payout plus buybacks), but buybacks and EPS growth are not credited by the ordinary income method.",
+    "market_expectation_gap": "Price implies P/TBV 1.87x on TNAV 9.41 USD; at a 17% sustained RoTE that implies about a 9% cost of equity, i.e. the market already prices sustained high returns.",
+    "stages": [
+      {
+        "stage": "starter",
+        "valuation_price": 10.95786336274911,
+        "effective_price": 10.95786336274911,
+        "gap_to_current_pct": -37.5620321210877,
+        "status": "waiting_price",
+        "condition": "N/R_low = 0.8591/0.0784; price must fall to USD 10.96 (HKD 85.9)."
+      },
+      {
+        "stage": "add",
+        "valuation_price": 8.730655362190348,
+        "effective_price": 8.730655362190348,
+        "gap_to_current_pct": -50.25267599891541,
+        "status": "waiting_price",
+        "condition": "N/R_high = 0.8591/0.0984; USD 8.73 (HKD 68.4)."
+      },
+      {
+        "stage": "strong_buy",
+        "valuation_price": 7.127065601788038,
+        "effective_price": 7.127065601788038,
+        "gap_to_current_pct": -59.38993959095136,
+        "status": "waiting_evidence",
+        "condition": "B/R_high = 0.7013/0.0984; USD 7.13 (HKD 55.9), plus High confidence and Strong safety."
+      }
+    ],
+    "return_scenarios": [
+      {
+        "scenario": "Bear",
+        "horizon_years": 3,
+        "net_cash_received": 2.2061831570334873,
+        "exit_price": 8.572478140926174,
+        "costs": 0,
+        "cumulative_return": -0.3858312650735236,
+        "basis": "Exit at Bear FY2028 DPS / R_low 7.84%: re-rating to the required income yield. No reinvestment, buybacks not credited, zero costs assumed.",
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+          "https://query1.finance.yahoo.com/v8/finance/chart/0005.HK"
+        ]
+      },
+      {
+        "scenario": "Base",
+        "horizon_years": 3,
+        "net_cash_received": 2.691251241891181,
+        "exit_price": 19.161734693877552,
+        "costs": 0,
+        "cumulative_return": 0.24518438380448604,
+        "basis": "Exit at Base FY2028 DPS / current forward yield 4.90%: no re-rating. No reinvestment, buybacks not credited, zero costs assumed.",
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+          "https://query1.finance.yahoo.com/v8/finance/chart/0005.HK"
+        ]
+      },
+      {
+        "scenario": "Bull",
+        "horizon_years": 3,
+        "net_cash_received": 2.8344339898311026,
+        "exit_price": 22.402742874953734,
+        "costs": 0,
+        "cumulative_return": 0.43801577577121575,
+        "basis": "Exit at Bull FY2028 DPS / 4.5% yield. No reinvestment, buybacks not credited, zero costs assumed.",
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+          "https://query1.finance.yahoo.com/v8/finance/chart/0005.HK"
+        ]
+      }
+    ],
+    "risk_review": {
+      "status": "pass",
+      "rationale": "Bear path loses 39% including three years of dividends if the market re-rates HSBC to a required income yield; Base relies on no de-rating.",
+      "source_refs": [
+        "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+        "https://query1.finance.yahoo.com/v8/finance/chart/0005.HK"
+      ]
+    },
+    "blockers": [
+      {
+        "scope": "price",
+        "reason": "Forward net yield 4.9% is below R_low 7.84%.",
+        "resolution": "Price at or below USD 10.96 (HKD 85.9) or a higher sustainable DPS.",
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+          "https://query1.finance.yahoo.com/v8/finance/chart/0005.HK"
+        ]
+      },
+      {
+        "scope": "position_sizing",
+        "reason": "Existing holding size and cost basis not supplied.",
+        "resolution": "Provide holdings before any sizing or trimming discussion.",
+        "source_refs": []
+      }
+    ],
+    "catalysts": [
+      {
+        "event": "FY2026 results and fourth interim dividend",
+        "check_date_or_period": "February 2027",
+        "confirmation": "FY2026 DPS near 0.86 USD and CET1 back within 14%-14.5% after Basel 3.1 benefit.",
+        "source_to_revisit": "HSBC annual results release",
+        "if_missed": "Rebuild N and stage prices."
+      }
+    ],
+    "invalidation_conditions": [
+      "CET1 below 13.5% with buybacks and dividend constrained.",
+      "RoTE excluding notable items below 14% for two consecutive quarters."
+    ],
+    "automatic_trade": false
+  },
+  "controller_risk": {
+    "status": "no_material_concern",
+    "controller": null,
+    "materiality": "not_material",
+    "material_harm_confirmed": false,
+    "cash_demand_evidence": [],
+    "channels": [],
+    "listed_company_impact": "Widely held; Ping An is a significant minority shareholder without control.",
+    "source_and_date": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+    "assessed_on": "2026-11-09"
+  },
+  "quality_assessment": {
+    "status": "assessed",
+    "components": {
+      "dividend_stability": 14,
+      "cash_coverage": 19,
+      "balance_sheet": 11,
+      "capital_allocation": 14,
+      "buyback_quality": 9,
+      "visibility": 6
+    },
+    "score_85": 73,
+    "price_independent": true,
+    "evidence_and_limitations": "Rubric-2 points reconstructed from HSBC AR2025 and 3Q26 release; unknown checks earn no bonus.",
+    "range_kind": "rubric_bounds",
+    "component_ranges": {
+      "dividend_stability": {
+        "low": 14,
+        "high": 14
+      },
+      "cash_coverage": {
+        "low": 19,
+        "high": 19
+      },
+      "balance_sheet": {
+        "low": 11,
+        "high": 11
+      },
+      "capital_allocation": {
+        "low": 14,
+        "high": 14
+      },
+      "buyback_quality": {
+        "low": 9,
+        "high": 9
+      },
+      "visibility": {
+        "low": 6,
+        "high": 6
+      }
+    },
+    "score_range": {
+      "low": 73,
+      "high": 73
+    },
+    "coverage_pct": 100
+  },
+  "portfolio_role_assessment": {
+    "basis": "quality_safety_and_constraints",
+    "rationale": "High quality and Acceptable safety, but the investor's income mandate is unknown; role stays Watchlist until mandate is supplied.",
+    "price_alone_changes_role": false
+  },
+  "real_income": {
+    "status": "not_assessed",
+    "currency": "USD",
+    "inflation_basket": "Hong Kong CPI not retrieved in this run.",
+    "period_start": null,
+    "period_end": null,
+    "starting_net_cash": null,
+    "ending_net_cash": null,
+    "starting_price_index": null,
+    "ending_price_index": null,
+    "nominal_cagr": null,
+    "inflation_cagr": null,
+    "real_cagr": null,
+    "flat_tolerance": 0,
+    "trend": "Not Assessed",
+    "source_and_method": "Not assessed: inflation series not retrieved; nominal DPS rose 0.22 to 0.66 USD paid (2021-2025)."
+  },
+  "fx_risk": {
+    "status": "not_material",
+    "economic_exposure": "USD dividends paid in HKD under the HKD-USD peg; group earns HKD, GBP, USD.",
+    "operating_currencies": [
+      "HKD",
+      "GBP",
+      "USD"
+    ],
+    "distribution_currency": "USD",
+    "investor_currency": "HKD",
+    "material_exposure": false,
+    "hedge_and_natural_offsets": "HKD peg to USD limits investor FX risk; GBP translation affects group profit modestly.",
+    "stress_rows": [],
+    "evidence_and_limitations": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf"
+  },
+  "income_drivers": [
+    {
+      "driver": "credit_losses_and_spreads",
+      "exposure_direction": "higher_supports_income",
+      "horizon": "One to three years",
+      "transmission": "Higher HKD/GBP/USD rates raise banking NII, profit and the 50%-of-EPS dividend.",
+      "evidence": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf"
+    }
+  ],
+  "decision": {
+    "current_action": "等待到价",
+    "can_buy_now": false,
+    "reason": "按收息口径，远期税后股息率约 4.9%，与美国 10 年期国债 4.84% 基本持平，低于 7.8%–9.8% 的必要收益率；新资金不宜按收息逻辑买入，已持有部分另行复评。",
+    "buy_conditions": [
+      {
+        "kind": "price",
+        "observable": "汇丰控股港股收盘价按 7.84 汇率折合美元（约 85.9 港元）",
+        "operator": "<=",
+        "threshold": 10.95786336274911,
+        "unit": "USD",
+        "source_to_watch": "港交所实时报价"
+      }
+    ],
+    "invalidation_conditions": [
+      {
+        "kind": "event",
+        "observable": "董事会下调 50% 派息率目标或暂停季度股息",
+        "operator": "published",
+        "threshold": "已公告",
+        "unit": "公告事件",
+        "source_to_watch": "汇丰业绩公告"
+      },
+      {
+        "kind": "event",
+        "observable": "季度业绩公告 CET1 比率低于 13.5%",
+        "operator": "published",
+        "threshold": "已公告",
+        "unit": "公告事件",
+        "source_to_watch": "汇丰季度业绩公告"
+      }
+    ],
+    "trap_conclusion": "未触发红利陷阱：股息由利润和资本生成覆盖，派息率政策清晰；主要风险是利率下行和信用成本。",
+    "entry_conclusion": "收息口径参考价：初始建仓 85.9 港元、逐步增持 68.4 港元、强力买入 55.9 港元，均远低于现价 137.6 港元。",
+    "price_status": "reference_prices",
+    "reference_prices": {
+      "starter": 10.95786336274911,
+      "add": 8.730655362190348,
+      "strong_buy": 7.127065601788038,
+      "income_capped_upper": 10.95786336274911
+    }
+  },
+  "evidence_recovery": {
+    "scope": "live_research",
+    "scope_reason": "联网查阅汇丰 2025 年报、2026 年三季度业绩公告及行情数据",
+    "is_group_structure": true,
+    "records": [
+      {
+        "field_paths": [
+          "/growth_assessment/growth_method",
+          "/growth_assessment/status",
+          "/holding_review/action",
+          "/holding_review/missing_inputs",
+          "/income_assessment/target/target_basis",
+          "/income_assessment/target/target_policy",
+          "/real_income/status"
+        ],
+        "reason": "用户未提供收息目标、持仓与成本；本次未建立含回购的总回报成长估值，也未做购买力（通胀）测算",
+        "impact": "不判断收入匹配度、不给仓位建议；估值只用收息口径并以市净率交叉核对",
+        "resolution": "not_assessable",
+        "attempts": [
+          {
+            "category": "issuer_filings",
+            "scope": "issuer",
+            "source": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+            "source_period": "2025 财年",
+            "attempted_on": "2026-11-09",
+            "outcome": "found",
+            "result": "公司披露不含投资者个人收息目标与持仓"
+          },
+          {
+            "category": "group_disclosures",
+            "scope": "parent",
+            "source": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+            "source_period": "2025 财年",
+            "attempted_on": "2026-11-09",
+            "outcome": "found",
+            "result": "母公司披露派息政策与资本目标，可用于后续成长估值"
+          },
+          {
+            "category": "group_disclosures",
+            "scope": "subsidiary",
+            "source": "https://www.about.hsbc.com.hk/hongkong-and-shanghai-banking-corporation-limited/results",
+            "source_period": "2025 财年",
+            "attempted_on": "2026-11-09",
+            "outcome": "inaccessible",
+            "result": "该网站不在本环境网络白名单内，子公司披露也不含投资者个人信息"
+          },
+          {
+            "category": "announcements",
+            "scope": "issuer",
+            "source": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+            "source_period": "2026 年前三季度",
+            "attempted_on": "2026-11-09",
+            "outcome": "found",
+            "result": "披露 2026–2028 年回报率与派息率目标"
+          },
+          {
+            "category": "exchange_regulator",
+            "scope": "issuer",
+            "source": "https://www1.hkexnews.hk/search/titlesearch.xhtml",
+            "source_period": "截至 2026-11-09",
+            "attempted_on": "2026-11-09",
+            "outcome": "not_found",
+            "result": "无投资者个人信息"
+          },
+          {
+            "category": "official_series",
+            "scope": "issuer",
+            "source": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10",
+            "source_period": "2026-11-05",
+            "attempted_on": "2026-11-09",
+            "outcome": "found",
+            "result": "取得美国 10 年期国债收益率，未取得香港通胀序列"
+          },
+          {
+            "category": "historical_comparables",
+            "scope": "issuer",
+            "source": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+            "source_period": "2021–2025",
+            "attempted_on": "2026-11-09",
+            "outcome": "found",
+            "result": "五年历史数据可支持后续总回报模型"
+          },
+          {
+            "category": "broker_records",
+            "scope": "investor",
+            "source": "用户券商记录",
+            "source_period": "未提供",
+            "attempted_on": "2026-11-09",
+            "outcome": "not_provided",
+            "result": "用户未提供持仓、成本与收息目标"
+          }
+        ],
+        "estimate": null,
+        "estimate_failure_reason": "缺少用户输入；成长估值需逐年股息折现与终值资金证明，本次未完成",
+        "closure_condition": {
+          "kind": "event",
+          "observable": "用户提供持仓、成本及收息目标",
+          "operator": "published",
+          "threshold": "已公告",
+          "unit": "公告事件",
+          "source_to_watch": "用户补充信息"
+        }
+      },
+      {
+        "field_paths": [
+          "/scorecard/modules/0/checks/0/status",
+          "/scorecard/modules/0/missing_evidence"
+        ],
+        "reason": "2026 年第四次中期股息要到 2027 年 2 月年度业绩时才公布",
+        "impact": "收息得分不计这一项加分；远期股息按 50% 派息率估算",
+        "resolution": "not_assessable",
+        "attempts": [
+          {
+            "category": "issuer_filings",
+            "scope": "issuer",
+            "source": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+            "source_period": "2026 年前三季度",
+            "attempted_on": "2026-11-09",
+            "outcome": "found",
+            "result": "已宣派前三次中期股息合计 0.30 美元，未公布第四次"
+          },
+          {
+            "category": "group_disclosures",
+            "scope": "parent",
+            "source": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+            "source_period": "2025 财年",
+            "attempted_on": "2026-11-09",
+            "outcome": "found",
+            "result": "2025 年第四次中期股息 0.45 美元，可作参考但不等于 2026 年"
+          },
+          {
+            "category": "group_disclosures",
+            "scope": "subsidiary",
+            "source": "https://www.about.hsbc.com.hk/hongkong-and-shanghai-banking-corporation-limited/results",
+            "source_period": "2025 财年",
+            "attempted_on": "2026-11-09",
+            "outcome": "inaccessible",
+            "result": "该网站不在本环境网络白名单内，未能取得香港上海汇丰银行年报"
+          },
+          {
+            "category": "announcements",
+            "scope": "issuer",
+            "source": "https://www.hsbc.com/investors/results-and-announcements/all-reporting",
+            "source_period": "截至 2026-11-09",
+            "attempted_on": "2026-11-09",
+            "outcome": "not_found",
+            "result": "尚无 2026 年第四次中期股息公告"
+          },
+          {
+            "category": "exchange_regulator",
+            "scope": "issuer",
+            "source": "https://www1.hkexnews.hk/search/titlesearch.xhtml",
+            "source_period": "截至 2026-11-09",
+            "attempted_on": "2026-11-09",
+            "outcome": "not_found",
+            "result": "无相关公告"
+          },
+          {
+            "category": "official_series",
+            "scope": "issuer",
+            "source": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10",
+            "source_period": "2026-11-05",
+            "attempted_on": "2026-11-09",
+            "outcome": "not_applicable",
+            "result": "与股息金额无关"
+          },
+          {
+            "category": "historical_comparables",
+            "scope": "issuer",
+            "source": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+            "source_period": "2023–2025 财年",
+            "attempted_on": "2026-11-09",
+            "outcome": "found",
+            "result": "历年第四次中期股息使全年派息率回到 50%"
+          },
+          {
+            "category": "broker_records",
+            "scope": "investor",
+            "source": "用户券商记录",
+            "source_period": "未提供",
+            "attempted_on": "2026-11-09",
+            "outcome": "not_provided",
+            "result": "用户未提供持仓及收息记录"
+          }
+        ],
+        "estimate": null,
+        "estimate_failure_reason": "第四次中期股息取决于全年剔除特殊项目后的每股盈利，公告前无法确定",
+        "closure_condition": {
+          "kind": "event",
+          "observable": "汇丰公布 2026 年第四次中期股息",
+          "operator": "published",
+          "threshold": "已公告",
+          "unit": "公告事件",
+          "source_to_watch": "汇丰 2026 年度业绩公告"
+        }
+      },
+      {
+        "field_paths": [
+          "/scorecard/modules/4/checks/2/status",
+          "/scorecard/modules/4/missing_evidence",
+          "/scorecard/modules/5/checks/1/status",
+          "/scorecard/modules/5/missing_evidence"
+        ],
+        "reason": "恒生银行私有化溢价与回购价格是否低于内在价值，缺少可核对的同期估值",
+        "impact": "资本配置与回购质量不计这两项加分",
+        "resolution": "not_assessable",
+        "attempts": [
+          {
+            "category": "issuer_filings",
+            "scope": "issuer",
+            "source": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+            "source_period": "2025 财年",
+            "attempted_on": "2026-11-09",
+            "outcome": "found",
+            "result": "披露私有化完成及协同目标 5 亿美元，未披露每股价值影响"
+          },
+          {
+            "category": "group_disclosures",
+            "scope": "parent",
+            "source": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+            "source_period": "2026 年前三季度",
+            "attempted_on": "2026-11-09",
+            "outcome": "found",
+            "result": "披露协同进展，未量化每股回报"
+          },
+          {
+            "category": "group_disclosures",
+            "scope": "subsidiary",
+            "source": "https://www.about.hsbc.com.hk/hongkong-and-shanghai-banking-corporation-limited/results",
+            "source_period": "2025 财年",
+            "attempted_on": "2026-11-09",
+            "outcome": "inaccessible",
+            "result": "该网站不在本环境网络白名单内，未能取得香港上海汇丰银行年报"
+          },
+          {
+            "category": "announcements",
+            "scope": "issuer",
+            "source": "https://www.hsbc.com/investors/results-and-announcements/all-reporting",
+            "source_period": "2025–2026",
+            "attempted_on": "2026-11-09",
+            "outcome": "not_found",
+            "result": "本环境未取得计划文件全文"
+          },
+          {
+            "category": "exchange_regulator",
+            "scope": "issuer",
+            "source": "https://www1.hkexnews.hk/search/titlesearch.xhtml",
+            "source_period": "截至 2026-11-09",
+            "attempted_on": "2026-11-09",
+            "outcome": "inaccessible",
+            "result": "未能取得私有化计划文件"
+          },
+          {
+            "category": "official_series",
+            "scope": "issuer",
+            "source": "https://fred.stlouisfed.org/",
+            "source_period": "不适用",
+            "attempted_on": "2026-11-09",
+            "outcome": "not_applicable",
+            "result": "无相关官方序列"
+          },
+          {
+            "category": "historical_comparables",
+            "scope": "issuer",
+            "source": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf",
+            "source_period": "2021–2025",
+            "attempted_on": "2026-11-09",
+            "outcome": "found",
+            "result": "回购价约为每股有形净资产 1.0–1.9 倍，无独立内在价值对比"
+          },
+          {
+            "category": "broker_records",
+            "scope": "investor",
+            "source": "用户券商记录",
+            "source_period": "未提供",
+            "attempted_on": "2026-11-09",
+            "outcome": "not_provided",
+            "result": "与公司层面判断无关"
+          }
+        ],
+        "estimate": null,
+        "estimate_failure_reason": "缺少私有化对每股盈利和资本的完整影响披露，无法有据收窄",
+        "closure_condition": {
+          "kind": "event",
+          "observable": "汇丰披露恒生银行私有化后协同效益与每股盈利影响",
+          "operator": "published",
+          "threshold": "已公告",
+          "unit": "公告事件",
+          "source_to_watch": "汇丰年度业绩与投资者简报"
+        }
+      }
+    ]
+  },
+  "economic_profile": {
+    "segments": [
+      {
+        "name": "香港业务（含恒生银行）",
+        "cash_share_pct": 45,
+        "revenue_engine": "spread_income",
+        "asset_life": "perpetual_going_concern",
+        "cyclicality": "rate_cycle",
+        "cycle_window": "2021–2025 覆盖港元利率从近零升至约 5% 再回落的完整利率周期",
+        "balance_sheet_role": "balance_sheet_spread",
+        "capital_intensity": "asset_light"
+      },
+      {
+        "name": "英国零售与商业银行",
+        "cash_share_pct": 25,
+        "revenue_engine": "spread_income",
+        "asset_life": "perpetual_going_concern",
+        "cyclicality": "rate_cycle",
+        "cycle_window": "2021–2025 覆盖英镑基准利率从 0.1% 升至 5.25% 再回落",
+        "balance_sheet_role": "balance_sheet_spread",
+        "capital_intensity": "asset_light"
+      },
+      {
+        "name": "企业与机构银行及财富管理",
+        "cash_share_pct": 30,
+        "revenue_engine": "fee_or_aum",
+        "asset_life": "perpetual_going_concern",
+        "cyclicality": "demand_cycle",
+        "cycle_window": "2021–2025 覆盖贸易与资本市场一轮上下行",
+        "balance_sheet_role": "balance_sheet_spread",
+        "capital_intensity": "asset_light"
+      }
+    ],
+    "legal_wrapper": "ordinary_company",
+    "cash_attribution": "wholly_owned",
+    "finite_life_assets": [],
+    "company_level_runoff": false,
+    "tax_route": {
+      "distribution_regime": "ordinary_dividend",
+      "exit_withholding_rate": null,
+      "exception_evidence": null,
+      "refunds_excluded_from_cash": true
+    },
+    "kpis": [
+      {
+        "name": "银行业务净利息收入",
+        "why_causal": "约占收入六成，随利率与存款结构变化，直接决定利润和资本生成"
+      },
+      {
+        "name": "CET1 比率与风险加权资产",
+        "why_causal": "资本低于 14% 目标下限时暂停回购，增长占用的资本先于股东回报扣除"
+      },
+      {
+        "name": "预期信用损失率",
+        "why_causal": "每上升 10 个基点约减少税前利润 10 亿美元，直接压低派息基数"
+      },
+      {
+        "name": "剔除特殊项目的有形股本回报率",
+        "why_causal": "50% 派息率按剔除特殊项目的每股盈利计算，回报率决定每股股息"
+      }
+    ],
+    "classification_evidence": "2025 年报分部与净利息收入附注；2026 年三季度业绩公告。分部现金占比为按利润贡献的估算"
+  },
+  "report_output": {
+    "language": "zh-CN",
+    "user_requested_language": null,
+    "title": "汇丰控股（0005.HK）完整研究报告",
+    "summary": "数据截至 2026-11-09；收息口径等待到价，市净率口径处于合理区间。",
+    "sections": [
+      {
+        "heading": "摘要与投资结论",
+        "paragraphs": [
+          "汇丰是稳定分红型的全球银行，盈利主要来自香港和英国的存贷利差，按剔除特殊项目后每股盈利的 50% 派息，另用超额资本回购。",
+          "另一视角：按银行常用的市净率口径，现价隐含约 10.5% 的股本成本，处于 Bear 至 Base 合理区间（约 118.6 港元 至 213.4 港元）之内，已持有部分没有因估值过高而必须卖出的证据。",
+          "最重要的恶化信号：2025 年税前利润下降 7%（含交通银行减值和法国贷款组合出售损失等特殊项目），CET1 因恒生银行私有化跌至 13.9%，低于 14% 目标下限，回购收缩。"
+        ],
+        "tables": [
+          {
+            "title": "摘要关键数字",
+            "columns": [
+              "指标",
+              "数值",
+              "说明"
+            ],
+            "rows": [
+              [
+                "现价",
+                "137.6 港元",
+                "2026-11-09 收盘；折合 17.55 美元"
+              ],
+              [
+                "2025 年每股股息",
+                "0.75 美元",
+                "TTM 税后股息率 4.3%"
+              ],
+              [
+                "2026 年 Base 每股股息",
+                "0.86 美元",
+                "远期税后股息率 4.9%"
+              ],
+              [
+                "美国 10 年期国债",
+                "4.84%",
+                "2026-11-05"
+              ],
+              [
+                "收息口径初始建仓价",
+                "85.9 港元",
+                "约为现价的 62%"
+              ],
+              [
+                "市净率合理区间",
+                "118.6 港元–213.4 港元",
+                "按有形净资产 9.41 美元"
+              ],
+              [
+                "质量／综合评分",
+                "73/85，79/100（B）",
+                "完整评估，无暂定区间"
+              ]
+            ],
+            "note": "股价来自 Yahoo Finance，美国国债来自 FRED，其余来自汇丰 2025 年报及 2026 年三季度业绩公告"
+          }
+        ]
+      },
+      {
+        "heading": "公司概况与行业定位",
+        "paragraphs": [
+          "汇丰控股是在英国注册、在港交所和伦交所上市的全球性银行集团。2026 年 1 月完成恒生银行私有化后，香港业务（汇丰香港与恒生银行）是最大利润来源，其次是英国围栏银行，以及企业与机构银行、财富管理业务。",
+          "按经济特征分类：三个分部都属于“资产负债表即业务”，收入以利差为主，受利率周期驱动，资产没有到期日，属轻资本。因此现金模型使用银行资本生成，不使用工业企业的自由现金流算法；股息由母公司从子公司上缴的分红中支付。"
+        ]
+      },
+      {
+        "heading": "行业结构、供需与周期",
+        "paragraphs": [
+          "银行业的核心变量是利率、存款结构和信用成本。2022–2024 年港元、英镑、美元利率大幅上升，推高汇丰的净利息收入；2025–2026 年利率回落，净息差从 2023 年的 1.66% 降至 2025 年的 1.59%，2026 年三季度为 1.57%。管理层通过结构性对冲把部分高利率锁定到未来几年。",
+          "未来三至五年的三个驱动因素：第一，利率下行速度决定银行业务净利息收入能否维持在 460 亿美元以上；第二，香港商业地产及内地相关敞口的信用成本，管理层预期 2026 年约为贷款的 45 个基点；第三，Basel 3.1 将于 2027 年 1 月 1 日起实施，预计提高 CET1 比率约 40–50 个基点，释放回购空间。"
+        ]
+      },
+      {
+        "heading": "竞争格局与公司护城河",
+        "paragraphs": [
+          "汇丰在香港拥有最大的存款基础，加上恒生银行，在港元低成本存款上具有规模优势；跨境贸易与财富管理网络是其与区域性银行相比的主要差异。",
+          "本次没有取得渣打集团、中银香港等同业的同口径数据，因此不列同业对比表，以免口径不一。下次复评时应补充同业的有形股本回报率和市净率。"
+        ]
+      },
+      {
+        "heading": "过去五年经营与财务趋势",
+        "paragraphs": [
+          "2021–2024 年利润随加息大幅改善，归属普通股东利润从 126 亿美元升至 229 亿美元，有形股本回报率从 8.3% 升至 14.6%；2025 年回落至 211 亿美元和 13.3%，主要由特殊项目造成，剔除后税前利润增长 7%。",
+          "每股指标优于总量：已发行股数五年减少 17%，每股有形净资产从 7.88 美元升至 9.64 美元（2026 年三季度为 9.41 美元，因私有化有所下降）。趋势状态：盈利与股东回报为绿色，资本充足率为黄色（低于目标区间）。"
+        ],
+        "tables": [
+          {
+            "title": "五年经营与股东回报",
+            "columns": [
+              "财年",
+              "营业收入",
+              "税前利润",
+              "归属普通股东利润",
+              "每股盈利",
+              "当年派息",
+              "有形股本回报率%",
+              "每股有形净资产"
+            ],
+            "rows": [
+              [
+                "2021",
+                49552,
+                18906,
+                12607,
+                0.62,
+                0.22,
+                8.3,
+                7.88
+              ],
+              [
+                "2022",
+                50620,
+                17058,
+                14346,
+                0.72,
+                0.27,
+                10.0,
+                7.44
+              ],
+              [
+                "2023",
+                66058,
+                30348,
+                22432,
+                1.15,
+                0.53,
+                14.6,
+                8.19
+              ],
+              [
+                "2024",
+                65854,
+                32309,
+                22917,
+                1.25,
+                0.82,
+                14.6,
+                8.61
+              ],
+              [
+                "2025",
+                68274,
+                29907,
+                21102,
+                1.21,
+                0.66,
+                13.3,
+                9.64
+              ]
+            ],
+            "note": "美元百万（每股为美元），财年截至 12 月 31 日，报告口径；来源：汇丰 2025 年报五年财务资料；2024 年派息含 0.21 美元特别股息；2021 年为 IFRS 4 口径"
+          }
+        ],
+        "charts": [
+          {
+            "title": "归属普通股东利润与税前利润",
+            "kind": "bar",
+            "unit": "百万美元",
+            "x_labels": [
+              "2021",
+              "2022",
+              "2023",
+              "2024",
+              "2025"
+            ],
+            "series": [
+              {
+                "name": "税前利润",
+                "values": [
+                  18906,
+                  17058,
+                  30348,
+                  32309,
+                  29907
+                ]
+              },
+              {
+                "name": "归属普通股东利润",
+                "values": [
+                  12607,
+                  14346,
+                  22432,
+                  22917,
+                  21102
+                ]
+              }
+            ],
+            "source": "汇丰 2025 年报五年财务资料"
+          },
+          {
+            "title": "每股盈利与当年派息",
+            "kind": "line",
+            "unit": "美元／股",
+            "x_labels": [
+              "2021",
+              "2022",
+              "2023",
+              "2024",
+              "2025"
+            ],
+            "series": [
+              {
+                "name": "每股盈利",
+                "values": [
+                  0.62,
+                  0.72,
+                  1.15,
+                  1.25,
+                  1.21
+                ]
+              },
+              {
+                "name": "当年派息",
+                "values": [
+                  0.22,
+                  0.27,
+                  0.53,
+                  0.82,
+                  0.66
+                ]
+              }
+            ],
+            "source": "汇丰 2025 年报五年财务资料"
+          }
+        ]
+      },
+      {
+        "heading": "现金流、资产负债与股息质量",
+        "paragraphs": [
+          "银行不用工业自由现金流，改用资本生成：归属普通股东利润减去支撑风险加权资产增长所需的 CET1 资本（按 14.25% 目标）。2023–2025 年合计资本生成是现金股息的 1.59 倍，最差年份 2025 年为 1.23 倍。",
+          "股息加回购在 2024–2025 年超过了资本生成，差额来自出售加拿大、阿根廷业务释放的资本，以及让 CET1 向目标区间回落；这部分不可重复。CET1 在 2026 年 9 月底为 13.9%，12 个月平均流动性覆盖率 132%。",
+          "到手现金：股息以美元宣派，香港登记股东按联系汇率收取港元；英国对普通股息不预扣税，香港不征股息税，因此香港居民税前即税后。没有以股代息安排。股息安全性判断为“可接受”：派息由利润支持，但资本暂时低于目标。"
+        ],
+        "tables": [
+          {
+            "title": "历年资本生成与股息覆盖",
+            "columns": [
+              "财年",
+              "归属普通股东利润",
+              "增长占用资本",
+              "资本生成",
+              "现金股息",
+              "覆盖倍数"
+            ],
+            "rows": [
+              [
+                "2021",
+                12607,
+                0,
+                12607.0,
+                4416.0,
+                2.85
+              ],
+              [
+                "2022",
+                14346,
+                208,
+                14138.0,
+                5330.0,
+                2.65
+              ],
+              [
+                "2023",
+                22432,
+                2051,
+                20381.0,
+                10073.0,
+                2.02
+              ],
+              [
+                "2024",
+                22917,
+                0,
+                22917.0,
+                14693.0,
+                1.56
+              ],
+              [
+                "2025",
+                21102,
+                7181,
+                13921.0,
+                11312.0,
+                1.23
+              ]
+            ],
+            "note": "美元百万；增长占用资本 = 风险加权资产增量 × 14.25%（2021 年无上年数据，记为 0）；现金股息 = 当年派息 × 期末股数（近似）"
+          }
+        ]
+      },
+      {
+        "heading": "企业成长性与资本配置",
+        "paragraphs": [
+          "增长主要来自每股层面而不是总量：2021–2025 年归属普通股东利润年均增长约 14%，每股盈利年均增长约 18%，差额来自回购。管理层目标是 2026–2028 年有形股本回报率不低于 17%，2028 年收入增长约 5%。",
+          "资本配置：50% 派息率政策清晰；回购与 CET1 区间挂钩，资本低于目标时暂停，体现纪律。恒生银行私有化预计带来每年 5 亿美元协同效益，但对每股价值的净影响尚无披露。"
+        ]
+      },
+      {
+        "heading": "未来五年经营与现金流预测",
+        "paragraphs": [
+          "Base：2026 年剔除特殊项目后的归属普通股东利润约 294 亿美元（按前三季度每股 1.30 美元年化），此后每年增长 4%–5%，有形股本回报率维持在目标下限附近。Bear：利率较快下行，叠加信用成本上升，2027–2028 年利润降至 230–240 亿美元。Bull：利率维持高位，叠加协同效益超预期。",
+          "股数按 171.11 亿股保持不变，不计回购带来的每股提升，因此每股股息偏保守。"
+        ],
+        "tables": [
+          {
+            "title": "情景每股股息（美元）",
+            "columns": [
+              "情景",
+              "2026",
+              "2027",
+              "2028",
+              "2029",
+              "2030"
+            ],
+            "rows": [
+              [
+                "Bear",
+                0.833,
+                0.701,
+                0.672,
+                0.687,
+                0.701
+              ],
+              [
+                "Base",
+                0.859,
+                0.894,
+                0.938,
+                0.976,
+                1.014
+              ],
+              [
+                "Bull",
+                0.877,
+                0.95,
+                1.008,
+                1.052,
+                1.096
+              ]
+            ],
+            "note": "按 50% 派息率 ÷ 171.11 亿股；不计回购；分析师估算"
+          }
+        ]
+      },
+      {
+        "heading": "估值与预期总回报",
+        "paragraphs": [
+          "收息口径（不计成长与回购）：以 Base 2026 年每股股息 0.859 美元除以 7.84%–9.84% 的必要收益率，对应 8.73–10.96 美元（68.4 港元–85.9 港元），现价远高于此区间。",
+          "市净率／超额收益口径：按有形股本回报率 17%、长期增长 3%、股本成本 9.84%，合理市净率约 2.05 倍，对应 19.26 美元（151.0 港元）；股本成本取 7.84% 时为 213.4 港元；Bear（回报率 14%）为 118.6 港元。现价 1.87 倍市净率，隐含股本成本约 10.5%。",
+          "两种方法的差异来自回购和增长：汇丰除 50% 派息外还持续回购，收息口径只计股息部分，也不计每股盈利增长。三年持有期（不计回购、不计再投资）：Bear 若估值回落到必要收益率约亏损 39%，Base 估值不变约赚 25%，Bull 约赚 44%。"
+        ],
+        "tables": [
+          {
+            "title": "三年持有情景（每股，美元）",
+            "columns": [
+              "情景",
+              "三年累计股息",
+              "第三年末价格",
+              "累计回报"
+            ],
+            "rows": [
+              [
+                "Bear",
+                2.21,
+                8.57,
+                "-38.6%"
+              ],
+              [
+                "Base",
+                2.69,
+                19.16,
+                "24.5%"
+              ],
+              [
+                "Bull",
+                2.83,
+                22.4,
+                "43.8%"
+              ]
+            ],
+            "note": "退出价格按第三年每股股息 ÷ 假设股息率：Bear 7.84%、Base 维持现有 4.90%、Bull 4.5%"
+          }
+        ]
+      },
+      {
+        "heading": "买点、建仓策略与持仓复评",
+        "paragraphs": [
+          "美国 10 年期国债对比：国债收益率 4.84%（FRED，2026-11-05）；汇丰远期税后股息率 4.90%，毛利差与税后利差均约为 +0.06 个百分点（香港居民持有美债利息一般适用组合利息豁免，两者均按零预扣计算）。持有汇丰而非国债的补偿只能来自股息增长、回购和估值，而不是当期收入。",
+          "国债收益率敏感性（风险溢价不变）：国债收益率每变动 50 个基点，收息口径初始建仓价反向变动约 6%–7%。",
+          "分阶段参考价：初始建仓 85.9 港元、逐步增持 68.4 港元、强力买入 55.9 港元（强力买入还需预测可信度为高、安全性为强）。这些价格只适用于以收息为目的的新资金。已持有部分：用户未提供仓位和成本，本报告不给出加减仓指令；按市净率口径估值仍在合理区间内，若 CET1 恢复到 14% 以上且回报率维持在 17% 以上，持有逻辑不变。"
+        ],
+        "tables": [
+          {
+            "title": "国债收益率敏感性",
+            "columns": [
+              "美国 10 年期国债",
+              "必要收益率下限",
+              "初始建仓价（港元）"
+            ],
+            "rows": [
+              [
+                "3.84%",
+                "6.84%",
+                98.5
+              ],
+              [
+                "4.34%",
+                "7.34%",
+                91.8
+              ],
+              [
+                "4.84%",
+                "7.84%",
+                85.9
+              ],
+              [
+                "5.34%",
+                "8.34%",
+                80.8
+              ],
+              [
+                "5.84%",
+                "8.84%",
+                76.2
+              ]
+            ],
+            "note": "风险溢价 3% 不变；Base 每股股息 0.859 美元；汇率 7.8395"
+          }
+        ]
+      },
+      {
+        "heading": "风险、监测指标与论点证伪",
+        "paragraphs": [
+          "最大风险：利率较快下行导致净利息收入不及 460 亿美元指引，同时信用成本上升，两者叠加会使每股股息回到 0.70 美元左右。"
+        ],
+        "tables": [
+          {
+            "title": "风险与监测阈值",
+            "columns": [
+              "风险／指标",
+              "当前值",
+              "预警阈值",
+              "影响",
+              "复查时间"
+            ],
+            "rows": [
+              [
+                "CET1 比率",
+                "13.9%",
+                "低于 13.5%",
+                "回购暂停，股息增长受限",
+                "每季度"
+              ],
+              [
+                "剔除特殊项目的有形股本回报率",
+                "18.8%（前三季度）",
+                "连续两季低于 14%",
+                "派息基数下降，论点失效",
+                "每季度"
+              ],
+              [
+                "预期信用损失率",
+                "约 45 个基点",
+                "高于 60 个基点",
+                "利润每年减少约 15 亿美元",
+                "每季度"
+              ],
+              [
+                "银行业务净利息收入",
+                "≥460 亿美元（2026 指引）",
+                "指引下调至 440 亿美元以下",
+                "Bear 情景成立",
+                "2027 年 2 月"
+              ],
+              [
+                "监管限制分红",
+                "无",
+                "监管要求暂停派息（2020 年先例）",
+                "股息中断",
+                "持续"
+              ]
+            ],
+            "note": "阈值为分析判断；当前值来自汇丰 2026 年三季度业绩公告"
+          }
+        ]
+      },
+      {
+        "heading": "数据来源、关键假设与研究限制",
+        "paragraphs": [
+          "数据截至 2026-11-09。主要来源：汇丰 2025 年报（2026-02-25）、2026 年三季度业绩公告（2026-10-27）、Yahoo Finance 行情、FRED 美国国债收益率。",
+          "关键假设：50% 派息率；股数不变（不计回购）；风险加权资产每年增长约 3%，按 14.25% CET1 占用资本；风险溢价 3%–5%。",
+          "研究限制：未取得同业对比数据、香港通胀序列和恒生银行私有化对每股价值的完整披露；未建立计入回购的完整总回报估值模型；用户持仓与收息目标未提供。本报告仅为研究资料，不构成投资建议。"
+        ]
+      }
+    ],
+    "appendix": [
+      "审计附录 A3、A5、A6、A10、A11、A13 由结构化记录自动生成；A12 持仓复评因未提供持仓而不适用。"
+    ],
+    "labels": [
+      "金额单位：美元百万，另有注明除外"
+    ]
+  }
+}

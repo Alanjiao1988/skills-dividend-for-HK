@@ -1,5 +1,6 @@
 """Render validated schema 3.0 records as an offline, single-file HTML report."""
 import argparse
+import math
 import html
 import json
 from pathlib import Path
@@ -22,6 +23,10 @@ def _cell(value):
     if isinstance(value, int) and not isinstance(value, bool):
         return f"{value:,}"
     return str(value)
+
+
+def span(low, high):
+    return f"{low}" if low == high else f"{low}–{high}"
 
 
 def render_table(table):
@@ -54,6 +59,10 @@ def render_chart(chart):
     low, high = min(0.0, min(values)), max(0.0, max(values))
     if high == low:
         high = low + 1.0
+    raw_step = (high - low) / 4
+    magnitude = 10 ** math.floor(math.log10(raw_step))
+    tick = next(m * magnitude for m in (1, 2, 2.5, 5, 10) if m * magnitude >= raw_step)
+    low, high = math.floor(low / tick) * tick, math.ceil(high / tick) * tick
     plot_w, plot_h = width - left - right, height - top - bottom
     step = plot_w / len(labels)
 
@@ -61,8 +70,8 @@ def render_chart(chart):
         return top + plot_h * (high - value) / (high - low)
 
     parts = [f'<svg viewBox="0 0 {width} {height}" role="img" aria-label="{escape(chart["title"])}">']
-    for tick in range(5):
-        value = low + (high - low) * tick / 4
+    for index in range(round((high - low) / tick) + 1):
+        value = low + tick * index
         ty = y(value)
         parts.append(f'<line x1="{left}" x2="{width - right}" y1="{ty:.1f}" y2="{ty:.1f}" '
                      'style="stroke:var(--cp-border);stroke-width:1"/>')
@@ -240,9 +249,9 @@ def render_report(report):
             headline = (
                 f"当前动作：{decision['current_action']}；现价能否买："
                 f"{'是' if decision['can_buy_now'] else '否'}。{decision['reason']}",
-                f"质量评分：{quality['low']}–{quality['high']}/85；"
-                f"组合评分：{combined['low']}–{combined['high']}/100；"
-                f"等级区间：{score['grade_range']['worst']}–{score['grade_range']['best']}；"
+                f"质量评分：{span(quality['low'], quality['high'])}/85；"
+                f"组合评分：{span(combined['low'], combined['high'])}/100；"
+                f"等级：{span(score['grade_range']['worst'], score['grade_range']['best'])}；"
                 f"研究覆盖度：{score['evidence_coverage_pct']}%；"
                 f"质量覆盖度：{score['quality_coverage_pct']}%；组合角色：{role}。",
                 f"红利陷阱结论：{decision['trap_conclusion']}",
@@ -255,10 +264,16 @@ def render_report(report):
                                ("结论失效条件（任一触发）", "invalidation_conditions")):
                 body += f"<h3>{label}</h3><ul>"
                 for condition in decision[key]:
-                    operator = {"published": "披露", "withdrawn": "撤回"}.get(
-                        condition["operator"], condition["operator"])
-                    text = (f"{condition['observable']}：{operator} {condition['threshold']} "
-                            f"{condition['unit']}；跟踪来源：{condition['source_to_watch']}")
+                    if condition["kind"] == "event":
+                        verb = "撤回" if condition["operator"] == "withdrawn" else "公告"
+                        text = f"{condition['observable']}（{verb}即触发；跟踪来源：{condition['source_to_watch']}）"
+                    else:
+                        operator = {"<=": "≤", ">=": "≥"}.get(condition["operator"], condition["operator"])
+                        threshold = condition["threshold"]
+                        if isinstance(threshold, float):
+                            threshold = f"{threshold:.2f}"
+                        text = (f"{condition['observable']} {operator} {threshold} {condition['unit']}"
+                                f"（跟踪来源：{condition['source_to_watch']}）")
                     body += f"<li>{escape(text)}</li>"
                 body += "</ul>"
             if decision["price_status"] == "reference_prices":
