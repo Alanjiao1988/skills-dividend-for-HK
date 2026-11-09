@@ -26,6 +26,8 @@ TWELVE_CHAPTER_REQUIRED_FROM = "2026-11-10"
 SPREAD_MODELS = {"bank", "bdc", "mortgage_reit", "insurer"}
 OPERATING_MODELS = {"operating_company", "utility_infrastructure",
                     "concession_infrastructure", "midstream_partnership"}
+TEMPLATE_MARKERS = re.compile(r"[Ff]ictional|teaching (?:case|assumption|input|calculation)|worked-examples\.md|"
+                              r"虚构|教学案例|教学假设|示例公司")
 PLACEHOLDERS = ("数据不足", "暂不给出", "暂不评估", "待确认", "不可评估",
                 "Not Assessable", "cannot score")
 GAP_VALUES = {
@@ -97,6 +99,8 @@ def economic_profile_errors(report):
     else:
         check(sector not in SPREAD_MODELS,
               "an operating or leasing business must not use a bank/BDC/insurer/mortgage-REIT proxy")
+    check(mode != "capital_return_based" or dominant["balance_sheet_role"] == "balance_sheet_spread",
+          "capital_return_based valuation is for balance-sheet spread businesses (banks, insurers, BDCs, mortgage REITs)")
     check(sector != "mortgage_reit" or profile["legal_wrapper"] == "reit",
           "mortgage_reit requires the reit legal wrapper")
     check(sector != "concession_infrastructure" or bool(finite_segments),
@@ -224,6 +228,10 @@ def validate_schema3(report):
         require(not any(word.lower() in output["summary"].lower() for word in PLACEHOLDERS),
                 "publication summary must not replace the conclusion with a placeholder")
         conditions = decision["buy_conditions"]
+        returns = report["return_requirements"]
+        price_units = {returns["valuation_currency"]: 1.0}
+        if returns.get("quote_currency") and returns.get("quote_per_valuation_unit"):
+            price_units[returns["quote_currency"]] = returns["quote_per_valuation_unit"]
         vague = ("补齐资金证据", "等待确认", "进一步研究", "数据完善", "资料齐全")
         for condition in conditions + decision["invalidation_conditions"]:
             require(not any(word in condition["observable"] for word in vague),
@@ -231,11 +239,11 @@ def validate_schema3(report):
             require(not any(word in str(condition["threshold"]) for word in PLACEHOLDERS),
                     "condition thresholds cannot be placeholders")
             if condition["kind"] == "price":
-                require(condition["unit"] == report["return_requirements"]["valuation_currency"],
-                        "price conditions must use the report's price currency")
+                require(condition["unit"] in price_units,
+                        "price conditions must use the valuation currency or the declared quote currency")
         if expected == "等待到价":
-            require(any(c["kind"] == "price" and c["operator"] in ("<", "<=")
-                        and c["threshold"] < report["price_used"] for c in conditions),
+            require(any(c["kind"] == "price" and c["operator"] in ("<", "<=") and c["unit"] in price_units
+                        and c["threshold"] / price_units[c["unit"]] < report["price_used"] for c in conditions),
                     "waiting for price needs a specific lower entry price")
         prices = decision["reference_prices"]
         stages = {row["stage"]: row for row in report["entry_plan"]["stages"]}
@@ -280,6 +288,22 @@ def validate_schema3(report):
                 for message in economic_profile_errors(report):
                     require(False, message)
 
+    if research["scope"] == "live_research":
+        residue = []
+
+        def scan(node, path):
+            if isinstance(node, dict):
+                for key, child in node.items():
+                    scan(child, f"{path}/{key}")
+            elif isinstance(node, list):
+                for index, child in enumerate(node):
+                    scan(child, f"{path}/{index}")
+            elif isinstance(node, str) and TEMPLATE_MARKERS.search(node):
+                residue.append(path)
+
+        scan(report, "")
+        require(not residue, "live research still contains template example text at "
+                + ", ".join(residue[:5]) + (" ..." if len(residue) > 5 else ""))
     if language == "zh-CN":
         # Formal source names and fixed machine enums are exempt, not arbitrary prose.
         exempt = set(report.get("sources", []))

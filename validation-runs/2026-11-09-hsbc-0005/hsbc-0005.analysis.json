@@ -38,7 +38,7 @@
     "score_100": 79,
     "grade": "B",
     "portfolio_role": "Watchlist",
-    "valuation_mode": "ordinary_yield_based"
+    "valuation_mode": "capital_return_based"
   },
   "dividend_snapshot": {
     "ttm_dps": 0.75,
@@ -305,7 +305,9 @@
     ],
     "price_independent": true,
     "income_growth_credit": 0,
-    "limitations": "Ordinary cash-income thresholds give no credit for buybacks or EPS growth; they are not a complete intrinsic value for a 17%+ RoTE bank. See the P/TBV cross-check in chapter 9."
+    "limitations": "Ordinary cash-income thresholds give no credit for buybacks or EPS growth; they are not a complete intrinsic value for a 17%+ RoTE bank. See the P/TBV cross-check in chapter 9.",
+    "quote_currency": "HKD",
+    "quote_per_valuation_unit": 7.8395
   },
   "income_assessment": {
     "target": {
@@ -363,9 +365,9 @@
   },
   "fundamental_trend": "Stable",
   "forecast_confidence": "Medium",
-  "valuation_mode": "ordinary_yield_based",
+  "valuation_mode": "capital_return_based",
   "value_trap_veto": "Not triggered",
-  "valuation_reason": "Ordinary cash-income thresholds with no growth or buyback credit; a P/TBV residual-income cross-check is shown separately in chapter 9.",
+  "valuation_reason": "Bank with a dividend-plus-buyback policy: capital_return_based tangible-book residual income (buy-zone.md 7A); ordinary cash-income ladder kept as a comparison.",
   "structural_decline_cap_applied": false,
   "harvest_managed_runoff_exception_applied": false,
   "business_fundamentals": {
@@ -2182,33 +2184,33 @@
   },
   "entry_plan": {
     "current_action": "wait_for_price",
-    "summary": "At USD 17.55 (HKD 137.6) the forward net yield is 4.9%, about equal to the US 10-year Treasury and below the 7.8%-9.8% required income yield; no income-based entry is supported.",
+    "summary": "At USD 17.55 (HKD 137.6) the price is just above the capital-return starter price USD 17.33; the income view (forward yield 4.9%) is far stricter.",
     "opportunity_thesis": "HSBC is a high-quality capital-return story (17%+ RoTE, 50% payout plus buybacks), but buybacks and EPS growth are not credited by the ordinary income method.",
     "market_expectation_gap": "Price implies P/TBV 1.87x on TNAV 9.41 USD; at a 17% sustained RoTE that implies about a 9% cost of equity, i.e. the market already prices sustained high returns.",
     "stages": [
       {
         "stage": "starter",
-        "valuation_price": 10.95786336274911,
-        "effective_price": 10.95786336274911,
-        "gap_to_current_pct": -37.5620321210877,
+        "valuation_price": 17.33421052631579,
+        "effective_price": 17.33421052631579,
+        "gap_to_current_pct": -1.2295696506222864,
         "status": "waiting_price",
-        "condition": "N/R_low = 0.8591/0.0784; price must fall to USD 10.96 (HKD 85.9)."
+        "condition": "Base value at R_high 19.26 x (1 - 10%) = USD 17.33 (HKD 135.9)."
       },
       {
         "stage": "add",
-        "valuation_price": 8.730655362190348,
-        "effective_price": 8.730655362190348,
-        "gap_to_current_pct": -50.25267599891541,
+        "valuation_price": 15.133040935672517,
+        "effective_price": 15.133040935672517,
+        "gap_to_current_pct": -13.771846520384523,
         "status": "waiting_price",
-        "condition": "N/R_high = 0.8591/0.0984; USD 8.73 (HKD 68.4)."
+        "condition": "Bear value at R_high = USD 15.13 (HKD 118.6)."
       },
       {
         "stage": "strong_buy",
-        "valuation_price": 7.127065601788038,
-        "effective_price": 7.127065601788038,
-        "gap_to_current_pct": -59.38993959095136,
+        "valuation_price": 13.619736842105265,
+        "effective_price": 13.619736842105265,
+        "gap_to_current_pct": -22.394661868346066,
         "status": "waiting_evidence",
-        "condition": "B/R_high = 0.7013/0.0984; USD 7.13 (HKD 55.9), plus High confidence and Strong safety."
+        "condition": "Bear value x (1 - 10%) = USD 13.62 (HKD 106.8), plus High confidence and Strong safety."
       }
     ],
     "return_scenarios": [
@@ -2263,8 +2265,8 @@
     "blockers": [
       {
         "scope": "price",
-        "reason": "Forward net yield 4.9% is below R_low 7.84%.",
-        "resolution": "Price at or below USD 10.96 (HKD 85.9) or a higher sustainable DPS.",
+        "reason": "Price is -1.2% from the capital-return starter price.",
+        "resolution": "Price at or below USD 17.33 (HKD 135.9), or a higher evidenced sustainable RoTE.",
         "source_refs": [
           "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
           "https://query1.finance.yahoo.com/v8/finance/chart/0005.HK"
@@ -2398,14 +2400,14 @@
   "decision": {
     "current_action": "等待到价",
     "can_buy_now": false,
-    "reason": "按收息口径，远期税后股息率约 4.9%，与美国 10 年期国债 4.84% 基本持平，低于 7.8%–9.8% 的必要收益率；新资金不宜按收息逻辑买入，已持有部分另行复评。",
+    "reason": "按银行有形净资产估值，Base 价值打九折的初始建仓价约 135.9 港元，现价 137.6 港元略高约 1.2%；收息口径（远期股息率 4.9%，与美国国债持平）更为严格。新资金等待小幅回调，已持有部分估值仍在合理区间。",
     "buy_conditions": [
       {
         "kind": "price",
-        "observable": "汇丰控股港股收盘价按 7.84 汇率折合美元（约 85.9 港元）",
+        "observable": "汇丰控股港股收盘价",
         "operator": "<=",
-        "threshold": 10.95786336274911,
-        "unit": "USD",
+        "threshold": 135.9,
+        "unit": "HKD",
         "source_to_watch": "港交所实时报价"
       }
     ],
@@ -2419,22 +2421,30 @@
         "source_to_watch": "汇丰业绩公告"
       },
       {
-        "kind": "event",
-        "observable": "季度业绩公告 CET1 比率低于 13.5%",
-        "operator": "published",
-        "threshold": "已公告",
-        "unit": "公告事件",
+        "kind": "metric",
+        "observable": "CET1 比率",
+        "operator": "<",
+        "threshold": 13.5,
+        "unit": "%",
+        "source_to_watch": "汇丰季度业绩公告"
+      },
+      {
+        "kind": "metric",
+        "observable": "剔除特殊项目的年化有形股本回报率（连续两季）",
+        "operator": "<",
+        "threshold": 14,
+        "unit": "%",
         "source_to_watch": "汇丰季度业绩公告"
       }
     ],
     "trap_conclusion": "未触发红利陷阱：股息由利润和资本生成覆盖，派息率政策清晰；主要风险是利率下行和信用成本。",
-    "entry_conclusion": "收息口径参考价：初始建仓 85.9 港元、逐步增持 68.4 港元、强力买入 55.9 港元，均远低于现价 137.6 港元。",
+    "entry_conclusion": "资本回报口径参考价：初始建仓 135.9 港元、逐步增持 118.6 港元、强力买入 106.8 港元；收息口径初始建仓约 85.9 港元，仅作对比。",
     "price_status": "reference_prices",
     "reference_prices": {
-      "starter": 10.95786336274911,
-      "add": 8.730655362190348,
-      "strong_buy": 7.127065601788038,
-      "income_capped_upper": 10.95786336274911
+      "starter": 17.33421052631579,
+      "add": 15.133040935672517,
+      "strong_buy": 13.619736842105265,
+      "income_capped_upper": 17.33421052631579
     }
   },
   "evidence_recovery": {
@@ -2797,13 +2807,13 @@
     "language": "zh-CN",
     "user_requested_language": null,
     "title": "汇丰控股（0005.HK）完整研究报告",
-    "summary": "数据截至 2026-11-09；收息口径等待到价，市净率口径处于合理区间。",
+    "summary": "数据截至 2026-11-09；资本回报口径初始建仓约 135.9 港元，现价略高，等待到价。",
     "sections": [
       {
         "heading": "摘要与投资结论",
         "paragraphs": [
           "汇丰是稳定分红型的全球银行，盈利主要来自香港和英国的存贷利差，按剔除特殊项目后每股盈利的 50% 派息，另用超额资本回购。",
-          "另一视角：按银行常用的市净率口径，现价隐含约 10.5% 的股本成本，处于 Bear 至 Base 合理区间（约 118.6 港元 至 213.4 港元）之内，已持有部分没有因估值过高而必须卖出的证据。",
+          "估值采用银行专用的有形净资产口径（同时计入股息和回购）：Bear 至 Base 价值约 118.6 港元 至 151.0 港元（按 9.84% 必要回报），现价略高于打九折后的初始建仓价 135.9 港元，约差 1.2%。收息口径更严格：远期股息率仅 4.9%，与美国国债持平，对应初始建仓价约 85.9 港元，仅作对比。已持有部分估值在合理区间内，没有因估值过高而必须卖出的证据。",
           "最重要的恶化信号：2025 年税前利润下降 7%（含交通银行减值和法国贷款组合出售损失等特殊项目），CET1 因恒生银行私有化跌至 13.9%，低于 14% 目标下限，回购收缩。"
         ],
         "tables": [
@@ -2836,14 +2846,19 @@
                 "2026-11-05"
               ],
               [
-                "收息口径初始建仓价",
-                "85.9 港元",
-                "约为现价的 62%"
+                "资本回报口径初始建仓价",
+                "135.9 港元",
+                "较现价 -1.2%"
               ],
               [
-                "市净率合理区间",
-                "118.6 港元–213.4 港元",
-                "按有形净资产 9.41 美元"
+                "资本回报口径价值区间",
+                "118.6 港元–243.9 港元",
+                "有形净资产 9.41 美元；Bear@9.84% 至 Bull@7.84%"
+              ],
+              [
+                "收息口径初始建仓价（对比）",
+                "85.9 港元",
+                "不计回购与增长"
               ],
               [
                 "质量／综合评分",
@@ -3145,10 +3160,40 @@
         "heading": "估值与预期总回报",
         "paragraphs": [
           "收息口径（不计成长与回购）：以 Base 2026 年每股股息 0.859 美元除以 7.84%–9.84% 的必要收益率，对应 8.73–10.96 美元（68.4 港元–85.9 港元），现价远高于此区间。",
-          "市净率／超额收益口径：按有形股本回报率 17%、长期增长 3%、股本成本 9.84%，合理市净率约 2.05 倍，对应 19.26 美元（151.0 港元）；股本成本取 7.84% 时为 213.4 港元；Bear（回报率 14%）为 118.6 港元。现价 1.87 倍市净率，隐含股本成本约 10.5%。",
+          "主估值（资本回报口径，第 7A 节）：价值 = 每股有形净资产 9.41 美元 ×（可持续有形股本回报率 − 3% 长期增长）÷（必要回报 − 3%）。Base 回报率 17%、必要回报 9.84% 时为 19.26 美元（151.0 港元），约 2.05 倍市净率；Bear 回报率 14% 时为 118.6 港元；Bull 19%、必要回报 7.84% 时为 243.9 港元。现价 1.87 倍市净率，隐含股本成本约 10.5%。",
           "两种方法的差异来自回购和增长：汇丰除 50% 派息外还持续回购，收息口径只计股息部分，也不计每股盈利增长。三年持有期（不计回购、不计再投资）：Bear 若估值回落到必要收益率约亏损 39%，Base 估值不变约赚 25%，Bull 约赚 44%。"
         ],
         "tables": [
+          {
+            "title": "资本回报口径估值（每股，港元）",
+            "columns": [
+              "情景",
+              "可持续有形股本回报率",
+              "必要回报 9.84%",
+              "必要回报 7.84%"
+            ],
+            "rows": [
+              [
+                "Bear",
+                "14%",
+                118.6,
+                167.7
+              ],
+              [
+                "Base",
+                "17%",
+                151.0,
+                213.4
+              ],
+              [
+                "Bull",
+                "19%",
+                172.6,
+                243.9
+              ]
+            ],
+            "note": "每股有形净资产 9.41 美元（2026-09-30）；长期增长 3%；汇率 7.8395"
+          },
           {
             "title": "三年持有情景（每股，美元）",
             "columns": [
@@ -3185,45 +3230,45 @@
         "heading": "买点、建仓策略与持仓复评",
         "paragraphs": [
           "美国 10 年期国债对比：国债收益率 4.84%（FRED，2026-11-05）；汇丰远期税后股息率 4.90%，毛利差与税后利差均约为 +0.06 个百分点（香港居民持有美债利息一般适用组合利息豁免，两者均按零预扣计算）。持有汇丰而非国债的补偿只能来自股息增长、回购和估值，而不是当期收入。",
-          "国债收益率敏感性（风险溢价不变）：国债收益率每变动 50 个基点，收息口径初始建仓价反向变动约 6%–7%。",
-          "分阶段参考价：初始建仓 85.9 港元、逐步增持 68.4 港元、强力买入 55.9 港元（强力买入还需预测可信度为高、安全性为强）。这些价格只适用于以收息为目的的新资金。已持有部分：用户未提供仓位和成本，本报告不给出加减仓指令；按市净率口径估值仍在合理区间内，若 CET1 恢复到 14% 以上且回报率维持在 17% 以上，持有逻辑不变。"
+          "国债收益率敏感性（风险溢价不变）：国债收益率每变动 50 个基点，资本回报口径初始建仓价反向变动约 7%–8%，收息口径约 6%–7%。",
+          "分阶段参考价（资本回报口径，安全边际 10%，因 CET1 低于目标且利率下行）：初始建仓 135.9 港元、逐步增持 118.6 港元、强力买入 106.8 港元（强力买入还需预测可信度为高、安全性为强）。若只为收取股息，收息口径的初始建仓价约 85.9 港元。已持有部分：用户未提供仓位和成本，本报告不给出加减仓指令；若 CET1 恢复到 14% 以上且回报率维持在 17% 以上，持有逻辑不变。"
         ],
         "tables": [
           {
-            "title": "国债收益率敏感性",
+            "title": "国债收益率敏感性（初始建仓价，港元）",
             "columns": [
               "美国 10 年期国债",
-              "必要收益率下限",
-              "初始建仓价（港元）"
+              "资本回报口径",
+              "收息口径"
             ],
             "rows": [
               [
                 "3.84%",
-                "6.84%",
+                159.2,
                 98.5
               ],
               [
                 "4.34%",
-                "7.34%",
+                146.6,
                 91.8
               ],
               [
                 "4.84%",
-                "7.84%",
+                135.9,
                 85.9
               ],
               [
                 "5.34%",
-                "8.34%",
+                126.6,
                 80.8
               ],
               [
                 "5.84%",
-                "8.84%",
+                118.6,
                 76.2
               ]
             ],
-            "note": "风险溢价 3% 不变；Base 每股股息 0.859 美元；汇率 7.8395"
+            "note": "风险溢价不变（资本回报口径用 5%，收息口径用 3%）；有形净资产 9.41 美元；Base 每股股息 0.859 美元；汇率 7.8395"
           }
         ]
       },
@@ -3298,5 +3343,50 @@
     "labels": [
       "金额单位：美元百万，另有注明除外"
     ]
+  },
+  "capital_return_valuation": {
+    "status": "assessed",
+    "method": "tangible_book_residual_income",
+    "book_value_per_share": 9.41,
+    "book_value_date": "2026-09-30",
+    "book_value_currency": "USD",
+    "book_value_source": "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+    "long_run_growth": 0.03,
+    "long_run_nominal_growth_bound": 0.04,
+    "long_run_growth_basis": "Long-run nominal growth of HSBC's main markets (HK, UK) about 3%-4%; 3% used, below R_low by 4.84 points.",
+    "required_return_low": 0.0784,
+    "required_return_high": 0.0984,
+    "margin_of_safety": 0.1,
+    "scenarios": [
+      {
+        "scenario": "Bear",
+        "sustainable_return_on_tangible_equity": 0.14,
+        "value_at_required_high": 15.133040935672517,
+        "value_at_required_low": 21.38636363636364,
+        "evidence": "Bear forecast: faster rate cuts and ECL near 60bps cut RoTE to about 14%, below the 2021-2025 average."
+      },
+      {
+        "scenario": "Base",
+        "sustainable_return_on_tangible_equity": 0.17,
+        "value_at_required_high": 19.260233918128655,
+        "value_at_required_low": 27.219008264462815,
+        "evidence": "Management target RoTE of 17% or better for 2026-2028; 9M26 annualised 18.8% excl. notable items."
+      },
+      {
+        "scenario": "Bull",
+        "sustainable_return_on_tangible_equity": 0.19,
+        "value_at_required_high": 22.01169590643275,
+        "value_at_required_low": 31.107438016528928,
+        "evidence": "Rates stay higher and Hang Seng synergies exceed plan; 9M26 run-rate near 19%."
+      }
+    ],
+    "value_low": 15.133040935672517,
+    "value_high": 31.107438016528928,
+    "base_case_value": 19.260233918128655,
+    "entry_upper": 13.619736842105265,
+    "review_above": 31.107438016528928,
+    "shareholder_return_policy": "50% target-basis dividend payout for 2026-2028 plus buybacks when CET1 is within or above 14%-14.5%.",
+    "capital_constraint": "CET1 13.9% at 30 Sep 2026, below the operating range; Basel 3.1 expected +40-50bps on 1 Jan 2027.",
+    "price_independent": true
   }
 }

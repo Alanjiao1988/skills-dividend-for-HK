@@ -11,7 +11,8 @@ implied_coe = 0.03 + (0.17 - 0.03) / (PRICE / TNAV)
 # ---- labels and texts the validator does not cover ----
 r.update({"fundamental_trend": "Stable", "forecast_confidence": "Medium", "dividend_safety": "Acceptable",
           "three_year_outlook": "Grow", "portfolio_role": "Watchlist", "buyback_quality": "Good" if pts["buyback_quality"] >= 8 else "Neutral",
-          "valuation_reason": "Ordinary cash-income thresholds with no growth or buyback credit; a P/TBV residual-income cross-check is shown separately in chapter 9."})
+          "valuation_reason": "Bank with a dividend-plus-buyback policy: capital_return_based tangible-book residual income (buy-zone.md 7A); ordinary cash-income ladder kept as a comparison."})
+km["valuation_mode"] = "capital_return_based"
 for i, row in enumerate(r["five_year_dividend_history"]):
     row.update({"fiscal_year": YEARS[i], "coverage_label": "Strong" if covs[i] >= 1.5 else "Adequate" if covs[i] >= 1 else "Weak",
                 "quality_tag": "Stable"})
@@ -51,15 +52,16 @@ NOTE_AR = "美元百万（每股为美元），财年截至 12 月 31 日，报�
 sections = [
  ("摘要与投资结论", [
    f"汇丰是稳定分红型的全球银行，盈利主要来自香港和英国的存贷利差，按剔除特殊项目后每股盈利的 50% 派息，另用超额资本回购。",
-   f"另一视角：按银行常用的市净率口径，现价隐含约 {implied_coe:.1%} 的股本成本，处于 Bear 至 Base 合理区间（约 {yuan(pv['bear_hi'])} 至 {yuan(pv['base_lo'])}）之内，已持有部分没有因估值过高而必须卖出的证据。",
+   f"估值采用银行专用的有形净资产口径（同时计入股息和回购）：Bear 至 Base 价值约 {yuan(v_low)} 至 {yuan(v_base)}（按 9.84% 必要回报），现价略高于打九折后的初始建仓价 {yuan(c_start)}，约差 {abs(pct(c_start)):.1f}%。收息口径更严格：远期股息率仅 {fwd_yield:.1%}，与美国国债持平，对应初始建仓价约 {yuan(starter)}，仅作对比。已持有部分估值在合理区间内，没有因估值过高而必须卖出的证据。",
    "最重要的恶化信号：2025 年税前利润下降 7%（含交通银行减值和法国贷款组合出售损失等特殊项目），CET1 因恒生银行私有化跌至 13.9%，低于 14% 目标下限，回购收缩。"],
   [T("摘要关键数字", ["指标", "数值", "说明"], [
      ["现价", f"{PRICE_HKD} 港元", "2026-11-09 收盘；折合 17.55 美元"],
      ["2025 年每股股息", "0.75 美元", "TTM 税后股息率 4.3%"],
      ["2026 年 Base 每股股息", f"{N:.2f} 美元", f"远期税后股息率 {fwd_yield:.1%}"],
      ["美国 10 年期国债", "4.84%", "2026-11-05"],
-     ["收息口径初始建仓价", yuan(starter), "约为现价的 62%"],
-     ["市净率合理区间", f"{yuan(pv['bear_hi'])}–{yuan(pv['base_lo'])}", "按有形净资产 9.41 美元"],
+     ["资本回报口径初始建仓价", yuan(c_start), f"较现价 {pct(c_start):+.1f}%"],
+     ["资本回报口径价值区间", f"{yuan(v_low)}–{yuan(v_high)}", "有形净资产 9.41 美元；Bear@9.84% 至 Bull@7.84%"],
+     ["收息口径初始建仓价（对比）", yuan(starter), "不计回购与增长"],
      ["质量／综合评分", f"{quality}/85，{total}/100（{grade}）", "完整评估，无暂定区间"]],
      "股价来自 Yahoo Finance，美国国债来自 FRED，其余来自汇丰 2025 年报及 2026 年三季度业绩公告")]),
  ("公司概况与行业定位", [
@@ -101,18 +103,21 @@ sections = [
      "按 50% 派息率 ÷ 171.11 亿股；不计回购；分析师估算")]),
  ("估值与预期总回报", [
    f"收息口径（不计成长与回购）：以 Base 2026 年每股股息 {N:.3f} 美元除以 7.84%–9.84% 的必要收益率，对应 {add:.2f}–{starter:.2f} 美元（{yuan(add)}–{yuan(starter)}），现价远高于此区间。",
-   f"市净率／超额收益口径：按有形股本回报率 17%、长期增长 3%、股本成本 9.84%，合理市净率约 {pv['base_hi']/TNAV:.2f} 倍，对应 {pv['base_hi']:.2f} 美元（{yuan(pv['base_hi'])}）；股本成本取 7.84% 时为 {yuan(pv['base_lo'])}；Bear（回报率 14%）为 {yuan(pv['bear_hi'])}。现价 1.87 倍市净率，隐含股本成本约 {implied_coe:.1%}。",
+   f"主估值（资本回报口径，第 7A 节）：价值 = 每股有形净资产 9.41 美元 ×（可持续有形股本回报率 − 3% 长期增长）÷（必要回报 − 3%）。Base 回报率 17%、必要回报 9.84% 时为 {v_base:.2f} 美元（{yuan(v_base)}），约 {v_base/TNAV:.2f} 倍市净率；Bear 回报率 14% 时为 {yuan(v_low)}；Bull 19%、必要回报 7.84% 时为 {yuan(v_high)}。现价 1.87 倍市净率，隐含股本成本约 {implied_coe:.1%}。",
    "两种方法的差异来自回购和增长：汇丰除 50% 派息外还持续回购，收息口径只计股息部分，也不计每股盈利增长。三年持有期（不计回购、不计再投资）：Bear 若估值回落到必要收益率约亏损 39%，Base 估值不变约赚 25%，Bull 约赚 44%。"],
-  [T("三年持有情景（每股，美元）", ["情景", "三年累计股息", "第三年末价格", "累计回报"],
+  [T("资本回报口径估值（每股，港元）", ["情景", "可持续有形股本回报率", "必要回报 9.84%", "必要回报 7.84%"],
+     [[row["scenario"], f"{row['sustainable_return_on_tangible_equity']:.0%}", round(row["value_at_required_high"] * USDHKD, 1), round(row["value_at_required_low"] * USDHKD, 1)] for row in crv_rows],
+     "每股有形净资产 9.41 美元（2026-09-30）；长期增长 3%；汇率 7.8395"),
+   T("三年持有情景（每股，美元）", ["情景", "三年累计股息", "第三年末价格", "累计回报"],
      [[row["scenario"], round(row["net_cash_received"], 2), round(row["exit_price"], 2), f"{row['cumulative_return']:.1%}"] for row in ep["return_scenarios"]],
      "退出价格按第三年每股股息 ÷ 假设股息率：Bear 7.84%、Base 维持现有 4.90%、Bull 4.5%")]),
  ("买点、建仓策略与持仓复评", [
    f"美国 10 年期国债对比：国债收益率 4.84%（FRED，2026-11-05）；汇丰远期税后股息率 {fwd_yield:.2%}，毛利差与税后利差均约为 {(fwd_yield-RF)*100:+.2f} 个百分点（香港居民持有美债利息一般适用组合利息豁免，两者均按零预扣计算）。持有汇丰而非国债的补偿只能来自股息增长、回购和估值，而不是当期收入。",
-   "国债收益率敏感性（风险溢价不变）：国债收益率每变动 50 个基点，收息口径初始建仓价反向变动约 6%–7%。",
-   f"分阶段参考价：初始建仓 {yuan(starter)}、逐步增持 {yuan(add)}、强力买入 {yuan(strong)}（强力买入还需预测可信度为高、安全性为强）。这些价格只适用于以收息为目的的新资金。已持有部分：用户未提供仓位和成本，本报告不给出加减仓指令；按市净率口径估值仍在合理区间内，若 CET1 恢复到 14% 以上且回报率维持在 17% 以上，持有逻辑不变。"],
-  [T("国债收益率敏感性", ["美国 10 年期国债", "必要收益率下限", "初始建仓价（港元）"],
-     [[f"{(RF + d) * 100:.2f}%", f"{(R_LOW + d) * 100:.2f}%", round(v * USDHKD, 1)] for d, v in sens],
-     "风险溢价 3% 不变；Base 每股股息 0.859 美元；汇率 7.8395")]),
+   "国债收益率敏感性（风险溢价不变）：国债收益率每变动 50 个基点，资本回报口径初始建仓价反向变动约 7%–8%，收息口径约 6%–7%。",
+   f"分阶段参考价（资本回报口径，安全边际 10%，因 CET1 低于目标且利率下行）：初始建仓 {yuan(c_start)}、逐步增持 {yuan(c_add)}、强力买入 {yuan(c_strong)}（强力买入还需预测可信度为高、安全性为强）。若只为收取股息，收息口径的初始建仓价约 {yuan(starter)}。已持有部分：用户未提供仓位和成本，本报告不给出加减仓指令；若 CET1 恢复到 14% 以上且回报率维持在 17% 以上，持有逻辑不变。"],
+  [T("国债收益率敏感性（初始建仓价，港元）", ["美国 10 年期国债", "资本回报口径", "收息口径"],
+     [[f"{(RF + d) * 100:.2f}%", round(TNAV * (0.17 - G) / (R_HIGH + d - G) * (1 - MOS) * USDHKD, 1), round(v * USDHKD, 1)] for d, v in sens],
+     "风险溢价不变（资本回报口径用 5%，收息口径用 3%）；有形净资产 9.41 美元；Base 每股股息 0.859 美元；汇率 7.8395")]),
  ("风险、监测指标与论点证伪", [
    "最大风险：利率较快下行导致净利息收入不及 460 亿美元指引，同时信用成本上升，两者叠加会使每股股息回到 0.70 美元左右。"],
   [T("风险与监测阈值", ["风险／指标", "当前值", "预警阈值", "影响", "复查时间"], [
@@ -127,7 +132,7 @@ sections = [
    "关键假设：50% 派息率；股数不变（不计回购）；风险加权资产每年增长约 3%，按 14.25% CET1 占用资本；风险溢价 3%–5%。",
    "研究限制：未取得同业对比数据、香港通胀序列和恒生银行私有化对每股价值的完整披露；未建立计入回购的完整总回报估值模型；用户持仓与收息目标未提供。本报告仅为研究资料，不构成投资建议。"]),
 ]
-r["report_output"].update({"title": "汇丰控股（0005.HK）完整研究报告", "summary": f"数据截至 {AS_OF}；收息口径等待到价，市净率口径处于合理区间。",
+r["report_output"].update({"title": "汇丰控股（0005.HK）完整研究报告", "summary": f"数据截至 {AS_OF}；资本回报口径初始建仓约 {yuan(c_start)}，现价略高，等待到价。",
                            "sections": [dict({"heading": h, "paragraphs": p_}, **({"tables": t_} if t_ else {}), **({"charts": c_} if c_ else {}))
                                         for h, p_, *rest in sections for t_, c_ in [((rest + [None, None])[0], (rest + [None, None])[1])]],
                            "appendix": ["审计附录 A3、A5、A6、A10、A11、A13 由结构化记录自动生成；A12 持仓复评因未提供持仓而不适用。"],

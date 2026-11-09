@@ -271,19 +271,23 @@ def render_report(report):
                         operator = {"<=": "≤", ">=": "≥"}.get(condition["operator"], condition["operator"])
                         threshold = condition["threshold"]
                         if isinstance(threshold, float):
-                            threshold = f"{threshold:.2f}"
+                            threshold = f"{threshold:.2f}".rstrip("0").rstrip(".")
                         text = (f"{condition['observable']} {operator} {threshold} {condition['unit']}"
                                 f"（跟踪来源：{condition['source_to_watch']}）")
                     body += f"<li>{escape(text)}</li>"
                 body += "</ul>"
             if decision["price_status"] == "reference_prices":
-                body += "<table><thead><tr><th>参考档位</th><th>价格</th></tr></thead><tbody>"
+                returns = report["return_requirements"]
+                currency = returns["valuation_currency"]
+                quote, rate = returns.get("quote_currency"), returns.get("quote_per_valuation_unit")
+                extra = f"<th>折合 {escape(quote)}</th>" if quote and rate else ""
+                body += f"<table><thead><tr><th>参考档位</th><th>价格</th>{extra}</tr></thead><tbody>"
                 for key, label in (("starter", "初始建仓"), ("add", "逐步增持"),
                                    ("strong_buy", "强力买入"), ("income_capped_upper", "收入约束上限")):
-                    currency = report["return_requirements"]["valuation_currency"]
                     value = decision["reference_prices"][key]
                     displayed = "不适用（有限期现金回收不增设档位）" if value is None else f"{value:.2f} {escape(currency)}"
-                    body += f"<tr><td>{label}</td><td>{displayed}</td></tr>"
+                    quoted = (f"<td>{value * rate:.1f} {escape(quote)}</td>" if value is not None else "<td>—</td>") if extra else ""
+                    body += f"<tr><td>{label}</td><td>{displayed}</td>{quoted}</tr>"
                 body += "</tbody></table><p>参考价不替代资金、税务、资本与风险门槛；未就绪档位不可执行。</p>"
         if index == len(output["sections"]):
             for record in report["evidence_recovery"]["records"]:

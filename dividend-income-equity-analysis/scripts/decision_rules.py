@@ -159,6 +159,10 @@ def stage_prices(report):
         growth = report["growth_valuation"]
         starter = growth["base_case_value"] * (1 - growth["margin_of_safety"])
         return starter, min(starter, growth["growth_value_low"]), growth["entry_upper"]
+    if mode == "capital_return_based":
+        value = report["capital_return_valuation"]
+        starter = value["base_case_value"] * (1 - value["margin_of_safety"])
+        return starter, min(starter, value["value_low"]), value["entry_upper"]
     if mode == "finite_life_harvest":
         return report["finite_life_valuation"]["finite_life_value_low"], None, None
     if mode == "suspended":
@@ -475,7 +479,7 @@ def validate_decision_framework(report, *, tax_supported, cash_supported, eviden
     if len(stages) != 3:
         return errors
     strong_profile = (report["forecast_confidence"] == "High" and report["dividend_safety"] == "Strong"
-                      and mode in ("ordinary_yield_based", "total_return_based"))
+                      and mode in ("ordinary_yield_based", "total_return_based", "capital_return_based"))
     expected_states = {}
     for stage, valuation_price in zip(STAGES, stage_prices(report)):
         row = stages[stage]
@@ -511,7 +515,7 @@ def validate_decision_framework(report, *, tax_supported, cash_supported, eviden
     elif expected_states["strong_buy"] == "ready":
         expected_action = "strong_buy"
     elif (expected_states["add"] == "ready" and report["forecast_confidence"] == "High"
-          and mode in ("ordinary_yield_based", "total_return_based")):
+          and mode in ("ordinary_yield_based", "total_return_based", "capital_return_based")):
         expected_action = "buy"
     else:
         expected_action = "accumulate"

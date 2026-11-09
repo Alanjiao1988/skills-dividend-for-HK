@@ -26,6 +26,7 @@
       "enum": [
         "ordinary_yield_based",
         "total_return_based",
+        "capital_return_based",
         "finite_life_harvest",
         "suspended"
       ]
@@ -2096,6 +2097,21 @@
         },
         "limitations": {
           "$ref": "#/$defs/nonemptyText"
+        },
+        "quote_currency": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Exchange quote currency when it differs from valuation_currency (e.g. HKD quote, USD dividends)."
+        },
+        "quote_per_valuation_unit": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0,
+          "description": "Quote-currency units per valuation-currency unit, e.g. 7.8395 HKD per USD."
         }
       },
       "required": [
@@ -5234,7 +5250,8 @@
         "kind": {
           "enum": [
             "price",
-            "event"
+            "event",
+            "metric"
           ]
         },
         "observable": {
@@ -5299,8 +5316,33 @@
               }
             }
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "metric"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "threshold": {
+                "type": "number"
+              },
+              "operator": {
+                "enum": [
+                  "<=",
+                  ">=",
+                  "<",
+                  ">"
+                ]
+              }
+            }
+          }
         }
-      ]
+      ],
+      "description": "price: market price threshold; event: a publication; metric: a disclosed numeric indicator crossing a threshold (e.g. CET1 < 13.5%)."
     },
     "decisionConclusion": {
       "type": "object",
@@ -6071,6 +6113,137 @@
         "tax_route",
         "kpis",
         "classification_evidence"
+      ]
+    },
+    "capitalReturnValuation": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Tangible-book residual-income value for balance-sheet spread businesses whose shareholder return combines dividends and buybacks (buy-zone.md Section 7A).",
+      "properties": {
+        "status": {
+          "const": "assessed"
+        },
+        "method": {
+          "const": "tangible_book_residual_income"
+        },
+        "book_value_per_share": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "book_value_date": {
+          "$ref": "#/$defs/auditText"
+        },
+        "book_value_currency": {
+          "$ref": "#/$defs/auditText"
+        },
+        "book_value_source": {
+          "$ref": "#/$defs/auditText"
+        },
+        "long_run_growth": {
+          "type": "number"
+        },
+        "long_run_nominal_growth_bound": {
+          "type": "number",
+          "maximum": 0.05
+        },
+        "long_run_growth_basis": {
+          "$ref": "#/$defs/auditText"
+        },
+        "required_return_low": {
+          "type": "number"
+        },
+        "required_return_high": {
+          "type": "number"
+        },
+        "margin_of_safety": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 0.5
+        },
+        "scenarios": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "scenario": {
+                "enum": [
+                  "Bear",
+                  "Base",
+                  "Bull"
+                ]
+              },
+              "sustainable_return_on_tangible_equity": {
+                "type": "number"
+              },
+              "value_at_required_high": {
+                "type": "number"
+              },
+              "value_at_required_low": {
+                "type": "number"
+              },
+              "evidence": {
+                "$ref": "#/$defs/auditText"
+              }
+            },
+            "required": [
+              "scenario",
+              "sustainable_return_on_tangible_equity",
+              "value_at_required_high",
+              "value_at_required_low",
+              "evidence"
+            ]
+          }
+        },
+        "value_low": {
+          "type": "number"
+        },
+        "value_high": {
+          "type": "number"
+        },
+        "base_case_value": {
+          "type": "number"
+        },
+        "entry_upper": {
+          "type": "number"
+        },
+        "review_above": {
+          "type": "number"
+        },
+        "shareholder_return_policy": {
+          "$ref": "#/$defs/auditText"
+        },
+        "capital_constraint": {
+          "$ref": "#/$defs/auditText"
+        },
+        "price_independent": {
+          "const": true
+        }
+      },
+      "required": [
+        "status",
+        "method",
+        "book_value_per_share",
+        "book_value_date",
+        "book_value_currency",
+        "book_value_source",
+        "long_run_growth",
+        "long_run_nominal_growth_bound",
+        "long_run_growth_basis",
+        "required_return_low",
+        "required_return_high",
+        "margin_of_safety",
+        "scenarios",
+        "value_low",
+        "value_high",
+        "base_case_value",
+        "entry_upper",
+        "review_above",
+        "shareholder_return_policy",
+        "capital_constraint",
+        "price_independent"
       ]
     }
   },
@@ -7155,6 +7328,9 @@
     },
     "economic_profile": {
       "$ref": "#/$defs/economicProfile"
+    },
+    "capital_return_valuation": {
+      "$ref": "#/$defs/capitalReturnValuation"
     }
   },
   "allOf": [
@@ -8069,7 +8245,8 @@
           "valuation_mode": {
             "enum": [
               "ordinary_yield_based",
-              "total_return_based"
+              "total_return_based",
+              "capital_return_based"
             ]
           },
           "action_assessment": {
@@ -8423,6 +8600,43 @@
               ]
             }
           ]
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "valuation_mode"
+        ],
+        "properties": {
+          "valuation_mode": {
+            "const": "capital_return_based"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "capital_return_valuation",
+          "economic_profile"
+        ],
+        "properties": {
+          "forecast_confidence": {
+            "enum": [
+              "High",
+              "Medium",
+              "Low"
+            ]
+          },
+          "value_trap_veto": {
+            "const": "Not triggered"
+          },
+          "return_requirements": {
+            "properties": {
+              "status": {
+                "const": "assessed"
+              }
+            }
+          }
         }
       }
     }

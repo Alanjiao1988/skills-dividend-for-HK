@@ -50,7 +50,7 @@ For any non-`stable` value record `cycle_window` (years and why that window span
 | Value | Meaning | Required cash model |
 |---|---|---|
 | `operating` | The balance sheet funds operations; cash comes from operating margin | Operating owner FCF (`operating_company`, `utility_infrastructure`, `concession_infrastructure`, `midstream_partnership`) |
-| `balance_sheet_spread` | The balance sheet **is** the business: banks, BDCs, mortgage REITs, insurers | Spread/capital proxy (`bank`, `bdc`, `mortgage_reit`, `insurer`); never industrial FCF. Funding liquidity, capital and book-value stress are mandatory |
+| `balance_sheet_spread` | The balance sheet **is** the business: banks, BDCs, mortgage REITs, insurers | Spread/capital proxy (`bank`, `bdc`, `mortgage_reit`, `insurer`); never industrial FCF. Funding liquidity, capital and book-value stress are mandatory. Valuation may use `capital_return_based` (`buy-zone.md` Section 7A) so buybacks and RoTE are priced |
 | `asset_leasing` | Owns long-lived assets leased to others (aircraft, equipment, property) | `operating_company` or `reit`, plus funding-spread, residual-value and lessee-credit stress; asset sales split into routine recycling and one-off disposals |
 
 ### D5. Capital intensity (`capital_intensity`, per segment)

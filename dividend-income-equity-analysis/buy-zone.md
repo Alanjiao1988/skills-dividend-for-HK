@@ -29,6 +29,7 @@ Apply this order before comparing any value with current price:
 | Veto `Triggered` or `Unclear`, material cash/capital evidence insufficient, or forecast Not Forecastable | `suspended` | Missing evidence, resolution conditions, and holding review; no actionable valuation range |
 | Structural Decline without the satisfied exception in `scoring.md` | `suspended` | No ordinary or growth entry zones |
 | Structural Decline with the satisfied exception and no unresolved veto | `finite_life_harvest` | Finite cash recovery; optional explicitly secondary income cross-check |
+| Balance-sheet spread business (`economic_profile`) with a published dividend-plus-buyback policy and an assessed required return | `capital_return_based` (Section 7A) | Tangible-book residual-income range plus a separate ordinary income comparison |
 | Non-declining business with all growth gates satisfied and a material evidenced development/reinvestment case | `total_return_based` when justified | Growth range plus a separate ordinary income comparison where credible |
 | Sustainable ordinary capacity and credible N/B, without a justified primary growth case | `ordinary_yield_based` | Deterministic ordinary income zones |
 
@@ -525,6 +526,30 @@ Declare `margin_of_safety` and `margin_of_safety_basis` before price comparison,
 Where boundaries coincide, the entry row takes precedence at `entry_upper`. Do not turn a favourable Base/Bull value into Strong Buy when Bear does not support entry. R/g grid extrema do not replace `growth_value_low/high`.
 
 Keep a credible ordinary income comparison alongside the growth primary view and say which question each answers. If N/B are unavailable, explain why; do not fabricate the ladder. Report hard-income eligibility separately: the effective **strict** ceiling for a positive hard yield floor is `min(entry_upper, income_price_ceiling)`, with the same cap applied separately to starter/add prices. The unmodified economic values remain auditable. Missing hard-income inputs preclude claiming investor eligibility.
+
+## 7A. Capital-Return Valuation for Balance-Sheet Spread Businesses
+
+Banks, insurers, BDCs and mortgage REITs return capital through dividends **and** buybacks, and their value rests on returns on tangible equity, not on the dividend alone. The ordinary income ladder ignores buybacks and per-share growth, and the growth DDM in Section 6 discounts dividends only, so both systematically understate such issuers. When `economic_profile` shows the dominant segment as `balance_sheet_spread` and the issuer has a published capital-return policy, use `valuation_mode: capital_return_based` with a `capital_return_valuation` record:
+
+```text
+value(scenario, R) = tangible book value per share x (sustainable RoTE - g) / (R - g)
+values at R_high and R_low for Bear, Base and Bull
+value_low   = min over scenarios of value at R_high
+value_high  = max over scenarios of value at R_low
+base_case   = Base value at R_high
+starter     = base_case x (1 - margin_of_safety)
+add         = min(starter, value_low)
+strong_buy  = entry_upper = value_low x (1 - margin_of_safety)
+review_above = value_high
+```
+
+- Book value is the latest disclosed tangible net asset value per ordinary share, in the valuation currency, with date and source.
+- Sustainable RoTE per scenario comes from the five-year history, management targets and the Bear/Base/Bull forecast, excluding material notable items; Bear must reflect the stress in the forecast, not a target.
+- `R_low`/`R_high` are the price-independent required returns from Section 4. `g` must not exceed `long_run_nominal_growth_bound` (at most 5%) and must sit at least 2 points below `R_low`.
+- The margin of safety (0–50%) is an explicit analyst choice stated with its reason; it is not tuned to make the current price qualify.
+- Keep `buy_zone` as the ordinary cash-income comparison and show both views; when they disagree, explain the gap (buybacks, per-share growth) rather than averaging them.
+- Capital constraints still bind: CET1 or solvency below target, a regulatory distribution restriction or unfunded Bear dividends keep the action at waiting for evidence or avoid regardless of value.
+- `scripts/validate_analysis.py` checks the arithmetic; `scripts/schema3_checks.py` rejects this mode for non-spread businesses.
 
 ## 8. Structural Decline: Finite-Life Cash Recovery Only
 

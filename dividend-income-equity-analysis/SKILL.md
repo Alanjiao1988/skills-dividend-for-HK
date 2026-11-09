@@ -67,7 +67,7 @@ Screen Mode 不得把 `buy-zone.md` 的标的必要收益率当作用户的筛�
 - `business-fundamentals.md`：Recurring Owner FCF → Recurring FAD、五年情景预测、派息计算基数、敏感性分类、scrip / DRIP 和 DPS 推导。
 - `sector-fcf-proxies.md`：银行、保险、REIT、公用事业、控股公司等行业代理与资本／上缴现金证据的唯一规则源。
 - `visual-output-rules.md`：Full Analysis 的图表和表格规则。
-- `buy-zone.md`：独立必要回报、N/B收息区间、有条件的成长估值、试建仓／加仓／强买价格、当前行动、催化与失效条件、Structural Decline及有限期现金回收。
+- `buy-zone.md`：含第 7A 节银行等资本回报型公司的有形净资产估值（`capital_return_based`）；独立必要回报、N/B收息区间、有条件的成长估值、试建仓／加仓／强买价格、当前行动、催化与失效条件、Structural Decline及有限期现金回收。
 - `holding-review.md`：持有、复评、减仓、退出、换仓的证据与组合约束；不自动交易。
 - `withholding-notes.md`：预扣税、PIL、scrip / DRIP 税务与现金收入规则。
 - `scoring.md`：价格独立的质量／85、收入吸引力／15、逐项可复算评分、暂定区间／证据覆盖度、评级依据及 Structural Decline overlay。不以总分自动决定组合角色。

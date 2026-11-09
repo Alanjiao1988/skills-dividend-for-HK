@@ -43,7 +43,8 @@ r["payout_policy"].update({
     "source_and_date": Q3,
     "funding_constraint": f"Base FY2026: 50% x {SCEN['Base']['profit'][0]}m = {SCEN['Base']['profit'][0]*PAYOUT:.0f}m versus capacity {SCEN['Base']['profit'][0]-SCEN['Base']['growth_capital']}m after RWA growth capital."})
 rr = r["return_requirements"]
-rr.update({"benchmark": "US 10-year Treasury constant maturity (DGS10)", "benchmark_source": UST,
+rr.update({"quote_currency": "HKD", "quote_per_valuation_unit": USDHKD,
+           "benchmark": "US 10-year Treasury constant maturity (DGS10)", "benchmark_source": UST,
            "benchmark_date": "2026-11-05", "benchmark_currency": "USD", "benchmark_tenor": "10 years",
            "valuation_currency": "USD", "valuation_unit_scale": 1, "shares_per_quoted_security": 1,
            "tax_and_fx_basis": f"Dividends declared in USD; HK register paid in HKD under the peg. Quote HKD {PRICE_HKD} converted at USD/HKD {USDHKD} = USD {PRICE}. HK-resident individual: no UK withholding on ordinary dividends, no HK tax on dividends.",
@@ -91,20 +92,48 @@ mid.update({"operating_assumptions": "Base FY2026 bank capital proxy", "owner_ca
 for state in ("low", "high"):
     nm["cycle_states"][state].update({"operating_assumptions": "No separate cycle extreme modelled; Bear/Bull scenarios carry the range.", "evidence": Q3})
 
+# ---------------- capital-return valuation (buy-zone.md 7A) ----------------
+TNAV, G, MOS = 9.41, 0.03, 0.10
+ROTES = {"Bear": 0.14, "Base": 0.17, "Bull": 0.19}
+val = lambda rote, rr_: TNAV * (rote - G) / (rr_ - G)
+crv_rows = [{"scenario": s_, "sustainable_return_on_tangible_equity": rote,
+             "value_at_required_high": val(rote, R_HIGH), "value_at_required_low": val(rote, R_LOW),
+             "evidence": {"Bear": "Bear forecast: faster rate cuts and ECL near 60bps cut RoTE to about 14%, below the 2021-2025 average.",
+                          "Base": "Management target RoTE of 17% or better for 2026-2028; 9M26 annualised 18.8% excl. notable items.",
+                          "Bull": "Rates stay higher and Hang Seng synergies exceed plan; 9M26 run-rate near 19%."}[s_]}
+            for s_, rote in ROTES.items()]
+v_low = min(row["value_at_required_high"] for row in crv_rows)
+v_high = max(row["value_at_required_low"] for row in crv_rows)
+v_base = crv_rows[1]["value_at_required_high"]
+c_start = v_base * (1 - MOS); c_add = min(c_start, v_low); c_strong = v_low * (1 - MOS)
+r["valuation_mode"] = "capital_return_based"
+r["capital_return_valuation"] = {
+    "status": "assessed", "method": "tangible_book_residual_income", "book_value_per_share": TNAV,
+    "book_value_date": "2026-09-30", "book_value_currency": "USD", "book_value_source": Q3,
+    "long_run_growth": G, "long_run_nominal_growth_bound": 0.04,
+    "long_run_growth_basis": "Long-run nominal growth of HSBC's main markets (HK, UK) about 3%-4%; 3% used, below R_low by 4.84 points.",
+    "required_return_low": R_LOW, "required_return_high": R_HIGH, "margin_of_safety": MOS,
+    "scenarios": crv_rows, "value_low": v_low, "value_high": v_high, "base_case_value": v_base,
+    "entry_upper": v_low * (1 - MOS), "review_above": v_high,
+    "shareholder_return_policy": "50% target-basis dividend payout for 2026-2028 plus buybacks when CET1 is within or above 14%-14.5%.",
+    "capital_constraint": "CET1 13.9% at 30 Sep 2026, below the operating range; Basel 3.1 expected +40-50bps on 1 Jan 2027.",
+    "price_independent": True}
+print("capital-return", round(v_low, 2), round(v_base, 2), round(v_high, 2), "stages", round(c_start, 2), round(c_add, 2), round(c_strong, 2))
+
 # ---------------- entry plan and decision ----------------
 def pct(x): return (x / PRICE - 1) * 100
 ep = r["entry_plan"]
 ep.update({"current_action": "wait_for_price",
-           "summary": f"At USD {PRICE} (HKD {PRICE_HKD}) the forward net yield is {fwd_yield:.1%}, about equal to the US 10-year Treasury and below the 7.8%-9.8% required income yield; no income-based entry is supported.",
+           "summary": f"At USD {PRICE} (HKD {PRICE_HKD}) the price is just above the capital-return starter price USD {c_start:.2f}; the income view (forward yield {fwd_yield:.1%}) is far stricter.",
            "opportunity_thesis": "HSBC is a high-quality capital-return story (17%+ RoTE, 50% payout plus buybacks), but buybacks and EPS growth are not credited by the ordinary income method.",
            "market_expectation_gap": f"Price implies P/TBV {PRICE/9.41:.2f}x on TNAV 9.41 USD; at a 17% sustained RoTE that implies about a 9% cost of equity, i.e. the market already prices sustained high returns."})
 ep["stages"] = [
-    {"stage": "starter", "valuation_price": starter, "effective_price": starter, "gap_to_current_pct": pct(starter),
-     "status": "waiting_price", "condition": f"N/R_low = {N:.4f}/{R_LOW:.4f}; price must fall to USD {starter:.2f} (HKD {HK(starter)})."},
-    {"stage": "add", "valuation_price": add, "effective_price": add, "gap_to_current_pct": pct(add),
-     "status": "waiting_price", "condition": f"N/R_high = {N:.4f}/{R_HIGH:.4f}; USD {add:.2f} (HKD {HK(add)})."},
-    {"stage": "strong_buy", "valuation_price": strong, "effective_price": strong, "gap_to_current_pct": pct(strong),
-     "status": "waiting_evidence", "condition": f"B/R_high = {B:.4f}/{R_HIGH:.4f}; USD {strong:.2f} (HKD {HK(strong)}), plus High confidence and Strong safety."}]
+    {"stage": "starter", "valuation_price": c_start, "effective_price": c_start, "gap_to_current_pct": pct(c_start),
+     "status": "waiting_price", "condition": f"Base value at R_high {v_base:.2f} x (1 - 10%) = USD {c_start:.2f} (HKD {HK(c_start)})."},
+    {"stage": "add", "valuation_price": c_add, "effective_price": c_add, "gap_to_current_pct": pct(c_add),
+     "status": "waiting_price", "condition": f"Bear value at R_high = USD {c_add:.2f} (HKD {HK(c_add)})."},
+    {"stage": "strong_buy", "valuation_price": c_strong, "effective_price": c_strong, "gap_to_current_pct": pct(c_strong),
+     "status": "waiting_evidence", "condition": f"Bear value x (1 - 10%) = USD {c_strong:.2f} (HKD {HK(c_strong)}), plus High confidence and Strong safety."}]
 cash3 = {s: sum(d[:3]) for s, d in (("Bear", bear_dps), ("Base", base_dps), ("Bull", bull_dps))}
 exits = {"Bear": bear_dps[2] / R_LOW, "Base": base_dps[2] / fwd_yield, "Bull": bull_dps[2] / 0.045}
 basis = {"Bear": f"Exit at Bear FY2028 DPS / R_low {R_LOW:.2%}: re-rating to the required income yield.",
@@ -116,8 +145,8 @@ ep["return_scenarios"] = [{"scenario": s, "horizon_years": 3, "net_cash_received
                            "basis": basis[s] + " No reinvestment, buybacks not credited, zero costs assumed.",
                            "source_refs": [Q3, PX]} for s in ("Bear", "Base", "Bull")]
 ep["risk_review"].update({"rationale": f"Bear path loses {-(ep['return_scenarios'][0]['cumulative_return']):.0%} including three years of dividends if the market re-rates HSBC to a required income yield; Base relies on no de-rating.", "source_refs": [Q3, PX]})
-ep["blockers"] = [{"scope": "price", "reason": f"Forward net yield {fwd_yield:.1%} is below R_low {R_LOW:.2%}.",
-                   "resolution": f"Price at or below USD {starter:.2f} (HKD {HK(starter)}) or a higher sustainable DPS.", "source_refs": [Q3, PX]},
+ep["blockers"] = [{"scope": "price", "reason": f"Price is {pct(c_start):+.1f}% from the capital-return starter price.",
+                   "resolution": f"Price at or below USD {c_start:.2f} (HKD {HK(c_start)}), or a higher evidenced sustainable RoTE.", "source_refs": [Q3, PX]},
                   {"scope": "position_sizing", "reason": "Existing holding size and cost basis not supplied.",
                    "resolution": "Provide holdings before any sizing or trimming discussion.", "source_refs": []}]
 ep["catalysts"] = [{"event": "FY2026 results and fourth interim dividend", "check_date_or_period": "February 2027",
@@ -129,15 +158,15 @@ r["action_assessment"].update({"status": "eligible", "strong_buy_eligible": Fals
                                "reasons": ["Evidence supports the income comparison; the price does not meet the required income yield."],
                                "capital_risk_and_total_return_check": "See entry_plan.return_scenarios: Bear re-rating loses principal; dividends alone do not offset it."})
 r["decision"].update({"current_action": "等待到价", "can_buy_now": False,
-    "reason": f"按收息口径，远期税后股息率约 {fwd_yield:.1%}，与美国 10 年期国债 4.84% 基本持平，低于 7.8%–9.8% 的必要收益率；新资金不宜按收息逻辑买入，已持有部分另行复评。",
-    "buy_conditions": [{"kind": "price", "observable": f"汇丰控股港股收盘价按 7.84 汇率折合美元（约 {HK(starter)} 港元）", "operator": "<=", "threshold": starter, "unit": "USD", "source_to_watch": "港交所实时报价"}],
+    "reason": f"按银行有形净资产估值，Base 价值打九折的初始建仓价约 {HK(c_start)} 港元，现价 {PRICE_HKD} 港元略高约 {abs(pct(c_start)):.1f}%；收息口径（远期股息率 {fwd_yield:.1%}，与美国国债持平）更为严格。新资金等待小幅回调，已持有部分估值仍在合理区间。",
+    "buy_conditions": [{"kind": "price", "observable": "汇丰控股港股收盘价", "operator": "<=", "threshold": round(HK(c_start), 1), "unit": "HKD", "source_to_watch": "港交所实时报价"}],
     "invalidation_conditions": [{"kind": "event", "observable": "董事会下调 50% 派息率目标或暂停季度股息", "operator": "published", "threshold": "已公告", "unit": "公告事件", "source_to_watch": "汇丰业绩公告"},
-                                {"kind": "event", "observable": "季度业绩公告 CET1 比率低于 13.5%", "operator": "published", "threshold": "已公告", "unit": "公告事件", "source_to_watch": "汇丰季度业绩公告"}],
+                                {"kind": "metric", "observable": "CET1 比率", "operator": "<", "threshold": 13.5, "unit": "%", "source_to_watch": "汇丰季度业绩公告"},
+                                {"kind": "metric", "observable": "剔除特殊项目的年化有形股本回报率（连续两季）", "operator": "<", "threshold": 14, "unit": "%", "source_to_watch": "汇丰季度业绩公告"}],
     "trap_conclusion": "未触发红利陷阱：股息由利润和资本生成覆盖，派息率政策清晰；主要风险是利率下行和信用成本。",
-    "entry_conclusion": f"收息口径参考价：初始建仓 {HK(starter)} 港元、逐步增持 {HK(add)} 港元、强力买入 {HK(strong)} 港元，均远低于现价 {PRICE_HKD} 港元。",
+    "entry_conclusion": f"资本回报口径参考价：初始建仓 {HK(c_start)} 港元、逐步增持 {HK(c_add)} 港元、强力买入 {HK(c_strong)} 港元；收息口径初始建仓约 {HK(starter)} 港元，仅作对比。",
     "price_status": "reference_prices",
-    "reference_prices": {"starter": starter, "add": add, "strong_buy": strong, "income_capped_upper": starter}})
-
+    "reference_prices": {"starter": c_start, "add": c_add, "strong_buy": c_strong, "income_capped_upper": c_start}})
 # ---------------- business outlook cumulative FAD ----------------
 for row in r["business_outlook"]["cumulative_fad"]:
     s_ = row["scenario"]; fad = [SCEN[s_]["profit"][i] - SCEN[s_]["growth_capital"] for i in range(5)]

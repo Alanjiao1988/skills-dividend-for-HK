@@ -462,6 +462,8 @@ def validate_report(report):
             same(harvest["residual_value_share_of_total"], residual_pv / (total_pv + residual_pv) if total_pv + residual_pv else None,
                  "Finite-life residual share")
 
+    if "capital_return_valuation" in report:
+        errors.extend(capital_return_errors(report))
     if "growth_valuation" in report:
         require(mode == "total_return_based", "Growth valuation cannot bypass the primary mode's eligibility gates")
         require(cash_income_supported and tax_supported, "Growth valuation requires supported cash election and withholding")
@@ -654,7 +656,7 @@ def validate_report(report):
     price_only_income_shortfall = (
         report.get("schema_version") in ("2.5", "3.0")
         and not errors and not non_income_limitations and not normalization_gaps
-        and mode in ("ordinary_yield_based", "total_return_based")
+        and mode in ("ordinary_yield_based", "total_return_based", "capital_return_based")
         and income["target"]["target_policy"] == "hard_minimum"
         and target is not None and target > 0
         and income["income_eligible"] is False and income["yield_fit"] == "Below target"
@@ -683,6 +685,9 @@ def validate_report(report):
         elif mode == "total_return_based":
             require(price is not None and price <= report["growth_valuation"]["entry_upper"],
                     "Strong Buy price must meet the growth entry threshold")
+        elif mode == "capital_return_based":
+            require(price is not None and price <= report["capital_return_valuation"]["entry_upper"],
+                    "Strong Buy price must meet the capital-return entry threshold")
     if holding["action"] == "switch":
         switch = holding["switch_analysis"]
         require(switch["after_cost_advantage"] > switch["switching_hurdle"], "Switch benefit must exceed the documented after-cost hurdle")
@@ -693,6 +698,51 @@ def validate_report(report):
         ))
     return errors
 
+
+
+def capital_return_errors(report):
+    """Tangible-book residual-income value (buy-zone.md Section 7A)."""
+    errors = []
+
+    def require(condition, message):
+        if not condition:
+            errors.append("Capital-return valuation: " + message)
+
+    def close(actual, expected, label):
+        require(actual is not None and math.isclose(actual, expected, rel_tol=1e-6, abs_tol=1e-9),
+                f"{label}: expected {expected}, got {actual}")
+
+    value = report["capital_return_valuation"]
+    returns = report["return_requirements"]
+    require(report["valuation_mode"] == "capital_return_based",
+            "the record is only valid as the capital_return_based primary mode")
+    require(returns["status"] == "assessed", "requires an assessed required return")
+    if returns["status"] == "assessed":
+        close(value["required_return_low"], returns["required_total_return_low"], "required_return_low")
+        close(value["required_return_high"], returns["required_total_return_high"], "required_return_high")
+    require(value["book_value_currency"] == returns["valuation_currency"], "book value must be in the valuation currency")
+    g = value["long_run_growth"]
+    require(g <= value["long_run_nominal_growth_bound"], "long-run growth above its documented bound")
+    require(value["required_return_low"] - g >= 0.02 - 1e-12, "required return must exceed growth by at least 2 points")
+    rows = {row["scenario"]: row for row in value["scenarios"]}
+    require(set(rows) == {"Bear", "Base", "Bull"}, "needs Bear, Base and Bull exactly once")
+    if set(rows) != {"Bear", "Base", "Bull"}:
+        return errors
+    rotes = [rows[s]["sustainable_return_on_tangible_equity"] for s in ("Bear", "Base", "Bull")]
+    require(rotes == sorted(rotes), "returns on tangible equity must rise from Bear to Bull")
+    bv = value["book_value_per_share"]
+    for name, row in rows.items():
+        rote = row["sustainable_return_on_tangible_equity"]
+        close(row["value_at_required_high"], bv * (rote - g) / (value["required_return_high"] - g), f"{name} value at R_high")
+        close(row["value_at_required_low"], bv * (rote - g) / (value["required_return_low"] - g), f"{name} value at R_low")
+    low = min(row["value_at_required_high"] for row in rows.values())
+    high = max(row["value_at_required_low"] for row in rows.values())
+    close(value["value_low"], low, "value_low")
+    close(value["value_high"], high, "value_high")
+    close(value["base_case_value"], rows["Base"]["value_at_required_high"], "base_case_value")
+    close(value["entry_upper"], low * (1 - value["margin_of_safety"]), "entry_upper")
+    close(value["review_above"], high, "review_above")
+    return errors
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
