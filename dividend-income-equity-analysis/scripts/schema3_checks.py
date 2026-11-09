@@ -101,6 +101,9 @@ def economic_profile_errors(report):
               "an operating or leasing business must not use a bank/BDC/insurer/mortgage-REIT proxy")
     check(mode != "capital_return_based" or dominant["balance_sheet_role"] == "balance_sheet_spread",
           "capital_return_based valuation is for balance-sheet spread businesses (banks, insurers, BDCs, mortgage REITs)")
+    check(mode != "capital_return_based" or sector in ("bank", "insurer"),
+          "capital_return_based (RoTE on tangible book) fits banks and insurers; BDCs and mortgage REITs use NAV and "
+          "net investment income through their sector cash models")
     check(sector != "mortgage_reit" or profile["legal_wrapper"] == "reit",
           "mortgage_reit requires the reit legal wrapper")
     check(sector != "concession_infrastructure" or bool(finite_segments),

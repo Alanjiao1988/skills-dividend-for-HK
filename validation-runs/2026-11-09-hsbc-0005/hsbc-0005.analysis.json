@@ -2462,8 +2462,8 @@
           "/income_assessment/target/target_policy",
           "/real_income/status"
         ],
-        "reason": "用户未提供收息目标、持仓与成本；本次未建立含回购的总回报成长估值，也未做购买力（通胀）测算",
-        "impact": "不判断收入匹配度、不给仓位建议；估值只用收息口径并以市净率交叉核对",
+        "reason": "用户未提供收息目标、持仓与成本；本次未做购买力（通胀）测算",
+        "impact": "不判断收入匹配度、不给仓位建议；主估值为资本回报口径（有形净资产 × 回报率），收息口径作对照",
         "resolution": "not_assessable",
         "attempts": [
           {
@@ -3387,6 +3387,33 @@
     "review_above": 31.107438016528928,
     "shareholder_return_policy": "50% target-basis dividend payout for 2026-2028 plus buybacks when CET1 is within or above 14%-14.5%.",
     "capital_constraint": "CET1 13.9% at 30 Sep 2026, below the operating range; Basel 3.1 expected +40-50bps on 1 Jan 2027.",
+    "distribution_capacity": {
+      "scenarios": [
+        {
+          "scenario": "Bear",
+          "implied_distribution_ratio": 0.7857142857142857,
+          "forecast_distributable_ratio": 0.959349593495935,
+          "dividend_payout_ratio": 0.5,
+          "buyback_capacity_ratio": 0.45934959349593496
+        },
+        {
+          "scenario": "Base",
+          "implied_distribution_ratio": 0.823529411764706,
+          "forecast_distributable_ratio": 0.8782771535580525,
+          "dividend_payout_ratio": 0.5,
+          "buyback_capacity_ratio": 0.37827715355805247
+        },
+        {
+          "scenario": "Bull",
+          "implied_distribution_ratio": 0.8421052631578947,
+          "forecast_distributable_ratio": 0.8533724340175953,
+          "dividend_payout_ratio": 0.5,
+          "buyback_capacity_ratio": 0.3533724340175953
+        }
+      ],
+      "growth_consistency": "Base reserves 3900m a year of CET1 for RWA growth at the 14.25% target, about 3.1% of 2025 RWAs, close to the 3% long-run g. Bear reserves less because loan growth slows.",
+      "near_term_constraint": "CET1 is 13.9%, below the 14%-14.5% range, so buybacks are paused until Basel 3.1 (+40-50bps, Jan 2027) restores headroom. The per-share forecast holds shares flat and credits no buybacks; the valuation counts the capacity above the 50% dividend, which is not yet being paid out."
+    },
     "price_independent": true
   }
 }

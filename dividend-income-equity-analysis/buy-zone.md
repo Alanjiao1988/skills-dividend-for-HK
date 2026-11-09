@@ -577,6 +577,8 @@ review_above = value_high
 - `R_low`/`R_high` are the price-independent required returns from Section 4. `g` must not exceed `long_run_nominal_growth_bound` (at most 5%) and must sit at least 2 points below `R_low`.
 - The margin of safety (0–50%) is an explicit analyst choice stated with its reason; it is not tuned to make the current price qualify.
 - Keep `buy_zone` as the ordinary cash-income comparison and show both views; when they disagree, explain the gap (buybacks, per-share growth) rather than averaging them.
+- Close the loop with forecast capital: in steady state the formula returns `(RoTE - g) / RoTE` of earnings (82% at 17% RoTE and 3% growth). `distribution_capacity` records, per scenario, that implied ratio, the five-year forecast distributable ratio (recurring FAD after RWA or solvency-capital growth at the target ratio ÷ earnings), the dividend payout and the remainder available for buybacks. The validator rejects an implied ratio above the forecast ratio: the value would then rest on capital the bank cannot release. State how the forecast's RWA growth relates to `g` and what limits distributions now.
+- This route fits banks and insurers (`sector_model` bank or insurer). BDCs and mortgage REITs distribute most income by rule and mark assets to market; value them on NAV and net investment income through their sector cash models, not RoTE on tangible book.
 - Capital constraints still bind: CET1 or solvency below target, a regulatory distribution restriction or unfunded Bear dividends keep the action at waiting for evidence or avoid regardless of value.
 - `scripts/validate_analysis.py` checks the arithmetic; `scripts/schema3_checks.py` rejects this mode for non-spread businesses.
 

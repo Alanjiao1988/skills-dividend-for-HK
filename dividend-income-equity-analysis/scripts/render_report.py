@@ -248,6 +248,20 @@ def render_associate_conversion(record):
         "columns": ["财年", "应占联营合营利润", "收到现金股息", "上缴率"], "rows": rows, "note": note})
 
 
+def render_capital_distribution(value):
+    """Capital-return formula versus forecast capital generation (buy-zone.md Section 7A)."""
+    capacity = value["distribution_capacity"]
+    pct = lambda number: f"{number * 100:.0f}%"
+    rows = [[row["scenario"], pct(row["implied_distribution_ratio"]), pct(row["forecast_distributable_ratio"]),
+             pct(row["dividend_payout_ratio"]), pct(row["buyback_capacity_ratio"])] for row in capacity["scenarios"]]
+    return "<h3>资本回报能否兑现</h3>" + render_table({
+        "title": "估值公式隐含的利润返还比例 vs 预测资本生成",
+        "columns": ["情景", "公式隐含返还比例", "预测可分配比例（五年）", "股息派息率", "可用于回购"],
+        "rows": rows,
+        "note": f"隐含返还比例 =（有形股本回报率 − 长期增长）÷ 有形股本回报率；可分配比例 = 五年扣除风险资产增长所需资本后的可分配资本 ÷ 五年利润。"
+                f"{capacity['growth_consistency']} 近期约束：{capacity['near_term_constraint']}"})
+
+
 def render_growth_credit(returns):
     """Gated income growth credit test (buy-zone.md Section 4.2A)."""
     basis = returns["income_growth_credit_basis"]
@@ -334,6 +348,10 @@ def render_report(report):
                     quoted = (f"<td>{value * rate:.1f} {escape(quote)}</td>" if value is not None else "<td>—</td>") if extra else ""
                     body += f"<tr><td>{label}</td><td>{displayed}</td>{quoted}</tr>"
                 body += "</tbody></table><p>参考价不替代资金、税务、资本与风险门槛；未就绪档位不可执行。</p>"
+        capital = report.get("capital_return_valuation")
+        if report["mode"] == "full_analysis" and "估值与预期总回报" in section["heading"] and capital \
+                and capital.get("distribution_capacity"):
+            body += render_capital_distribution(capital)
         conversion = report.get("cash_flow_model", {}).get("associate_cash_conversion")
         if report["mode"] == "full_analysis" and "现金流、资产负债" in section["heading"] and conversion:
             body += render_associate_conversion(conversion)

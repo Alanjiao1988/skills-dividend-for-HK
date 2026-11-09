@@ -6295,6 +6295,34 @@
         },
         "price_independent": {
           "const": true
+        },
+        "distribution_capacity": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "scenarios": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/capitalDistributionRow"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "growth_consistency": {
+              "$ref": "#/$defs/nonemptyText",
+              "description": "How the forecast's RWA (or required capital) growth relates to the long-run g in the formula."
+            },
+            "near_term_constraint": {
+              "$ref": "#/$defs/nonemptyText",
+              "description": "What limits distributions now (capital below target, regulatory restriction) and how the forecast treats share count."
+            }
+          },
+          "required": [
+            "scenarios",
+            "growth_consistency",
+            "near_term_constraint"
+          ],
+          "description": "Closes the loop between the valuation formula and forecast capital generation (buy-zone.md Section 7A)."
         }
       },
       "required": [
@@ -6543,6 +6571,38 @@
         "cash_share",
         "end_year",
         "treatment"
+      ]
+    },
+    "capitalDistributionRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scenario": {
+          "$ref": "#/$defs/scenario"
+        },
+        "implied_distribution_ratio": {
+          "type": "number",
+          "description": "(sustainable RoTE - g) / sustainable RoTE: the share of earnings the formula assumes is returned."
+        },
+        "forecast_distributable_ratio": {
+          "type": "number",
+          "description": "Five-year sum of recurring FAD (capital generated after RWA/solvency growth at the target ratio) / five-year sum of earnings, from the same scenario's forecast."
+        },
+        "dividend_payout_ratio": {
+          "type": "number",
+          "minimum": 0
+        },
+        "buyback_capacity_ratio": {
+          "type": "number",
+          "description": "forecast_distributable_ratio - dividend_payout_ratio: capital left for buybacks or other returns."
+        }
+      },
+      "required": [
+        "scenario",
+        "implied_distribution_ratio",
+        "forecast_distributable_ratio",
+        "dividend_payout_ratio",
+        "buyback_capacity_ratio"
       ]
     }
   },

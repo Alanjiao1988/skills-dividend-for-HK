@@ -22,6 +22,36 @@ def hsbc():
     return json.loads(RUN.read_text(encoding="utf-8"))
 
 
+class CapitalDistributionLoop(unittest.TestCase):
+    """The RoTE formula must be backed by forecast capital generation (ChatGPT review P1-02)."""
+
+    def test_hsbc_capital_supports_the_formula(self):
+        capacity = hsbc()["capital_return_valuation"]["distribution_capacity"]
+        base = next(row for row in capacity["scenarios"] if row["scenario"] == "Base")
+        self.assertAlmostEqual(base["implied_distribution_ratio"], (0.17 - 0.03) / 0.17)
+        self.assertGreaterEqual(base["forecast_distributable_ratio"], base["implied_distribution_ratio"])
+        self.assertIn("资本回报能否兑现", render_report(hsbc()))
+
+    def test_formula_beyond_capital_generation_is_rejected(self):
+        report = hsbc()
+        value = report["capital_return_valuation"]
+        for row in value["scenarios"]:
+            if row["scenario"] == "Base":
+                row["sustainable_return_on_tangible_equity"] = 0.30
+        errors = validate_report(report)
+        self.assertTrue(any("forecast capital generation supports only" in e for e in errors))
+
+    def test_missing_capacity_is_rejected(self):
+        report = hsbc()
+        del report["capital_return_valuation"]["distribution_capacity"]
+        self.assertTrue(any("distribution_capacity" in e for e in validate_report(report)))
+
+    def test_bdc_cannot_use_the_bank_formula(self):
+        report = hsbc()
+        report["cash_flow_model"]["sector_model"] = "bdc"
+        self.assertTrue(any("fits banks and insurers" in e for e in validate_report(report)))
+
+
 class CapitalReturnValuation(unittest.TestCase):
     def test_real_bank_run_validates(self):
         report = hsbc()

@@ -106,6 +106,13 @@ v_low = min(row["value_at_required_high"] for row in crv_rows)
 v_high = max(row["value_at_required_low"] for row in crv_rows)
 v_base = crv_rows[1]["value_at_required_high"]
 c_start = v_base * (1 - MOS); c_add = min(c_start, v_low); c_strong = v_low * (1 - MOS)
+fc_rows = r["three_year_fundamental_forecast"] + r["forecast_extension"]
+cap_rows = []
+for s_, rote in ROTES.items():
+    yrs = [row for row in fc_rows if row["scenario"] == s_]
+    ratio = sum(row["recurring_fad"] for row in yrs) / sum(row["net_income_or_affo"] for row in yrs)
+    cap_rows.append({"scenario": s_, "implied_distribution_ratio": (rote - G) / rote, "forecast_distributable_ratio": ratio,
+                     "dividend_payout_ratio": PAYOUT, "buyback_capacity_ratio": ratio - PAYOUT})
 r["valuation_mode"] = "capital_return_based"
 r["capital_return_valuation"] = {
     "status": "assessed", "method": "tangible_book_residual_income", "book_value_per_share": TNAV,
@@ -117,6 +124,13 @@ r["capital_return_valuation"] = {
     "entry_upper": v_low * (1 - MOS), "review_above": v_high,
     "shareholder_return_policy": "50% target-basis dividend payout for 2026-2028 plus buybacks when CET1 is within or above 14%-14.5%.",
     "capital_constraint": "CET1 13.9% at 30 Sep 2026, below the operating range; Basel 3.1 expected +40-50bps on 1 Jan 2027.",
+    "distribution_capacity": {"scenarios": cap_rows,
+        "growth_consistency": (f"Base reserves {SCEN['Base']['growth_capital']}m a year of CET1 for RWA growth at the 14.25% target, "
+                               f"about {SCEN['Base']['growth_capital'] / CET1_TARGET / RWA[-1]:.1%} of 2025 RWAs, close to the 3% long-run g. "
+                               "Bear reserves less because loan growth slows."),
+        "near_term_constraint": ("CET1 is 13.9%, below the 14%-14.5% range, so buybacks are paused until Basel 3.1 (+40-50bps, Jan 2027) "
+                                 "restores headroom. The per-share forecast holds shares flat and credits no buybacks; the valuation "
+                                 "counts the capacity above the 50% dividend, which is not yet being paid out.")},
     "price_independent": True}
 print("capital-return", round(v_low, 2), round(v_base, 2), round(v_high, 2), "stages", round(c_start, 2), round(c_add, 2), round(c_strong, 2))
 
@@ -272,8 +286,8 @@ inv_paths = ["/growth_assessment/growth_method", "/growth_assessment/status", "/
              "/income_assessment/target/target_policy", "/real_income/status"]
 r["evidence_recovery"]["records"] = [
  {"field_paths": inv_paths,
-  "reason": "用户未提供收息目标、持仓与成本；本次未建立含回购的总回报成长估值，也未做购买力（通胀）测算",
-  "impact": "不判断收入匹配度、不给仓位建议；估值只用收息口径并以市净率交叉核对",
+  "reason": "用户未提供收息目标、持仓与成本；本次未做购买力（通胀）测算",
+  "impact": "不判断收入匹配度、不给仓位建议；主估值为资本回报口径（有形净资产 × 回报率），收息口径作对照",
   "resolution": "not_assessable",
   "attempts": attempts([
     (AR, "2025 财年", "found", "公司披露不含投资者个人收息目标与持仓"),

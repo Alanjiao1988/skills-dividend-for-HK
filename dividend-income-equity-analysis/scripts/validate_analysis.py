@@ -945,6 +945,35 @@ def capital_return_errors(report):
     close(value["base_case_value"], rows["Base"]["value_at_required_high"], "base_case_value")
     close(value["entry_upper"], low * (1 - value["margin_of_safety"]), "entry_upper")
     close(value["review_above"], high, "review_above")
+    capacity = value.get("distribution_capacity")
+    require(capacity is not None, "needs distribution_capacity linking the formula to forecast capital generation")
+    if capacity is None:
+        return errors
+    forecasts = {(row["forecast_year"], row["scenario"]): row
+                 for row in report["three_year_fundamental_forecast"] + report.get("forecast_extension", [])}
+    runway = {(row["forecast_year"], row["scenario"]): row for row in report["dividend_and_yield_runway"]}
+    caps = {row["scenario"]: row for row in capacity["scenarios"]}
+    require(set(caps) == {"Bear", "Base", "Bull"}, "distribution_capacity needs Bear, Base and Bull exactly once")
+    for name in set(caps) & set(rows):
+        cap, rote = caps[name], rows[name]["sustainable_return_on_tangible_equity"]
+        implied = (rote - g) / rote if rote > 0 else None
+        if implied is None:
+            require(False, f"{name}: sustainable RoTE must be positive")
+            continue
+        close(cap["implied_distribution_ratio"], implied, f"{name} implied distribution ratio")
+        years = [forecasts.get((year, name)) for year in range(1, 6)]
+        if not all(row and row["recurring_fad"] is not None and row["net_income_or_affo"] for row in years):
+            require(False, f"{name}: needs five forecast years of earnings and capital generation")
+            continue
+        ratio = sum(row["recurring_fad"] for row in years) / sum(row["net_income_or_affo"] for row in years)
+        close(cap["forecast_distributable_ratio"], ratio, f"{name} forecast distributable ratio")
+        require(implied <= ratio + 1e-9,
+                f"{name}: the formula assumes {implied:.0%} of earnings is returned but forecast capital generation "
+                f"supports only {ratio:.0%}; lower RoTE or g, or show the capital")
+        payout = runway.get((1, name), {}).get("payout_ratio")
+        if payout is not None:
+            close(cap["dividend_payout_ratio"], payout, f"{name} dividend payout ratio")
+        close(cap["buyback_capacity_ratio"], ratio - cap["dividend_payout_ratio"], f"{name} buyback capacity ratio")
     return errors
 
 def main():
