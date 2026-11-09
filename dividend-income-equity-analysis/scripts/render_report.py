@@ -3,6 +3,7 @@ import argparse
 import math
 import html
 import json
+import re
 from pathlib import Path
 
 if __package__:
@@ -15,13 +16,24 @@ SERIES_COLORS = ("var(--cp-accent)", "var(--cp-link)", "var(--cp-success)",
                  "var(--cp-warning)", "var(--cp-text-muted)")
 
 
-def _cell(value):
+# A header names a year column when it ends in a year word ("财年", "到期年", "年份", "Fiscal year", "FY"),
+# but not a count of years ("五年", "3 年") and not a value measured over years ("五年股息现值").
+_YEAR_HEADER = re.compile(r"(?:(?<![0-9一二三四五六七八九十百两\s])\s*年(?:份|度)?|\byear|^fy)$", re.IGNORECASE)
+
+
+def is_year_column(header):
+    """True for a column whose integers are calendar or fiscal years."""
+    return bool(_YEAR_HEADER.search(re.sub(r"\s*[（(][^）)]*[）)]$", "", str(header).strip())))
+
+
+def _cell(value, year=False):
+    """Format one value; integers get thousands separators unless `year` marks a year column."""
     if value is None:
         return "—"
     if isinstance(value, float):
         return f"{value:,.2f}".rstrip("0").rstrip(".")
     if isinstance(value, int) and not isinstance(value, bool):
-        return str(value) if 1800 <= value <= 2300 else f"{value:,}"  # years print without separators
+        return str(value) if year and 1800 <= value <= 2300 else f"{value:,}"
     return str(value)
 
 
@@ -34,15 +46,17 @@ def render_table(table):
     escape = html.escape
     head = "".join(f"<th scope=\"col\">{escape(col)}</th>" for col in table["columns"])
 
-    def cell(value):
-        text = _cell(value)
+    years = [is_year_column(col) for col in table["columns"]]
+
+    def cell(value, year):
+        text = _cell(value, year)
         if isinstance(value, (int, float)) and not isinstance(value, bool):
             return f'<td class="numeric">{escape(text)}</td>'
         if len(text) <= 10 and " " not in text:
             return f'<td class="nowrap">{escape(text)}</td>'
         return f"<td>{escape(text)}</td>"
 
-    body = "".join("<tr>" + "".join(cell(value) for value in row) + "</tr>" for row in table["rows"])
+    body = "".join("<tr>" + "".join(cell(value, year) for value, year in zip(row, years)) + "</tr>" for row in table["rows"])
     return (f'<div class="table-scroll"><table><caption>{escape(table["title"])}</caption>'
             f"<thead><tr>{head}</tr></thead><tbody>{body}</tbody></table></div>"
             f'<p class="muted">口径与来源：{escape(table["note"])}</p>')
@@ -234,7 +248,7 @@ def render_associate_conversion(record):
     pct = lambda value: "—" if value is None else f"{value * 100:.1f}%"
     timing = {"same_year": "当年股息 ÷ 当年应占利润", "prior_year_profit": "当年股息 ÷ 上一年应占利润"}
     forecast = record["forecast_conversion"]
-    amount = lambda value: f"{value:,.0f}"  # explicit, so 1800-2300 amounts are not printed as years
+    amount = lambda value: f"{value:,.0f}"  # whole currency units, no decimals
     rows = [[row["fiscal_year"], amount(row["share_of_profit"]), amount(row["cash_dividends_received"]),
              pct(row["conversion"])] for row in record["history"]]
     rows.append(["历史合计", "", "", pct(record["aggregate_conversion"])])
