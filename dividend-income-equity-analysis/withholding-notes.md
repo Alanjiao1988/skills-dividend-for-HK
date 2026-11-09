@@ -54,7 +54,7 @@ Do not describe PIL as tax-free or as bypassing issuer tax. IBKR distinguishes P
 | Offshore shipping issuer | Obtain current issuer tax disclosure for the actual domicile and payment. Do not assign zero withholding from a Marshall Islands, Bermuda, or Liberia label alone. Check source, distribution classification, broker deductions, and PIL separately. |
 | ADR / depositary receipt | Check underlying issuer domicile, source-country tax, depositary ratio, fee per receipt, custody chain, and cash currency. US trading does not by itself make the dividend US-source. |
 | HK REIT, other REIT, BDC, MLP, fund, trust, or partnership | Read the vehicle and distribution tax disclosures. Separate ordinary income, capital-gain distributions, return of capital, and non-cash distributions; no ordinary-company default applies automatically. |
-| US publicly traded partnership (MLP units) | Distributions to non-US partners are generally treated as effectively connected income and withheld at the highest applicable US rate under IRC §1446(a), not the 30% dividend rate; sale proceeds are also subject to 10% withholding under §1446(f), and a US tax filing plus Schedule K-1 may be required. Verify the issuer's current tax disclosure and the broker's handling before calculating net yield. A C-corp midstream issuer or a 1099 share class follows the ordinary US dividend route instead. [IRS: partnership withholding §1446](https://www.irs.gov/individuals/international-taxpayers/partnership-withholding) |
+| US publicly traded partnership (MLP units) | Use the separate PTP route below; never the ordinary US dividend route. |
 
 ### Worked Custody Example: China Mobile
 
@@ -115,3 +115,16 @@ Full Analysis must record these fields (Audit Appendix part A1; Chapter 6 states
 - Scrip / DRIP availability: `Yes / No / Unknown`; cash-election assumption and tax, liquidity, or dilution uncertainty.
 
 Always retain material uncertainty in yield and decisions. An assumed or historically observed rate is not a guarantee of future cash receipts.
+
+## US Publicly Traded Partnerships (MLP Units)
+
+Applies when `economic_profile.legal_wrapper` is `us_publicly_traded_partnership`, decided by the issuer's US federal tax classification (its tax package and Qualified Notices), not by the economic model, the ticker's sector or whether a Form 1099 is issued. For a non-US individual (the default Hong Kong scenario), model these items separately:
+
+| Item | Rule to apply | Effect on the model |
+|---|---|---|
+| §1446(a) distribution withholding | Withholding on the effectively connected income (ECI) portion of distributions, generally at the highest individual rate (37%) or corporate rate (21%) for the holder type. Distributions or parts that are not ECI may fall under other withholding regimes (e.g. 30% FDAP); use the issuer's Qualified Notice and the broker's actual treatment | Reduces cash received; record rate, basis and source per distribution |
+| §1446(f) transfer withholding | Generally 10% of the **gross amount realized** on a sale, collected by the broker, unless a documented exception applies; it can also apply to certain distributions in excess of cumulative net income | Reduces exit cash regardless of the actual gain; a sale at a loss can still suffer it. Include it in holding-period total return and exit cash |
+| US filing | A Form 1040-NR may be required; reconcile Forms 1042-S and Schedule K-1 | Withholding is not necessarily the final liability; possible refunds stay outside spendable cash |
+| Evidence | Issuer tax package and Qualified Notices, broker withholding statements, current IRS guidance on §1446(a)/(f) | Without them, mark net yield and exit cash `estimated` and show a range |
+
+Record the route in `economic_profile.tax_route` (`distribution_regime: us_1446a`, `exit_withholding_rate`, `exception_evidence`, `refunds_excluded_from_cash: true`); `scripts/schema3_checks.py` rejects a PTP without exit withholding or an undocumented non-10% rate. Rates and exceptions change; recheck current IRS guidance at each analysis date (IRS pages: "Partnership withholding" and the §1446(f) final regulations / Publication 515).

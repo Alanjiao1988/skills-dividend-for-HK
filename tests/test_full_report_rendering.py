@@ -74,6 +74,16 @@ class FullReportRenderingTests(unittest.TestCase):
         report["report_output"]["sections"][4]["charts"][0]["series"][0]["values"].pop()
         self.assertTrue(any("x labels" in error for error in validate_report(report)))
 
+    def test_stacked_bar_renders_and_rejects_negative_components(self):
+        report = load_full()
+        chart = report["report_output"]["sections"][4]["charts"][0]
+        chart["kind"] = "stacked_bar"
+        self.assertEqual(validate_report(report), [])
+        trends = section(render_report(report), 5)
+        self.assertEqual(trends.count("<rect"), 15)
+        chart["series"][0]["values"][0] = -1
+        self.assertTrue(any("non-negative" in error for error in validate_report(report)))
+
     def test_table_requires_source_note(self):
         report = load_full()
         del report["report_output"]["sections"][4]["tables"][0]["note"]

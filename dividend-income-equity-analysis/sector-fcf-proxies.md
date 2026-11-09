@@ -4,7 +4,7 @@ This is the single source for sector routing and distributable-capacity evidence
 
 ## 1. Model Selection and Evidence
 
-Select `operating_company`, `bank`, `bdc`, `insurer`, `reit`, `mortgage_reit`, `utility_infrastructure`, `concession_infrastructure`, `midstream_partnership`, or `holding_company`. `concession_infrastructure` and `midstream_partnership` use the operating owner-FCF arithmetic (normalized OCF − maintenance − other owner claims) with the extra evidence below; `mortgage_reit` is a spread-income proxy like `bank` and `bdc`. An industry with no dedicated model uses `operating_company` with the bespoke KPI set from `industry-analysis.md`. Add `holding_company` as an overlay whenever the listed parent's dividend depends on subsidiary remittances. Mixed groups require segment-specific bridges plus the parent bridge, not a blended industrial FCF.
+Select `operating_company`, `bank`, `bdc`, `insurer`, `reit`, `mortgage_reit`, `utility_infrastructure`, `concession_infrastructure`, `midstream_partnership`, or `holding_company`. `concession_infrastructure` and `midstream_partnership` use the operating owner-FCF arithmetic (normalized OCF − maintenance − other owner claims) with the extra evidence below; `mortgage_reit` is a spread-income proxy like `bank` and `bdc`. Choose the model from the `economic_profile` built under `economic-profile.md`, not from an industry name: the dominant segment's balance-sheet role decides between operating owner-FCF models and spread/capital proxies, and `scripts/schema3_checks.py` rejects inconsistent pairs. An industry with no dedicated model uses `operating_company` with the profile-driven KPI set. Add `holding_company` as an overlay whenever the listed parent's dividend depends on subsidiary remittances. Mixed groups require segment-specific bridges plus the parent bridge, not a blended industrial FCF.
 
 For every proxy record:
 
@@ -105,6 +105,10 @@ Equity-REIT AFFO, occupancy and cap rates do not apply. Require net interest spr
 - A sustained decline in book value per share while the dividend is maintained is a red flag: the payout may be returning capital.
 - Share issuance below book value dilutes existing holders; do not count it as funding for the dividend.
 - Stress funding spread, curve shape, prepayment and credit losses together; a dividend yield above the spread-implied return on equity is not recurring.
+- EAD/core earnings is a non-GAAP earnings measure, not cash. EAD coverage alone does not prove dividend safety: a mortgage REIT can cover its dividend and still be forced to sell assets.
+- **Liquidity stress (mandatory):** repo maturity ladder and counterparty concentration, unencumbered cash and agency securities versus a margin call from a stated price shock (e.g. agency MBS −5% and spread +50 bp), and book value per share under the same shock.
+- **Hedge roll-off:** net interest spread after swaps and caps that mature within two years are replaced at the current curve.
+- Agency and commercial mREITs share the top-level formula but use different core stresses: agency — prepayment, spread widening, repo haircut and margin calls; commercial — non-accruals, loan maturities and extensions, CECL reserves, collateral values and warehouse-line covenants.
 
 ## 6. Utilities and Infrastructure
 
@@ -135,21 +139,24 @@ Traffic volume by vehicle class x toll tariff (after toll-free days / discounts)
 -> recurring FAD
 ```
 
-Record each concession's end date and the share of cash flow expiring within ten years. Without a legally evidenced extension or compensation, equity value ends at expiry: route valuation to the finite-life harvest in `buy-zone.md`, not a perpetual-yield anchor. Separate cyclical resurfacing from expansion, and treat acquisitions of new concessions as growth investment with their own return evidence. Tariff reviews, policy toll-free periods and competing routes belong in the stress set.
+Record each concession in `economic_profile.finite_life_assets` with its end date and share of operating cash, and show the share expiring within ten years. **Value asset by asset:** each concession contributes cash only to its own end date unless an extension or compensation is legally evidenced; the company value is the sum of concession values plus cash, other operating assets, investments, committed new concessions with their own return evidence and a justified replacement assumption, minus debt. A single concession's expiry is not the company's expiry. Use `finite_life_harvest` in `buy-zone.md` only when the whole company is in an evidenced run-off (`company_level_runoff: true`: no new concessions, shrinking perimeter); a normally reinvesting toll-road company stays on the ordinary or growth route, with the expiry ladder reflected in its cash path and terminal assumptions. Test the dividend in the year after each material expiry. Separate cyclical resurfacing from expansion, and treat acquisitions of new concessions as growth investment with their own return evidence. Tariff reviews, policy toll-free periods and competing routes belong in the stress set.
 
 ### 6.2 Midstream Pipelines and MLPs (`midstream_partnership`)
 
 ```text
-Fee-based and contracted margin + commodity-exposed margin (separately)
-- operating costs - cash interest - cash tax
--> normalized OCF (reconciled to adjusted EBITDA - interest - cash tax)
-- maintenance capex - preferred and minority distributions (other owner claims)
--> distributable cash flow (DCF) = Recurring Owner FCF
-- growth capex funded from retained cash - mandatory debt reduction
+Issuer-disclosed DCF (start here; record its definition)
+reconciled to the cash-flow statement:
+  OCF (after working capital, cash interest and cash tax)
+  - maintenance capex (issuer definition, tested against depreciation and asset age)
+  - preferred, minority and general-partner/IDR claims (other owner claims)
+  = Recurring Owner FCF; explain every reconciling item to issuer DCF
+- growth capex not funded by new debt or new units - mandatory debt reduction
 -> recurring FAD -> distribution coverage
 ```
 
-Require take-or-pay and fee-based share, contract tenor, counterparty credit, throughput, maintenance versus growth capex definition, net debt/EBITDA target, IDRs or general-partner claims, and units outstanding. Management-defined DCF often excludes growth capex entirely: show coverage both before growth capex and after the portion not funded by debt or new units. Distinguish MLP units from C-corp shares; for non-US holders the withholding and filing route differs materially (`withholding-notes.md`).
+Do not rebuild cash from segment margins and then deduct operating costs again: disclosed segment margins are usually already after direct operating costs. Adjusted EBITDA minus interest and tax is not OCF until working capital, non-cash adjustments and other cash obligations are reconciled. Show three coverage ratios: issuer DCF / distributions, owner FCF / distributions, and after self-funded growth capex; state the leverage target and whether growth is funded at that target.
+
+Require take-or-pay and fee-based share, contract tenor, counterparty credit, throughput, maintenance versus growth capex definition, net debt/EBITDA target, IDRs or general-partner claims, and units outstanding. Management-defined DCF often excludes growth capex entirely: show coverage both before growth capex and after the portion not funded by debt or new units. The cash model is economic; the tax route is legal. Record `economic_profile.legal_wrapper` from the issuer's US federal tax classification: a C-corp midstream issuer (e.g. KMI, WMB, OKE) uses this cash model with the ordinary dividend route; an MLP uses it with the partnership route in `withholding-notes.md`. A 1099 or K-1 label is supporting evidence only.
 
 ## 7. Holding Companies and Financial Groups
 
@@ -175,8 +182,8 @@ Use standalone parent cash statements and subsidiary dividend declarations/recei
 |---|---|---|
 | Telecom | Subscribers, churn, ARPU, enterprise mix | Spectrum, network replacement and growth capex, leases, collection |
 | Energy / mining (incl. coal and metals) | Normalized commodity prices over a full cycle, long-term contract share, volumes, unit cash costs | Sustaining capex, reserve replacement, mine closure and decommissioning, royalties, price-cap or policy risk, project commitments |
-| Aircraft / equipment lessors | Lease rate factor, utilization, lessee credit, funding spread | Order-book capex funded by debt, residual-value impairment, disposal gains kept outside recurring cash |
-| Business trusts / stapled securities | Trust-deed distributable income, operating cash at the trust and company level | Distribution above accounting profit is normal only when post-capex operating cash covers it; test debt and capex at both levels, and add the `holding_company` overlay when cash is upstreamed |
+| Aircraft / equipment lessors (`asset_leasing`) | Lease rate factor, utilization, lessee credit, funding spread, fleet age | Build an asset-cash model: lease cash − funding cost − opex − tax, then net fleet investment (deliveries − sale proceeds). Routine portfolio recycling at or near book value is part of recurring cash when it has a multi-year history and a stated sale programme; gains above book and opportunistic bulk sales are one-off. Stress residual values, funding spreads and lessee defaults |
+| Business trusts / stapled securities | Trust-deed distributable income, trustee-manager adjustments, operating cash at the trust and company level | Keep three numbers separate: deed-defined distributable income, actual cash generated (OCF − capex − lease and debt service at both levels) and cash actually distributed. Long-term safety rests on the second, not the payout ratio of the first; add the `holding_company` overlay when cash is upstreamed and test refinancing at both levels |
 | Shipping | Available days, charter/spot mix, normalized rates | Drydock, fleet renewal, debt amortization, vessel disposal versus recurring cash |
 | Consumer / industrial / technology | Volume, price/mix, unit margins, customer retention | Working capital, capacity, maintenance, stock dilution, recurring software development |
 | Pharmaceuticals | Product-level volume/net price, exclusivity expiry, launch uptake | Expensed R&D, licensing/milestones, royalties, manufacturing investment, litigation |

@@ -39,7 +39,7 @@ Use charts wherever a trend or comparison is easier to read visually. A chart su
 
 ### 3.1 股息与覆盖历史图（第6章）
 
-Stack base / ordinary DPS separately from special, supplemental or variable DPS by fiscal year, with sustainable coverage as a line and any actual-cash shortfall year highlighted. Label the coverage denominator. A normalized series must not hide an actual cash shortfall. Keep a separately labelled real-income trend in appendix A2 when supported; nominal DPS stability alone does not show purchasing-power preservation.
+Stack base / ordinary DPS separately from special, supplemental or variable DPS by fiscal year (`stacked_bar`), with sustainable coverage in a second chart of its own unit (multiple) and any actual-cash shortfall year highlighted. Label the coverage denominator. A normalized series must not hide an actual cash shortfall. Keep a separately labelled real-income trend in appendix A2 when supported; nominal DPS stability alone does not show purchasing-power preservation.
 
 ### 3.2 价格位置图（第10章）
 

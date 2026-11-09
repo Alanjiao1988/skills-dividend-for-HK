@@ -44,11 +44,13 @@ def render_table(table):
 
 
 def render_chart(chart):
-    """Static inline SVG line/bar chart; nulls are gaps. Readable offline with scripts disabled."""
+    """Static inline SVG line, grouped-bar or stacked-bar chart with one unit axis; nulls are gaps. Readable offline with scripts disabled."""
     escape = html.escape
     width, height, left, right, top, bottom = 640, 300, 64, 16, 16, 48
     labels, series = chart["x_labels"], chart["series"]
     values = [v for row in series for v in row["values"] if v is not None]
+    if chart["kind"] == "stacked_bar":
+        values += [sum(row["values"][i] or 0 for row in series) for i in range(len(labels))]
     low, high = min(0.0, min(values)), max(0.0, max(values))
     if high == low:
         high = low + 1.0
@@ -72,9 +74,18 @@ def render_chart(chart):
                      f'style="fill:var(--cp-text-muted)">{escape(label)}</text>')
     zero = y(0.0)
     bar_w = step * 0.7 / len(series)
+    stack = [0.0] * len(labels)
     for number, row in enumerate(series):
         color = SERIES_COLORS[number % len(SERIES_COLORS)]
-        if chart["kind"] == "bar":
+        if chart["kind"] == "stacked_bar":
+            for index, value in enumerate(row["values"]):
+                if value is None:
+                    continue
+                base, stack[index] = stack[index], stack[index] + value
+                parts.append(f'<rect x="{left + step * (index + 0.2):.1f}" y="{y(stack[index]):.1f}" '
+                             f'width="{step * 0.6:.1f}" height="{abs(y(base) - y(stack[index])):.1f}" '
+                             f'style="fill:{color}"/>')
+        elif chart["kind"] == "bar":
             for index, value in enumerate(row["values"]):
                 if value is None:
                     continue
@@ -106,6 +117,103 @@ def render_chart(chart):
             f"<br>{legend}<br>数据：{data}<br>来源：{escape(chart['source'])}</figcaption></figure>")
 
 
+PROFILE_LABELS = {
+    "regulated_or_contracted": "受监管／长约定价", "volume_times_price": "量×价",
+    "commodity_linked": "商品／运价挂钩", "spread_income": "利差收入", "fee_or_aum": "管理费／交易费",
+    "subscription_recurring": "订阅／经常性", "perpetual_going_concern": "持续经营",
+    "finite_assets": "有限期资产", "stable": "稳定", "demand_cycle": "需求周期",
+    "supply_cycle": "供给周期", "commodity_cycle": "商品周期", "rate_cycle": "利率周期",
+    "operating": "经营型", "balance_sheet_spread": "资产负债表即业务", "asset_leasing": "资产租赁",
+    "asset_light": "轻资产", "maintenance_heavy": "维护型重资产", "growth_heavy": "扩张型重资产",
+    "ordinary_company": "普通公司股", "reit": "REIT", "us_publicly_traded_partnership": "美国上市合伙企业（MLP）",
+    "business_trust_or_stapled": "商业信托／合订单位", "holding_parent": "控股母公司",
+    "fund_or_etf": "基金／ETF", "wholly_owned": "基本全资", "material_minorities": "少数股东占比重大",
+    "material_jv_associates": "依赖合营／联营分红",
+}
+STAGE_LABELS = {"starter": "初始建仓", "add": "逐步增持", "strong_buy": "强力买入"}
+STATUS_LABELS = {"ready": "已就绪", "waiting_price": "等价格", "waiting_evidence": "等证据",
+                 "unavailable": "不可用"}
+MODULE_LABELS = {"net_yield": "净股息率", "dividend_stability": "股息稳定性", "cash_coverage": "现金覆盖",
+                 "balance_sheet": "资产负债表", "capital_allocation": "资本配置",
+                 "buyback_quality": "回购质量", "visibility": "可见度"}
+
+
+def render_profile(profile):
+    """Chapter 2 table of the seven economic dimensions (economic-profile.md)."""
+    label = lambda key: PROFILE_LABELS.get(key, key)
+    rows = [[row["name"], row["cash_share_pct"], label(row["revenue_engine"]), label(row["asset_life"]),
+             label(row["cyclicality"]), label(row["balance_sheet_role"]), label(row["capital_intensity"])]
+            for row in profile["segments"]]
+    html_text = render_table({
+        "title": "经济特征档案（分部）",
+        "columns": ["分部", "现金占比%", "收入引擎", "资产寿命", "周期性", "资产负债表角色", "资本强度"],
+        "rows": rows,
+        "note": f"法律结构：{label(profile['legal_wrapper'])}；现金归属：{label(profile['cash_attribution'])}；"
+                f"分类依据：{profile['classification_evidence']}"})
+    if profile["finite_life_assets"]:
+        html_text += render_table({
+            "title": "有限期资产到期表",
+            "columns": ["资产", "到期年", "经营现金占比%", "续期／补偿证据", "到期后处理"],
+            "rows": [[row["name"], row["end_year"], row["operating_cash_share_pct"],
+                      row["extension_evidence"], row["terminal_treatment"]]
+                     for row in profile["finite_life_assets"]],
+            "note": "逐项资产按剩余年限估值；单项到期不等于公司整体到期"})
+    return html_text
+
+
+def render_appendix(report):
+    """Default audit appendix built from the structured records, so it cannot silently go missing."""
+    parts = []
+    if report.get("cash_flow_bridge"):
+        parts.append("<h3>A3 历史现金覆盖桥</h3>" + render_table({
+            "title": "历年经常性与实际现金覆盖",
+            "columns": ["财年", "经常性所有者现金", "经常性 FAD", "实际可分配", "现金股息", "经常性覆盖", "实际覆盖"],
+            "rows": [[row["fiscal_year"], row["recurring_owner_fcf_or_proxy"], row["recurring_fad"],
+                      row["actual_distribution_capacity"], row["cash_dividends"],
+                      row["fcf_dividend_coverage"], row["actual_cash_coverage"]]
+                     for row in report["cash_flow_bridge"]],
+            "note": f"{report['cash_flow_model']['financial_currency']}，单位："
+                    f"{ {1: '元', 1e3: '千', 1e6: '百万', 1e9: '十亿'}.get(report['cash_flow_model']['cash_unit_scale'], report['cash_flow_model']['cash_unit_scale'])}；"
+                    "来自 cash_flow_bridge"}))
+    if report.get("economic_profile"):
+        profile = report["economic_profile"]
+        parts.append("<h3>A5 业务与行业明细</h3>" + render_table({
+            "title": "行业关键指标及因果依据", "columns": ["指标", "为何决定现金"],
+            "rows": [[row["name"], row["why_causal"]] for row in profile["kpis"]],
+            "note": "来自 economic_profile.kpis"}))
+    if report.get("three_year_fundamental_forecast"):
+        parts.append("<h3>A6 五年预测（前三年逐年）</h3>" + render_table({
+            "title": "Bear／Base／Bull 逐年预测",
+            "columns": ["财年", "情景", "收入", "经营现金", "维护投资", "所有者现金", "成长投资", "经常性 FAD"],
+            "rows": [[row["fiscal_year"], row["scenario"], row["revenue_or_sector_income"],
+                      row["normalized_ocf"], row["maintenance_capex"], row["fcf_or_distributable_cash"],
+                      row["remaining_growth_investment"], row["recurring_fad"]]
+                     for row in report["three_year_fundamental_forecast"]],
+            "note": "来自 three_year_fundamental_forecast；null 表示该行业不适用或无法估计"}))
+    if report.get("entry_plan"):
+        currency = report["return_requirements"]["valuation_currency"]
+        parts.append("<h3>A10 估值与买点复算</h3>" + render_table({
+            "title": "分阶段买点",
+            "columns": ["档位", "估值价格", "收入约束后价格", "相对现价%", "状态"],
+            "rows": [[STAGE_LABELS.get(row["stage"], row["stage"]), row["valuation_price"],
+                      row["effective_price"], row["gap_to_current_pct"],
+                      STATUS_LABELS.get(row["status"], row["status"])]
+                     for row in report["entry_plan"]["stages"]],
+            "note": f"价格币种 {currency}；来自 entry_plan"}))
+    if report.get("scorecard"):
+        summary = report["scorecard"]["summary"]
+        parts.append("<h3>A11 评分与组合角色</h3>" + render_table({
+            "title": "评分模块区间",
+            "columns": ["模块", "下限", "上限"],
+            "rows": [[MODULE_LABELS.get(key, key), value["low"], value["high"]]
+                     for key, value in summary["module_ranges"].items()],
+            "note": f"评分规则 rubric 2；研究覆盖度 {summary['evidence_coverage_pct']}%"}))
+    if report.get("sources"):
+        parts.append("<h3>A13 来源与数据质量</h3><ol>" + "".join(
+            f"<li>{html.escape(source)}</li>" for source in report["sources"]) + "</ol>")
+    return "".join(parts)
+
+
 def render_report(report):
     errors = validate_report(report)
     if errors:
@@ -121,6 +229,8 @@ def render_report(report):
         body = "".join(f"<p>{escape(text)}</p>" for text in section["paragraphs"])
         body += "".join(render_table(table) for table in section.get("tables", []))
         body += "".join(render_chart(chart) for chart in section.get("charts", []))
+        if index == 2 and report.get("economic_profile") and len(output["sections"]) == 12:
+            body += render_profile(report["economic_profile"])
         if index == 1 and report["mode"] == "full_analysis":
             decision = report["decision"]
             score = report["scorecard"]["summary"]
@@ -176,9 +286,12 @@ def render_report(report):
                 elif record["resolution"] == "not_assessable":
                     body += f"<p>区间无法收窄的原因：{escape(record['estimate_failure_reason'])}</p>"
         sections.append(f'<section id="section-{index}"><h2>{index}. {escape(section["heading"])}</h2>{body}</section>')
-    if output["appendix"]:
-        sections.append('<section id="audit-appendix"><h2>审计附录</h2>' + "".join(
-            f"<p>{escape(text)}</p>" for text in output["appendix"]) + "</section>")
+    twelve = report["mode"] == "full_analysis" and len(output["sections"]) == 12
+    appendix = "".join(f"<p>{escape(text)}</p>" for text in output["appendix"])
+    if twelve:
+        appendix += render_appendix(report)
+    if appendix:
+        sections.append(f'<section id="audit-appendix"><h2>审计附录</h2>{appendix}</section>')
     template = (Path(__file__).resolve().parents[1] / "templates" / "report.html").read_text(encoding="utf-8")
     values = {
         "REPORT_TITLE": escape(output["title"]),
@@ -187,7 +300,7 @@ def render_report(report):
         "REPORT_NAV": "<ol>" + "".join(
             f'<li><a href="#section-{index}">{escape(section["heading"])}</a></li>'
             for index, section in enumerate(output["sections"], 1))
-            + ('<li><a href="#audit-appendix">审计附录</a></li>' if output["appendix"] else "") + "</ol>",
+            + ('<li><a href="#audit-appendix">审计附录</a></li>' if appendix else "") + "</ol>",
         "REPORT_BODY": "".join(sections),
     }
     for key, value in values.items():

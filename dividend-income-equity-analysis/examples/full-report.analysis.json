@@ -2689,6 +2689,189 @@
       "evidence": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
     }
   ],
+  "decision": {
+    "current_action": "分批建仓",
+    "can_buy_now": true,
+    "reason": "已核对资金与风险门槛，按对应状态执行；不以价格下跌替代公司质量判断。",
+    "buy_conditions": [
+      {
+        "kind": "price",
+        "observable": "市场成交价格不高于收入约束上限",
+        "operator": "<=",
+        "threshold": 50,
+        "unit": "USD",
+        "source_to_watch": "交易所实时报价"
+      }
+    ],
+    "invalidation_conditions": [
+      {
+        "kind": "event",
+        "observable": "董事会公告削减普通现金股息",
+        "operator": "published",
+        "threshold": "已公告",
+        "unit": "公告事件",
+        "source_to_watch": "公司公告与交易所披露"
+      }
+    ],
+    "trap_conclusion": "已识别现金与资本约束，保持对应风险限制，不将未知视为安全。",
+    "entry_conclusion": "参考价已列示，执行前须同时通过资金、税务、资本与风险门槛。",
+    "price_status": "reference_prices",
+    "reference_prices": {
+      "starter": 50,
+      "add": 40,
+      "strong_buy": 32,
+      "income_capped_upper": 50
+    }
+  },
+  "evidence_recovery": {
+    "scope": "provided_packet",
+    "scope_reason": "单元测试限定虚构输入，不进行真实公司研究",
+    "is_group_structure": false,
+    "records": [
+      {
+        "field_paths": [
+          "/growth_assessment/growth_method",
+          "/growth_assessment/status",
+          "/holding_review/action",
+          "/holding_review/missing_inputs",
+          "/income_assessment/target/target_basis",
+          "/income_assessment/target/target_policy",
+          "/real_income/status",
+          "/scorecard/modules/1/checks/1/status",
+          "/scorecard/modules/1/checks/2/status",
+          "/scorecard/modules/1/missing_evidence",
+          "/scorecard/modules/2/checks/2/status",
+          "/scorecard/modules/2/missing_evidence",
+          "/scorecard/modules/3/checks/1/status",
+          "/scorecard/modules/3/missing_evidence",
+          "/scorecard/modules/4/checks/2/status",
+          "/scorecard/modules/4/missing_evidence",
+          "/scorecard/modules/5/checks/1/status",
+          "/scorecard/modules/5/checks/2/status",
+          "/scorecard/modules/5/missing_evidence",
+          "/scorecard/modules/6/checks/2/status",
+          "/scorecard/modules/6/missing_evidence"
+        ],
+        "reason": "虚构测试包未提供这些输入",
+        "impact": "保留各分项的贡献区间；资金约束独立限制买入",
+        "resolution": "not_assessable",
+        "attempts": [
+          {
+            "category": "issuer_filings",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "group_disclosures",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "announcements",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "exchange_regulator",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "official_series",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "historical_comparables",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "broker_records",
+            "scope": "investor",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_provided",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          }
+        ],
+        "estimate": null,
+        "estimate_failure_reason": "虚构包未含经营与现金敏感性锚，无法有据收窄输入区间",
+        "closure_condition": {
+          "kind": "event",
+          "observable": "董事会公告现金分红已获批准并注明付款日",
+          "operator": "published",
+          "threshold": "已公告",
+          "unit": "公告事件",
+          "source_to_watch": "公司公告与交易所披露"
+        }
+      }
+    ]
+  },
+  "economic_profile": {
+    "segments": [
+      {
+        "name": "港口设备维护服务",
+        "cash_share_pct": 100,
+        "revenue_engine": "regulated_or_contracted",
+        "asset_life": "perpetual_going_concern",
+        "cyclicality": "demand_cycle",
+        "cycle_window": "2021–2025 五年包含一次港口资本开支下行，作为教学假设视为完整周期",
+        "balance_sheet_role": "operating",
+        "capital_intensity": "asset_light"
+      }
+    ],
+    "legal_wrapper": "ordinary_company",
+    "cash_attribution": "wholly_owned",
+    "finite_life_assets": [],
+    "company_level_runoff": false,
+    "tax_route": {
+      "distribution_regime": "ordinary_dividend",
+      "exit_withholding_rate": null,
+      "exception_evidence": null,
+      "refunds_excluded_from_cash": true
+    },
+    "kpis": [
+      {
+        "name": "合同续约率",
+        "why_causal": "续约率决定下一期服务量，直接驱动收入和经营现金"
+      },
+      {
+        "name": "计费服务量",
+        "why_causal": "收入等于服务量乘合同单价，服务量每降一成股息约降 0.4 美元"
+      },
+      {
+        "name": "经营现金转化率",
+        "why_causal": "经营现金占收入比例决定所有者现金和可分配现金"
+      }
+    ],
+    "classification_evidence": "虚构教学案例假设 A1–A8：三至五年期维护合同，单一业务，全资经营"
+  },
   "report_output": {
     "language": "zh-CN",
     "user_requested_language": null,
@@ -2986,150 +3169,6 @@
     ],
     "labels": [
       "金额单位：报告币种"
-    ]
-  },
-  "decision": {
-    "current_action": "分批建仓",
-    "can_buy_now": true,
-    "reason": "已核对资金与风险门槛，按对应状态执行；不以价格下跌替代公司质量判断。",
-    "buy_conditions": [
-      {
-        "kind": "price",
-        "observable": "市场成交价格不高于收入约束上限",
-        "operator": "<=",
-        "threshold": 50,
-        "unit": "USD",
-        "source_to_watch": "交易所实时报价"
-      }
-    ],
-    "invalidation_conditions": [
-      {
-        "kind": "event",
-        "observable": "董事会公告削减普通现金股息",
-        "operator": "published",
-        "threshold": "已公告",
-        "unit": "公告事件",
-        "source_to_watch": "公司公告与交易所披露"
-      }
-    ],
-    "trap_conclusion": "已识别现金与资本约束，保持对应风险限制，不将未知视为安全。",
-    "entry_conclusion": "参考价已列示，执行前须同时通过资金、税务、资本与风险门槛。",
-    "price_status": "reference_prices",
-    "reference_prices": {
-      "starter": 50,
-      "add": 40,
-      "strong_buy": 32,
-      "income_capped_upper": 50
-    }
-  },
-  "evidence_recovery": {
-    "scope": "provided_packet",
-    "scope_reason": "单元测试限定虚构输入，不进行真实公司研究",
-    "is_group_structure": false,
-    "records": [
-      {
-        "field_paths": [
-          "/growth_assessment/growth_method",
-          "/growth_assessment/status",
-          "/holding_review/action",
-          "/holding_review/missing_inputs",
-          "/income_assessment/target/target_basis",
-          "/income_assessment/target/target_policy",
-          "/real_income/status",
-          "/scorecard/modules/1/checks/1/status",
-          "/scorecard/modules/1/checks/2/status",
-          "/scorecard/modules/1/missing_evidence",
-          "/scorecard/modules/2/checks/2/status",
-          "/scorecard/modules/2/missing_evidence",
-          "/scorecard/modules/3/checks/1/status",
-          "/scorecard/modules/3/missing_evidence",
-          "/scorecard/modules/4/checks/2/status",
-          "/scorecard/modules/4/missing_evidence",
-          "/scorecard/modules/5/checks/1/status",
-          "/scorecard/modules/5/checks/2/status",
-          "/scorecard/modules/5/missing_evidence",
-          "/scorecard/modules/6/checks/2/status",
-          "/scorecard/modules/6/missing_evidence"
-        ],
-        "reason": "虚构测试包未提供这些输入",
-        "impact": "保留各分项的贡献区间；资金约束独立限制买入",
-        "resolution": "not_assessable",
-        "attempts": [
-          {
-            "category": "issuer_filings",
-            "scope": "issuer",
-            "source": "虚构封闭测试包（不是在线取数）",
-            "source_period": "截至测试截止日",
-            "attempted_on": "2026-01-01",
-            "outcome": "not_found",
-            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
-          },
-          {
-            "category": "group_disclosures",
-            "scope": "issuer",
-            "source": "虚构封闭测试包（不是在线取数）",
-            "source_period": "截至测试截止日",
-            "attempted_on": "2026-01-01",
-            "outcome": "not_found",
-            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
-          },
-          {
-            "category": "announcements",
-            "scope": "issuer",
-            "source": "虚构封闭测试包（不是在线取数）",
-            "source_period": "截至测试截止日",
-            "attempted_on": "2026-01-01",
-            "outcome": "not_found",
-            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
-          },
-          {
-            "category": "exchange_regulator",
-            "scope": "issuer",
-            "source": "虚构封闭测试包（不是在线取数）",
-            "source_period": "截至测试截止日",
-            "attempted_on": "2026-01-01",
-            "outcome": "not_found",
-            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
-          },
-          {
-            "category": "official_series",
-            "scope": "issuer",
-            "source": "虚构封闭测试包（不是在线取数）",
-            "source_period": "截至测试截止日",
-            "attempted_on": "2026-01-01",
-            "outcome": "not_found",
-            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
-          },
-          {
-            "category": "historical_comparables",
-            "scope": "issuer",
-            "source": "虚构封闭测试包（不是在线取数）",
-            "source_period": "截至测试截止日",
-            "attempted_on": "2026-01-01",
-            "outcome": "not_found",
-            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
-          },
-          {
-            "category": "broker_records",
-            "scope": "investor",
-            "source": "虚构封闭测试包（不是在线取数）",
-            "source_period": "截至测试截止日",
-            "attempted_on": "2026-01-01",
-            "outcome": "not_provided",
-            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
-          }
-        ],
-        "estimate": null,
-        "estimate_failure_reason": "虚构包未含经营与现金敏感性锚，无法有据收窄输入区间",
-        "closure_condition": {
-          "kind": "event",
-          "observable": "董事会公告现金分红已获批准并注明付款日",
-          "operator": "published",
-          "threshold": "已公告",
-          "unit": "公告事件",
-          "source_to_watch": "公司公告与交易所披露"
-        }
-      }
     ]
   }
 }

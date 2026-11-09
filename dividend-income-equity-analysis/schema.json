@@ -5781,7 +5781,7 @@
     "reportChart": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Static chart rendered as inline SVG. Each series has one value per x label; null is a gap, not zero.",
+      "description": "Static chart rendered as inline SVG. Each series has one value per x label; null is a gap, not zero. One chart has one unit; put different units (e.g. DPS and coverage multiple) in separate charts. stacked_bar series should be non-negative components of one total.",
       "properties": {
         "title": {
           "$ref": "#/$defs/auditText"
@@ -5790,7 +5790,8 @@
           "type": "string",
           "enum": [
             "line",
-            "bar"
+            "bar",
+            "stacked_bar"
           ]
         },
         "unit": {
@@ -5841,6 +5842,235 @@
         "x_labels",
         "series",
         "source"
+      ]
+    },
+    "economicProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Seven-dimension economic profile (economic-profile.md). Routes KPIs, cash model, valuation and tax independently of any industry list.",
+      "properties": {
+        "segments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "$ref": "#/$defs/auditText"
+              },
+              "cash_share_pct": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "revenue_engine": {
+                "type": "string",
+                "enum": [
+                  "regulated_or_contracted",
+                  "volume_times_price",
+                  "commodity_linked",
+                  "spread_income",
+                  "fee_or_aum",
+                  "subscription_recurring"
+                ]
+              },
+              "asset_life": {
+                "type": "string",
+                "enum": [
+                  "perpetual_going_concern",
+                  "finite_assets"
+                ]
+              },
+              "cyclicality": {
+                "type": "string",
+                "enum": [
+                  "stable",
+                  "demand_cycle",
+                  "supply_cycle",
+                  "commodity_cycle",
+                  "rate_cycle"
+                ]
+              },
+              "cycle_window": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/auditText"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "balance_sheet_role": {
+                "type": "string",
+                "enum": [
+                  "operating",
+                  "balance_sheet_spread",
+                  "asset_leasing"
+                ]
+              },
+              "capital_intensity": {
+                "type": "string",
+                "enum": [
+                  "asset_light",
+                  "maintenance_heavy",
+                  "growth_heavy"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "cash_share_pct",
+              "revenue_engine",
+              "asset_life",
+              "cyclicality",
+              "cycle_window",
+              "balance_sheet_role",
+              "capital_intensity"
+            ]
+          },
+          "minItems": 1
+        },
+        "legal_wrapper": {
+          "type": "string",
+          "enum": [
+            "ordinary_company",
+            "reit",
+            "us_publicly_traded_partnership",
+            "business_trust_or_stapled",
+            "holding_parent",
+            "fund_or_etf"
+          ]
+        },
+        "cash_attribution": {
+          "type": "string",
+          "enum": [
+            "wholly_owned",
+            "material_minorities",
+            "material_jv_associates"
+          ]
+        },
+        "finite_life_assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "$ref": "#/$defs/auditText"
+              },
+              "end_year": {
+                "type": "integer",
+                "minimum": 1900,
+                "maximum": 2300
+              },
+              "operating_cash_share_pct": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "extension_evidence": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/auditText"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "terminal_treatment": {
+                "$ref": "#/$defs/auditText"
+              }
+            },
+            "required": [
+              "name",
+              "end_year",
+              "operating_cash_share_pct",
+              "extension_evidence",
+              "terminal_treatment"
+            ]
+          }
+        },
+        "company_level_runoff": {
+          "type": "boolean"
+        },
+        "tax_route": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "distribution_regime": {
+              "type": "string",
+              "enum": [
+                "ordinary_dividend",
+                "reit_distribution",
+                "us_1446a",
+                "trust_distribution",
+                "other_documented"
+              ]
+            },
+            "exit_withholding_rate": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 1
+            },
+            "exception_evidence": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/auditText"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "refunds_excluded_from_cash": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "distribution_regime",
+            "exit_withholding_rate",
+            "exception_evidence",
+            "refunds_excluded_from_cash"
+          ]
+        },
+        "kpis": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "$ref": "#/$defs/auditText"
+              },
+              "why_causal": {
+                "$ref": "#/$defs/auditText"
+              }
+            },
+            "required": [
+              "name",
+              "why_causal"
+            ]
+          }
+        },
+        "classification_evidence": {
+          "$ref": "#/$defs/auditText"
+        }
+      },
+      "required": [
+        "segments",
+        "legal_wrapper",
+        "cash_attribution",
+        "finite_life_assets",
+        "company_level_runoff",
+        "tax_route",
+        "kpis",
+        "classification_evidence"
       ]
     }
   },
@@ -6922,6 +7152,9 @@
     },
     "report_output": {
       "$ref": "#/$defs/reportOutput"
+    },
+    "economic_profile": {
+      "$ref": "#/$defs/economicProfile"
     }
   },
   "allOf": [

@@ -172,4 +172,4 @@ next_review: date/event, earlier escalation signals, and re-entry/recheck condit
 
 Each trigger's evidence includes its source/date and relevant uncertainty. `threshold` must distinguish an observed breach from a condition being monitored; `research_action` states the proposed evaluation and reopening evidence. Include at least the thesis invalidation signal and all material active triggers. If no responsible signal or action can be assessed, explicitly record what is unknown and why.
 
-Keep the rationale separate from the score and state facts, assumptions and judgments distinctly. Use null / `Not assessed` for missing numerical inputs and explain their effect. Tables must have at most seven columns. Conclusions are research, not individualized investment, tax or execution instructions.
+Keep the rationale separate from the score and state facts, assumptions and judgments distinctly. Use null / `Not assessed` for missing numerical inputs and explain their effect. Split a table that becomes hard to read on a phone rather than dropping key columns. Conclusions are research, not individualized investment, tax or execution instructions.

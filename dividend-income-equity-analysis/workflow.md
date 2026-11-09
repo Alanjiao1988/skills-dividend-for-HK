@@ -116,7 +116,7 @@ For scrip / DRIP, state the cash-election assumption and tax, broker, fractional
 
 ## Step 2A: Industry Classification and Sector Analysis
 
-Read `industry-analysis.md` before selecting the financial or valuation model. Identify the primary/sub-industry, value-chain position, business model, segment exposure, regulatory setting, cycle and capital intensity. Select the sector-specific KPI playbook and relevant `sector-fcf-proxies.md` cash model. Analyse demand, supply/capacity, price/mix, profit pools, competition, substitution/technology, regulation and external exposures. Select three to five genuine peers where possible. Translate industry drivers into issuer revenue, segment profit, investment, owner cash and per-share value.
+Read `economic-profile.md` first and record `economic_profile` for every material segment; it routes the cash model, valuation treatment, stresses and tax route. Then read `industry-analysis.md` before selecting the financial or valuation model. Identify the primary/sub-industry, value-chain position, business model, segment exposure, regulatory setting, cycle and capital intensity. Select the sector-specific KPI playbook and relevant `sector-fcf-proxies.md` cash model. Analyse demand, supply/capacity, price/mix, profit pools, competition, substitution/technology, regulation and external exposures. Select three to five genuine peers where possible. Translate industry drivers into issuer revenue, segment profit, investment, owner cash and per-share value.
 
 ## Step 2B: Five-Year Historical Financial Trend Review
 

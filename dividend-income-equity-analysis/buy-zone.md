@@ -528,6 +528,8 @@ Keep a credible ordinary income comparison alongside the growth primary view and
 
 ## 8. Structural Decline: Finite-Life Cash Recovery Only
 
+Owning finite-life assets (concessions, reserves, vessels, projects) does not by itself route an issuer here. Per `economic-profile.md`, value such assets one by one inside the ordinary or growth route; this section applies only to an evidenced company-level run-off (`economic_profile.company_level_runoff: true`).
+
 A company classified as `Structural Decline` must not use an ordinary or growth perpetual franchise assumption. Assess finite concessions, leases and depleting resources even when current profit is stable; do not assume renewal or replacement without evidence and reinvestment. If material finite-life recovery cannot fit a credible sustainable asset portfolio or the qualifying harvest exception, suspend this framework and explain a separate finite-period valuation requirement.
 
 Without the Harvest / Managed Runoff Exception in `scoring.md`:

@@ -259,7 +259,8 @@
     "tests/test_schema3.py",
     "dividend-income-equity-analysis/industry-analysis.md",
     "dividend-income-equity-analysis/historical-financial-trends.md",
-    "dividend-income-equity-analysis/examples/full-report.analysis.json"
+    "dividend-income-equity-analysis/examples/full-report.analysis.json",
+    "dividend-income-equity-analysis/economic-profile.md"
   ],
   "validation_commands": [
     "bash validate-skill.sh",
@@ -276,6 +277,7 @@
     "Full Analysis output contract is twelve chapters and cross-sector by design; README and SKILL metadata explicitly reject a BTI-centric interpretation.",
     "Sector playbooks now distinguish tanker, dry-bulk and container shipping; BDCs receive a dedicated cash/NII/NAV and distribution-coverage proxy. ETFs/funds are routed to fund-level analysis rather than issuer FCF.",
     "Report sections accept optional tables and charts (schema $defs reportTable/reportChart); the renderer emits static tables and inline SVG, and inserts buy conditions only in the chapter whose heading contains 买点.",
-    "Dedicated sector models added: mortgage_reit, concession_infrastructure (toll roads) and midstream_partnership; playbooks added for gas distribution, coal/metals mining, business trusts and aircraft lessors."
+    "Dedicated sector models added: mortgage_reit, concession_infrastructure (toll roads) and midstream_partnership; playbooks added for gas distribution, coal/metals mining, business trusts and aircraft lessors.",
+    "Routing is profile-driven (economic-profile.md): seven economic dimensions decide cash model, finite-asset valuation, balance-sheet stresses and tax route; schema3_checks enforces profile consistency, twelve chapters for reports dated from 2026-11-10, and the renderer builds A3/A5/A6/A10/A11/A13 from JSON records."
   ]
 }
