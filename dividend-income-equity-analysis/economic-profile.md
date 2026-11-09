@@ -86,6 +86,10 @@ For each asset in `finite_life_assets` record name, end year, share of operating
 
 Use earnings/capital proxies, not OCF. Mandatory stresses: funding cost and availability (deposits, repo, unsecured), credit losses, rate path, book value per share and regulatory or statutory capital. A dividend maintained while book value per share falls is presumed to include capital return until disproved.
 
+### 3.2A Mixed balance sheets and contradictory dimensions
+
+The dominant segment chooses the primary cash model, but it does not get to hide the others. Any other segment with at least 20% of cash whose balance-sheet role is on the other side of the spread/non-spread line (an industrial group with a finance arm, an insurer with an operating business) needs the `holding_company` model or overlay, so segment cash is added up at the parent, and a `capital_bridge` on that segment: its own cash or capital generation, the regulatory or solvency constraint, and how cash reaches the parent. Dimensions must also agree with each other: `spread_income` requires `balance_sheet_spread`, and `commodity_linked` cash cannot be classed `stable`. `scripts/schema3_checks.py` enforces both.
+
 ### 3.3 US publicly traded partnerships (`us_publicly_traded_partnership`)
 
 Model distribution cash and exit cash separately; see `withholding-notes.md`. Record `tax_route.distribution_regime: us_1446a`, `tax_route.exit_withholding_rate` (normally 0.10 of gross amount realized unless a documented exception applies) and keep potential refunds out of spendable cash. The exit withholding enters the total-return and exit-cash calculation even when the economic gain is smaller or negative.

@@ -151,7 +151,7 @@ fwd = N / PRICE
 pct = lambda x: (x / PRICE - 1) * 100
 
 # ---------------- identity, model, coverage ----------------
-r.update({"company": "China Merchants Port Holdings Company Limited", "ticker": "0144.HK",
+r.update({"report_contract_version": "twelve_chapter", "company": "China Merchants Port Holdings Company Limited", "ticker": "0144.HK",
           "exchange": "Hong Kong Stock Exchange", "as_of_date": AS_OF, "price_used": PRICE,
           "withholding_rate": 0, "withholding_basis": "company_announcement", "sources": SOURCES})
 cfm = r["cash_flow_model"]
@@ -227,7 +227,7 @@ r["payout_policy"].update({
 rr = r["return_requirements"]
 rr.update({"benchmark": "HKSAR Government Bond 15GB3603 (institutional, matures March 2036), HKMA closing reference rate", "benchmark_source": HKGB,
            "benchmark_date": "2026-10-30", "benchmark_currency": "HKD", "benchmark_tenor": "about 9.4 years remaining (nearest to 10 years)",
-           "benchmark_currency_basis": None,
+           "benchmark_currency_basis": None, "benchmark_remaining_years": 9.4, "target_tenor_years": 10,
            "valuation_currency": "HKD", "valuation_unit_scale": 1, "shares_per_quoted_security": 1, "quote_currency": None,
            "quote_per_valuation_unit": None,
            "tax_and_fx_basis": "HKD dividends on an HKD quote; Hong Kong-incorporated issuer, no withholding (2026 interim announcement), no HK dividend tax.",

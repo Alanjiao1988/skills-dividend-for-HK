@@ -388,6 +388,8 @@
     "income_growth_credit": 0,
     "limitations": "HKMA publishes institutional HKGB yields with a lag; the latest observation is 2026-10-30. The US 10-year (4.84%) is shown only as the opportunity-cost comparison. No growth credit in the income thresholds.",
     "benchmark_currency_basis": null,
+    "benchmark_remaining_years": 9.4,
+    "target_tenor_years": 10,
     "quote_currency": null,
     "quote_per_valuation_unit": null,
     "income_growth_credit_basis": {
@@ -3649,6 +3651,7 @@
       "金额单位：港币百万，另有注明除外"
     ]
   },
+  "report_contract_version": "twelve_chapter",
   "growth_valuation": {
     "explicit_horizon_years": 5,
     "transition_years": 0,

@@ -123,7 +123,7 @@ print("N", N, "B", B, "R", R_LOW, R_HIGH, "prices", starter, add, strong, "price
 
 # @@EXTRA@@
 # ---------------- identity, model, coverage ----------------
-r.update({"company": "HSBC Holdings plc", "ticker": "0005.HK", "exchange": "Hong Kong Stock Exchange",
+r.update({"report_contract_version": "twelve_chapter", "company": "HSBC Holdings plc", "ticker": "0005.HK", "exchange": "Hong Kong Stock Exchange",
           "as_of_date": AS_OF, "price_used": PRICE, "withholding_rate": 0, "withholding_basis": "company_announcement",
           "sources": SOURCES})
 cfm = r["cash_flow_model"]

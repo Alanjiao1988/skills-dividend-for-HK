@@ -45,7 +45,7 @@ r["payout_policy"].update({
 rr = r["return_requirements"]
 rr.update({"quote_currency": "HKD", "quote_per_valuation_unit": USDHKD,
            "benchmark": "US 10-year Treasury constant maturity (DGS10)", "benchmark_source": UST,
-           "benchmark_date": "2026-11-05", "benchmark_currency": "USD", "benchmark_tenor": "10 years",
+           "benchmark_date": "2026-11-05", "benchmark_currency": "USD", "benchmark_tenor": "10 years", "benchmark_remaining_years": 10, "target_tenor_years": 10,
            "valuation_currency": "USD", "valuation_unit_scale": 1, "shares_per_quoted_security": 1,
            "tax_and_fx_basis": f"Dividends declared in USD; HK register paid in HKD under the peg. Quote HKD {PRICE_HKD} converted at USD/HKD {USDHKD} = USD {PRICE}. HK-resident individual: no UK withholding on ordinary dividends, no HK tax on dividends.",
            "risk_free_rate": RF, "risk_premium_low": 0.03, "risk_premium_high": 0.05,

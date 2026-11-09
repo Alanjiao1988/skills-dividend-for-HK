@@ -84,6 +84,11 @@ def economic_profile_errors(report):
     for row in segments:
         check(row["cyclicality"] == "stable" or row["cycle_window"] is not None,
               f"segment '{row['name']}' is cyclical and needs a cycle_window")
+    for row in segments:
+        check(row["revenue_engine"] != "spread_income" or row["balance_sheet_role"] == "balance_sheet_spread",
+              f"segment '{row['name']}' earns spread_income, so its balance_sheet_role must be balance_sheet_spread")
+        check(row["revenue_engine"] != "commodity_linked" or row["cyclicality"] != "stable",
+              f"segment '{row['name']}' is commodity_linked and cannot be classed as stable")
     finite_segments = [row for row in segments if row["asset_life"] == "finite_assets"]
     check(bool(finite_segments) == bool(profile["finite_life_assets"]),
           "finite_assets segments and the finite_life_assets schedule must appear together")
@@ -93,6 +98,16 @@ def economic_profile_errors(report):
     check(not profile["company_level_runoff"] or mode in ("finite_life_harvest", "suspended"),
           "a company-level run-off must use finite_life_harvest or be suspended")
     dominant = max(segments, key=lambda row: row["cash_share_pct"])
+    spread = lambda row: row["balance_sheet_role"] == "balance_sheet_spread"
+    for row in segments:
+        if row is dominant or row["cash_share_pct"] < 20 or spread(row) == spread(dominant):
+            continue
+        check(sector == "holding_company" or "holding_company" in overlays,
+              f"material segment '{row['name']}' ({row['cash_share_pct']:g}%) runs on a different balance sheet from the "
+              "dominant segment; use the holding_company model or overlay to add up segment cash at the parent")
+        check(bool(row.get("capital_bridge")),
+              f"material segment '{row['name']}' needs a capital_bridge: its own cash/capital generation, "
+              "regulatory constraint and upstream route")
     if dominant["balance_sheet_role"] == "balance_sheet_spread":
         check(sector in SPREAD_MODELS or sector == "holding_company",
               "a balance-sheet spread business must use a spread/capital proxy, not industrial FCF")
@@ -280,10 +295,13 @@ def validate_schema3(report):
         if language == "zh-CN":
             require(headings in (HEADINGS, FULL_HEADINGS),
                     "Full Analysis must use the legacy six-section or complete twelve-chapter Chinese structure")
-        new_report = str(report.get("as_of_date") or "") >= TWELVE_CHAPTER_REQUIRED_FROM
+        contract = report.get("report_contract_version")
+        # A declared twelve_chapter contract binds whatever the data date (backtests); legacy is archive-only.
+        new_report = contract == "twelve_chapter" or str(report.get("as_of_date") or "") >= TWELVE_CHAPTER_REQUIRED_FROM
         if new_report and language == "zh-CN":
             require(headings == FULL_HEADINGS,
-                    "reports dated from 2026-11-10 must use the twelve-chapter structure; six sections are archive-only")
+                    "reports dated from 2026-11-10 or declaring report_contract_version twelve_chapter must use the "
+                    "twelve-chapter structure; six sections are archive-only")
         if new_report or headings == FULL_HEADINGS or "economic_profile" in report:
             require("economic_profile" in report,
                     "a twelve-chapter Full Analysis must record economic_profile (economic-profile.md)")

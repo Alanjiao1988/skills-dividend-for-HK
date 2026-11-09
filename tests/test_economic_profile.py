@@ -192,3 +192,45 @@ class ReportContract(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CrossDimensionConsistency(unittest.TestCase):
+    """Mixed businesses and contradictory dimensions (ChatGPT review P1-04)."""
+
+    def test_spread_income_must_sit_on_a_spread_balance_sheet(self):
+        prof = profile([segment("贷款", 100, "spread_income", "perpetual_going_concern", "rate_cycle",
+                                "operating", "asset_light")])
+        self.assertTrue(any("spread_income" in e for e in economic_profile_errors(case(prof))))
+
+    def test_commodity_cash_is_not_stable(self):
+        prof = profile([segment("油田", 100, "commodity_linked", "perpetual_going_concern", "stable",
+                                "operating", "maintenance_heavy")])
+        self.assertTrue(any("commodity_linked" in e for e in economic_profile_errors(case(prof))))
+
+    def test_material_finance_arm_needs_its_own_bridge(self):
+        finance = segment("金融子公司", 49, "spread_income", "perpetual_going_concern", "rate_cycle",
+                          "balance_sheet_spread", "asset_light")
+        prof = profile([segment("制造", 51, "volume_times_price", "perpetual_going_concern", "demand_cycle",
+                                "operating", "maintenance_heavy"), finance])
+        errors = economic_profile_errors(case(prof))
+        self.assertTrue(any("holding_company" in e for e in errors))
+        self.assertTrue(any("capital_bridge" in e for e in errors))
+        finance["capital_bridge"] = "金融子公司按 12% 资本充足率留存资本，剩余利润以股息上缴母公司。"
+        self.assertEqual(economic_profile_errors(case(prof, overlays=["holding_company"])), [])
+
+    def test_small_finance_arm_does_not_trigger(self):
+        prof = profile([segment("制造", 90, "volume_times_price", "perpetual_going_concern", "demand_cycle",
+                                "operating", "maintenance_heavy"),
+                        segment("消费金融", 10, "spread_income", "perpetual_going_concern", "rate_cycle",
+                                "balance_sheet_spread", "asset_light")])
+        self.assertEqual(economic_profile_errors(case(prof)), [])
+
+
+class ReportContractVersion(unittest.TestCase):
+    def test_declared_twelve_chapter_binds_an_early_data_date(self):
+        from scripts.schema3_checks import validate_schema3
+        report = json.loads(next((ROOT / "validation-runs").glob("*/cmport-0144.analysis.json")).read_text(encoding="utf-8"))
+        self.assertEqual(report["report_contract_version"], "twelve_chapter")
+        report["as_of_date"] = "2024-06-30"
+        report["report_output"]["sections"] = report["report_output"]["sections"][:6]
+        self.assertTrue(any("twelve-chapter" in e for e in validate_schema3(report)))

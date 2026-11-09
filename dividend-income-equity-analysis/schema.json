@@ -2141,6 +2141,22 @@
             }
           ],
           "description": "Required when benchmark_currency differs from valuation_currency: which matching-currency sovereign source was tried, why it was not used, and the peg/hedge treatment that makes the substitute acceptable."
+        },
+        "benchmark_remaining_years": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0,
+          "description": "Actual remaining life of the benchmark bond on benchmark_date."
+        },
+        "target_tenor_years": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0,
+          "description": "Tenor the discount rate is meant to represent, usually 10."
         }
       },
       "required": [
@@ -6033,6 +6049,17 @@
                   "maintenance_heavy",
                   "growth_heavy"
                 ]
+              },
+              "capital_bridge": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/auditText"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "For a material segment (>=20% of cash) whose balance-sheet role differs from the dominant segment: its own cash or capital generation, regulatory/solvency constraint and how cash reaches the parent."
               }
             },
             "required": [
@@ -6401,6 +6428,27 @@
         },
         "explanation": {
           "$ref": "#/$defs/nonemptyText"
+        },
+        "historical_series": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "period": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            },
+            "required": [
+              "period",
+              "value"
+            ]
+          },
+          "description": "Every fiscal-year per-share value from start to end; required when a positive credit is taken."
         }
       },
       "required": [
@@ -7690,6 +7738,13 @@
     },
     "capital_return_valuation": {
       "$ref": "#/$defs/capitalReturnValuation"
+    },
+    "report_contract_version": {
+      "enum": [
+        "six_section_legacy",
+        "twelve_chapter"
+      ],
+      "description": "Report rules this record follows, independent of the data date. When present it governs the section check; when absent the as_of_date cutoff applies."
     }
   },
   "allOf": [

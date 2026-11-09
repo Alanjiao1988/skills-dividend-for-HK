@@ -307,7 +307,9 @@
     "income_growth_credit": 0,
     "limitations": "Ordinary cash-income thresholds give no credit for buybacks or EPS growth; they are not a complete intrinsic value for a 17%+ RoTE bank. See the P/TBV cross-check in chapter 9.",
     "quote_currency": "HKD",
-    "quote_per_valuation_unit": 7.8395
+    "quote_per_valuation_unit": 7.8395,
+    "benchmark_remaining_years": 10,
+    "target_tenor_years": 10
   },
   "income_assessment": {
     "target": {
@@ -3344,6 +3346,7 @@
       "金额单位：美元百万，另有注明除外"
     ]
   },
+  "report_contract_version": "twelve_chapter",
   "capital_return_valuation": {
     "status": "assessed",
     "method": "tangible_book_residual_income",

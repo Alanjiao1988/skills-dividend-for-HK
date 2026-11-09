@@ -83,7 +83,19 @@ def income_growth_credit_errors(report, runway, mode):
                        "safety, High/Medium confidence and no value-trap veto")
         require(credit <= cap + 1e-12, "exceeds min(3%, Base CAGR, historical per-share growth, long-run bound)")
         if returns["status"] == "assessed":
-            require(returns["required_total_return_low"] - credit > 0, "R_low - c must stay positive")
+            require(returns["required_total_return_low"] - credit >= 0.02 - 1e-12,
+                    "R_low - c must stay at least 2 points, as for the growth DDM")
+        series = basis.get("historical_series") or []
+        require(len(series) >= 5, "a positive credit needs historical_series with every fiscal year from start to end")
+        if series:
+            require(len(series) == basis["historical_years"] + 1
+                    and series[0]["period"] == basis["historical_start_period"]
+                    and series[-1]["period"] == basis["historical_end_period"]
+                    and math.isclose(series[0]["value"], basis["historical_start_value"], **tol)
+                    and math.isclose(series[-1]["value"], basis["historical_end_value"], **tol),
+                    "historical_series must start and end at the recorded periods and values, one value per year")
+            drops = sum(1 for prev, row in zip(series, series[1:]) if row["value"] < prev["value"])
+            require(drops * 3 <= len(series) - 1, "a per-share record that fell in more than a third of years cannot support a credit")
     return errors
 
 

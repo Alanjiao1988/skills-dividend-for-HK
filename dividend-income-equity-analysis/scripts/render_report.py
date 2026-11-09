@@ -170,6 +170,23 @@ def render_profile(profile):
     return html_text
 
 
+SCENARIO_ORDER = {"Bear": 0, "Base": 1, "Bull": 2}
+GLOSSARY = [
+    ["Bear／Base／Bull", "悲观／基准／乐观三种情景"],
+    ["N", "正常化每股股息：基准情景下一年可持续派发的税后每股股息"],
+    ["B", "悲观情景下现金仍能支撑的税后每股股息"],
+    ["R_low／R_high", "必要回报区间：无风险利率加 4–6 个百分点等风险溢价"],
+    ["FAD", "可分配现金：经营现金扣除维护投资、成长投资和其他必须支出后，能用于派息的现金"],
+    ["覆盖倍数", "可分配现金 ÷ 应派股息；低于 1 倍说明股息要靠借款、存量现金或以股代息支撑"],
+    ["DDM", "股息折现模型：把未来各年股息按必要回报折算成今天的价值"],
+    ["终值", "预测期之后所有年份股息的折现值合计"],
+    ["RoTE", "有形股本回报率：利润 ÷ 有形净资产，衡量银行赚钱能力"],
+    ["CET1", "核心一级资本充足率：银行最核心的资本 ÷ 风险加权资产，低于目标时通常暂停回购"],
+    ["以股代息", "股东选择用新股代替现金领取股息；会摊薄股数，不增加公司现金"],
+    ["联营上缴率", "联营公司实际派到母公司的现金 ÷ 母公司应占的联营利润"],
+]
+
+
 def render_appendix(report):
     """Default audit appendix built from the structured records, so it cannot silently go missing."""
     parts = []
@@ -197,14 +214,46 @@ def render_appendix(report):
             "rows": [[row["name"], row["why_causal"]] for row in profile["kpis"]],
             "note": "来自 economic_profile.kpis"}))
     if report.get("three_year_fundamental_forecast"):
-        parts.append("<h3>A6 五年预测（前三年逐年）</h3>" + render_table({
+        forecast_rows = report["three_year_fundamental_forecast"] + report.get("forecast_extension", [])
+        forecast_rows = sorted(forecast_rows, key=lambda row: (row["forecast_year"], SCENARIO_ORDER.get(row["scenario"], 9)))
+        parts.append("<h3>A6 五年预测</h3>" + render_table({
             "title": "Bear／Base／Bull 逐年预测",
             "columns": ["财年", "情景", "收入", "经营现金", "维护投资", "所有者现金", "成长投资", "经常性 FAD"],
             "rows": [[row["fiscal_year"], row["scenario"], row["revenue_or_sector_income"],
                       row["normalized_ocf"], row["maintenance_capex"], row["fcf_or_distributable_cash"],
                       row["remaining_growth_investment"], row["recurring_fad"]]
-                     for row in report["three_year_fundamental_forecast"]],
-            "note": "来自 three_year_fundamental_forecast；null 表示该行业不适用或无法估计"}))
+                     for row in forecast_rows],
+            "note": "来自 three_year_fundamental_forecast 与 forecast_extension；null 表示该行业不适用或无法估计"}))
+    growth = report.get("growth_valuation") or {}
+    if growth.get("return_growth_sensitivity"):
+        rates = sorted({row["required_return"] for row in growth["return_growth_sensitivity"]})
+        rates_g = sorted({row["terminal_growth"] for row in growth["return_growth_sensitivity"]})
+        cell = {(row["required_return"], row["terminal_growth"]): row for row in growth["return_growth_sensitivity"]}
+        parts.append("<h3>A7 估值敏感性</h3>" + render_table({
+            "title": "Base 每股价值：必要回报 × 永续增长",
+            "columns": ["必要回报"] + [f"增长 {g * 100:.1f}%" for g in rates_g],
+            "rows": [[f"{rate * 100:.2f}%"] + [(cell[(rate, g)]["value"] if (rate, g) in cell and cell[(rate, g)]["value"] is not None
+                                                else "超出上限") for g in rates_g] for rate in rates],
+            "note": "来自 growth_valuation.return_growth_sensitivity；超出可持续增长上限或回报与增长差不足 2% 的组合不计算"}))
+    if report.get("dividend_and_yield_runway"):
+        runway = [row for row in report["dividend_and_yield_runway"] if row["scenario"] in ("Bear", "Base")]
+        runway.sort(key=lambda row: (row["forecast_year"], SCENARIO_ORDER.get(row["scenario"], 9)))
+        parts.append("<h3>A8 派息桥</h3>" + render_table({
+            "title": "派息基数 → 派息率 → 应派股息 → 每股股息",
+            "columns": ["财年", "情景", "派息基数", "派息率", "应派股息", "可分配现金", "每股股息"],
+            "rows": [[row["fiscal_year"], row["scenario"], row.get("payout_base_amount"), row.get("payout_ratio"),
+                      row.get("dividend_entitlement"), row.get("cash_available_for_distribution"), row.get("derived_dps")]
+                     for row in runway],
+            "note": "来自 dividend_and_yield_runway（Bear 与 Base）；Bull 见结构化记录"}))
+    decision = report.get("decision") or {}
+    if decision.get("trap_conclusion"):
+        veto = {"Triggered": "触发", "Not triggered": "未触发"}.get(report.get("value_trap_veto"), report.get("value_trap_veto") or "—")
+        rows = [["红利陷阱否决", veto], ["结论", decision["trap_conclusion"]]]
+        for condition in decision.get("invalidation_conditions", []):
+            rows.append(["失效条件", f"{condition['observable']} {condition['operator']} {condition['threshold']} {condition['unit']}"])
+        parts.append("<h3>A9 红利陷阱与失效条件</h3>" + render_table({
+            "title": "红利陷阱检查", "columns": ["项目", "内容"], "rows": rows,
+            "note": "来自 decision 与 value_trap_veto"}))
     if report.get("entry_plan"):
         currency = report["return_requirements"]["valuation_currency"]
         parts.append("<h3>A10 估值与买点复算</h3>" + render_table({
@@ -222,10 +271,20 @@ def render_appendix(report):
             "columns": ["模块", "下限", "上限"],
             "rows": [[MODULE_LABELS.get(key, key), value["low"], value["high"]]
                      for key, value in summary["module_ranges"].items()],
-            "note": f"评分规则 rubric 2；研究覆盖度 {summary['evidence_coverage_pct']}%"}))
+            "note": f"评分规则 rubric 2；评分模块覆盖度 {summary['evidence_coverage_pct']}%（各评分模块是否有依据，不代表数据齐全）"}))
     if report.get("sources"):
-        parts.append("<h3>A13 来源与数据质量</h3><ol>" + "".join(
-            f"<li>{html.escape(source)}</li>" for source in report["sources"]) + "</ol>")
+        def source_item(source):
+            text = html.escape(source)
+            if source.startswith(("https://", "http://")):
+                host = source.split("/")[2].removeprefix("www.").removeprefix("www1.")
+                name = source.split("?")[0].rstrip("/").rsplit("/", 1)[-1]
+                label = html.escape(f"{host}：{name}" if name and name != source.split("/")[2] else host)
+                return f'<li><a href="{text}" rel="noopener">{label}</a><br><span class="muted">{text}</span></li>'
+            return f"<li>{text}</li>"
+        parts.append("<h3>A13 来源与数据质量</h3><ol>" + "".join(source_item(source) for source in report["sources"]) + "</ol>")
+    parts.append("<h3>A14 术语表</h3>" + render_table({
+        "title": "本报告常用术语", "columns": ["术语", "含义"], "rows": GLOSSARY,
+        "note": "首次阅读时可对照本表"}))
     return "".join(parts)
 
 
@@ -311,8 +370,10 @@ def render_report(report):
                 f"质量评分：{span(quality['low'], quality['high'])}/85；"
                 f"组合评分：{span(combined['low'], combined['high'])}/100；"
                 f"等级：{span(score['grade_range']['worst'], score['grade_range']['best'])}；"
-                f"研究覆盖度：{score['evidence_coverage_pct']}%；"
-                f"质量覆盖度：{score['quality_coverage_pct']}%；组合角色：{role}。",
+                f"评分模块覆盖度：{score['evidence_coverage_pct']}%（指各评分模块是否有依据，不代表数据齐全）；"
+                f"质量模块覆盖度：{score['quality_coverage_pct']}%；"
+                f"预测可信度：{ {'High': '高', 'Medium': '中', 'Low': '低'}.get(report.get('forecast_confidence'), '—')}；"
+                f"取数缺口：{len(report.get('evidence_recovery', {}).get('records', []))} 项（见第 12 章）；组合角色：{role}。",
                 f"红利陷阱结论：{decision['trap_conclusion']}",
                 f"买点结论：{decision['entry_conclusion']}",
             )

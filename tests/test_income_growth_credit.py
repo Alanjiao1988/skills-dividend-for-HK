@@ -28,6 +28,7 @@ def basis(base_cagr=0.03, hist_start=1.0, hist_end=1.2, years=5, bound=0.04, gat
         "long_run_growth_bound": bound, "long_run_growth_bound_basis": "2% inflation plus 2% real growth",
         "credit_cap": max(0.0, min(0.03, base_cagr, hist, bound)), "gates_passed": gates,
         "explanation": "test",
+        "historical_series": [{"period": f"FY{2020 + i}", "value": hist_start * (1 + hist) ** i} for i in range(years + 1)],
     }
 
 
@@ -101,6 +102,32 @@ class Gates(unittest.TestCase):
     def test_positive_credit_needs_a_record(self):
         errors = income_growth_credit_errors(report_with(0.02, None), growing_runway(), "ordinary_yield_based")
         self.assertTrue(any("needs income_growth_credit_basis" in e for e in errors))
+
+
+class Guardrails(unittest.TestCase):
+    def test_credit_must_leave_two_points(self):
+        report = report_with(0.03, basis())
+        report["return_requirements"]["required_total_return_low"] = 0.045
+        errors = income_growth_credit_errors(report, growing_runway(), "ordinary_yield_based")
+        self.assertTrue(any("at least 2 points" in e for e in errors))
+
+    def test_series_must_match_endpoints(self):
+        record = basis()
+        record["historical_series"][-1]["value"] = 1.5
+        errors = income_growth_credit_errors(report_with(0.03, record), growing_runway(), "ordinary_yield_based")
+        self.assertTrue(any("historical_series" in e for e in errors))
+        record = basis()
+        del record["historical_series"]
+        errors = income_growth_credit_errors(report_with(0.03, record), growing_runway(), "ordinary_yield_based")
+        self.assertTrue(any("historical_series" in e for e in errors))
+
+    def test_choppy_record_gets_no_credit(self):
+        record = basis()
+        values = [1.0, 1.1, 0.9, 1.15, 1.0, 1.2]
+        for row, value in zip(record["historical_series"], values):
+            row["value"] = value
+        errors = income_growth_credit_errors(report_with(0.03, record), growing_runway(), "ordinary_yield_based")
+        self.assertTrue(any("fell in more than a third" in e for e in errors))
 
 
 class Integration(unittest.TestCase):
