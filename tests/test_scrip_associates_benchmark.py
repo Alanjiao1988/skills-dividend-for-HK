@@ -243,6 +243,37 @@ class ThirdReview(unittest.TestCase):
         self.assertIn("<h3>术语表</h3>", text)
 
 
+class QuantifiedSensitivities(unittest.TestCase):
+    def test_drivers_are_quantified_to_the_starter_price(self):
+        report = cmport()
+        rows = report["valuation_driver_sensitivities"]
+        self.assertTrue(3 <= len(rows) <= 5)
+        payout = next(row for row in rows if row["driver_name"] == "派息率")
+        self.assertLess(payout["stressed_value"], payout["base_value"])
+        text = render_report(report)
+        self.assertIn("关键变量对 Base 每股价值和初始建仓价的影响", text)
+        self.assertIn("美国 10 年期国债机会成本", text)
+
+    def test_missing_or_inconsistent_rows_are_rejected(self):
+        report = cmport()
+        report["valuation_driver_sensitivities"][0]["stressed_starter_price"] += 1
+        self.assertTrue(any("starter price" in e for e in validate_report(report)))
+        few = cmport()
+        few["valuation_driver_sensitivities"] = few["valuation_driver_sensitivities"][:2]
+        self.assertTrue(any("three to five" in e for e in validate_report(few)))
+        none = cmport()
+        del none["valuation_driver_sensitivities"]
+        self.assertTrue(any("needs valuation_driver_sensitivities" in e for e in validate_report(none)))
+        silent = cmport()
+        next(r for r in silent["valuation_driver_sensitivities"] if r["other_effect"])["other_effect"] = None
+        self.assertTrue(any("other_effect" in e for e in validate_report(silent)))
+
+    def test_treasury_yield_is_required(self):
+        report = cmport()
+        report["return_requirements"]["us_treasury_10y_yield"] = None
+        self.assertTrue(any("us_treasury_10y_yield" in e for e in validate_report(report)))
+
+
 class CurrencyRisk(unittest.TestCase):
     def test_rmb_exposure_is_stressed(self):
         fx = cmport()["fx_risk"]

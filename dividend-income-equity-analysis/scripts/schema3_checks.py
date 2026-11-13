@@ -130,10 +130,14 @@ def economic_profile_errors(report):
     # A holding company qualifies only on bank/insurer capital it can name; an untyped or BDC/mREIT spread arm does not.
     bank_like_share = sum(row["cash_share_pct"] for row in segments
                           if spread(row) and row.get("spread_business_type") in ("bank", "insurer"))
+    other_spread = [row["name"] for row in segments
+                    if spread(row) and row.get("spread_business_type") not in ("bank", "insurer")]
     check(mode != "capital_return_based" or sector in ("bank", "insurer")
-          or (sector == "holding_company" and bank_like_share >= 50),
+          or (sector == "holding_company" and bank_like_share >= 50 and not other_spread),
           "capital_return_based (RoTE on tangible book) fits banks and insurers; BDCs and mortgage REITs use NAV and "
-          "net investment income through their sector cash models")
+          "net investment income through their sector cash models. A holding company qualifies only when every spread "
+          "segment is typed bank or insurer and they provide at least half of cash; with a BDC, mortgage REIT or untyped "
+          "lender inside, value each arm on its own model instead of one group RoTE")
     check(sector != "mortgage_reit" or profile["legal_wrapper"] == "reit",
           "mortgage_reit requires the reit legal wrapper")
     check(sector != "concession_infrastructure" or bool(finite_segments),

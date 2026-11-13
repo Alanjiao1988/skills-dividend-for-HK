@@ -252,6 +252,20 @@ class AggregateMateriality(unittest.TestCase):
         self.assertFalse(any("fits banks and insurers" in e for e in errors))
 
 
+class MixedCapitalRegimes(unittest.TestCase):
+    def test_bank_majority_with_a_bdc_arm_cannot_use_group_rote(self):
+        bank = segment("银行", 51, "spread_income", "perpetual_going_concern", "rate_cycle", "balance_sheet_spread", "asset_light")
+        bdc = segment("BDC", 49, "spread_income", "perpetual_going_concern", "rate_cycle", "balance_sheet_spread", "asset_light")
+        bank["spread_business_type"], bdc["spread_business_type"] = "bank", "bdc"
+        errors = economic_profile_errors(case(profile([bank, bdc], wrapper="holding_parent"), "holding_company",
+                                              mode="capital_return_based"))
+        self.assertTrue(any("value each arm on its own model" in e for e in errors))
+        bdc["spread_business_type"] = "insurer"
+        errors = economic_profile_errors(case(profile([bank, bdc], wrapper="holding_parent"), "holding_company",
+                                              mode="capital_return_based"))
+        self.assertFalse(any("fits banks and insurers" in e for e in errors))
+
+
 class FiniteShareReconciles(unittest.TestCase):
     def test_schedule_must_cover_the_finite_segments(self):
         prof = profile([segment("矿山", 40, "commodity_linked", "finite_assets", "commodity_cycle", "operating", "maintenance_heavy"),

@@ -147,6 +147,18 @@ r["capital_return_valuation"] = {
                                  "restores headroom. The per-share forecast holds shares flat and credits no buybacks; the valuation "
                                  "counts the capacity above the 50% dividend, which is not yet being paid out.")},
     "price_independent": True}
+def hs(name, change, kind, value, other=None):
+    return {"driver_name": name, "change": change, "sensitivity_type": kind, "base_value": v_base, "stressed_value": value,
+            "stressed_starter_price": value * (1 - MOS), "other_effect": other,
+            "basis": "有形净资产 ×（回报率 − 增长）÷（必要回报 − 增长）重算，其余保持 Base。"}
+r["valuation_driver_sensitivities"] = [
+    hs("可持续有形股本回报率", "由 17% 降到 15%", "persistent", TNAV * (0.15 - G) / (R_HIGH - G)),
+    hs("长期增长", "由 3% 降到 2%", "structural", TNAV * (0.17 - 0.02) / (R_HIGH - 0.02)),
+    hs("每股有形净资产", "减少 10%（如减值或汇率折算）", "transient", TNAV * 0.9 * (0.17 - G) / (R_HIGH - G)),
+    hs("信用损失", "信用成本上升使回报率降到 14%（Bear 水平）", "persistent", TNAV * (0.14 - G) / (R_HIGH - G)),
+]
+r["return_requirements"]["us_treasury_10y_yield"] = RF
+r["return_requirements"]["us_treasury_10y_date"] = "2026-11-05"
 print("capital-return", round(v_low, 2), round(v_base, 2), round(v_high, 2), "stages", round(c_start, 2), round(c_add, 2), round(c_strong, 2))
 
 # ---------------- entry plan and decision ----------------
