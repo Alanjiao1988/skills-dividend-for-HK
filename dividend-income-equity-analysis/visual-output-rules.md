@@ -4,13 +4,13 @@ Apply `report-language.md` to every reader-facing title, legend, table header an
 
 These analytical chart rules apply to Full Analysis. Screen Mode and Safety Review use their own compact outputs and do not require these charts or full-only records. All report modes use the single-file HTML delivery contract in `output-template.md` and the self-contained `templates/report.html` shell. `analysis-quality.md` defines the mandatory analytical records; charts and extra presentation detail are optional.
 
-`output-template.md` decides what the reader sees. The main report carries at most three charts and five slim tables; everything else in this file is the **Audit Appendix** specification, used only when the user requests the appendix and always available as JSON records.
+`output-template.md` decides what the reader sees. Full Analysis is the twelve-chapter report with no fixed cap on length, tables or charts; tables and charts are added wherever they help the reader check a key number. Sections 4-13 of this file specify the **Audit Appendix**, which is a default part of every Full Analysis and always available as JSON records.
 
 The main report communicates in this order:
 
 1. The bottom-line judgment: current action and decisive reason, key numbers, and one status line with quality /85 and the combined score as points or provisional ranges with evidence coverage, and security role.
-2. At most three visuals that each answer one of the four questions (finances, entry, outlook, risks), plus the staged entry card in Section 3.
-3. Short bullets with numbers and judgments, not long-form explanation.
+2. Each chapter opens with its judgment, then the numbers, tables and charts that support it; the staged entry card sits in Chapter 10.
+3. Explanations are as long as the analysis needs, but every paragraph carries numbers, causes or counter-evidence rather than restating rules.
 
 ## 1. Output Capability Detection
 
@@ -21,13 +21,13 @@ The main report communicates in this order:
 
 ## 2. Main-Report Key Numbers
 
-Use the Bottom Line table in `output-template.md` Section 1. Normalized yield must be derived from normalized business and cash-flow capacity. Quality /85, the combined /100 point/range with Grade/Grade range, coverage and portfolio role go in the one-line status beneath it, not in extra tables. A provisional recurring-income proxy must not be displayed as normalized yield.
+Use the summary table in Chapter 1 of `output-template.md`. Normalized yield must be derived from normalized business and cash-flow capacity. Quality /85, the combined /100 point/range with Grade/Grade range, coverage and portfolio role go in the one-line status beneath it, not in extra tables. A provisional recurring-income proxy must not be displayed as normalized yield.
 
 The rules below govern every place a score appears: the status line in the main report and the full scorecard in appendix part A11.
 
 Follow rubric 2 in `scoring.md`: missing one module produces an interval and coverage, not a blank overall score. Show `assessed`, `bounded` and `not_assessable` contributions distinctly; do not paint unknowns as zero-quality red bars, fill a midpoint, rescale available points, or rank incomparable research coverage as business quality. A chart must label its range as rubric bounds, not statistical confidence. Use the same overall status in the combined headline and detailed seven-module scorecard, including a stable provisional Grade when both endpoints agree; the separate quality-only status comes from its six non-income modules, not automatically from the overall status. Show quality-specific covered weight/85 as well as overall coverage. For zero covered weight, state insufficient evidence rather than a company score.
 
-The three-stage decision card in main-report Section 3 references `entry_plan`; score colors and provisional points cannot imply a ready buy while material entry evidence is missing.
+The three-stage decision card in Chapter 10 references `entry_plan`; score colors and provisional points cannot imply a ready buy while material entry evidence is missing.
 
 A falling quote cannot visually upgrade quality or security role; income-yield spreads remain price-sensitive. Preserve `quality_assessment` and its evidence links, reconciling its point/range with `scorecard.summary` rather than showing an independent legacy quality score. Missing chart or forecast preparation alone is not adverse issuer evidence for the 0-1 visibility band.
 
@@ -35,13 +35,13 @@ Render `quality_assessment.component_ranges`, `score_range` and `coverage_pct` e
 
 ## 3. Main-Report Charts
 
-Use at most three charts, one per question, and only when rendering is available. Each chart replaces, rather than duplicates, the corresponding table or ladder line; the section's opening judgment serves as its caption. Provide an accessible text equivalent.
+Use charts wherever a trend or comparison is easier to read visually. A chart supplements, never replaces, the numerical table; give each a title, unit, period, legend and source, and keep it as static inline SVG. The minimum set below is recommended for every Full Analysis; add sector KPI charts from `industry-analysis.md` and five-year trend charts from `historical-financial-trends.md` as needed.
 
-### 3.1 股息与覆盖历史图（第2节）
+### 3.1 股息与覆盖历史图（第6章）
 
-Stack base / ordinary DPS separately from special, supplemental or variable DPS by fiscal year, with sustainable coverage as a line and any actual-cash shortfall year highlighted. Label the coverage denominator. A normalized series must not hide an actual cash shortfall. Keep a separately labelled real-income trend in appendix A2 when supported; nominal DPS stability alone does not show purchasing-power preservation.
+Stack base / ordinary DPS separately from special, supplemental or variable DPS by fiscal year (`stacked_bar`), with sustainable coverage in a second chart of its own unit (multiple) and any actual-cash shortfall year highlighted. Label the coverage denominator. A normalized series must not hide an actual cash shortfall. Keep a separately labelled real-income trend in appendix A2 when supported; nominal DPS stability alone does not show purchasing-power preservation.
 
-### 3.2 价格位置图（第3节）
+### 3.2 价格位置图（第10章）
 
 Use the visual that matches `valuation_mode`:
 
@@ -54,15 +54,15 @@ Label any normalized yield band as uncertainty around central N. Cycle-state low
 
 For Structural Decline, show an ordinary cash-income ladder only as a secondary cross-check when specifically permitted by the finite-harvest exception in `buy-zone.md`. Ordinary ladder bands never produce action badges. A separately shown Strong Buy action needs the full independent action gates; a cash-income threshold or favorable chart color is insufficient.
 
-### 3.3 股息展望图（第4节）
+### 3.3 股息展望图（第8章）
 
 Historical DPS followed by five-year Bear/Base/Bull paths. Distinguish detailed years one to three from the extension; render unsupported years as gaps, not zeros.
 
-Without rendering, the Section 2 and Section 4 tables and the Section 3 boundary line in `output-template.md` are the fallback; do not add text sparklines on top of them. The fuller business/FCF forecast chart, TTM-versus-normalized-versus-forecast yield comparison and growth R/g sensitivity visual belong to the appendix (A5, A6, A10).
+Without rendering, the Chapter 6 and Chapter 8 tables and the Chapter 10 boundary line are the fallback; do not add text sparklines on top of them. The fuller business/FCF forecast chart, TTM-versus-normalized-versus-forecast yield comparison and growth R/g sensitivity visual may appear in Chapters 8-10 or the appendix (A5, A6, A10).
 
 ## Appendix Tables
 
-Sections 4 to 13 below specify the Audit Appendix. Use them only when the appendix is requested, following the part numbering A1-A13 in `output-template.md`. They also define the JSON records' display form.
+Sections 4 to 13 below specify the Audit Appendix, which every Full Analysis includes by default, following the part numbering A1-A13 in `output-template.md`. They also define the JSON records' display form.
 
 ## 4. Dividend Trajectory Tables
 
@@ -143,7 +143,7 @@ Text examples:
 
 ## 8. Table Slimming Rules
 
-- Main report: at most five tables, each at most six columns and eight rows; the section's opening judgment is the takeaway.
+- Main report: no fixed table count; split a table that becomes hard to read on a phone rather than dropping years or key metrics. The chapter's opening judgment is the takeaway.
 - Appendix: precede each table with a one-sentence takeaway; maximum 7 columns per table; split wider tables.
 - Never print rows or columns that contain only N/A or Unknown; state the gap once instead.
 - When withholding is 0%, state once that gross equals net rather than repeating columns.
@@ -239,9 +239,9 @@ Render these text equivalents as semantic HTML inside the report, not as a repla
 
 ## 12. Holding Review
 
-In the main report, holding review is at most one bullet in Section 3 (买点观点), and only when the user holds the stock or asks about holding, selling or switching. Place the compact `Trigger | Evidence | Review Level | Research Action | Missing Inputs | Next Check` table in appendix part A12, following `holding-review.md`; scoring and portfolio role are in A11. Distinguish a business/solvency red flag from a valuation-review signal. Do not display a specific trade size or a switch recommendation when the required portfolio/alternative information is absent.
+In the main report, holding review is a short paragraph in Chapter 10 (买点、建仓策略与持仓复评), and only when the user holds the stock or asks about holding, selling or switching. Place the compact `Trigger | Evidence | Review Level | Research Action | Missing Inputs | Next Check` table in appendix part A12, following `holding-review.md`; scoring and portfolio role are in A11. Distinguish a business/solvency red flag from a valuation-review signal. Do not display a specific trade size or a switch recommendation when the required portfolio/alternative information is absent.
 
-Reuse `safety-review.md`'s baseline/new-disclosure and cash/capital deltas for event-driven checks within A12. No additional numbered report section is needed.
+Reuse `safety-review.md`'s baseline/new-disclosure and cash/capital deltas for event-driven checks within A12. No additional numbered report chapter is needed.
 
 ## 13. Real-Income and FX Audit Layouts
 

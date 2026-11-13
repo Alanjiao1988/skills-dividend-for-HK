@@ -24,17 +24,195 @@ SCENARIOS = ("Bear", "Base", "Bull")
 SUPPORTED_WITHHOLDING_BASES = ("broker_observed", "company_announcement", "legal_structure")
 
 
-def ordinary_boundaries(n, b, r_low, r_high):
-    if not (0 <= b <= n and n > 0 and 0 < r_low < r_high):
+def ordinary_boundaries(n, b, r_low, r_high, credit=0):
+    """Ordinary income ladder; a gated growth credit lowers r_low/r_high but never the Bear strong-buy rate."""
+    if not (0 <= b <= n and n > 0 and 0 < r_low < r_high and 0 <= credit):
         raise ValueError("Ordinary valuation requires 0 <= B <= N, N > 0 and 0 < r_low < r_high")
+    strong = b / (r_high + credit)
     return {
         "too_expensive_above": n / r_low,
         "fair_lower": n / r_high,
         "fair_upper": n / r_low,
-        "accumulation_lower": b / r_high,
+        "accumulation_lower": strong,
         "accumulation_upper": n / r_high,
-        "strong_buy_at_or_below": b / r_high,
+        "strong_buy_at_or_below": strong,
     }
+
+CREDIT_TRENDS = ("Structural Growth", "Stable", "Mature")
+CREDIT_CAP = 0.03
+
+
+def _cagr(start, end, years):
+    return (end / start) ** (1 / years) - 1
+
+
+def new_contract(report):
+    """New-report rules bind records that declare the twelve_chapter contract or are dated from the cutover.
+    Older schema-3.0 archives stay readable without the fields added later."""
+    contract = report.get("report_contract_version")
+    if contract:                       # an explicit contract decides; the date only fills in when none is declared
+        return contract == "twelve_chapter"
+    return str(report.get("as_of_date") or "") >= "2026-11-10"
+
+
+def income_growth_credit_errors(report, runway, mode):
+    """Gate the ordinary income growth credit (buy-zone.md Section 4.2A)."""
+    errors = []
+    returns = report["return_requirements"]
+    credit = returns.get("income_growth_credit") or 0
+    basis = returns.get("income_growth_credit_basis")
+    tol = dict(rel_tol=1e-6, abs_tol=1e-6)
+
+    def require(ok, message):
+        if not ok:
+            errors.append(f"Income growth credit: {message}")
+
+    require(not credit or report.get("buy_zone", {}).get("normalized_net_dps_basis") != "three_year_base_average",
+            "N averaged over three forecast years already contains growth; a credit needs the next-year normalized DPS")
+    if basis is None:
+        require(credit == 0, "a positive credit needs income_growth_credit_basis")
+        return errors
+    first, last = runway.get((1, "Base")), runway.get((5, "Base"))
+    dps = [row and row.get("derived_dps") for row in (first, last)]
+    if all(isinstance(value, (int, float)) and value > 0 for value in dps):
+        require(math.isclose(basis["base_dps_cagr_fy1_fy5"], _cagr(dps[0], dps[1], 4), **tol),
+                "Base FY1->FY5 DPS CAGR does not match the runway")
+    else:
+        require(credit == 0, "needs positive Base FY1 and FY5 runway DPS")
+    require(math.isclose(basis["historical_cagr"], _cagr(basis["historical_start_value"], basis["historical_end_value"],
+                                                          basis["historical_years"]), **tol),
+            "historical CAGR does not match its start/end values")
+    cap = max(0.0, min(CREDIT_CAP, basis["base_dps_cagr_fy1_fy5"], basis["historical_cagr"], basis["long_run_growth_bound"]))
+    require(math.isclose(basis["credit_cap"], cap, **tol), "credit_cap must be min(3%, Base CAGR, historical CAGR, long-run bound)")
+    gates = (mode == "ordinary_yield_based" and report["fundamental_trend"] in CREDIT_TRENDS
+             and report["dividend_safety"] in ("Strong", "Acceptable")
+             and report["forecast_confidence"] in ("High", "Medium")
+             and report.get("value_trap_veto") == "Not triggered" and returns["status"] == "assessed")
+    require(basis["gates_passed"] == (gates and cap > 0), "gates_passed disagrees with mode, trend, safety, confidence, veto or cap")
+    if credit:
+        require(gates, "only for ordinary_yield_based with Stable/Mature/Structural Growth trend, Strong/Acceptable "
+                       "safety, High/Medium confidence and no value-trap veto")
+        require(credit <= cap + 1e-12, "exceeds min(3%, Base CAGR, historical per-share growth, long-run bound)")
+        if returns["status"] == "assessed":
+            require(returns["required_total_return_low"] - credit >= 0.02 - 1e-12,
+                    "R_low - c must stay at least 2 points, as for the growth DDM")
+        series = basis.get("historical_series") or []
+        require(len(series) >= 5, "a positive credit needs historical_series with every fiscal year from start to end")
+        if series:
+            require(len(series) == basis["historical_years"] + 1
+                    and series[0]["period"] == basis["historical_start_period"]
+                    and series[-1]["period"] == basis["historical_end_period"]
+                    and math.isclose(series[0]["value"], basis["historical_start_value"], **tol)
+                    and math.isclose(series[-1]["value"], basis["historical_end_value"], **tol),
+                    "historical_series must start and end at the recorded periods and values, one value per year")
+            drops = sum(1 for prev, row in zip(series, series[1:]) if row["value"] < prev["value"])
+            require(drops * 3 <= len(series) - 1, "a per-share record that fell in more than a third of years cannot support a credit")
+    return errors
+
+
+def scrip_coverage_errors(report):
+    """Scrip years must divide by the full entitlement, never the reduced cash paid (business-fundamentals.md)."""
+    errors = []
+    had_scrip = (report.get("scrip_drip", {}).get("historical_participation_rate") or 0) > 0 and new_contract(report)
+    sources = set(report.get("sources", []))
+    history = sorted(report.get("cash_flow_bridge", []), key=lambda row: row["fiscal_year_end"])
+    for row in history:
+        label, in_year, next_year = row["fiscal_year"], row.get("entitlement_settled_in_year"), row.get("entitlement_settled_next_year")
+        if had_scrip and (in_year is None or next_year is None):
+            errors.append(f"{label}: scrip history needs entitlement_settled_in_year and entitlement_settled_next_year "
+                          "(declared interim/final totals) to reconcile cash paid plus scrip across years")
+        if in_year is not None and next_year is not None and row.get("dividend_denominator_basis") == "full_entitlement":
+            if row["cash_dividends"] is not None and not math.isclose(in_year + next_year, row["cash_dividends"], rel_tol=1e-6, abs_tol=0.5):
+                errors.append(f"{label}: full entitlement {row['cash_dividends']:g} must equal the declared "
+                              f"in-year {in_year:g} plus next-year {next_year:g} parts")
+    for prev, row in zip(history, history[1:]):
+        in_year, carried = row.get("entitlement_settled_in_year"), prev.get("entitlement_settled_next_year")
+        paid, scrip = row.get("cash_paid_dividends"), row.get("scrip_settled_dividends")
+        if None in (in_year, carried, paid):
+            continue
+        settled, expected = paid + (scrip or 0), carried + in_year
+        note = row.get("settlement_reconciliation")
+        sourced = (isinstance(note, dict) and set(note["source_refs"]) <= sources
+                   and abs(note["amount"] - (settled - expected)) <= max(1.0, 0.01 * expected))
+        if expected > 0 and abs(settled - expected) > 0.02 * expected and row["evidence_status"] == "reported_reconciled" \
+                and not sourced:
+            errors.append(f"{row['fiscal_year']}: cash paid plus scrip {settled:g} differs from prior final plus interim "
+                          f"{expected:g} by more than 2%; give settlement_reconciliation with the amount (cash paid plus scrip minus prior final plus interim), reason and report "
+                          "source_refs, or do not mark the row reported_reconciled")
+    for row in history:
+        label, settled = row["fiscal_year"], row.get("scrip_settled_dividends")
+        if had_scrip and settled is None:
+            errors.append(f"{label}: scrip history (historical_participation_rate > 0) needs scrip_settled_dividends "
+                          "on every bridge row, 0 for a year without scrip")
+            continue
+        if not settled:
+            continue
+        paid, div = row.get("cash_paid_dividends"), row["cash_dividends"]
+        if row.get("dividend_denominator_basis") != "full_entitlement":
+            errors.append(f"{label}: a scrip year must use dividend_denominator_basis full_entitlement")
+        if paid is None:
+            errors.append(f"{label}: a scrip year must record cash_paid_dividends")
+        elif div is not None and div <= paid:
+            errors.append(f"{label}: coverage denominator {div:g} must be the full entitlement, "
+                          f"above the {paid:g} cash actually paid in a scrip year")
+    return errors
+
+
+def associate_conversion_errors(report):
+    """Equity-accounted profit versus cash received from associates/JVs (economic-profile.md)."""
+    profile = report.get("economic_profile")
+    record = report.get("cash_flow_model", {}).get("associate_cash_conversion")
+    if not profile or profile["cash_attribution"] != "material_jv_associates":
+        return []
+    if record is None:
+        return (["Associate cash conversion: material_jv_associates needs cash_flow_model.associate_cash_conversion"]
+                if new_contract(report) else [])
+    errors = []
+
+    def require(ok, message):
+        if not ok:
+            errors.append(f"Associate cash conversion: {message}")
+
+    history = record["history"]
+    years = [row["fiscal_year"] for row in history]
+    require(years == sorted(set(years)), "history years must be unique and ascending")
+    bridge_years = {row["fiscal_year"] for row in report.get("cash_flow_bridge", [])}
+    require(set(years) <= bridge_years, "history years must come from the cash_flow_bridge periods")
+    received, profits, ratios = [], [], []
+    for index, row in enumerate(history):
+        if record["timing_basis"] == "same_year":
+            profit = row["share_of_profit"]
+        else:
+            profit = history[index - 1]["share_of_profit"] if index else None
+        expected = row["cash_dividends_received"] / profit if profit is not None and profit > 0 else None
+        if expected is None:
+            require(row["conversion"] is None, f"{row['fiscal_year']}: conversion must be null without positive matching profit")
+            continue
+        require(row["conversion"] is not None and math.isclose(row["conversion"], expected, rel_tol=1e-6, abs_tol=1e-6),
+                f"{row['fiscal_year']}: conversion should be {expected:.4f}")
+        received.append(row["cash_dividends_received"])
+        profits.append(profit)
+        ratios.append(expected)
+    require(len(ratios) >= 3, "needs at least three years with a computable conversion")
+    aggregate = sum(received) / sum(profits) if ratios else None
+    actual = record["aggregate_conversion"]
+    require(actual is not None and aggregate is not None
+            and math.isclose(actual, aggregate, rel_tol=1e-6, abs_tol=1e-6),
+            f"aggregate_conversion should be {aggregate}")
+    forecast = record["forecast_conversion"]
+    evidence = record["above_history_evidence"]
+    if isinstance(evidence, str):
+        require(not new_contract(report), "above_history_evidence must give evidence and source_refs, not text alone")
+    elif evidence is not None:
+        require(set(evidence["source_refs"]) <= set(report.get("sources", [])),
+                "above_history_evidence source_refs must be entries of the report's sources")
+    require(forecast["Bear"] <= forecast["Base"] <= forecast["Bull"], "forecast conversion must be ordered Bear <= Base <= Bull")
+    if ratios and record["above_history_evidence"] is None:
+        require(forecast["Base"] <= aggregate + 1e-9,
+                f"Base {forecast['Base']:.1%} exceeds the {aggregate:.1%} multi-year aggregate without above_history_evidence")
+        require(forecast["Bull"] <= max(ratios) + 1e-9,
+                f"Bull {forecast['Bull']:.1%} exceeds the best historical year {max(ratios):.1%} without above_history_evidence")
+    return errors
 
 
 def distribution_capacity(owner_cash, growth_uses, mandatory_uses, exceptional_uses, excess_cash):
@@ -54,7 +232,9 @@ def aggregate_coverage(cash, dividends):
     return sum(cash) / sum(dividends)
 
 
-def growth_present_value(cash_flows, required_return, terminal_growth, terminal_dps, terminal_time):
+def growth_present_value(cash_flows, required_return, terminal_growth, terminal_dps, terminal_time, finite=()):
+    """Explicit PV and terminal PV. `finite` lists (cash_share, years) for assets whose share of the terminal
+    dividend stops after `years` terminal years; the rest is a growing perpetuity."""
     if required_return <= 0 or terminal_growth <= -1 or required_return - terminal_growth < 0.02 - 1e-12:
         raise ValueError("Growth valuation requires positive R, g > -1 and R-g >= 0.02")
     if terminal_dps < 0 or terminal_time <= 0:
@@ -67,8 +247,52 @@ def growth_present_value(cash_flows, required_return, terminal_growth, terminal_
     if any(not 0 < row["cash_fraction"] <= 1 for row in cash_flows):
         raise ValueError("Cash fractions must be in (0, 1]")
     explicit = sum(row["net_dps"] * row["cash_fraction"] * math.exp(-row["years_from_valuation"] * math.log1p(required_return)) for row in cash_flows)
-    terminal = terminal_dps / (required_return - terminal_growth) * math.exp(-terminal_time * math.log1p(required_return))
+    if any(share < 0 or years < 0 for share, years in finite) or sum(share for share, _ in finite) > 1 + 1e-9:
+        raise ValueError("Finite terminal assets need nonnegative shares summing to at most 1")
+    fade = (1 + terminal_growth) / (1 + required_return)
+    remaining = 1 - sum(share * fade ** years for share, years in finite)
+    terminal = terminal_dps / (required_return - terminal_growth) * remaining * math.exp(-terminal_time * math.log1p(required_return))
     return explicit, terminal
+
+
+def terminal_finite_terms(report, growth, runway, horizon):
+    """(cash_share, terminal years) per expiring asset, checked against economic_profile.finite_life_assets."""
+    errors = []
+    profile_assets = {row["name"]: row for row in report.get("economic_profile", {}).get("finite_life_assets", [])}
+    records = growth.get("terminal_finite_assets") or []
+    if not profile_assets:
+        if records:
+            errors.append("Growth: terminal_finite_assets without economic_profile.finite_life_assets")
+        return [], errors
+    if not records:
+        return [], (["Growth: finite-life assets in economic_profile must enter the terminal value through "
+                     "terminal_finite_assets, not only a lower perpetual growth rate"] if new_contract(report) else [])
+    names = [row["name"] for row in records]
+    if sorted(names) != sorted(profile_assets):
+        errors.append("Growth: terminal_finite_assets must list exactly the economic_profile finite-life assets")
+    first = runway.get((min(horizon, 5), "Base"))
+    base_year = None
+    if first is not None and str(first["fiscal_year"]).isdigit():
+        base_year = int(first["fiscal_year"]) + max(0, horizon - 5)
+    if growth.get("terminal_base_fiscal_year") != base_year:
+        errors.append(f"Growth: terminal_base_fiscal_year should be {base_year}, the last explicit/transition fiscal year")
+    terms = []
+    for row in records:
+        source = profile_assets.get(row["name"])
+        if source is None:
+            continue
+        # A grouped entry that cannot be split is valued to its earliest material expiry, not its latest.
+        effective_end = min(source["end_year"], source.get("earliest_end_year") or source["end_year"])
+        if row["end_year"] != effective_end or not math.isclose(row["cash_share"], source["operating_cash_share_pct"] / 100, abs_tol=1e-9):
+            errors.append(f"Growth: terminal asset '{row['name']}' must match the profile end year "
+                          f"({effective_end}, the earliest expiry when the entry groups several) and cash share")
+        if row["treatment"] == "renewal_evidenced":
+            if source["extension_evidence"] is None:
+                errors.append(f"Growth: '{row['name']}' cannot stay in the perpetuity without profile extension_evidence")
+            continue
+        if base_year is not None:
+            terms.append((row["cash_share"], max(0, row["end_year"] - base_year)))
+    return terms, errors
 
 
 @lru_cache(maxsize=1)
@@ -188,6 +412,9 @@ def validate_report(report):
         if row["evidence_status"] == "insufficient":
             require(row["recurring_fad"] is None, f"{label}: insufficient evidence cannot give precise FAD")
 
+    errors.extend(scrip_coverage_errors(report))
+    errors.extend(associate_conversion_errors(report))
+
     window = history[-5:]
     coverage = report["coverage_summary"]
     require(coverage["fiscal_years"] == [row["fiscal_year"] for row in window], "Coverage periods must match the latest history rows")
@@ -300,7 +527,8 @@ def validate_report(report):
         owner = forecast["fcf_or_distributable_cash"]
         same(bridge["fcf_or_capital_generation"], owner, f"{label} owner cash / proxy")
         same(bridge["required_reinvestment"], forecast["remaining_growth_investment"], f"{label} growth investment")
-        if model["sector_model"] in ("operating_company", "utility_infrastructure"):
+        if model["sector_model"] in ("operating_company", "utility_infrastructure",
+                                    "concession_infrastructure", "midstream_partnership"):
             inputs = [forecast[field] for field in ("normalized_ocf", "maintenance_capex", "other_owner_claims")]
             require(all(value is not None for value in inputs), f"{label}: missing operating owner-FCF inputs")
             if all(value is not None for value in inputs):
@@ -371,6 +599,18 @@ def validate_report(report):
     returns = report["return_requirements"]
     if returns["status"] == "assessed":
         require(returns["benchmark_date"] <= report["as_of_date"], "Risk-free observation cannot postdate the analysis")
+        remaining, target = returns.get("benchmark_remaining_years"), returns.get("target_tenor_years")
+        require(not new_contract(report) or (remaining is not None and target is not None),
+                "An assessed required return must record benchmark_remaining_years and target_tenor_years")
+        require(remaining is None or target is None or abs(remaining - target) <= 2,
+                "Benchmark remaining life is more than 2 years from the target tenor; interpolate or pick a closer issue")
+        if new_contract(report):
+            age = (date.fromisoformat(report["as_of_date"]) - date.fromisoformat(returns["benchmark_date"])).days
+            require(age <= 45, f"Risk-free observation is {age} days old; refresh it (limit 45 days)")
+        require(not new_contract(report) or returns["benchmark_currency"] == returns["valuation_currency"]
+                or returns.get("benchmark_currency_basis"),
+                "A risk-free benchmark in another currency needs benchmark_currency_basis "
+                "(matching sovereign source tried, why not used, peg/hedge treatment)")
         same(returns["required_total_return_low"], returns["risk_free_rate"] + returns["risk_premium_low"], "Required return low")
         same(returns["required_total_return_high"], returns["risk_free_rate"] + returns["risk_premium_high"], "Required return high")
         require(returns["required_total_return_high"] > returns["required_total_return_low"], "Return range must be ordered and nonempty")
@@ -412,6 +652,8 @@ def validate_report(report):
     elif net_yield is None:
         require(income["yield_fit"] == "Not Assessed" and income["income_eligible"] is None, "Missing cash yield cannot pass an income requirement")
 
+    credit = returns.get("income_growth_credit") or 0
+    errors.extend(income_growth_credit_errors(report, runway, mode))
     if "buy_zone" in report:
         zone = report["buy_zone"]
         if zone["normalized_net_dps_basis"] == "three_year_base_average":
@@ -426,7 +668,8 @@ def validate_report(report):
                 same(zone["normalized_net_dps"], average, "Three-year Base-average N")
         try:
             boundaries = ordinary_boundaries(zone["normalized_net_dps"], zone["bear_net_dps"],
-                                              zone["required_net_yield_low"], zone["required_net_yield_high"])
+                                              zone["required_net_yield_low"], zone["required_net_yield_high"],
+                                              credit if mode == "ordinary_yield_based" else 0)
         except ValueError as error:
             errors.append(str(error))
         else:
@@ -435,8 +678,9 @@ def validate_report(report):
         if mode == "finite_life_harvest":
             require(zone["required_net_yield_low"] >= 0.1, "Harvest ordinary cross-check needs r_low >= 10%")
         else:
-            same(zone["required_net_yield_low"], returns["required_total_return_low"], "Zero-growth income r_low")
-            same(zone["required_net_yield_high"], returns["required_total_return_high"], "Zero-growth income r_high")
+            label = "Growth-credited" if credit else "Zero-growth"
+            same(zone["required_net_yield_low"], returns["required_total_return_low"] - credit, f"{label} income r_low")
+            same(zone["required_net_yield_high"], returns["required_total_return_high"] - credit, f"{label} income r_high")
 
     if mode == "finite_life_harvest":
         harvest = report["finite_life_valuation"]
@@ -461,6 +705,8 @@ def validate_report(report):
             same(harvest["residual_value_share_of_total"], residual_pv / (total_pv + residual_pv) if total_pv + residual_pv else None,
                  "Finite-life residual share")
 
+    if "capital_return_valuation" in report:
+        errors.extend(capital_return_errors(report))
     if "growth_valuation" in report:
         require(mode == "total_return_based", "Growth valuation cannot bypass the primary mode's eligibility gates")
         require(cash_income_supported and tax_supported, "Growth valuation requires supported cash election and withholding")
@@ -476,6 +722,9 @@ def validate_report(report):
             if dividend["dividend_entitlement"] is not None and forecast["recurring_fad"] is not None:
                 require(dividend["dividend_entitlement"] <= forecast["recurring_fad"] and dividend["funding_gap"] == 0 and dividend["all_cash_funding_gap"] == 0,
                         f"{key}: growth requires funded dividends throughout the five-year outlook")
+        finite, finite_errors = terminal_finite_terms(report, growth, runway,
+                                                      growth["explicit_horizon_years"] + growth["transition_years"])
+        errors.extend(finite_errors)
         for row in growth["scenarios"]:
             label = f"Growth {row['scenario']}"
             path = row["forecast_cash_flows"]
@@ -518,7 +767,7 @@ def validate_report(report):
                         same(cash["net_dps"], net, f"{label}: cash path / runway reconciliation")
             try:
                 explicit, terminal = growth_present_value(path, row["required_return"], row["terminal_growth"],
-                                                          row["terminal_net_dps"], row["terminal_time_years"])
+                                                          row["terminal_net_dps"], row["terminal_time_years"], finite)
             except ValueError as error:
                 errors.append(f"{label}: {error}")
                 continue
@@ -580,7 +829,7 @@ def validate_report(report):
                                    if cash["forecast_year"] == terminal_year) * (1 + g)
                 try:
                     explicit, terminal = growth_present_value(base["forecast_cash_flows"], rate, g,
-                                                              terminal_dps, base["terminal_time_years"])
+                                                              terminal_dps, base["terminal_time_years"], finite)
                 except ValueError as error:
                     errors.append(f"R/g sensitivity: {error}")
                 else:
@@ -653,7 +902,7 @@ def validate_report(report):
     price_only_income_shortfall = (
         report.get("schema_version") in ("2.5", "3.0")
         and not errors and not non_income_limitations and not normalization_gaps
-        and mode in ("ordinary_yield_based", "total_return_based")
+        and mode in ("ordinary_yield_based", "total_return_based", "capital_return_based")
         and income["target"]["target_policy"] == "hard_minimum"
         and target is not None and target > 0
         and income["income_eligible"] is False and income["yield_fit"] == "Below target"
@@ -682,6 +931,9 @@ def validate_report(report):
         elif mode == "total_return_based":
             require(price is not None and price <= report["growth_valuation"]["entry_upper"],
                     "Strong Buy price must meet the growth entry threshold")
+        elif mode == "capital_return_based":
+            require(price is not None and price <= report["capital_return_valuation"]["entry_upper"],
+                    "Strong Buy price must meet the capital-return entry threshold")
     if holding["action"] == "switch":
         switch = holding["switch_analysis"]
         require(switch["after_cost_advantage"] > switch["switching_hurdle"], "Switch benefit must exceed the documented after-cost hurdle")
@@ -692,6 +944,106 @@ def validate_report(report):
         ))
     return errors
 
+
+
+def capital_return_errors(report):
+    """Tangible-book residual-income value (buy-zone.md Section 7A)."""
+    errors = []
+
+    def require(condition, message):
+        if not condition:
+            errors.append("Capital-return valuation: " + message)
+
+    def close(actual, expected, label):
+        require(actual is not None and math.isclose(actual, expected, rel_tol=1e-6, abs_tol=1e-9),
+                f"{label}: expected {expected}, got {actual}")
+
+    value = report["capital_return_valuation"]
+    returns = report["return_requirements"]
+    require(report["valuation_mode"] == "capital_return_based",
+            "the record is only valid as the capital_return_based primary mode")
+    require(returns["status"] == "assessed", "requires an assessed required return")
+    if returns["status"] == "assessed":
+        close(value["required_return_low"], returns["required_total_return_low"], "required_return_low")
+        close(value["required_return_high"], returns["required_total_return_high"], "required_return_high")
+    require(value["book_value_currency"] == returns["valuation_currency"], "book value must be in the valuation currency")
+    g = value["long_run_growth"]
+    require(g <= value["long_run_nominal_growth_bound"], "long-run growth above its documented bound")
+    require(value["required_return_low"] - g >= 0.02 - 1e-12, "required return must exceed growth by at least 2 points")
+    rows = {row["scenario"]: row for row in value["scenarios"]}
+    require(set(rows) == {"Bear", "Base", "Bull"}, "needs Bear, Base and Bull exactly once")
+    if set(rows) != {"Bear", "Base", "Bull"}:
+        return errors
+    rotes = [rows[s]["sustainable_return_on_tangible_equity"] for s in ("Bear", "Base", "Bull")]
+    require(rotes == sorted(rotes), "returns on tangible equity must rise from Bear to Bull")
+    bv = value["book_value_per_share"]
+    for name, row in rows.items():
+        rote = row["sustainable_return_on_tangible_equity"]
+        close(row["value_at_required_high"], bv * (rote - g) / (value["required_return_high"] - g), f"{name} value at R_high")
+        close(row["value_at_required_low"], bv * (rote - g) / (value["required_return_low"] - g), f"{name} value at R_low")
+    low = min(row["value_at_required_high"] for row in rows.values())
+    high = max(row["value_at_required_low"] for row in rows.values())
+    close(value["value_low"], low, "value_low")
+    close(value["value_high"], high, "value_high")
+    close(value["base_case_value"], rows["Base"]["value_at_required_high"], "base_case_value")
+    close(value["entry_upper"], low * (1 - value["margin_of_safety"]), "entry_upper")
+    close(value["review_above"], high, "review_above")
+    capacity = value.get("distribution_capacity")
+    require(capacity is not None or not new_contract(report),
+            "needs distribution_capacity linking the formula to forecast capital generation")
+    if capacity is None:
+        return errors
+    forecasts = {(row["forecast_year"], row["scenario"]): row
+                 for row in report["three_year_fundamental_forecast"] + report.get("forecast_extension", [])}
+    runway = {(row["forecast_year"], row["scenario"]): row for row in report["dividend_and_yield_runway"]}
+    caps = {row["scenario"]: row for row in capacity["scenarios"]}
+    require(set(caps) == {"Bear", "Base", "Bull"}, "distribution_capacity needs Bear, Base and Bull exactly once")
+    for name in set(caps) & set(rows):
+        cap, rote = caps[name], rows[name]["sustainable_return_on_tangible_equity"]
+        implied = (rote - g) / rote if rote > 0 else None
+        if implied is None:
+            require(False, f"{name}: sustainable RoTE must be positive")
+            continue
+        close(cap["implied_distribution_ratio"], implied, f"{name} implied distribution ratio")
+        years = [forecasts.get((year, name)) for year in range(1, 6)]
+        if not all(row and row["recurring_fad"] is not None and row["net_income_or_affo"] for row in years):
+            require(False, f"{name}: needs five forecast years of earnings and capital generation")
+            continue
+        ratio = sum(row["recurring_fad"] for row in years) / sum(row["net_income_or_affo"] for row in years)
+        close(cap["forecast_distributable_ratio"], ratio, f"{name} forecast distributable ratio")
+        require(implied <= ratio + 1e-9,
+                f"{name}: the formula assumes {implied:.0%} of earnings is returned but forecast capital generation "
+                f"supports only {ratio:.0%}; lower RoTE or g, or show the capital")
+        payout = runway.get((1, name), {}).get("payout_ratio")
+        if payout is not None:
+            close(cap["dividend_payout_ratio"], payout, f"{name} dividend payout ratio")
+        close(cap["buyback_capacity_ratio"], ratio - cap["dividend_payout_ratio"], f"{name} buyback capacity ratio")
+    path = capacity.get("annual_path")
+    require(path is not None or not new_contract(report), "distribution_capacity needs the Base annual_path")
+    bridge = capacity.get("capital_ratio_bridge")
+    if path is not None:
+        require(bridge is not None, "annual_path needs capital_ratio_bridge (current and target ratio, RWAs, regulatory change)")
+    if path is not None and bridge is not None:
+        require(set(bridge["source_refs"]) <= set(report.get("sources", [])), "capital_ratio_bridge source_refs must be report sources")
+        rwa = bridge["risk_weighted_assets"]
+        gap = max(0.0, bridge["target_ratio"] - bridge["current_ratio"]) * rwa
+        rebuilt = sum(row["target_gap_rebuild"] for row in path if row["target_gap_rebuild"] > 0)
+        released = -sum(row["target_gap_rebuild"] for row in path if row["target_gap_rebuild"] < 0)
+        close(rebuilt, gap, "annual path capital rebuilt versus (target - current) x RWA")
+        require(released <= bridge["regulatory_change_ratio"] * rwa * (1 + 1e-9),
+                "annual path releases more capital than the documented regulatory change allows")
+    for index, row in enumerate(path or [], start=1):
+        base, div = forecasts.get((index, "Base")), runway.get((index, "Base"))
+        if base is not None:
+            require(row["fiscal_year"] == str(base["fiscal_year"]), f"annual path year {index} must be fiscal year {base['fiscal_year']}")
+        if base is None or div is None:
+            continue
+        close(row["earnings"], base["net_income_or_affo"], f"annual path year {index} earnings")
+        close(row["earnings"] - row["growth_capital"], base["recurring_fad"], f"annual path year {index} capital generation")
+        close(row["dividends"], div["dividend_cash_cost"], f"annual path year {index} dividends")
+        close(row["buyback_capacity"], row["earnings"] - row["growth_capital"] - row["target_gap_rebuild"] - row["dividends"],
+              f"annual path year {index} buyback capacity")
+    return errors
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)

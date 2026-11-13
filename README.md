@@ -29,6 +29,9 @@ dividend-income-equity-analysis/
 ├── data-conventions.md
 ├── screen-mode.md
 ├── workflow.md
+├── economic-profile.md
+├── industry-analysis.md
+├── historical-financial-trends.md
 ├── business-outlook.md
 ├── business-fundamentals.md
 ├── sector-fcf-proxies.md
@@ -45,7 +48,7 @@ dividend-income-equity-analysis/
 
 ## Schema 3.0
 
-新报告默认使用 **schema 3.0 / rubric 2**，简体中文、离线单文件 HTML，保留结论先行的六节结构。完整评分与本地扩展已纳入源码，不再依赖某台机器上的未提交安装。
+新报告默认使用 **schema 3.0 / rubric 2**，简体中文、离线单文件 HTML，Full Analysis 采用结论先行的十二章完整研究结构。框架先按七个经济维度（收入引擎、资产寿命、周期性、资产负债表角色、资本强度、法律／分派结构、现金归属）为每个分部建立经济特征档案，再据此选择现金模型、估值、压力测试和税务路线；行业清单只是速查表，新行业无需新增规则。不以 BTI 或任何单一行业为模板。覆盖银行、保险、电信、油轮、集装箱航运、港口、收费公路、燃气、煤炭／矿业、REIT、抵押贷款 REIT、中游管道／MLP、商业信托、飞机租赁、能源、医药、半导体、软件／平台、控股公司和 BDC；未列出的行业按实际收入和现金来源自定 KPI，走通用企业现金模型；ETF／基金需走独立基金分析路线。完整评分与本地扩展纳入源码，不依赖某台机器上的未提交安装。
 
 - **确定性结论**：`decision` 必须给出单一动作（立即买入／分批建仓／等待到价／继续观察／回避）、现价能否买、具体买入条件及失效条件。正常输出三档参考价和收入约束上限；资金受限时明确不买及具体解除事件，不编造价格。
 - **先取数**：`evidence_recovery` 逐缺口记录公司披露、集团两层、公告、交易所／监管、官方序列、历史回溯、券商流水，再记录有据区间或无法估计的具体原因。取数覆盖率不等于企业质量。
@@ -87,18 +90,24 @@ Screen Mode does not output forecasts, N/B, buy zones, Strong Buy, or final scor
 
 ### Full Analysis Mode
 
-Runs the complete framework (business fundamentals, dividend capacity, sensitivity, dilution, valuation and scoring), then writes a short, conclusion-first report that answers four questions:
+Runs the complete framework (economic profile, industry, five-year trends, dividend capacity, forecasts, valuation, scoring and entry levels), then writes a conclusion-first twelve-chapter report:
 
-| Section | Answers |
+| Chapter | Content |
 |---|---|
-| 1. Bottom Line | One-sentence verdict, key numbers table and action status line. |
-| 2. Financial Condition | Is the dividend funded by real recurring cash? Five-year coverage table and balance-sheet constraints. |
-| 3. Entry View | Where the price sits, at what price it becomes attractive, and the action with its conditions. |
-| 4. Long-Term Business and Dividend Outlook | Three-to-five-year drivers and a Bear/Base/Bull FY+1/FY+3/FY+5 dividend table. |
-| 5. Key Risks and Monitoring | Three to five company-specific risks with observable early signals and dividend impact. |
-| 6. Sources and Key Assumptions | Cut-off date, key sources, key assumptions and data gaps, one line each. |
+| 1. 摘要与投资结论 | Single action, decisive reason, key numbers and the quality/score status line. |
+| 2. 公司概况与行业定位 | Business model, segments and the auto-rendered seven-dimension economic profile. |
+| 3–4. 行业结构／竞争格局 | Demand, supply, cycle, regulation, peers and moat. |
+| 5. 过去五年经营与财务趋势 | Five-year tables, deterioration signals and their causes. |
+| 6. 现金流、资产负债与股息质量 | Cash bridge, coverage, leverage, tax and net cash per share. |
+| 7–8. 成长性／五年预测 | Reinvestment returns and Bear/Base/Bull annual forecasts. |
+| 9. 估值与预期总回报 | Two or more methods, scenario values and total-return decomposition. |
+| 10. 买点、建仓策略与持仓复评 | US 10-year Treasury comparison, staged entry prices and conditions. |
+| 11. 风险、监测指标与论点证伪 | Measurable thresholds and invalidation triggers. |
+| 12. 数据来源、关键假设与研究限制 | Sources, assumptions and data gaps. |
 
-The main report has a length budget (about 1,200-2,000 Chinese characters excluding tables, at most five tables and three charts), states each number once, and omits placeholder rows, formulas and rule restatements. Cash-flow bridges, the five-year annual forecast, sensitivities, the full trap checklist, valuation audit, score detail and holding-review table go into an Audit Appendix that is produced only on request; JSON output always carries the full records. See [the example report](dividend-income-equity-analysis/examples/example-output-skeleton.md).
+Reports dated 2026-11-10 or later must use this structure and record `economic_profile`; the six-section layout is accepted only for archived records.
+
+The Full Analysis report is a complete twelve-chapter research document with no fixed word, table or chart cap. The executive summary is followed by industry and peer analysis, five-year financial trends, cash-flow and dividend quality, business growth, forecasts, valuation, entry levels, risks and sources. Core analysis must appear in the report body; the default audit appendix adds source trails, formulas, reconciliations and sensitivities. Sector-specific methods are selected dynamically; BTI is only one illustrative example. See [the example skeleton](dividend-income-equity-analysis/examples/example-output-skeleton.md) and the validated twelve-chapter [full-report JSON](dividend-income-equity-analysis/examples/full-report.analysis.json), which renders chapter tables and inline SVG charts.
 
 ### Three-to-Five-Year Outlook and FCF
 
@@ -234,7 +243,7 @@ These focused rule-assessment packets are a first stage, not full issuer-report 
 ## Complete Examples and Publication
 
 - [Worked assumptions and independent answers](dividend-income-equity-analysis/examples/worked-examples.md).
-- [Ordinary analysis JSON](dividend-income-equity-analysis/examples/ordinary.analysis.json) and [growth analysis JSON](dividend-income-equity-analysis/examples/growth.analysis.json), both validated by the local entry point.
+- [Ordinary analysis JSON](dividend-income-equity-analysis/examples/ordinary.analysis.json), [growth analysis JSON](dividend-income-equity-analysis/examples/growth.analysis.json) and the twelve-chapter [full-report JSON](dividend-income-equity-analysis/examples/full-report.analysis.json), all validated by the local entry point.
 - [Portfolio target context](dividend-income-equity-analysis/portfolio-context.md) and [report publishing contract](dividend-income-equity-analysis/publishing.md).
 
 Both generated bundle profiles identify their source commit, schema version, source dirty/clean status and deterministic build-input hash. Archives without a matching Git checkout report the commit as unknown. Local validation does not require a hosted CI service. Arithmetic checks and evidence-routing reviews do not establish investment performance; see `data-conventions.md` for point-in-time evaluation requirements.

@@ -1,7 +1,7 @@
 {
   "schema_version": "3.0",
   "scoring_rubric": "2",
-  "presentation_revision": "html-1",
+  "presentation_revision": "html-2",
   "source_kind": "canonical_repository",
   "source_repository": "https://github.com/Alanjiao1988/skills-dividend-for-HK",
   "baseline_commit": "1debaef",
@@ -256,7 +256,11 @@
   "new_contract_files": [
     "dividend-income-equity-analysis/scripts/schema3_checks.py",
     "dividend-income-equity-analysis/scripts/render_report.py",
-    "tests/test_schema3.py"
+    "tests/test_schema3.py",
+    "dividend-income-equity-analysis/industry-analysis.md",
+    "dividend-income-equity-analysis/historical-financial-trends.md",
+    "dividend-income-equity-analysis/examples/full-report.analysis.json",
+    "dividend-income-equity-analysis/economic-profile.md"
   ],
   "validation_commands": [
     "bash validate-skill.sh",
@@ -267,6 +271,13 @@
     "Both allOf[4] and allOf[18] dispatch schema 2.5 and 3.0; rubric_version remains 2.",
     "The reference installation manifest is replaced with this portable source manifest, not copied with stale machine paths.",
     "Repository tests retain all 220 reference tests plus existing bundle regressions and new 3.0 tests.",
-    "No existing company research report, external archive or Claude installation is modified."
+    "No existing company research report, external archive or Claude installation is modified.",
+    "Full Analysis defaults to a complete twelve-chapter report with an executive summary followed by industry, peer, five-year financial trend, cash-flow, growth, forecast, valuation and risk analysis.",
+    "The buy-zone contract requires explicit U.S. 10-year Treasury opportunity-cost comparison and ±50/±100 bp rate sensitivity, with currency-matched primary discount-rate treatment.",
+    "Full Analysis output contract is twelve chapters and cross-sector by design; README and SKILL metadata explicitly reject a BTI-centric interpretation.",
+    "Sector playbooks now distinguish tanker, dry-bulk and container shipping; BDCs receive a dedicated cash/NII/NAV and distribution-coverage proxy. ETFs/funds are routed to fund-level analysis rather than issuer FCF.",
+    "Report sections accept optional tables and charts (schema $defs reportTable/reportChart); the renderer emits static tables and inline SVG, and inserts buy conditions only in the chapter whose heading contains 买点.",
+    "Dedicated sector models added: mortgage_reit, concession_infrastructure (toll roads) and midstream_partnership; playbooks added for gas distribution, coal/metals mining, business trusts and aircraft lessors.",
+    "Routing is profile-driven (economic-profile.md): seven economic dimensions decide cash model, finite-asset valuation, balance-sheet stresses and tax route; schema3_checks enforces profile consistency, twelve chapters for reports dated from 2026-11-10, and the renderer builds A3/A5/A6/A10/A11/A13 from JSON records."
   ]
 }

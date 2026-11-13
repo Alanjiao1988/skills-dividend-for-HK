@@ -1,0 +1,3174 @@
+{
+  "schema_version": "3.0",
+  "mode": "full_analysis",
+  "company": "Fictional Harbor Services - ordinary",
+  "action_assessment": {
+    "status": "eligible",
+    "strong_buy_eligible": false,
+    "reasons": [
+      "Illustrative calculations are eligible under the stated assumptions; no live recommendation. Medium forecast confidence prevents Strong Buy."
+    ],
+    "capital_risk_and_total_return_check": "See entry_plan.return_scenarios and risk_review: the Bear exit loses 20% of principal before three years of cash; the Base exit yield is an explicit assumption. The stipulated cash/capital plan is funded, but neither annual cash yield nor an entry boundary guarantees total return."
+  },
+  "ticker": "FICTIONAL-O",
+  "exchange": "Fictional teaching venue",
+  "as_of_date": "2026-01-01",
+  "price_used": 40,
+  "withholding_rate": 0,
+  "withholding_basis": "company_announcement",
+  "key_metrics_at_a_glance": {
+    "ttm_net_yield": 0.1,
+    "normalized_net_yield": 0.1,
+    "quality_score_85": 62,
+    "current_action": "accumulate",
+    "score_status": "provisional",
+    "score_range": {
+      "low": 76,
+      "high": 76
+    },
+    "quality_score_range": {
+      "low": 62,
+      "high": 62
+    },
+    "score_coverage_pct": 100,
+    "grade_range": {
+      "worst": "B",
+      "best": "B"
+    },
+    "score_100": 76,
+    "grade": "B",
+    "portfolio_role": "Watchlist",
+    "valuation_mode": "ordinary_yield_based"
+  },
+  "dividend_snapshot": {
+    "ttm_dps": 4,
+    "ttm_net_yield": 0.1,
+    "normalized_net_dps": 4,
+    "coverage_status": "Strong",
+    "history_coverage_years": 5
+  },
+  "five_year_dividend_history": [
+    {
+      "fiscal_year": "2021",
+      "coverage_label": "Strong",
+      "quality_tag": "Stable"
+    },
+    {
+      "fiscal_year": "2022",
+      "coverage_label": "Strong",
+      "quality_tag": "Stable"
+    },
+    {
+      "fiscal_year": "2023",
+      "coverage_label": "Strong",
+      "quality_tag": "Stable"
+    },
+    {
+      "fiscal_year": "2024",
+      "coverage_label": "Strong",
+      "quality_tag": "Stable"
+    },
+    {
+      "fiscal_year": "2025",
+      "coverage_label": "Strong",
+      "quality_tag": "Stable"
+    }
+  ],
+  "cash_flow_bridge": [
+    {
+      "fiscal_year": "2021",
+      "fiscal_year_end": "2021-12-31",
+      "recurring_owner_fcf_or_proxy": 60,
+      "recurring_fad": 50,
+      "actual_all_in_fcf": 45,
+      "actual_distribution_capacity": 45,
+      "cash_dividends": 40,
+      "fcf_dividend_coverage": 1.25,
+      "actual_cash_coverage": 1.125,
+      "evidence_status": "estimated_reconciled",
+      "funding_source": "Operating FCF"
+    },
+    {
+      "fiscal_year": "2022",
+      "fiscal_year_end": "2022-12-31",
+      "recurring_owner_fcf_or_proxy": 70,
+      "recurring_fad": 60,
+      "actual_all_in_fcf": 55,
+      "actual_distribution_capacity": 55,
+      "cash_dividends": 40,
+      "fcf_dividend_coverage": 1.5,
+      "actual_cash_coverage": 1.375,
+      "evidence_status": "estimated_reconciled",
+      "funding_source": "Operating FCF"
+    },
+    {
+      "fiscal_year": "2023",
+      "fiscal_year_end": "2023-12-31",
+      "recurring_owner_fcf_or_proxy": 80,
+      "recurring_fad": 70,
+      "actual_all_in_fcf": 65,
+      "actual_distribution_capacity": 65,
+      "cash_dividends": 40,
+      "fcf_dividend_coverage": 1.75,
+      "actual_cash_coverage": 1.625,
+      "evidence_status": "estimated_reconciled",
+      "funding_source": "Operating FCF"
+    },
+    {
+      "fiscal_year": "2024",
+      "fiscal_year_end": "2024-12-31",
+      "recurring_owner_fcf_or_proxy": 90,
+      "recurring_fad": 80,
+      "actual_all_in_fcf": 75,
+      "actual_distribution_capacity": 75,
+      "cash_dividends": 40,
+      "fcf_dividend_coverage": 2.0,
+      "actual_cash_coverage": 1.875,
+      "evidence_status": "estimated_reconciled",
+      "funding_source": "Operating FCF"
+    },
+    {
+      "fiscal_year": "2025",
+      "fiscal_year_end": "2025-12-31",
+      "recurring_owner_fcf_or_proxy": 100,
+      "recurring_fad": 90,
+      "actual_all_in_fcf": 35,
+      "actual_distribution_capacity": 35,
+      "cash_dividends": 40,
+      "fcf_dividend_coverage": 2.25,
+      "actual_cash_coverage": 0.875,
+      "evidence_status": "estimated_reconciled",
+      "funding_source": "Mixed"
+    }
+  ],
+  "cash_flow_model": {
+    "sector_model": "operating_company",
+    "overlays": [],
+    "starting_metric": "OCF after cash interest and tax",
+    "owner_perimeter": "Ordinary parent owners",
+    "financial_currency": "USD",
+    "cash_unit_scale": 1000000,
+    "share_unit_scale": 1000000,
+    "evidence_status": "estimated_reconciled",
+    "proxy_reconciliation": "Base FY2026: OCF 130m - maintenance 20m - other owner claims 10m = Owner FCF 100m; deduct committed growth 20m and mandatory uses 5m once to reach recurring FAD 75m; exceptional cash use 5m leaves distribution capacity 70m.",
+    "capital_and_remittance_evidence": "Assume all cash is at the ordinary parent and distributable, with no restricted subsidiary cash, regulatory remittance cap or preference claim. Cash 25m and debt 50m are fictional starting balances; no scheduled debt maturity in the five-year model.",
+    "deduction_ledger": [],
+    "missing_inputs": [],
+    "sources": [
+      "worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."
+    ]
+  },
+  "coverage_summary": {
+    "dividend_basis": "ordinary_cash_paid",
+    "comparison_basis": "Fictional FY2021-2025 full fiscal years, USD millions, ordinary cash distributions 40m each year; no special dividend, scrip or repurchases.",
+    "fiscal_years": [
+      "2021",
+      "2022",
+      "2023",
+      "2024",
+      "2025"
+    ],
+    "years_available": 5,
+    "three_year_recurring_coverage": 2,
+    "five_year_worst_recurring_coverage": 1.25,
+    "worst_available_recurring_coverage": 1.25,
+    "worst_recurring_year": "2021",
+    "worst_actual_coverage": 0.875,
+    "worst_actual_year": "2025",
+    "shortfall_funding_and_limitations": "FY2025 actual capacity 35m versus cash dividend 40m required 5m from pre-existing unrestricted cash; recurring FAD 90m covers the payout. The one-year cash deficit is disclosed, not erased by normalization."
+  },
+  "business_outlook": {
+    "horizon_years": 5,
+    "data_cutoff": "2026-01-01",
+    "competitive_position": "Fictional local service network with recurring contracts; assume no market-share gain or regulatory protection beyond existing contracts.",
+    "management_execution": "Assume management delivers funded capacity on time and maintains the 40% earnings payout. Cancellation or payout policy changes require a new forecast.",
+    "drivers": [
+      {
+        "driver": "Volume",
+        "segment": "Recurring maintenance services",
+        "baseline": "Base revenue 500m in FY2026",
+        "year_three_outcome": "Apply the stated scenario factor with no time growth.",
+        "year_five_outcome": "Apply the stated scenario factor with no time growth.",
+        "investment_and_funding": "Annual growth investment 20m times the scenario/year factor is paid from Owner FCF; no equity issuance or extra borrowing assumed.",
+        "fcf_transmission": "Operating cash less maintenance and owner claims gives Owner FCF; committed investment and mandatory uses precede the dividend calculation.",
+        "evidence_type": "analyst_estimate",
+        "source_and_date": "Fictional assumption A2, 2026-01-01; no company disclosure.",
+        "confidence": "Medium",
+        "invalidation_signal": "Rebuild the model if volume or operating cash conversion is over 10% below the scenario plan, or funded capacity slips by over a year."
+      },
+      {
+        "driver": "Margin",
+        "segment": "Recurring maintenance services",
+        "baseline": "OCF 26% of revenue; attributable earnings 20%",
+        "year_three_outcome": "Apply the stated scenario factor with no time growth.",
+        "year_five_outcome": "Apply the stated scenario factor with no time growth.",
+        "investment_and_funding": "Annual growth investment 20m times the scenario/year factor is paid from Owner FCF; no equity issuance or extra borrowing assumed.",
+        "fcf_transmission": "Operating cash less maintenance and owner claims gives Owner FCF; committed investment and mandatory uses precede the dividend calculation.",
+        "evidence_type": "analyst_estimate",
+        "source_and_date": "Fictional assumption A2, 2026-01-01; no company disclosure.",
+        "confidence": "Medium",
+        "invalidation_signal": "Rebuild the model if volume or operating cash conversion is over 10% below the scenario plan, or funded capacity slips by over a year."
+      },
+      {
+        "driver": "Maintenance",
+        "segment": "Recurring maintenance services",
+        "baseline": "Maintenance 4% of revenue; committed growth investment 4%",
+        "year_three_outcome": "Apply the stated scenario factor with no time growth.",
+        "year_five_outcome": "Apply the stated scenario factor with no time growth.",
+        "investment_and_funding": "Annual growth investment 20m times the scenario/year factor is paid from Owner FCF; no equity issuance or extra borrowing assumed.",
+        "fcf_transmission": "Operating cash less maintenance and owner claims gives Owner FCF; committed investment and mandatory uses precede the dividend calculation.",
+        "evidence_type": "analyst_estimate",
+        "source_and_date": "Fictional assumption A2, 2026-01-01; no company disclosure.",
+        "confidence": "Medium",
+        "invalidation_signal": "Rebuild the model if volume or operating cash conversion is over 10% below the scenario plan, or funded capacity slips by over a year."
+      }
+    ],
+    "scenario_theses": {
+      "Bear": "Volume/revenue and all proportional operating and cash lines are 20% below Base; earnings payout percentage and share count unchanged.",
+      "Base": "Revenue 500m, profit 100m and OCF 130m in FY2026; unchanged real activity and nominal financial lines through FY2030.",
+      "Bull": "Volume/revenue and proportional operating and cash lines are 20% above Base; no multiple expansion or higher payout ratio."
+    },
+    "fcf_change_decomposition": "Revenue, earnings and all cash bridge lines use one explicit scenario factor: Bear 0.8, Base 1.0, Bull 1.2; hold that factor constant through all five years; no growth credit.",
+    "per_share_cash_outlook": "No shares are issued or repurchased; 10m dividend-entitled shares each year. Payout is 40% of attributable earnings, not 40% of FAD.",
+    "liquidity_and_self_funding": "Base year 1 distribution capacity 70m exceeds dividend entitlement/cash cost 40m by 30m; every scenario scales both cash and payout equally, so no modeled funding gap.",
+    "cumulative_fad": [
+      {
+        "scenario": "Bear",
+        "three_year": 180.0,
+        "five_year": 300.0,
+        "limitations": "Sum of the explicitly modeled annual recurring FAD; not annualized investor return, and not cash after dividends."
+      },
+      {
+        "scenario": "Base",
+        "three_year": 225,
+        "five_year": 375,
+        "limitations": "Sum of the explicitly modeled annual recurring FAD; not annualized investor return, and not cash after dividends."
+      },
+      {
+        "scenario": "Bull",
+        "three_year": 270.0,
+        "five_year": 450.0,
+        "limitations": "Sum of the explicitly modeled annual recurring FAD; not annualized investor return, and not cash after dividends."
+      }
+    ],
+    "extension_limitations": "Years 4-5 are explicit teaching assumptions, not issuer guidance. Flat activity is assumed and must be replaced if contract renewal or maintenance needs change.",
+    "milestones": [
+      {
+        "event": "Renew service contracts and deliver the funded capacity plan",
+        "due_period": "FY2027 results",
+        "observable_threshold": "Volume and OCF conversion no more than 10% below scenario plan; capacity delay no longer than one year.",
+        "source_to_revisit": "A real application must obtain the next annual report and contract/capex update; this company is fictional.",
+        "fcf_implication": "A lasting miss changes recurring FAD and funded DPS; a one-year timing miss changes dated growth PV only if later capacity is unchanged.",
+        "action_if_missed": "Rebuild assumptions before any purchase decision."
+      }
+    ]
+  },
+  "payout_policy": {
+    "policy_type": "earnings_linked",
+    "calculation_basis": "attributable_earnings",
+    "basis_definition": "40% of ordinary-parent attributable earnings in the same fiscal year; no special dividends.",
+    "reported_payout_ratio": 0.4,
+    "source_and_date": "Fictional board policy assumption A3 dated 2026-01-01.",
+    "funding_constraint": "Dividend entitlement and actual cash cost must each fit distribution capacity. Year 1 Base: 100m profit x 40% = 40m dividend versus 70m capacity."
+  },
+  "return_requirements": {
+    "status": "assessed",
+    "benchmark": "Fictional nominal USD risk-free anchor",
+    "benchmark_source": "Teaching assumption A5 dated 2026-01-01; 4% is not a fetched Treasury quote.",
+    "benchmark_date": "2026-01-01",
+    "benchmark_currency": "USD",
+    "benchmark_tenor": "20 years",
+    "valuation_currency": "USD",
+    "valuation_unit_scale": 1,
+    "shares_per_quoted_security": 1,
+    "tax_and_fx_basis": "USD reporting, USD quote and USD shareholder cash; FX 1. Assume zero shareholder withholding, fees and personal tax for this fictional case only. Real tax/custody status must be verified independently; this is not an HK resident tax conclusion.",
+    "rate_basis": "nominal",
+    "risk_free_rate": 0.04,
+    "risk_premium_low": 0.04,
+    "risk_premium_high": 0.06,
+    "required_total_return_low": 0.08,
+    "required_total_return_high": 0.1,
+    "price_independent_risk_factors": [
+      "4 percentage points lower premium for renewal/operating risk; 6 points upper premium adds cash conversion and concentration stress. Neither depends on price or score."
+    ],
+    "price_independent": true,
+    "income_growth_credit": 0,
+    "limitations": "The 8%-10% nominal total-return range is a teaching input. The ordinary income thresholds give no growth credit and do not establish full business intrinsic value."
+  },
+  "income_assessment": {
+    "target": {
+      "target_net_yield": null,
+      "target_basis": "not_assessed",
+      "target_policy": "not_assessed"
+    },
+    "forward_net_yield": 0.1,
+    "forward_net_dps": 4,
+    "income_period": "FY2026 full year",
+    "income_price_ceiling": null,
+    "yield_fit": "Not Assessed",
+    "income_eligible": null,
+    "reason": "No investor or established portfolio income target was supplied; show the 10% forward net yield but leave yield fit Not Assessed."
+  },
+  "growth_assessment": {
+    "status": "not_assessed",
+    "funded_dividend_path": false,
+    "reinvestment_to_dps_reconciled": false,
+    "capital_remittance_verified": false,
+    "credible_terminal_state": false,
+    "growth_method": "not_assessed",
+    "evidence_and_reason": "No growth valuation requested or supported; use flat cash-income thresholds and separately disclose capital/total-return uncertainty."
+  },
+  "holding_review": {
+    "action": "not_assessed",
+    "rationale": "No actual holdings, account constraints or alternative investment were provided; do not invent a sale or position size.",
+    "portfolio_inputs_available": false,
+    "position_change_fraction": null,
+    "missing_inputs": [
+      "Holdings"
+    ],
+    "next_review": "Next results",
+    "automatic_trade": false,
+    "switch_analysis": null,
+    "triggers": [
+      {
+        "category": "valuation",
+        "threshold": "Revisit if the assumed quote exceeds the applicable upper review/income boundary; thesis and income needs must still be assessed.",
+        "evidence": "Fictional A5/A6 price and return assumptions; a threshold initiates research, not a trade.",
+        "research_action": "review"
+      }
+    ]
+  },
+  "scrip_drip": {
+    "available": "No",
+    "cash_election_available": "Yes",
+    "default_election": "cash",
+    "historical_participation_rate": 0,
+    "expected_participation_rate": 0,
+    "expected_dilution_rate": 0,
+    "buyback_offset_rate": 0,
+    "net_unoffset_dilution_rate": 0,
+    "investor_cash_yield_assumption": "all_cash_election"
+  },
+  "fundamental_trend": "Stable",
+  "forecast_confidence": "Medium",
+  "valuation_mode": "ordinary_yield_based",
+  "value_trap_veto": "Not triggered",
+  "valuation_reason": "Teaching calculation under explicit fictional assumptions; legacy JSON keys retain compatibility while their ordinary display labels describe cash-income thresholds.",
+  "structural_decline_cap_applied": false,
+  "harvest_managed_runoff_exception_applied": false,
+  "business_fundamentals": {
+    "dividend_funding_engine": "Assumed maintenance-service contracts generate operating cash; renewals and billable jobs determine revenue. Cash interest and tax are already paid within OCF.",
+    "core_operating_drivers": [
+      "Billable service volume",
+      "Operating cash conversion",
+      "Maintenance and committed expansion"
+    ],
+    "historical_operating_trend": []
+  },
+  "three_year_fundamental_forecast": [
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Bear",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 400.0,
+      "net_income_or_affo": 80.0,
+      "operating_cash_flow": 104.0,
+      "normalized_ocf": 104.0,
+      "maintenance_capex": 16.0,
+      "other_owner_claims": 8.0,
+      "remaining_growth_investment": 16.0,
+      "fcf_or_distributable_cash": 80.0,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 60.0,
+      "recurring_fad": 60.0,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    },
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Base",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 500,
+      "net_income_or_affo": 100,
+      "operating_cash_flow": 130,
+      "normalized_ocf": 130,
+      "maintenance_capex": 20,
+      "other_owner_claims": 10,
+      "remaining_growth_investment": 20,
+      "fcf_or_distributable_cash": 100,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 75,
+      "recurring_fad": 75,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    },
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Bull",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 600.0,
+      "net_income_or_affo": 120.0,
+      "operating_cash_flow": 156.0,
+      "normalized_ocf": 156.0,
+      "maintenance_capex": 24.0,
+      "other_owner_claims": 12.0,
+      "remaining_growth_investment": 24.0,
+      "fcf_or_distributable_cash": 120.0,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 90.0,
+      "recurring_fad": 90.0,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Bear",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 400.0,
+      "net_income_or_affo": 80.0,
+      "operating_cash_flow": 104.0,
+      "normalized_ocf": 104.0,
+      "maintenance_capex": 16.0,
+      "other_owner_claims": 8.0,
+      "remaining_growth_investment": 16.0,
+      "fcf_or_distributable_cash": 80.0,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 60.0,
+      "recurring_fad": 60.0,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Base",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 500,
+      "net_income_or_affo": 100,
+      "operating_cash_flow": 130,
+      "normalized_ocf": 130,
+      "maintenance_capex": 20,
+      "other_owner_claims": 10,
+      "remaining_growth_investment": 20,
+      "fcf_or_distributable_cash": 100,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 75,
+      "recurring_fad": 75,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Bull",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 600.0,
+      "net_income_or_affo": 120.0,
+      "operating_cash_flow": 156.0,
+      "normalized_ocf": 156.0,
+      "maintenance_capex": 24.0,
+      "other_owner_claims": 12.0,
+      "remaining_growth_investment": 24.0,
+      "fcf_or_distributable_cash": 120.0,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 90.0,
+      "recurring_fad": 90.0,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Bear",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 400.0,
+      "net_income_or_affo": 80.0,
+      "operating_cash_flow": 104.0,
+      "normalized_ocf": 104.0,
+      "maintenance_capex": 16.0,
+      "other_owner_claims": 8.0,
+      "remaining_growth_investment": 16.0,
+      "fcf_or_distributable_cash": 80.0,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 60.0,
+      "recurring_fad": 60.0,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Base",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 500,
+      "net_income_or_affo": 100,
+      "operating_cash_flow": 130,
+      "normalized_ocf": 130,
+      "maintenance_capex": 20,
+      "other_owner_claims": 10,
+      "remaining_growth_investment": 20,
+      "fcf_or_distributable_cash": 100,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 75,
+      "recurring_fad": 75,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Bull",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 600.0,
+      "net_income_or_affo": 120.0,
+      "operating_cash_flow": 156.0,
+      "normalized_ocf": 156.0,
+      "maintenance_capex": 24.0,
+      "other_owner_claims": 12.0,
+      "remaining_growth_investment": 24.0,
+      "fcf_or_distributable_cash": 120.0,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 90.0,
+      "recurring_fad": 90.0,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    }
+  ],
+  "forecast_extension": [
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Bear",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 400.0,
+      "net_income_or_affo": 80.0,
+      "operating_cash_flow": 104.0,
+      "normalized_ocf": 104.0,
+      "maintenance_capex": 16.0,
+      "other_owner_claims": 8.0,
+      "remaining_growth_investment": 16.0,
+      "fcf_or_distributable_cash": 80.0,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 60.0,
+      "recurring_fad": 60.0,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Base",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 500,
+      "net_income_or_affo": 100,
+      "operating_cash_flow": 130,
+      "normalized_ocf": 130,
+      "maintenance_capex": 20,
+      "other_owner_claims": 10,
+      "remaining_growth_investment": 20,
+      "fcf_or_distributable_cash": 100,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 75,
+      "recurring_fad": 75,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Bull",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 600.0,
+      "net_income_or_affo": 120.0,
+      "operating_cash_flow": 156.0,
+      "normalized_ocf": 156.0,
+      "maintenance_capex": 24.0,
+      "other_owner_claims": 12.0,
+      "remaining_growth_investment": 24.0,
+      "fcf_or_distributable_cash": 120.0,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 90.0,
+      "recurring_fad": 90.0,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Bear",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 400.0,
+      "net_income_or_affo": 80.0,
+      "operating_cash_flow": 104.0,
+      "normalized_ocf": 104.0,
+      "maintenance_capex": 16.0,
+      "other_owner_claims": 8.0,
+      "remaining_growth_investment": 16.0,
+      "fcf_or_distributable_cash": 80.0,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 60.0,
+      "recurring_fad": 60.0,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Base",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 500,
+      "net_income_or_affo": 100,
+      "operating_cash_flow": 130,
+      "normalized_ocf": 130,
+      "maintenance_capex": 20,
+      "other_owner_claims": 10,
+      "remaining_growth_investment": 20,
+      "fcf_or_distributable_cash": 100,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 75,
+      "recurring_fad": 75,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Bull",
+      "primary_driver_name": "Billable service volume",
+      "primary_driver_assumption": "Bear/Base/Bull volume factors 0.8/1.0/1.2; no annual growth.",
+      "revenue_or_sector_income": 600.0,
+      "net_income_or_affo": 120.0,
+      "operating_cash_flow": 156.0,
+      "normalized_ocf": 156.0,
+      "maintenance_capex": 24.0,
+      "other_owner_claims": 12.0,
+      "remaining_growth_investment": 24.0,
+      "fcf_or_distributable_cash": 120.0,
+      "nonrecurring_operating_cash_inflow": 0,
+      "actual_all_in_fcf": 90.0,
+      "recurring_fad": 90.0,
+      "estimate_status": "estimated",
+      "forecast_confidence": "Medium",
+      "assumption_basis": "analyst_estimate",
+      "evidence_and_limitations": "Fictional A2 operational model: profit 20%, OCF 26%, maintenance 4%, owner claims 2% and committed growth 4% of revenue. Other cash uses follow the stated scaled bridge; no external evidence is claimed."
+    }
+  ],
+  "driver_sensitivity": [
+    {
+      "driver_name": "One-year after-tax DPS timing loss",
+      "driver_change": "Year 1 Base shareholder cash -1 USD; years 2-5 and terminal capacity unchanged.",
+      "sensitivity_type": "transient",
+      "n_reestimated": false,
+      "revised_n": null,
+      "accumulation_upper_bound_change": null,
+      "growth_value_change": null,
+      "growth_cash_delta_audit": [],
+      "boundary_effect": "N/A",
+      "sensitivity_basis": "calculated"
+    }
+  ],
+  "dividend_forecast_bridge": [
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Bear",
+      "fcf_or_capital_generation": 80.0,
+      "required_reinvestment": 16.0,
+      "mandatory_debt_or_regulatory_uses": 4.0,
+      "recurring_fad": 60.0,
+      "exceptional_cash_uses": 4.0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 56.0,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 16.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 16.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 16.0,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 4.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 4.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 4.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 4.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    },
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Base",
+      "fcf_or_capital_generation": 100,
+      "required_reinvestment": 20,
+      "mandatory_debt_or_regulatory_uses": 5,
+      "recurring_fad": 75,
+      "exceptional_cash_uses": 5,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 70,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 20,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 20,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 20,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 5,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 5,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    },
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Bull",
+      "fcf_or_capital_generation": 120.0,
+      "required_reinvestment": 24.0,
+      "mandatory_debt_or_regulatory_uses": 6.0,
+      "recurring_fad": 90.0,
+      "exceptional_cash_uses": 6.0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 84.0,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 24.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 24.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 24.0,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 6.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 6.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 6.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 6.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Bear",
+      "fcf_or_capital_generation": 80.0,
+      "required_reinvestment": 16.0,
+      "mandatory_debt_or_regulatory_uses": 4.0,
+      "recurring_fad": 60.0,
+      "exceptional_cash_uses": 4.0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 56.0,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 16.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 16.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 16.0,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 4.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 4.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 4.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 4.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Base",
+      "fcf_or_capital_generation": 100,
+      "required_reinvestment": 20,
+      "mandatory_debt_or_regulatory_uses": 5,
+      "recurring_fad": 75,
+      "exceptional_cash_uses": 5,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 70,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 20,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 20,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 20,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 5,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 5,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Bull",
+      "fcf_or_capital_generation": 120.0,
+      "required_reinvestment": 24.0,
+      "mandatory_debt_or_regulatory_uses": 6.0,
+      "recurring_fad": 90.0,
+      "exceptional_cash_uses": 6.0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 84.0,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 24.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 24.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 24.0,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 6.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 6.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 6.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 6.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Bear",
+      "fcf_or_capital_generation": 80.0,
+      "required_reinvestment": 16.0,
+      "mandatory_debt_or_regulatory_uses": 4.0,
+      "recurring_fad": 60.0,
+      "exceptional_cash_uses": 4.0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 56.0,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 16.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 16.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 16.0,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 4.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 4.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 4.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 4.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Base",
+      "fcf_or_capital_generation": 100,
+      "required_reinvestment": 20,
+      "mandatory_debt_or_regulatory_uses": 5,
+      "recurring_fad": 75,
+      "exceptional_cash_uses": 5,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 70,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 20,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 20,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 20,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 5,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 5,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Bull",
+      "fcf_or_capital_generation": 120.0,
+      "required_reinvestment": 24.0,
+      "mandatory_debt_or_regulatory_uses": 6.0,
+      "recurring_fad": 90.0,
+      "exceptional_cash_uses": 6.0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 84.0,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 24.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 24.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 24.0,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 6.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 6.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 6.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 6.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Bear",
+      "fcf_or_capital_generation": 80.0,
+      "required_reinvestment": 16.0,
+      "mandatory_debt_or_regulatory_uses": 4.0,
+      "recurring_fad": 60.0,
+      "exceptional_cash_uses": 4.0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 56.0,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 16.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 16.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 16.0,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 4.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 4.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 4.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 4.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Base",
+      "fcf_or_capital_generation": 100,
+      "required_reinvestment": 20,
+      "mandatory_debt_or_regulatory_uses": 5,
+      "recurring_fad": 75,
+      "exceptional_cash_uses": 5,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 70,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 20,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 20,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 20,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 5,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 5,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Bull",
+      "fcf_or_capital_generation": 120.0,
+      "required_reinvestment": 24.0,
+      "mandatory_debt_or_regulatory_uses": 6.0,
+      "recurring_fad": 90.0,
+      "exceptional_cash_uses": 6.0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 84.0,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 24.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 24.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 24.0,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 6.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 6.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 6.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 6.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Bear",
+      "fcf_or_capital_generation": 80.0,
+      "required_reinvestment": 16.0,
+      "mandatory_debt_or_regulatory_uses": 4.0,
+      "recurring_fad": 60.0,
+      "exceptional_cash_uses": 4.0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 56.0,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 16.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 16.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 16.0,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 4.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 4.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 4.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 4.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Base",
+      "fcf_or_capital_generation": 100,
+      "required_reinvestment": 20,
+      "mandatory_debt_or_regulatory_uses": 5,
+      "recurring_fad": 75,
+      "exceptional_cash_uses": 5,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 70,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 20,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 20,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 20,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 5,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 5,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 5,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Bull",
+      "fcf_or_capital_generation": 120.0,
+      "required_reinvestment": 24.0,
+      "mandatory_debt_or_regulatory_uses": 6.0,
+      "recurring_fad": 90.0,
+      "exceptional_cash_uses": 6.0,
+      "excess_cash_used": 0,
+      "cash_available_for_distribution": 84.0,
+      "diluted_share_count": 10,
+      "deduction_ledger": [
+        {
+          "item": "Growth",
+          "category": "growth",
+          "amount": 24.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 24.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Maintenance already in owner cash",
+          "category": "maintenance",
+          "amount": 24.0,
+          "already_in_starting_metric": true,
+          "incremental_deduction": 0,
+          "evidence": "Fictional A2 cash-use ledger; maintenance was deducted in Owner FCF and must not be deducted a second time."
+        },
+        {
+          "item": "Mandatory",
+          "category": "mandatory",
+          "amount": 6.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 6.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        },
+        {
+          "item": "Exceptional",
+          "category": "exceptional",
+          "amount": 6.0,
+          "already_in_starting_metric": false,
+          "incremental_deduction": 6.0,
+          "evidence": "Fictional A2 cash-use ledger; incremental use after Owner FCF, deducted exactly once."
+        }
+      ],
+      "forecast_confidence": "Medium",
+      "evidence_and_limitations": "Fictional A2 bridge: Owner FCF minus 20 growth and 5 mandatory uses gives 75 recurring FAD; another 5 exceptional uses gives 70 capacity, all scaled by scenario/year. No surplus cash is added."
+    }
+  ],
+  "dividend_and_yield_runway": [
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Bear",
+      "cash_available_for_distribution": 56.0,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 80.0,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 32.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 32.0,
+      "dividend_entitlement": 32.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 3.2,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Base",
+      "cash_available_for_distribution": 70,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 100,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 40,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 40,
+      "dividend_entitlement": 40,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 4,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2026",
+      "forecast_year": 1,
+      "scenario": "Bull",
+      "cash_available_for_distribution": 84.0,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 120.0,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 48.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 48.0,
+      "dividend_entitlement": 48.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 4.8,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Bear",
+      "cash_available_for_distribution": 56.0,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 80.0,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 32.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 32.0,
+      "dividend_entitlement": 32.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 3.2,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Base",
+      "cash_available_for_distribution": 70,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 100,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 40,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 40,
+      "dividend_entitlement": 40,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 4,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2027",
+      "forecast_year": 2,
+      "scenario": "Bull",
+      "cash_available_for_distribution": 84.0,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 120.0,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 48.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 48.0,
+      "dividend_entitlement": 48.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 4.8,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Bear",
+      "cash_available_for_distribution": 56.0,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 80.0,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 32.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 32.0,
+      "dividend_entitlement": 32.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 3.2,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Base",
+      "cash_available_for_distribution": 70,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 100,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 40,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 40,
+      "dividend_entitlement": 40,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 4,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2028",
+      "forecast_year": 3,
+      "scenario": "Bull",
+      "cash_available_for_distribution": 84.0,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 120.0,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 48.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 48.0,
+      "dividend_entitlement": 48.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 4.8,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Bear",
+      "cash_available_for_distribution": 56.0,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 80.0,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 32.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 32.0,
+      "dividend_entitlement": 32.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 3.2,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Base",
+      "cash_available_for_distribution": 70,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 100,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 40,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 40,
+      "dividend_entitlement": 40,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 4,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2029",
+      "forecast_year": 4,
+      "scenario": "Bull",
+      "cash_available_for_distribution": 84.0,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 120.0,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 48.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 48.0,
+      "dividend_entitlement": 48.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 4.8,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Bear",
+      "cash_available_for_distribution": 56.0,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 80.0,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 32.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 32.0,
+      "dividend_entitlement": 32.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 3.2,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Base",
+      "cash_available_for_distribution": 70,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 100,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 40,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 40,
+      "dividend_entitlement": 40,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 4,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    },
+    {
+      "fiscal_year": "2030",
+      "forecast_year": 5,
+      "scenario": "Bull",
+      "cash_available_for_distribution": 84.0,
+      "payout_policy": "earnings_linked",
+      "payout_calculation_basis": "attributable_earnings",
+      "payout_base_reference": "net_income_or_affo",
+      "payout_base_adjustments": [],
+      "policy_components": [],
+      "payout_base_amount": 120.0,
+      "payout_ratio": 0.4,
+      "policy_implied_dividend": 48.0,
+      "policy_adjustment_reason": "No adjustment needed.",
+      "dividend_cash_cost": 48.0,
+      "dividend_entitlement": 48.0,
+      "cash_settled_fraction": 1,
+      "settlement_cash_adjustment": 0,
+      "dividend_installments": [],
+      "all_cash_funding_gap": 0,
+      "dividend_entitled_shares": 10,
+      "share_count_reconciliation": "10m issued, outstanding and dividend-entitled ordinary shares throughout each fiscal year; no treasury stock, scrip, options, DRIP issuance or repurchases.",
+      "derived_dps": 4.8,
+      "funding_gap": 0,
+      "dps_source": "evidence_backed"
+    }
+  ],
+  "buy_zone": {
+    "normalized_net_dps": 4,
+    "normalized_net_dps_basis": "mid_cycle",
+    "normalized_net_dps_source_period": "Explicit normalized model",
+    "normalization_adjustments": [
+      "N=4 USD is the explicit sustainable mid-cycle net DPS at baseline service volume; no special payout or growth credit."
+    ],
+    "normalization_evidence": {
+      "operating_cash": {
+        "status": "supported",
+        "input_detail": "Fictional A2 operating assumptions reconcile normalized OCF 130 minus maintenance 20 and owner claims 10 to Owner FCF 100.",
+        "source_refs": [
+          "worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."
+        ],
+        "resolution_source": null,
+        "consequence": "Supports the baseline normalized owner-cash calculation within the stipulated teaching model."
+      },
+      "funding_capacity": {
+        "status": "supported",
+        "input_detail": "Fictional A2: growth uses 20 and mandatory uses 5 leave recurring FAD 75; exceptional uses 5 leave actual capacity 70.",
+        "source_refs": [
+          "worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."
+        ],
+        "resolution_source": null,
+        "consequence": "Both recurring and actual capacity cover the model's baseline entitlement 40 without double deduction."
+      },
+      "payout_policy": {
+        "status": "supported",
+        "input_detail": "Fictional A3 applies 40% to attributable earnings 100, not FAD, deriving entitlement 40.",
+        "source_refs": [
+          "worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."
+        ],
+        "resolution_source": null,
+        "consequence": "Reconciles the baseline payout policy to normalized DPS rather than an arbitrary DPS plug."
+      },
+      "entitled_shares": {
+        "status": "supported",
+        "input_detail": "Fictional A1/A4: 10 million entitled shares, all-cash election, no scrip, unit ratio 1 and stipulated zero withholding/fees.",
+        "source_refs": [
+          "worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources."
+        ],
+        "resolution_source": null,
+        "consequence": "Baseline entitlement 40 / shares 10 gives net N=4 under fictional, not independently verified, cash assumptions."
+      }
+    },
+    "bear_net_dps": 3.2,
+    "bear_net_dps_source": "Bear year 1 earnings 80m x payout 40% / 10m entitled shares = 3.2 USD; tax/fees assumed zero.",
+    "bear_net_dps_is_fallback": false,
+    "dps_currency": "USD",
+    "normalization_fx_rate": 1,
+    "normalization_fx_basis": "Same USD reporting/quote/cash currency, FX 1; zero tax and deductions are explicit fictional assumptions.",
+    "normalization_cash_deductions": 0,
+    "required_net_yield_low": 0.08,
+    "required_net_yield_high": 0.1,
+    "too_expensive_zone": ">50",
+    "fair_value_zone": "(40, 50]",
+    "accumulation_zone": "(32, 40]",
+    "strong_buy_zone": "<=32",
+    "value_trap_veto": "Not triggered",
+    "boundaries": {
+      "too_expensive_above": 50.0,
+      "fair_lower": 40.0,
+      "fair_upper": 50.0,
+      "accumulation_lower": 32.0,
+      "accumulation_upper": 40.0,
+      "strong_buy_at_or_below": 32.0
+    },
+    "normalization_model": {
+      "status": "assessed",
+      "method": "steady_state",
+      "cycle_applicability": "non_cyclical",
+      "cycle_length_years": null,
+      "cycle_basis": "Fictional stable service-volume capacity, not a commodity cycle.",
+      "period_start": "2021-12-31",
+      "period_end": "2025-12-31",
+      "frequency": "annual",
+      "series_sources": [
+        "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+      ],
+      "joint_assumption_rationale": "Volume and margins use the same stipulated steady-state operating vector.",
+      "perimeter_adjustments": "Same asset scope, maintenance burden and entitled shares in the fictional reference model.",
+      "drivers": [
+        {
+          "name": "Service volume index",
+          "unit": "index",
+          "series_start": "2021-12-31",
+          "series_end": "2025-12-31",
+          "frequency": "annual",
+          "source": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources.",
+          "selection": "steady_state",
+          "selected_value": 100,
+          "observations": [
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        }
+      ],
+      "cycle_states": {
+        "low": {
+          "status": "not_applicable",
+          "operating_assumptions": "No invented cycle extreme. worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources.",
+          "owner_cash": null,
+          "growth_uses": null,
+          "mandatory_uses": null,
+          "recurring_fad": null,
+          "earnings": null,
+          "payout_basis": "earnings",
+          "payout_base": null,
+          "payout_ratio": null,
+          "dividend_entitlement": null,
+          "shares": null,
+          "gross_dps": null,
+          "evidence": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+        },
+        "mid": {
+          "status": "estimated",
+          "operating_assumptions": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources.",
+          "owner_cash": 100,
+          "growth_uses": 20,
+          "mandatory_uses": 5,
+          "recurring_fad": 75,
+          "earnings": 100,
+          "payout_basis": "earnings",
+          "payout_base": 100,
+          "payout_ratio": 0.4,
+          "dividend_entitlement": 40,
+          "shares": 10,
+          "gross_dps": 4,
+          "evidence": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+        },
+        "high": {
+          "status": "not_applicable",
+          "operating_assumptions": "No invented cycle extreme. worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources.",
+          "owner_cash": null,
+          "growth_uses": null,
+          "mandatory_uses": null,
+          "recurring_fad": null,
+          "earnings": null,
+          "payout_basis": "earnings",
+          "payout_base": null,
+          "payout_ratio": null,
+          "dividend_entitlement": null,
+          "shares": null,
+          "gross_dps": null,
+          "evidence": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+        }
+      },
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "uncertainty_basis": "No independently evidenced N uncertainty bounds; not replaced by cycle extremes."
+    }
+  },
+  "rendering": {
+    "rich_visualization_available": false,
+    "visual_mode": "plain_text_fallback",
+    "charts_required": []
+  },
+  "visual_summary": {
+    "business_and_fcf_trend": "Base year 1: revenue 500, profit 100, OCF 130, Owner FCF 100, recurring FAD 75, distribution capacity 70 (USD millions).",
+    "dps_path": "Year 1 Bear/Base/Bull net DPS 3.2/4/4.8 USD; flat in years 2-5.",
+    "yield_normalization": "TTM and normalized Base DPS 4 / assumed quote 40 = 10%; no personal income target supplied.",
+    "main_driver_sensitivity": "A one-year cash loss is transient; lasting volume/conversion deterioration instead requires rebuilding normalized capacity.",
+    "valuation_summary": "Ordinary cash-income boundaries are 50, 40 and 32 USD; legacy keys do not describe full intrinsic value or authorize Strong Buy. No growth credit is included.",
+    "coverage_labels": "Historical recurring aggregate 2x, worst recurring year 1.25x; worst actual year 0.875x after an exceptional cash use. Overall safety remains Acceptable, not Strong."
+  },
+  "score_100": 76,
+  "score_limitations": "Fictional rubric-2 provisional point score: quality 62/85 plus income 14/15 = 76/100, Grade B. All 100 weight is covered; income and visibility rely on explicit teaching estimates. Module points are 14, 13, 18, 10, 10, 5 and 6. Unknown refinements earn no bonus. No independent issuer research or investment-performance claim is made.",
+  "grade": "B",
+  "dividend_quality": "Medium",
+  "dividend_safety": "Acceptable",
+  "withholding_efficiency": "High",
+  "buyback_quality": "Not Applicable",
+  "three_year_outlook": "Stable",
+  "portfolio_role": "Watchlist",
+  "sources": [
+    "worked-examples.md: fictional case assumptions A1-A8, dated 2026-01-01; no external market sources.",
+    "Fictional A1-A8 (worked-examples.md, 2026-01-01)",
+    "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+  ],
+  "scorecard": {
+    "rubric_version": "2",
+    "summary": {
+      "status": "provisional",
+      "range_kind": "rubric_bounds",
+      "module_ranges": {
+        "net_yield": {
+          "low": 14,
+          "high": 14
+        },
+        "dividend_stability": {
+          "low": 13,
+          "high": 13
+        },
+        "cash_coverage": {
+          "low": 18,
+          "high": 18
+        },
+        "balance_sheet": {
+          "low": 10,
+          "high": 10
+        },
+        "capital_allocation": {
+          "low": 10,
+          "high": 10
+        },
+        "buyback_quality": {
+          "low": 5,
+          "high": 5
+        },
+        "visibility": {
+          "low": 6,
+          "high": 6
+        }
+      },
+      "score_range": {
+        "low": 76,
+        "high": 76
+      },
+      "quality_range": {
+        "low": 62,
+        "high": 62
+      },
+      "income_range": {
+        "low": 14,
+        "high": 14
+      },
+      "grade_range": {
+        "worst": "B",
+        "best": "B"
+      },
+      "quality_rating_range": {
+        "worst": "Medium",
+        "best": "Medium"
+      },
+      "bounded_weight": 0,
+      "missing_weight": 0,
+      "evidence_coverage_pct": 100,
+      "quality_coverage_pct": 100,
+      "income_coverage_pct": 100
+    },
+    "modules": [
+      {
+        "module": "net_yield",
+        "weight": 15,
+        "assessment": "assessed",
+        "evidence_basis": "estimated",
+        "metric_value": 0.1,
+        "period": "2026 normalized and forward cash at the 2026-01-01 quote",
+        "band": 1,
+        "rationale": "N/price is 10%, in the >=7% band; no special distributions are included.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "Forward net cash 4 equals N=4.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "not_met",
+            "evidence": "B/price=3.2/40=8%, below r_high=10%.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "met",
+            "evidence": "N/price=10% exceeds independently stipulated R_low=8%.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          }
+        ],
+        "raw_score": 14,
+        "cap": 15,
+        "cap_reason": "Medium confidence and Acceptable safety; no fallback or lower cap.",
+        "final_score": 14,
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ],
+        "missing_evidence": []
+      },
+      {
+        "module": "dividend_stability",
+        "weight": 15,
+        "assessment": "assessed",
+        "evidence_basis": "reported",
+        "metric_value": null,
+        "period": "FY2021-FY2025",
+        "band": 1,
+        "rationale": "The teaching case stipulates stable ordinary DPS of 4 and no cut.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "All five annual ordinary payments occurred on schedule in the stipulated history.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "unknown",
+            "evidence": "No inflation series establishes real DPS stability.",
+            "source_refs": []
+          },
+          {
+            "check": 3,
+            "status": "unknown",
+            "evidence": "A full adverse-cycle dividend record is not supplied.",
+            "source_refs": []
+          }
+        ],
+        "raw_score": 13,
+        "cap": 15,
+        "cap_reason": "No separate stability cap.",
+        "final_score": 13,
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ],
+        "missing_evidence": [
+          "Inflation and a full adverse-cycle history for refinement, not for the established no-cut band."
+        ]
+      },
+      {
+        "module": "cash_coverage",
+        "weight": 20,
+        "assessment": "assessed",
+        "evidence_basis": "reconstructed",
+        "metric_value": 2,
+        "period": "FY2023-FY2025 aggregate; FY2026-FY2028 funding checks",
+        "band": 1,
+        "rationale": "(70+80+90)/(40+40+40)=2.0x recurring coverage; actual shortfalls remain visible.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "Each first-three-year scenario funds the full entitlement from recurring FAD and actual capacity.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "not_met",
+            "evidence": "Worst actual cash coverage was 35/40=0.875x.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "unknown",
+            "evidence": "Cash availability is stipulated; a separately disclosed stress-liquidity buffer analysis is not supplied.",
+            "source_refs": []
+          }
+        ],
+        "raw_score": 18,
+        "cap": 20,
+        "cap_reason": "No unresolved recurring shortfall in the stipulated model; the actual shortfall is separately disclosed.",
+        "final_score": 18,
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ],
+        "missing_evidence": [
+          "Independent stress-liquidity corroboration beyond the bounded teaching assumptions."
+        ]
+      },
+      {
+        "module": "balance_sheet",
+        "weight": 15,
+        "assessment": "assessed",
+        "evidence_basis": "estimated",
+        "metric_value": null,
+        "period": "2026-01-01 through the five-year plan",
+        "band": 2,
+        "rationale": "Cash 25m, debt 50m, EBITDA 100m and no five-year refinancing need support manageable leverage.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "No maturities fall within 24 months; modeled cash covers committed uses.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "unknown",
+            "evidence": "No additional contractual covenant thresholds are supplied for the refinement test.",
+            "source_refs": []
+          },
+          {
+            "check": 3,
+            "status": "met",
+            "evidence": "The five-year investment plan is internally funded without uncommitted external capital.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          }
+        ],
+        "raw_score": 10,
+        "cap": 15,
+        "cap_reason": "No separate balance-sheet cap.",
+        "final_score": 10,
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ],
+        "missing_evidence": [
+          "Detailed covenant corroboration beyond the stipulated unrestricted capital access."
+        ]
+      },
+      {
+        "module": "capital_allocation",
+        "weight": 15,
+        "assessment": "assessed",
+        "evidence_basis": "reported",
+        "metric_value": null,
+        "period": "FY2026-FY2030 policy and funding plan",
+        "band": 2,
+        "rationale": "A funded 40%-of-profit policy is reasonable but remains discretionary.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "Each modeled entitlement applies 40% to attributable profit, not FAD.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "met",
+            "evidence": "Maintenance, growth and mandatory uses are funded once before distribution.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "unknown",
+            "evidence": "No acquisition or issuance decision history is supplied.",
+            "source_refs": []
+          }
+        ],
+        "raw_score": 10,
+        "cap": 15,
+        "cap_reason": "No separate allocation cap.",
+        "final_score": 10,
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ],
+        "missing_evidence": [
+          "Acquisition/issuance track record for refinement."
+        ]
+      },
+      {
+        "module": "buyback_quality",
+        "weight": 10,
+        "assessment": "assessed",
+        "evidence_basis": "reported",
+        "metric_value": null,
+        "period": "FY2021-FY2030 ownership assumption",
+        "band": 2,
+        "rationale": "No buyback program; stable ownership is neutral discipline, not automatic top points.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "No issuance, scrip or repurchases; ten million entitled shares remain outstanding.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "unknown",
+            "evidence": "No contemporaneous valuation-based abstention decision is supplied.",
+            "source_refs": []
+          },
+          {
+            "check": 3,
+            "status": "unknown",
+            "evidence": "No repurchase-program stress-capital assessment is supplied.",
+            "source_refs": []
+          }
+        ],
+        "raw_score": 5,
+        "cap": 10,
+        "cap_reason": "No program does not redistribute the weight or justify maximum points.",
+        "final_score": 5,
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ],
+        "missing_evidence": [
+          "Repurchase/abstention valuation and program-specific stress evidence."
+        ]
+      },
+      {
+        "module": "visibility",
+        "weight": 10,
+        "assessment": "assessed",
+        "evidence_basis": "estimated",
+        "metric_value": null,
+        "period": "FY2026-FY2030",
+        "band": 2,
+        "rationale": "Bounded operating, capital and payout estimates reconcile; execution is not independently corroborated.",
+        "checks": [
+          {
+            "check": 1,
+            "status": "met",
+            "evidence": "Years 1-3 reconcile operating cash, FAD, policy and entitled shares.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 2,
+            "status": "met",
+            "evidence": "Years 4-5 use the same funded assumptions and explicit annual bridges.",
+            "source_refs": [
+              "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+            ]
+          },
+          {
+            "check": 3,
+            "status": "unknown",
+            "evidence": "No prior milestone-delivery record is supplied.",
+            "source_refs": []
+          }
+        ],
+        "raw_score": 6,
+        "cap": 10,
+        "cap_reason": "No illustrative-DPS or Structural Decline cap; confidence remains Medium.",
+        "final_score": 6,
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ],
+        "missing_evidence": [
+          "Independent execution-track-record corroboration."
+        ]
+      }
+    ],
+    "quality_score_85": 62,
+    "income_score_15": 14,
+    "assessed_points": 76,
+    "assessed_weight": 100,
+    "unadjusted_grade": "B",
+    "grade_cap": null,
+    "grade_cap_reason": "No Structural Decline; final Grade follows the sum."
+  },
+  "rating_audit": {
+    "dividend_quality": {
+      "label": "Medium",
+      "rule": "Quality 51-67 out of 85 is Medium; current price is excluded.",
+      "supporting_evidence": "13+18+10+10+5+6=62 quality points.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "Additional supported quality refinements raise quality to at least 68, without changing price.",
+      "downgrade_trigger": "Operating/capital deterioration reduces quality below 51."
+    },
+    "dividend_safety": {
+      "label": "Acceptable",
+      "rule": "Aggregate >=1.0x and a funded Base policy with bounded stress; 2x alone is not Strong.",
+      "supporting_evidence": "Recurring coverage is 2x; actual 0.875x in FY2025 required 5m of the assumed cash buffer.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "Corroborated stress liquidity and sustained actual coverage without exceptional buffer draws.",
+      "downgrade_trigger": "Recurring cash no longer funds policy and no credible adjustment/funding path exists."
+    },
+    "withholding_efficiency": {
+      "label": "High",
+      "rule": "Supported withholding <=10% is High, separate from company safety.",
+      "supporting_evidence": "The fictional applicable company announcement stipulates zero withholding and fees.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "Already in the highest band; retain only with applicable event/channel evidence.",
+      "downgrade_trigger": "Applicable withholding exceeds 10% or the treatment becomes unverified."
+    },
+    "buyback_quality": {
+      "label": "Not Applicable",
+      "rule": "No program keeps the label Not Applicable; per-share discipline still receives its fixed-weight score.",
+      "supporting_evidence": "Stable ten million shares and no program support neutral band 2, five points.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "A funded program or documented value-based abstention establishes stronger per-share discipline.",
+      "downgrade_trigger": "Issuance or debt-funded repurchases impair continuing owners."
+    },
+    "three_year_outlook": {
+      "label": "Stable",
+      "rule": "Funded Base year-3 net DPS is within 5% of year 1.",
+      "supporting_evidence": "Base net DPS remains 4; Bear remains 3.2 under the explicit flat-capacity case.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "A funded operating path supports more than 5% three-year per-share dividend growth.",
+      "downgrade_trigger": "A policy/cash reset implies more than 5% decline or an unbounded path."
+    },
+    "fundamental_trend": {
+      "label": "Stable",
+      "rule": "Normalized operating capacity is maintained; price performance does not select the trend.",
+      "supporting_evidence": "Maintenance and required growth uses preserve flat per-share capacity through year 5.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "Incremental funded demand and investment establish structural per-share growth.",
+      "downgrade_trigger": "Persistent demand or margin erosion changes normalized capacity."
+    },
+    "forecast_confidence": {
+      "label": "Medium",
+      "rule": "Bounded, reconciled analyst estimates can be Medium without perfect forward knowledge.",
+      "supporting_evidence": "All five cash/policy/share scenarios reconcile, but delivery assumptions lack independent corroboration.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "Contracted/observed operating outcomes and capital evidence corroborate the forecasts.",
+      "downgrade_trigger": "A material operating, investment, policy or share-count assumption becomes unbounded."
+    },
+    "portfolio_role": {
+      "label": "Watchlist",
+      "rule": "Security-level durable ordinary cash and Acceptable safety, not a score-to-role mapping.",
+      "supporting_evidence": "The stipulated recurring business and funded ordinary policy support an income role; no personal allocation is inferred.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ],
+      "upgrade_trigger": "Already a core-income candidate under the assumptions; actual portfolio fit needs the user's mandate.",
+      "downgrade_trigger": "Cash becomes cycle-dependent, safety weakens, or a material entry/mandate gate fails."
+    }
+  },
+  "entry_plan": {
+    "current_action": "accumulate",
+    "summary": "At the fictional price 40, gradual accumulation is supported; Medium confidence and Acceptable safety prevent Strong Buy.",
+    "opportunity_thesis": "A funded ordinary dividend of 4 gives a 10% normalized yield versus an independently assumed 8%-10% requirement; waiting for every refinement would forgo supported cash income.",
+    "market_expectation_gap": "Price 40 implies a 10% normalized yield. No consensus dataset is supplied, so this is a reverse-price comparison, not a claim that the market is wrong.",
+    "stages": [
+      {
+        "stage": "starter",
+        "valuation_price": 50,
+        "effective_price": 50,
+        "gap_to_current_pct": 25,
+        "status": "ready",
+        "condition": "N/r_low; maintain the funded Base cash path and passing capital-return review. No investor hard-income floor was supplied."
+      },
+      {
+        "stage": "add",
+        "valuation_price": 40,
+        "effective_price": 40,
+        "gap_to_current_pct": 0,
+        "status": "ready",
+        "condition": "N/r_high; current price meets this threshold, but Medium confidence still limits the action to gradual accumulation."
+      },
+      {
+        "stage": "strong_buy",
+        "valuation_price": 32,
+        "effective_price": 32,
+        "gap_to_current_pct": -20,
+        "status": "waiting_evidence",
+        "condition": "B/r_high plus High confidence and Strong safety. Both the price and the stronger evidence conditions would be needed."
+      }
+    ],
+    "return_scenarios": [
+      {
+        "scenario": "Bear",
+        "horizon_years": 3,
+        "net_cash_received": 9.6,
+        "exit_price": 32,
+        "costs": 0,
+        "cumulative_return": 0.04,
+        "basis": "Three entitled full-year Bear payments; exit at year-3 Bear DPS /10%. USD, zero tax/fees and no reinvestment are explicit assumptions.",
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ]
+      },
+      {
+        "scenario": "Base",
+        "horizon_years": 3,
+        "net_cash_received": 12,
+        "exit_price": 50,
+        "costs": 0,
+        "cumulative_return": 0.55,
+        "basis": "Three entitled full-year Base payments; exit at year-3 Base DPS /8%. Exit-yield compression is a scenario assumption, not guaranteed mean reversion.",
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ]
+      },
+      {
+        "scenario": "Bull",
+        "horizon_years": 3,
+        "net_cash_received": 14.4,
+        "exit_price": 60,
+        "costs": 0,
+        "cumulative_return": 0.86,
+        "basis": "Three entitled full-year Bull payments; exit at year-3 Bull DPS /8%. Costs are stipulated zero, not omitted real broker costs.",
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ]
+      }
+    ],
+    "risk_review": {
+      "status": "pass",
+      "rationale": "Under this teaching case the Bear exit loses 20% of principal while three years of cash make cumulative return +4%; Base is +55%, partly dependent on an 8% exit yield. This research assumption accepts the modeled capital path, not an inferred personal loss tolerance. A worse/unfunded Bear case would invalidate it.",
+      "source_refs": [
+        "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+      ]
+    },
+    "blockers": [
+      {
+        "scope": "confidence",
+        "reason": "Medium confidence and Acceptable safety cap the action below Strong Buy, not below accumulation.",
+        "resolution": "Corroborate contracted delivery, stress liquidity and actual coverage before a stronger rating.",
+        "source_refs": [
+          "Fictional A1-A8 (worked-examples.md, 2026-01-01)"
+        ]
+      },
+      {
+        "scope": "position_sizing",
+        "reason": "No personal holdings or concentration budget supplied.",
+        "resolution": "Obtain portfolio and mandate inputs before sizing; do not block security-level entry analysis.",
+        "source_refs": []
+      }
+    ],
+    "catalysts": [
+      {
+        "event": "Next ordinary results and dividend declaration",
+        "check_date_or_period": "FY2026 results; announcement date not supplied",
+        "confirmation": "Recurring FAD and unrestricted parent cash continue to fund the 40%-of-profit entitlement.",
+        "source_to_revisit": "Issuer cash-flow, capital and dividend-policy disclosures",
+        "if_missed": "Pause additions and rebuild the operating/cash/policy bridge."
+      }
+    ],
+    "invalidation_conditions": [
+      "Recurring FAD or available parent cash fails to fund the policy without a credible adjustment.",
+      "A persistent operating decline, material issuance or payout restriction requires re-estimating N/B and all stage prices."
+    ],
+    "automatic_trade": false
+  },
+  "controller_risk": {
+    "status": "no_material_concern",
+    "controller": null,
+    "materiality": "not_material",
+    "material_harm_confirmed": false,
+    "cash_demand_evidence": [],
+    "channels": [],
+    "listed_company_impact": "Fictional widely held issuer with no controlling-parent funding demand by stipulation.",
+    "source_and_date": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources.",
+    "assessed_on": "2026-01-01"
+  },
+  "quality_assessment": {
+    "status": "provisional",
+    "components": {
+      "dividend_stability": 13,
+      "cash_coverage": 18,
+      "balance_sheet": 10,
+      "capital_allocation": 10,
+      "buyback_quality": 5,
+      "visibility": 6
+    },
+    "score_85": 62,
+    "price_independent": true,
+    "evidence_and_limitations": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources. Synthetic fixture reconciled to the disk-source rubric-2 scorecard; component and total bounds are not probability ranges or midpoint scores.",
+    "range_kind": "rubric_bounds",
+    "component_ranges": {
+      "dividend_stability": {
+        "low": 13,
+        "high": 13
+      },
+      "cash_coverage": {
+        "low": 18,
+        "high": 18
+      },
+      "balance_sheet": {
+        "low": 10,
+        "high": 10
+      },
+      "capital_allocation": {
+        "low": 10,
+        "high": 10
+      },
+      "buyback_quality": {
+        "low": 5,
+        "high": 5
+      },
+      "visibility": {
+        "low": 6,
+        "high": 6
+      }
+    },
+    "score_range": {
+      "low": 62,
+      "high": 62
+    },
+    "coverage_pct": 100
+  },
+  "portfolio_role_assessment": {
+    "basis": "quality_safety_and_constraints",
+    "rationale": "Fictional Medium visibility and Acceptable safety; a cheaper quote changes entry appeal, not the security role.",
+    "price_alone_changes_role": false
+  },
+  "real_income": {
+    "status": "not_assessed",
+    "currency": "USD",
+    "inflation_basket": "Investor consumption basket not supplied in this fictional case.",
+    "period_start": null,
+    "period_end": null,
+    "starting_net_cash": null,
+    "ending_net_cash": null,
+    "starting_price_index": null,
+    "ending_price_index": null,
+    "nominal_cagr": null,
+    "inflation_cagr": null,
+    "real_cagr": null,
+    "flat_tolerance": 0,
+    "trend": "Not Assessed",
+    "source_and_method": "No CPI assumption or purchasing-power rating is fabricated. worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+  },
+  "fx_risk": {
+    "status": "not_material",
+    "economic_exposure": "Stipulated USD revenue, costs and debt.",
+    "operating_currencies": [
+      "USD"
+    ],
+    "distribution_currency": "USD",
+    "investor_currency": "USD",
+    "material_exposure": false,
+    "hedge_and_natural_offsets": "Same-currency teaching case, not a ticker-based FX assumption.",
+    "stress_rows": [],
+    "evidence_and_limitations": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+  },
+  "income_drivers": [
+    {
+      "driver": "contracted_volumes",
+      "exposure_direction": "higher_supports_income",
+      "horizon": "Three to five years",
+      "transmission": "Service volumes drive revenue and fixed-cost absorption, then owner cash and dividends.",
+      "evidence": "worked-examples.md: fictional analytical-quality assumptions Q1-Q3, dated 2026-01-01; no external market sources."
+    }
+  ],
+  "decision": {
+    "current_action": "分批建仓",
+    "can_buy_now": true,
+    "reason": "已核对资金与风险门槛，按对应状态执行；不以价格下跌替代公司质量判断。",
+    "buy_conditions": [
+      {
+        "kind": "price",
+        "observable": "市场成交价格不高于收入约束上限",
+        "operator": "<=",
+        "threshold": 50,
+        "unit": "USD",
+        "source_to_watch": "交易所实时报价"
+      }
+    ],
+    "invalidation_conditions": [
+      {
+        "kind": "event",
+        "observable": "董事会公告削减普通现金股息",
+        "operator": "published",
+        "threshold": "已公告",
+        "unit": "公告事件",
+        "source_to_watch": "公司公告与交易所披露"
+      }
+    ],
+    "trap_conclusion": "已识别现金与资本约束，保持对应风险限制，不将未知视为安全。",
+    "entry_conclusion": "参考价已列示，执行前须同时通过资金、税务、资本与风险门槛。",
+    "price_status": "reference_prices",
+    "reference_prices": {
+      "starter": 50,
+      "add": 40,
+      "strong_buy": 32,
+      "income_capped_upper": 50
+    }
+  },
+  "evidence_recovery": {
+    "scope": "provided_packet",
+    "scope_reason": "单元测试限定虚构输入，不进行真实公司研究",
+    "is_group_structure": false,
+    "records": [
+      {
+        "field_paths": [
+          "/growth_assessment/growth_method",
+          "/growth_assessment/status",
+          "/holding_review/action",
+          "/holding_review/missing_inputs",
+          "/income_assessment/target/target_basis",
+          "/income_assessment/target/target_policy",
+          "/real_income/status",
+          "/scorecard/modules/1/checks/1/status",
+          "/scorecard/modules/1/checks/2/status",
+          "/scorecard/modules/1/missing_evidence",
+          "/scorecard/modules/2/checks/2/status",
+          "/scorecard/modules/2/missing_evidence",
+          "/scorecard/modules/3/checks/1/status",
+          "/scorecard/modules/3/missing_evidence",
+          "/scorecard/modules/4/checks/2/status",
+          "/scorecard/modules/4/missing_evidence",
+          "/scorecard/modules/5/checks/1/status",
+          "/scorecard/modules/5/checks/2/status",
+          "/scorecard/modules/5/missing_evidence",
+          "/scorecard/modules/6/checks/2/status",
+          "/scorecard/modules/6/missing_evidence"
+        ],
+        "reason": "虚构测试包未提供这些输入",
+        "impact": "保留各分项的贡献区间；资金约束独立限制买入",
+        "resolution": "not_assessable",
+        "attempts": [
+          {
+            "category": "issuer_filings",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "group_disclosures",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "announcements",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "exchange_regulator",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "official_series",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "historical_comparables",
+            "scope": "issuer",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_found",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          },
+          {
+            "category": "broker_records",
+            "scope": "investor",
+            "source": "虚构封闭测试包（不是在线取数）",
+            "source_period": "截至测试截止日",
+            "attempted_on": "2026-01-01",
+            "outcome": "not_provided",
+            "result": "仅核对封闭测试包；该类资料未提供，未声称检索真实公司"
+          }
+        ],
+        "estimate": null,
+        "estimate_failure_reason": "虚构包未含经营与现金敏感性锚，无法有据收窄输入区间",
+        "closure_condition": {
+          "kind": "event",
+          "observable": "董事会公告现金分红已获批准并注明付款日",
+          "operator": "published",
+          "threshold": "已公告",
+          "unit": "公告事件",
+          "source_to_watch": "公司公告与交易所披露"
+        }
+      }
+    ]
+  },
+  "economic_profile": {
+    "segments": [
+      {
+        "name": "港口设备维护服务",
+        "cash_share_pct": 100,
+        "revenue_engine": "regulated_or_contracted",
+        "asset_life": "perpetual_going_concern",
+        "cyclicality": "demand_cycle",
+        "cycle_window": "2021–2025 五年包含一次港口资本开支下行，作为教学假设视为完整周期",
+        "balance_sheet_role": "operating",
+        "capital_intensity": "asset_light"
+      }
+    ],
+    "legal_wrapper": "ordinary_company",
+    "cash_attribution": "wholly_owned",
+    "finite_life_assets": [],
+    "company_level_runoff": false,
+    "tax_route": {
+      "distribution_regime": "ordinary_dividend",
+      "exit_withholding_rate": null,
+      "exception_evidence": null,
+      "refunds_excluded_from_cash": true
+    },
+    "kpis": [
+      {
+        "name": "合同续约率",
+        "why_causal": "续约率决定下一期服务量，直接驱动收入和经营现金"
+      },
+      {
+        "name": "计费服务量",
+        "why_causal": "收入等于服务量乘合同单价，服务量每降一成股息约降 0.4 美元"
+      },
+      {
+        "name": "经营现金转化率",
+        "why_causal": "经营现金占收入比例决定所有者现金和可分配现金"
+      }
+    ],
+    "classification_evidence": "虚构教学案例假设 A1–A8：三至五年期维护合同，单一业务，全资经营"
+  },
+  "report_output": {
+    "language": "zh-CN",
+    "user_requested_language": null,
+    "title": "虚构公司完整研究报告示例",
+    "summary": "仅用于验证规则，不构成真实投资意见。",
+    "sections": [
+      {
+        "heading": "摘要与投资结论",
+        "paragraphs": [
+          "虚构港口维护服务公司，属稳定合约型分红。现价 40 美元对应 10% 税后股息率，近三年可持续可分配现金约为股息的 2.0 倍；预测可信度中等，适合分批建仓，不满足强力买入条件。"
+        ],
+        "tables": [
+          {
+            "title": "摘要关键数字",
+            "columns": [
+              "指标",
+              "当前／历史",
+              "未来展望",
+              "结论"
+            ],
+            "rows": [
+              [
+                "税后股息率",
+                "10.0%（TTM）",
+                "10.0%（正常化）",
+                "达到要求区间高端"
+              ],
+              [
+                "五年 FAD 趋势",
+                "50→90",
+                "Base 持平约 75",
+                "稳定"
+              ],
+              [
+                "每股股息",
+                "4.0 美元",
+                "Bear 3.2／Base 4.0／Bull 4.8",
+                "持平"
+              ],
+              [
+                "买点",
+                "现价 40 美元",
+                "强力买入 32 美元",
+                "分批建仓"
+              ]
+            ],
+            "note": "虚构教学数据，百万美元，财年截至12月31日，报告口径；来源：worked-examples.md 假设 A1–A8（2026-01-01）"
+          }
+        ]
+      },
+      {
+        "heading": "公司概况与行业定位",
+        "paragraphs": [
+          "公司为港口码头提供合约维护服务，处于价值链的服务提供者位置；收入主要来自三至五年期续约合同，以美元计价和结算。属资本较轻、合约型的工业服务业务。"
+        ]
+      },
+      {
+        "heading": "行业结构、供需与周期",
+        "paragraphs": [
+          "需求取决于港口吞吐量和设备老化程度，行业增长温和；供给受资质和码头准入限制，新进入者较少。周期性弱于航运本身，但港口资本开支下行时续约价格承压。"
+        ]
+      },
+      {
+        "heading": "竞争格局与公司护城河",
+        "paragraphs": [
+          "本例为虚构，无真实同行；以行业统计作为相邻基准，不凑数列示同行。竞争优势来自现场资质、合约续约记录和客户转换成本，判断为稳定。"
+        ]
+      },
+      {
+        "heading": "过去五年经营与财务趋势",
+        "paragraphs": [
+          "五年可持续可分配现金从 5000 万美元升至 9000 万美元，趋势为绿色；2025 年实际可分配现金降至 3500 万美元，低于股息，原因是一次性现金支出，判断为暂时性，不改变正常化现金流。"
+        ],
+        "tables": [
+          {
+            "title": "五年现金与股息",
+            "columns": [
+              "财年",
+              "可持续可分配现金",
+              "实际可分配现金",
+              "现金股息",
+              "可持续覆盖",
+              "实际覆盖"
+            ],
+            "rows": [
+              [
+                "2021",
+                50,
+                45,
+                40,
+                1.25,
+                1.13
+              ],
+              [
+                "2022",
+                60,
+                55,
+                40,
+                1.5,
+                1.38
+              ],
+              [
+                "2023",
+                70,
+                65,
+                40,
+                1.75,
+                1.63
+              ],
+              [
+                "2024",
+                80,
+                75,
+                40,
+                2.0,
+                1.88
+              ],
+              [
+                "2025",
+                90,
+                35,
+                40,
+                2.25,
+                0.88
+              ]
+            ],
+            "note": "虚构教学数据，百万美元，财年截至12月31日，报告口径；来源：worked-examples.md 假设 A1–A8（2026-01-01）"
+          }
+        ],
+        "charts": [
+          {
+            "title": "五年可分配现金与股息",
+            "kind": "bar",
+            "unit": "百万美元",
+            "x_labels": [
+              "2021",
+              "2022",
+              "2023",
+              "2024",
+              "2025"
+            ],
+            "series": [
+              {
+                "name": "可持续可分配现金",
+                "values": [
+                  50,
+                  60,
+                  70,
+                  80,
+                  90
+                ]
+              },
+              {
+                "name": "实际可分配现金",
+                "values": [
+                  45,
+                  55,
+                  65,
+                  75,
+                  35
+                ]
+              },
+              {
+                "name": "现金股息",
+                "values": [
+                  40,
+                  40,
+                  40,
+                  40,
+                  40
+                ]
+              }
+            ],
+            "source": "虚构教学数据（worked-examples.md 假设 A1–A8）"
+          }
+        ]
+      },
+      {
+        "heading": "现金流、资产负债与股息质量",
+        "paragraphs": [
+          "基准年经营现金 1.3 亿美元扣维护 2000 万、其他股东权益 1000 万后，所有者自由现金流 1 亿美元；再扣成长投资 2000 万、强制用途 500 万，经常性可分配现金 7500 万美元，覆盖股息 4000 万美元。现金 2500 万、负债 5000 万，五年内无再融资压力；零预扣税，税前即税后。"
+        ]
+      },
+      {
+        "heading": "企业成长性与资本配置",
+        "paragraphs": [
+          "成长投资每年 2000 万美元由自由现金流内部支付，不增发、不加杠杆；股数不变，每股指标不受稀释。增长只来自续约合同，不假设新市场。"
+        ]
+      },
+      {
+        "heading": "未来五年经营与现金流预测",
+        "paragraphs": [
+          "Base 情景维持现有合同；Bear／Bull 分别为 Base 经营水平的 80%／120%。三个情景的股息均低于可分配现金，约 1.9 倍覆盖。"
+        ],
+        "tables": [
+          {
+            "title": "情景每股股息（美元）",
+            "columns": [
+              "情景",
+              "FY+1",
+              "FY+3",
+              "FY+5",
+              "FY+1–3 覆盖"
+            ],
+            "rows": [
+              [
+                "Bear",
+                3.2,
+                3.2,
+                3.2,
+                "1.9x"
+              ],
+              [
+                "Base",
+                4.0,
+                4.0,
+                4.0,
+                "1.9x"
+              ],
+              [
+                "Bull",
+                4.8,
+                4.8,
+                4.8,
+                "1.9x"
+              ]
+            ],
+            "note": "虚构教学假设，派息率 40%（假设 A3）"
+          }
+        ]
+      },
+      {
+        "heading": "估值与预期总回报",
+        "paragraphs": [
+          "普通收息估值不计股息增长：现价 40 美元恰好对应 10% 必要税后收益率上限。若五年后估值不变，Base 年化总回报约等于 10% 股息率；跌回 32 美元则账面回撤 20%，股息不保证总回报。"
+        ]
+      },
+      {
+        "heading": "买点、建仓策略与持仓复评",
+        "paragraphs": [
+          "美国10年期国债对比为教学假设：无风险锚 4%（非实时报价），股票税后股息率高出约 6 个百分点，补偿的是股息削减和本金波动风险，不是确定收益。国债收益率上升 50bp 时，必要收益率升至约 10.5%，收息买入上限相应下调。初始建仓 50 美元、逐步增持 40 美元已就绪；强力买入需跌至 32 美元且预测可信度升至高。"
+        ]
+      },
+      {
+        "heading": "风险、监测指标与论点证伪",
+        "paragraphs": [
+          "最大风险是服务量或现金转化持续低于计划，会直接压低以利润为基数的股息。"
+        ],
+        "tables": [
+          {
+            "title": "风险与监测阈值",
+            "columns": [
+              "风险／指标",
+              "预警阈值",
+              "对股息的影响",
+              "性质",
+              "复查时间"
+            ],
+            "rows": [
+              [
+                "服务量下滑",
+                "低于计划 10% 以上",
+                "每低 10%，股息约降 0.4 美元",
+                "持续性",
+                "下期业绩"
+              ],
+              [
+                "派息政策改变",
+                "董事会下调 40% 派息率",
+                "按新比例同步下调",
+                "结构性",
+                "下次派息公告"
+              ],
+              [
+                "一次性现金支出重现",
+                "实际可分配现金低于股息",
+                "动用存量现金",
+                "暂时性",
+                "下期现金流量表"
+              ]
+            ],
+            "note": "虚构教学阈值"
+          }
+        ]
+      },
+      {
+        "heading": "数据来源、关键假设与研究限制",
+        "paragraphs": [
+          "数据截至 2026-01-01；全部资料来自虚构教学案例 worked-examples.md 假设 A1–A8，不声称查询真实公司。数据缺口：无真实同行与行业统计；未提供持仓，不作持仓复评或仓位建议。仅为研究示例，不构成投资或税务建议。"
+        ]
+      }
+    ],
+    "appendix": [
+      "A10 估值与买点复算、A11 评分与组合角色等完整记录见本 JSON 对应字段；本例为虚构，不含真实来源。"
+    ],
+    "labels": [
+      "金额单位：报告币种"
+    ]
+  }
+}

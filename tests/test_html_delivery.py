@@ -46,7 +46,7 @@ class HtmlDeliveryTests(unittest.TestCase):
         document = Document(self.template)
         self.assertIn(("html", {
             "lang": "zh-CN", "data-report-mode": "{{REPORT_MODE}}",
-            "data-ruleset": "3.0", "data-presentation": "html-1",
+            "data-ruleset": "3.0", "data-presentation": "html-2",
         }), document.tags)
         self.assertIn(("meta", {"charset": "UTF-8"}), document.tags)
         self.assertEqual(sum(tag == "script" for tag, _ in document.tags), 1)
@@ -66,13 +66,19 @@ class HtmlDeliveryTests(unittest.TestCase):
 
     def test_complete_static_content_and_anchors_for_all_modes(self):
         source = (SKILL / "output-template.md").read_text(encoding="utf-8")
-        full_headings = re.findall(r"^## ([0-9]+\. .+)$", source, re.M)
-        self.assertEqual(len(full_headings), 6)
+        full_section = source.split("## 3. Full Analysis — Required Twelve Chapters", 1)[1].split(
+            "## 4. Audit Appendix", 1)[0]
+        full_headings = re.findall(r"^## ([0-9]+\. .+)$", full_section, re.M)
+        self.assertEqual(len(full_headings), 12)
         self.assertEqual([int(title.split(".", 1)[0]) for title in full_headings],
-                         list(range(1, 7)))
+                         list(range(1, 13)))
         self.assertEqual([title.split(". ", 1)[1] for title in full_headings], [
-            "结论速览", "财务状况", "买点观点", "长期展望：业务与股息",
-            "风险点与跟踪信号", "数据来源与关键假设",
+            "摘要与投资结论", "公司概况与行业定位", "行业结构、供需与周期",
+            "竞争格局与公司护城河", "过去五年经营与财务趋势",
+            "现金流、资产负债与股息质量", "企业成长性与资本配置",
+            "未来五年经营与现金流预测", "估值与预期总回报",
+            "买点、建仓策略与持仓复评", "风险、监测指标与论点证伪",
+            "数据来源、关键假设与研究限制",
         ])
         for title in full_headings:
             self.assertRegex(title, r"[\u4e00-\u9fff]")
@@ -125,38 +131,37 @@ class HtmlDeliveryTests(unittest.TestCase):
                          ["rich_charts", "plain_text_fallback"])
 
     def test_partial_scoring_contract_preserves_light_modes(self):
-        source = (SKILL / "output-template.md").read_text(encoding="utf-8")
-        safety = source.split("### 股息安全性复检（Safety Review）", 1)[1].split(
-            "### 完整分析（Full Analysis）", 1)[0]
-        self.assertIn("No new N/B", safety)
-        self.assertIn("score, grade or trade size", safety)
+        safety = (SKILL / "safety-review.md").read_text(encoding="utf-8")
+        self.assertIn("Do not add a new forecast", safety)
+        self.assertIn("N/B", safety)
+        self.assertIn("score, grade", safety)
         self.assertIn("automatic_trade: false", safety)
         self.assertNotIn("scorecard.summary", safety)
-        full = source.split("### 完整分析（Full Analysis）", 1)[1]
-        for required in ("scorecard.summary", "rating_audit", "entry_plan",
-                         "assessed", "bounded", "not_assessable",
-                         "71-81/100", "57-67/85",
-                         "stable provisional Grade", "No imputed neutral points",
-                         "component_ranges", "summary.quality_range",
-                         "summary.quality_coverage_pct", "range_kind: rubric_bounds"):
-            self.assertIn(required, full)
+        self.assertNotIn("entry_plan", safety)
+        scoring = (SKILL / "scoring.md").read_text(encoding="utf-8")
+        for required in ("scorecard.summary", "rating_audit", "assessed", "bounded",
+                         "not_assessable", "71-81/100", "57-67/85",
+                         "summary.quality_range", "range_kind: rubric_bounds"):
+            self.assertIn(required, scoring)
+        schema = (SKILL / "schema.json").read_text(encoding="utf-8")
+        self.assertIn('"entry_plan"', schema)
 
-    def test_six_section_report_keeps_appendix_on_request(self):
+    def test_twelve_chapter_report_includes_default_audit_appendix(self):
         source = (SKILL / "output-template.md").read_text(encoding="utf-8")
-        self.assertIn("## Audit Appendix（审计附录，按需）", source)
-        appendix = source.split("## Audit Appendix（审计附录，按需）", 1)[1]
+        self.assertIn("## 4. Audit Appendix（模型与证据明细）", source)
+        appendix = source.split("## 4. Audit Appendix（模型与证据明细）", 1)[1]
         for part in range(1, 14):
-            self.assertIn(f"**A{part}. ", appendix)
-        self.assertIn("Output the appendix only when the user asks", appendix)
-        self.assertIn("JSON output (`schema.json`) always carries the full records", appendix)
-        main = source.split("## 1. 结论速览", 1)[1].split("## Audit Appendix（审计附录，按需）", 1)[0]
-        self.assertIn("分阶段入场决策卡", main)
+            self.assertIn(f"- A{part} ", appendix)
+        self.assertIn("默认组成部分", appendix)
+        self.assertIn("report_output.sections", source)
+        main = source.split("## 1. 摘要与投资结论", 1)[1].split("## 4. Audit Appendix", 1)[0]
+        self.assertIn("初始建仓", main)
+        self.assertIn("逐步增持", main)
         self.assertIn("覆盖度", main)
-        self.assertIn("最多五张表", source)
-        self.assertIn("Length budget", source)
+        self.assertIn("12 章", source)
         entry = (SKILL / "SKILL.md").read_text(encoding="utf-8")
-        self.assertIn("report_structure: six_section_main_report", entry)
-        self.assertIn("底层分析、门槛与 JSON 记录保持完整", entry)
+        self.assertIn("report_structure: twelve_section_full_report", entry)
+        self.assertIn("presentation_revision: html-2", entry)
 
     def test_owned_documents_have_no_merge_markers(self):
         for name in ("output-template.md", "visual-output-rules.md",
@@ -169,7 +174,7 @@ class HtmlDeliveryTests(unittest.TestCase):
     def test_entry_routes_to_html_and_preserves_publication_gate(self):
         entry = (SKILL / "SKILL.md").read_text(encoding="utf-8")
         self.assertIn("default_report_format: single_file_html", entry)
-        self.assertIn("presentation_revision: html-1", entry)
+        self.assertIn("presentation_revision: html-2", entry)
         self.assertIn("templates/report.html", entry)
         self.assertNotIn("默认在对话中输出分析；只有用户明确要求保存或发布时", entry)
         publishing = (SKILL / "publishing.md").read_text(encoding="utf-8")

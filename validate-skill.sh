@@ -114,6 +114,7 @@ for key in (
 ):
     require(key in props and key in full_required, f"full_analysis missing required contract: {key}")
 require("total_return_based" in defs["valuationMode"]["enum"], "growth valuation mode missing")
+require("bdc" in defs["cashFlowModel"]["properties"]["sector_model"]["enum"], "BDC sector cash-flow model missing")
 
 def check_refs(node):
     if isinstance(node, dict):
@@ -145,6 +146,8 @@ for module in \
   portfolio-context.md \
   screen-mode.md \
   workflow.md \
+  industry-analysis.md \
+  historical-financial-trends.md \
   business-outlook.md \
   business-fundamentals.md \
   sector-fcf-proxies.md \
@@ -181,25 +184,30 @@ if grep -Eq '^# Module: (buy-zone|business-fundamentals|holding-review|scoring)\
   exit 1
 fi
 
-full_template_sections=$(grep -Ec '^## [0-9]+\. ' "$TEMPLATE")
+full_template_sections=$(awk '
+  /^## 3\. Full Analysis — Required Twelve Chapters$/ { in_full=1; next }
+  /^## 4\. Audit Appendix/ { in_full=0 }
+  in_full && /^## [0-9]+\. / { count++ }
+  END { print count+0 }
+' "$TEMPLATE")
 full_skeleton_sections=$(grep -Ec '^## [0-9]+\. ' "$SKELETON")
 
-if [[ "$full_template_sections" -ne 6 ]]; then
-  echo "output-template.md must contain 6 numbered Full Analysis report sections; found $full_template_sections" >&2
+if [[ "$full_template_sections" -ne 12 ]]; then
+  echo "output-template.md must contain 12 numbered Full Analysis chapters; found $full_template_sections" >&2
   exit 1
 fi
 
-if [[ "$full_skeleton_sections" -ne 6 ]]; then
-  echo "example-output-skeleton.md must contain 6 numbered Full Analysis report sections; found $full_skeleton_sections" >&2
+if [[ "$full_skeleton_sections" -ne 12 ]]; then
+  echo "example-output-skeleton.md must contain 12 numbered Full Analysis chapters; found $full_skeleton_sections" >&2
   exit 1
 fi
 
-grep -Fq '## Audit Appendix' "$TEMPLATE" || {
-  echo "output-template.md must define the on-request Audit Appendix" >&2
+grep -Fq '## 4. Audit Appendix' "$TEMPLATE" || {
+  echo "output-template.md must define the default Audit Appendix" >&2
   exit 1
 }
-grep -Fq 'Length budget' "$TEMPLATE" || {
-  echo "output-template.md must keep the main-report length budget" >&2
+grep -Fq '十二章' "dividend-income-equity-analysis/SKILL.md" || {
+  echo "SKILL.md must describe the complete twelve-chapter report" >&2
   exit 1
 }
 
@@ -220,7 +228,7 @@ grep -Fq 'Target policy: hard_minimum / preference / not_assessed' "$SCREEN_MODE
 grep -Fq 'do not reject or downgrade a stock solely because its yield appears low' "$SCREEN_MODE"
 grep -Fq 'screen-mode.md' build-gpt-instructions.sh
 
-for example in ordinary growth safety-review; do
+for example in ordinary growth safety-review full-report; do
   "$PYTHON_BIN" scripts/validate_analysis.py "dividend-income-equity-analysis/examples/$example.analysis.json"
 done
 

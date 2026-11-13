@@ -70,7 +70,7 @@ The minimal `review` record has no forecast, N/B, score, grade, trade size or au
 
 Always record the data date.
 
-Read `analysis-quality.md` for the required full-only records and their missing-data consequences. Complete them for every Full Analysis; their conclusions enter the six-section main report at the locations in `analysis-quality.md`, and the full records go to the Audit Appendix and JSON. Charts and additional presentation detail are optional, not substitutes for evidence.
+Read `analysis-quality.md` for the required full-only records and their missing-data consequences. Complete them for every Full Analysis; their conclusions enter the twelve-chapter complete report at the locations in `analysis-quality.md`, and the full records go to the Audit Appendix and JSON. Charts and additional presentation detail are optional, not substitutes for evidence.
 
 - Price must include as-of date and exchange.
 - Dividend history should come from official announcements or annual reports when available.
@@ -113,6 +113,14 @@ Read `withholding-notes.md`.
 Show gross DPS, withholding rate and basis, net DPS, gross and net yield, broker-observed status, and broker cash-line type.
 
 For scrip / DRIP, state the cash-election assumption and tax, broker, fractional-share, and dilution uncertainty.
+
+## Step 2A: Industry Classification and Sector Analysis
+
+Read `economic-profile.md` first and record `economic_profile` for every material segment; it routes the cash model, valuation treatment, stresses and tax route. Then read `industry-analysis.md` before selecting the financial or valuation model. Identify the primary/sub-industry, value-chain position, business model, segment exposure, regulatory setting, cycle and capital intensity. Select the sector-specific KPI playbook and relevant `sector-fcf-proxies.md` cash model. Analyse demand, supply/capacity, price/mix, profit pools, competition, substitution/technology, regulation and external exposures. Select three to five genuine peers where possible. Translate industry drivers into issuer revenue, segment profit, investment, owner cash and per-share value.
+
+## Step 2B: Five-Year Historical Financial Trend Review
+
+Read `historical-financial-trends.md`. Build the latest five completed fiscal-year baseline for operating results, margins, cash generation, leverage, per-share economics, dividends and sector KPIs. Add latest TTM/interim figures separately. Identify multi-year declines, profit/OCF/FCF divergence, deteriorating cash conversion, rising leverage, falling interest cover, capex/working-capital spikes, dilution and unsupported DPS growth. Quantify first year, magnitude, cause, duration, peer context, severity and effect on dividend funding and valuation. Classify as transient, cyclical, persistent or structural.
 
 ## Step 3: Business Fundamentals and Long-Term Trend
 
@@ -292,11 +300,11 @@ Complete the eight `rating_audit` records with matching labels, rules, dated sou
 
 ## Step 14: Write the Report
 
-Read `output-template.md`. Steps 1-13 are the work; the report is a distillation of it, not a transcript. Write the six-section main report: bottom line, financial condition, entry view (including the staged entry card), long-term business and dividend outlook, key risks and monitoring, sources and key assumptions. Keep within its length budget, keep every number consistent with the underlying model, and leave the bridges, ledgers, full forecasts, sensitivities, full trap checklist, valuation audit, full scorecard and rating audit and holding-review table to the Audit Appendix unless the user asks for it.
+Read `output-template.md`. Steps 1-13 are the work; the report is a distillation of it, not a transcript. Write the complete twelve-chapter report defined by `output-template.md`. The executive summary is followed by the full industry, peer, five-year financial trend, cash-flow/dividend, growth, forecast, valuation, entry, risk and source analysis. Do not reduce the work to a six-section summary or hide core analysis in an on-request appendix.
 
 ## Common Report Delivery
 
-For every report request, including Screen and Safety Review, follow the single-file HTML contract in `output-template.md`. Read `templates/report.html`, fill the complete selected-mode content as static HTML, embed all styles and optional charts, and save one `.html` file. Full Analysis uses the six-section main report, with the Audit Appendix only on request; compact modes do not inherit full-only records. Ordinary conversational clarifications remain in chat unless a report is requested.
+For every report request, including Screen and Safety Review, follow the single-file HTML contract in `output-template.md`. Read `templates/report.html`, fill the complete selected-mode content as static HTML, embed all styles and optional charts, and save one `.html` file. Full Analysis uses the complete twelve-chapter report and the default audit appendix; compact modes do not inherit full-only records. Ordinary conversational clarifications remain in chat unless a report is requested.
 
 Validate any structured analysis with the existing schema/validator when needed, without making JSON a mandatory extra deliverable. Check the actual HTML file, resolved placeholders, table readability, source links and chapter anchors. A chart-free report still uses the HTML file with text/tables. Return its actual link/path plus a short Chinese summary, not the whole report in chat.
 

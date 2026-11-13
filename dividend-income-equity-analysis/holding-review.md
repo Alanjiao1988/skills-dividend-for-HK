@@ -1,6 +1,6 @@
 # Holding Review
 
-This Full Analysis module is reported as one bullet in the main report's **Section 3: 买点观点 (Entry View)** when the user holds the stock or asks about holding, selling or switching, with the trigger table and switching comparison in **Audit Appendix part A12** (scoring and portfolio role are in A11). It does not add a report section or replace the scoring, cash-flow, business-outlook or valuation contracts.
+This Full Analysis module is reported as a short paragraph in **Chapter 10: 买点、建仓策略与持仓复评** when the user holds the stock or asks about holding, selling or switching, with the trigger table and switching comparison in **Audit Appendix part A12** (scoring and portfolio role are in A11). It does not add a report chapter or replace the scoring, cash-flow, business-outlook or valuation contracts.
 
 For a request only to check a new disclosure's dividend safety, use the separate light `safety_review` mode in `safety-review.md`. Full Analysis may embed that dated baseline/delta/decision discipline here; a standalone safety update does not need a new five-year forecast, valuation or personal holdings export.
 
@@ -172,4 +172,4 @@ next_review: date/event, earlier escalation signals, and re-entry/recheck condit
 
 Each trigger's evidence includes its source/date and relevant uncertainty. `threshold` must distinguish an observed breach from a condition being monitored; `research_action` states the proposed evaluation and reopening evidence. Include at least the thesis invalidation signal and all material active triggers. If no responsible signal or action can be assessed, explicitly record what is unknown and why.
 
-Keep the rationale separate from the score and state facts, assumptions and judgments distinctly. Use null / `Not assessed` for missing numerical inputs and explain their effect. Tables must have at most seven columns. Conclusions are research, not individualized investment, tax or execution instructions.
+Keep the rationale separate from the score and state facts, assumptions and judgments distinctly. Use null / `Not assessed` for missing numerical inputs and explain their effect. Split a table that becomes hard to read on a phone rather than dropping key columns. Conclusions are research, not individualized investment, tax or execution instructions.

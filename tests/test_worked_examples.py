@@ -10,7 +10,7 @@ if (ROOT / "dividend-income-equity-analysis").is_dir():
 
 class WorkedExampleTests(unittest.TestCase):
     def load(self, mode):
-        return json.loads((ROOT / f'examples\\{mode}.analysis.json').read_text(encoding='utf8'))
+        return json.loads((ROOT / 'examples' / f'{mode}.analysis.json').read_text(encoding='utf8'))
 
     def test_both_complete_records_validate(self):
         for mode in ('ordinary', 'growth'):

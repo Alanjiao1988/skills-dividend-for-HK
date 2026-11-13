@@ -2,7 +2,7 @@
 
 This is the canonical source for the local analytical extensions originally added in schema **2.4** and retained in schema **2.5 / 3.0**. They explain provenance, sustainable cash economics and uncertainty; completing text boxes or passing arithmetic validation does not establish that the underlying evidence is true. Reuse the cash, sector, tax, settlement and valuation contracts rather than creating parallel models. For new scoring, `scoring.md` and rubric-2 `scorecard.summary` are authoritative; the legacy incomplete-total rule applies only when reading old records.
 
-The machine modes are `screen`, `full_analysis` and `safety_review`. A focused normalization audit is a supporting task, not another mode. Full Analysis uses the **six-section main report** in `output-template.md`: every record below is still completed, its conclusion appears at the main-report location named here, and the full record goes to the named Audit Appendix part and JSON.
+The machine modes are `screen`, `full_analysis` and `safety_review`. A focused normalization audit is a supporting task, not another mode. Full Analysis uses the **twelve-chapter report** in `output-template.md`: every record below is still completed, its conclusion appears at the main-report location named here, and the full record goes to the named Audit Appendix part and JSON.
 
 ## 1. Minimum Work by Task
 
@@ -11,18 +11,18 @@ The machine modes are `screen`, `full_analysis` and `safety_review`. A focused n
 | Screen | User target or Not Assessed, target basis/policy, current income and cash/capital evidence, triage | Evidence needed to resolve a specific screen flag | Follow `screen-mode.md`; no full-only records, N/B, forecasts, final score or action prices |
 | Focused normalization audit | Arithmetic conclusion, evidence/action conclusion and the four operating-cash / funding / policy / entitled-share links | Driver/state provenance needed to test the proposed N | Follow `data-conventions.md`; do not fabricate a full report or create a fourth mode |
 | Safety Review | Dated baseline/new disclosure, comparable cash/capital deltas, coverage, decision and escalation | Material controller, remittance or sector evidence | Follow `safety-review.md`; no new forecast, valuation, score or trade size |
-| Full Analysis | Existing full contract plus the records below, each assessed or explicitly unavailable with reasons | Deeper source series, hedge detail or portfolio exposures when the conclusion depends on them | Keep the six-section main report, the on-request appendix and all existing action gates; missing data is not invented precision |
+| Full Analysis | Existing full contract plus the records below, each assessed or explicitly unavailable with reasons | Deeper source series, hedge detail or portfolio exposures when the conclusion depends on them | Keep the twelve-chapter report, the default audit appendix and all existing action gates; missing data is not invented precision |
 
 Required Full Analysis records are `controller_risk`, `quality_assessment`, `portfolio_role_assessment`, `real_income`, `fx_risk` and one or two `income_drivers`. Whenever `buy_zone` is present, `buy_zone.normalization_model` is also required, alongside the existing four-link `normalization_evidence`. A suspended report need not invent a buy zone to host the record.
 
 | Record | Main-report conclusion | Audit Appendix part |
 |---|---|---|
-| Normalization model and evidence links | Section 3 names only missing or conflicting links | A10, referencing the operating/cash/policy/share bridges in A3/A8 |
-| Controller risk | Section 2 one line only when material or unresolved-material; Section 5 when a trap item is flagged | A1 identity, A4 assessment; reused in A9 and A12 |
-| Quality and role assessments | Section 1 status line (quality /85, combined point/range and coverage, role) | A11 |
-| Real-income trend | Section 4 one clause, separate from nominal dividend stability | A2 |
-| Economic FX and stress | Section 2 net-cash line when material; Section 5 when flagged | A5 map, A6 stress, conversion references in A10 |
-| Income-driver tags | Section 4 business drivers | A5; used in A11 portfolio role only with actual portfolio exposure data |
+| Normalization model and evidence links | Chapter 10 names missing or conflicting links; Chapter 6 shows the cash bridge | A10, referencing the operating/cash/policy/share bridges in A3/A8 |
+| Controller risk | Chapter 2 (ownership/governance) when material or unresolved-material; Chapter 11 when a trap item is flagged | A1 identity, A4 assessment; reused in A9 and A12 |
+| Quality and role assessments | Chapter 1 status line (quality /85, combined point/range and coverage, role) | A11 |
+| Real-income trend | Chapter 6 or 8, separate from nominal dividend stability | A2 |
+| Economic FX and stress | Chapter 6 net-cash line when material; Chapter 11 when flagged | A5 map, A6 stress, conversion references in A10 |
+| Income-driver tags | Chapters 7-8 business drivers | A5; used in A11 portfolio role only with actual portfolio exposure data |
 
 Charts and extra presentation detail are optional. The analytical records, material limitations and source trail are not. Null means unavailable, not zero, immaterial exposure, a passed veto or a neutral score. State the missing disclosure, why it matters and what conclusion remains possible.
 
@@ -158,7 +158,7 @@ N and price must share currency, entitlement and quote units. These are percenta
 
 Require `portfolio_role_assessment` with `basis: quality_safety_and_constraints`, an evidenced `rationale`, and `price_alone_changes_role: false`. Remove automatic Score-to-Role mapping. A lower quote with unchanged fundamentals, safety evidence and investor constraints leaves quality points and the assessed **security role unchanged**; it can improve income fit and entry attractiveness. A legacy grade, price band or yield spread cannot on its own award Core income. Core requires supported quality, safety, the applicable gates and investor mandate, not a magic score cutoff. Keep price-specific action eligibility explicit and separate; a newly attractive price cannot cure a material evidence gap.
 
-Lead the main report's Section 1 status line with quality `/85`, the combined point/range with coverage, and role. The required scalar `key_metrics_at_a_glance.quality_score_85` must equal `quality_assessment.score_85` and `scorecard.quality_score_85`; null means the quality interval does not collapse, not that the range should disappear. Match the executive quality range and coverage to `scorecard.summary`. Show TTM yield and combined `/100` secondarily. Preserve all confidence, tax, cash-election, funding, growth, veto and Structural Decline overlays. Nominal dividend stability is the primary anchor; the rubric's explicit inflation refinement may use the same purchasing-power evidence once, without an extra ad hoc award or deduction for the separate real-income label.
+Lead the Chapter 1 status line with quality `/85`, the combined point/range with coverage, and role. The required scalar `key_metrics_at_a_glance.quality_score_85` must equal `quality_assessment.score_85` and `scorecard.quality_score_85`; null means the quality interval does not collapse, not that the range should disappear. Match the executive quality range and coverage to `scorecard.summary`. Show TTM yield and combined `/100` secondarily. Preserve all confidence, tax, cash-election, funding, growth, veto and Structural Decline overlays. Nominal dividend stability is the primary anchor; the rubric's explicit inflation refinement may use the same purchasing-power evidence once, without an extra ad hoc award or deduction for the separate real-income label.
 
 ## 5. Real After-Tax Income and Purchasing Power
 

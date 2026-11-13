@@ -6,7 +6,7 @@ Quality is the sum of Modules 2-7; income attractiveness is Module 1. Changing o
 
 `scoring.md` is the canonical scoring/range/rating contract. `analysis-quality.md` supplies the compatible local analytical records and material gates, including `quality_assessment`, `portfolio_role_assessment`, controller risk and income-yield spreads; it must not introduce a competing scoring rule.
 
-The main report shows only quality /85, the combined score (a point, or the provisional range with Grade/Grade range and coverage) and Portfolio Role in the Bottom Line status line; module points, candidate bands, weights, overlays, `rating_audit` and override explanations belong to Audit Appendix part A11. All of them are still calculated for every Full Analysis.
+The main report shows only quality /85, the combined score (a point, or the provisional range with Grade/Grade range and coverage) and Portfolio Role in the Chapter 1 status line; module points, candidate bands, weights, overlays, `rating_audit` and override explanations belong to Audit Appendix part A11. All of them are still calculated for every Full Analysis.
 
 ## Weights
 

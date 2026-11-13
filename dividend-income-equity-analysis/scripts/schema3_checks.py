@@ -14,6 +14,20 @@ HEADINGS = (
     "结论速览", "财务状况", "买点观点", "长期展望：业务与股息",
     "风险点与跟踪信号", "数据来源与关键假设",
 )
+FULL_HEADINGS = (
+    "摘要与投资结论", "公司概况与行业定位", "行业结构、供需与周期",
+    "竞争格局与公司护城河", "过去五年经营与财务趋势",
+    "现金流、资产负债与股息质量", "企业成长性与资本配置",
+    "未来五年经营与现金流预测", "估值与预期总回报",
+    "买点、建仓策略与持仓复评", "风险、监测指标与论点证伪",
+    "数据来源、关键假设与研究限制",
+)
+TWELVE_CHAPTER_REQUIRED_FROM = "2026-11-10"
+SPREAD_MODELS = {"bank", "bdc", "mortgage_reit", "insurer"}
+OPERATING_MODELS = {"operating_company", "utility_infrastructure",
+                    "concession_infrastructure", "midstream_partnership"}
+TEMPLATE_MARKERS = re.compile(r"[Ff]ictional|teaching (?:case|assumption|input|calculation)|worked-examples\.md|"
+                              r"虚构|教学案例|教学假设|示例公司")
 PLACEHOLDERS = ("数据不足", "暂不给出", "暂不评估", "待确认", "不可评估",
                 "Not Assessable", "cannot score")
 GAP_VALUES = {
@@ -51,6 +65,88 @@ def resolve_pointer(report, pointer):
         part = part.replace("~1", "/").replace("~0", "~")
         node = node[int(part)] if isinstance(node, list) else node[part]
     return node
+
+
+def economic_profile_errors(report):
+    """Cross-dimension routing rules from economic-profile.md."""
+    profile = report["economic_profile"]
+    model = report["cash_flow_model"]
+    sector, overlays = model["sector_model"], set(model["overlays"])
+    segments = profile["segments"]
+    errors = []
+
+    def check(condition, message):
+        if not condition:
+            errors.append("economic_profile: " + message)
+
+    total = sum(row["cash_share_pct"] for row in segments)
+    check(95 <= total <= 105, f"segment cash shares must sum to about 100%, got {total:g}%")
+    for row in segments:
+        check(row["cyclicality"] == "stable" or row["cycle_window"] is not None,
+              f"segment '{row['name']}' is cyclical and needs a cycle_window")
+    for row in segments:
+        check(row["revenue_engine"] != "spread_income" or row["balance_sheet_role"] == "balance_sheet_spread",
+              f"segment '{row['name']}' earns spread_income, so its balance_sheet_role must be balance_sheet_spread")
+        check(row["revenue_engine"] != "commodity_linked" or row["cyclicality"] != "stable",
+              f"segment '{row['name']}' is commodity_linked and cannot be classed as stable")
+    finite_segments = [row for row in segments if row["asset_life"] == "finite_assets"]
+    for asset in profile["finite_life_assets"]:
+        earliest = asset.get("earliest_end_year")
+        check(earliest is None or earliest <= asset["end_year"],
+              f"finite asset '{asset['name']}': earliest_end_year cannot be after end_year")
+    check(bool(finite_segments) == bool(profile["finite_life_assets"]),
+          "finite_assets segments and the finite_life_assets schedule must appear together")
+    mode = report.get("valuation_mode")
+    check(mode != "finite_life_harvest" or profile["company_level_runoff"],
+          "finite_life_harvest needs an evidenced company-level run-off; finite assets alone are valued asset by asset")
+    check(not profile["company_level_runoff"] or mode in ("finite_life_harvest", "suspended"),
+          "a company-level run-off must use finite_life_harvest or be suspended")
+    dominant = max(segments, key=lambda row: row["cash_share_pct"])
+    spread = lambda row: row["balance_sheet_role"] == "balance_sheet_spread"
+    other_side = [row for row in segments if spread(row) != spread(dominant)]
+    material_side = sum(row["cash_share_pct"] for row in other_side) >= 20
+    for row in other_side:
+        if not material_side:   # materiality is judged for the whole other side, not segment by segment
+            continue
+        check(sector == "holding_company" or "holding_company" in overlays,
+              f"material segment '{row['name']}' ({row['cash_share_pct']:g}%) runs on a different balance sheet from the "
+              "dominant segment; use the holding_company model or overlay to add up segment cash at the parent")
+        check(bool(row.get("capital_bridge")),
+              f"material segment '{row['name']}' needs a capital_bridge: its own cash/capital generation, "
+              "regulatory constraint and upstream route")
+    if dominant["balance_sheet_role"] == "balance_sheet_spread":
+        check(sector in SPREAD_MODELS or sector == "holding_company",
+              "a balance-sheet spread business must use a spread/capital proxy, not industrial FCF")
+    else:
+        check(sector not in SPREAD_MODELS,
+              "an operating or leasing business must not use a bank/BDC/insurer/mortgage-REIT proxy")
+    check(mode != "capital_return_based" or dominant["balance_sheet_role"] == "balance_sheet_spread",
+          "capital_return_based valuation is for balance-sheet spread businesses (banks, insurers, BDCs, mortgage REITs)")
+    spread_share = sum(row["cash_share_pct"] for row in segments if spread(row))
+    check(mode != "capital_return_based" or sector in ("bank", "insurer")
+          or (sector == "holding_company" and spread_share >= 50),
+          "capital_return_based (RoTE on tangible book) fits banks and insurers; BDCs and mortgage REITs use NAV and "
+          "net investment income through their sector cash models")
+    check(sector != "mortgage_reit" or profile["legal_wrapper"] == "reit",
+          "mortgage_reit requires the reit legal wrapper")
+    check(sector != "concession_infrastructure" or bool(finite_segments),
+          "concession_infrastructure requires finite concession assets in the profile")
+    check(profile["legal_wrapper"] != "fund_or_etf",
+          "funds/ETFs are outside the issuer Full Analysis; use a fund method")
+    if profile["cash_attribution"] == "material_jv_associates" or profile["legal_wrapper"] == "holding_parent":
+        check(sector == "holding_company" or "holding_company" in overlays,
+              "JV/associate or parent-level cash needs the holding_company model or overlay")
+    tax = profile["tax_route"]
+    check(tax["refunds_excluded_from_cash"], "possible tax refunds must stay out of spendable cash")
+    is_ptp = profile["legal_wrapper"] == "us_publicly_traded_partnership"
+    check(is_ptp == (tax["distribution_regime"] == "us_1446a"),
+          "the §1446(a) distribution route applies to, and only to, US publicly traded partnerships")
+    if is_ptp:
+        rate = tax["exit_withholding_rate"]
+        check(rate is not None, "a PTP must record §1446(f) exit withholding")
+        check(rate is None or abs(rate - 0.10) < 1e-9 or tax["exception_evidence"] is not None,
+              "§1446(f) exit withholding other than 10% needs documented exception evidence")
+    return errors
 
 
 def validate_schema3(report):
@@ -118,6 +214,24 @@ def validate_schema3(report):
     visible = [output["title"], output["summary"], *output["appendix"], *output["labels"]]
     for section in output["sections"]:
         visible.extend([section["heading"], *section["paragraphs"]])
+        for table in section.get("tables", []):
+            visible.extend([table["title"], table["note"]])
+            require(all(len(row) == len(table["columns"]) for row in table["rows"]),
+                    f"table '{table['title']}' rows must match its column count")
+        for chart in section.get("charts", []):
+            visible.extend([chart["title"], chart["source"]])
+            require(all(len(row["values"]) == len(chart["x_labels"]) for row in chart["series"]),
+                    f"chart '{chart['title']}' series must match its x labels")
+            require(chart["kind"] != "stacked_bar" or all(
+                        value is None or value >= 0 for row in chart["series"] for value in row["values"]),
+                    f"stacked chart '{chart['title']}' components must be non-negative")
+            require(any(value is not None for row in chart["series"] for value in row["values"]),
+                    f"chart '{chart['title']}' needs at least one observed value")
+    if "economic_profile" in report:
+        profile = report["economic_profile"]
+        visible.append(profile["classification_evidence"])
+        visible.extend(row["name"] for row in profile["segments"])
+        visible.extend(row["why_causal"] for row in profile["kpis"])
     for record in research["records"]:
         visible.extend([record["reason"], record["impact"]])
         visible.extend(row["result"] for row in record["attempts"])
@@ -140,6 +254,10 @@ def validate_schema3(report):
         require(not any(word.lower() in output["summary"].lower() for word in PLACEHOLDERS),
                 "publication summary must not replace the conclusion with a placeholder")
         conditions = decision["buy_conditions"]
+        returns = report["return_requirements"]
+        price_units = {returns["valuation_currency"]: 1.0}
+        if returns.get("quote_currency") and returns.get("quote_per_valuation_unit"):
+            price_units[returns["quote_currency"]] = returns["quote_per_valuation_unit"]
         vague = ("补齐资金证据", "等待确认", "进一步研究", "数据完善", "资料齐全")
         for condition in conditions + decision["invalidation_conditions"]:
             require(not any(word in condition["observable"] for word in vague),
@@ -147,11 +265,11 @@ def validate_schema3(report):
             require(not any(word in str(condition["threshold"]) for word in PLACEHOLDERS),
                     "condition thresholds cannot be placeholders")
             if condition["kind"] == "price":
-                require(condition["unit"] == report["return_requirements"]["valuation_currency"],
-                        "price conditions must use the report's price currency")
+                require(condition["unit"] in price_units,
+                        "price conditions must use the valuation currency or the declared quote currency")
         if expected == "等待到价":
-            require(any(c["kind"] == "price" and c["operator"] in ("<", "<=")
-                        and c["threshold"] < report["price_used"] for c in conditions),
+            require(any(c["kind"] == "price" and c["operator"] in ("<", "<=") and c["unit"] in price_units
+                        and c["threshold"] / price_units[c["unit"]] < report["price_used"] for c in conditions),
                     "waiting for price needs a specific lower entry price")
         prices = decision["reference_prices"]
         stages = {row["stage"]: row for row in report["entry_plan"]["stages"]}
@@ -181,10 +299,44 @@ def validate_schema3(report):
                     or any(row["valuation_price"] is None or row["effective_price"] is None
                            for row in stages.values()),
                     "available reference prices must not be hidden behind a blocked label")
+        headings = tuple(row["heading"] for row in output["sections"])
         if language == "zh-CN":
-            require(tuple(row["heading"] for row in output["sections"]) == HEADINGS,
-                    "Full Analysis must retain the six Chinese report sections")
+            require(headings in (HEADINGS, FULL_HEADINGS),
+                    "Full Analysis must use the legacy six-section or complete twelve-chapter Chinese structure")
+        contract = report.get("report_contract_version")
+        # A declared twelve_chapter contract binds whatever the data date (backtests); legacy is archive-only.
+        dated_new = str(report.get("as_of_date") or "") >= TWELVE_CHAPTER_REQUIRED_FROM
+        new_report = contract == "twelve_chapter" if contract else dated_new
+        # Creation rule, separate from reading: fresh live research cannot be filed under the legacy contract.
+        require(not (contract == "six_section_legacy" and dated_new and research["scope"] == "live_research"),
+                "new live research dated from 2026-11-10 cannot declare report_contract_version six_section_legacy")
+        if new_report and language == "zh-CN":
+            require(headings == FULL_HEADINGS,
+                    "reports dated from 2026-11-10 or declaring report_contract_version twelve_chapter must use the "
+                    "twelve-chapter structure; six sections are archive-only")
+        if new_report or headings == FULL_HEADINGS or "economic_profile" in report:
+            require("economic_profile" in report,
+                    "a twelve-chapter Full Analysis must record economic_profile (economic-profile.md)")
+            if "economic_profile" in report:
+                for message in economic_profile_errors(report):
+                    require(False, message)
 
+    if research["scope"] == "live_research":
+        residue = []
+
+        def scan(node, path):
+            if isinstance(node, dict):
+                for key, child in node.items():
+                    scan(child, f"{path}/{key}")
+            elif isinstance(node, list):
+                for index, child in enumerate(node):
+                    scan(child, f"{path}/{index}")
+            elif isinstance(node, str) and TEMPLATE_MARKERS.search(node):
+                residue.append(path)
+
+        scan(report, "")
+        require(not residue, "live research still contains template example text at "
+                + ", ".join(residue[:5]) + (" ..." if len(residue) > 5 else ""))
     if language == "zh-CN":
         # Formal source names and fixed machine enums are exempt, not arbitrary prose.
         exempt = set(report.get("sources", []))

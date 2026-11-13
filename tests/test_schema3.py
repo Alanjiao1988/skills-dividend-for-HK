@@ -355,7 +355,7 @@ class Schema3Tests(unittest.TestCase):
         output = render_report(report)
         self.assertIn("&lt;script&gt;", output)
         self.assertNotIn("{{", output)
-        for label in ("当前动作", "研究覆盖度", "收入约束上限", "结论失效条件"):
+        for label in ("当前动作", "评分模块覆盖度", "收入约束上限", "结论失效条件"):
             self.assertIn(label, output)
         self.assertNotIn("fetch(", output)
 

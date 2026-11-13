@@ -12,7 +12,7 @@ A low yield or a particular company name does not select a growth model. An inco
 
 ## 1. Inputs and Valuation Routing
 
-Read `business-fundamentals.md`, the applicable `sector-fcf-proxies.md` contract, `business-outlook.md` and the task-specific requirements in `analysis-quality.md` before valuation. Required inputs include:
+Read `industry-analysis.md`, `historical-financial-trends.md`, `business-fundamentals.md`, the applicable `sector-fcf-proxies.md` contract, `business-outlook.md` and the task-specific requirements in `analysis-quality.md` before valuation. Required inputs include:
 
 - Current price, quote currency/unit, share or ADR ratio, valuation date, and data cutoff.
 - Trailing and recurring DPS separately; withholding, recurring ADR fees, cash election, FX and other material investor cash deductions.
@@ -29,6 +29,7 @@ Apply this order before comparing any value with current price:
 | Veto `Triggered` or `Unclear`, material cash/capital evidence insufficient, or forecast Not Forecastable | `suspended` | Missing evidence, resolution conditions, and holding review; no actionable valuation range |
 | Structural Decline without the satisfied exception in `scoring.md` | `suspended` | No ordinary or growth entry zones |
 | Structural Decline with the satisfied exception and no unresolved veto | `finite_life_harvest` | Finite cash recovery; optional explicitly secondary income cross-check |
+| Balance-sheet spread business (`economic_profile`) with a published dividend-plus-buyback policy and an assessed required return | `capital_return_based` (Section 7A) | Tangible-book residual-income range plus a separate ordinary income comparison |
 | Non-declining business with all growth gates satisfied and a material evidenced development/reinvestment case | `total_return_based` when justified | Growth range plus a separate ordinary income comparison where credible |
 | Sustainable ordinary capacity and credible N/B, without a justified primary growth case | `ordinary_yield_based` | Deterministic ordinary income zones |
 
@@ -126,6 +127,8 @@ Keep the consumption-basket `real_income` rating separate from nominal discounti
 
 `return_requirements` must identify `benchmark`, `benchmark_source`, `benchmark_date`, `benchmark_currency`, `benchmark_tenor`, `valuation_currency`, `valuation_unit_scale`, `tax_and_fx_basis`, `rate_basis`, and the anchor after the disclosed treatment as `risk_free_rate`.
 
+Matching-currency sources: for HKD use the HKSAR Government Bond closing reference rate published by the HKMA (`https://api.hkma.gov.hk/public/market-data-and-statistics/monthly-statistical-bulletin/gov-bond/instit-bond-price-yield-daily?segment=OutstandYields`; pick the outstanding institutional issue whose remaining life is nearest the tenor, and record its code, maturity and observation date — the series is published with a lag of about a week). The linked exchange rate does not make the US Treasury an HKD risk-free rate: HKD and USD yields have differed by a percentage point or more. Record `benchmark_remaining_years` and `target_tenor_years`; a gap of a year or so is acceptable but must be visible, both are mandatory for an assessed return in a new report, the validator rejects a gap above two years, and an observation more than 45 days older than the analysis date must be refreshed. When `benchmark_currency` differs from `valuation_currency`, `benchmark_currency_basis` must record which matching source was tried, why it was not used and the peg/hedge treatment; the validator rejects a mismatch without it.
+
 A US 20-year Treasury may be used when the user chooses it or a USD valuation/duration makes it suitable. It is neither a universal benchmark nor a hardcoded current rate. A non-USD security requires a matching-currency benchmark or an explicit, consistent cash-conversion/hedging treatment; do not simply discount unchanged foreign-currency DPS at a USD rate. Explain any unavoidable tenor mismatch.
 
 Derive the equity premium **before looking at the security's price or implied yield**:
@@ -150,9 +153,47 @@ R_base = (R_low + R_high) / 2
 
 Use decimals, `0 <= RP_low < RP_high`, and `0 < R_low < R_high`. State sources versus analyst judgments. Freeze the derivation before price comparison; an unavailable credible anchor/premium means `status: not_assessed`, null rates and no numerical entry zone, not an invented sector rate. `price_independent` must be true.
 
+### 4.1A Mandatory U.S. 10-Year Treasury Opportunity-Cost Comparison
+
+Every Full Analysis must explicitly compare the stock's prospective dividend income and required equity return with the U.S. 10-year Treasury. This is a mandatory opportunity-cost reference, not a substitute for a currency-matched valuation discount rate.
+
+**Benchmark selection and disclosure**
+
+- Retrieve the latest available U.S. 10-year constant-maturity Treasury yield (FRED DGS10 / Federal Reserve H.15 or Treasury.gov), with observation date, retrieval date, source URL and nominal yield convention. Do not hardcode or carry forward an old rate without marking it stale.
+- For USD-denominated equity cash flows, the USD 10-year Treasury is the default risk-free anchor unless the cash-flow duration or explicit investor mandate justifies another tenor. The 20-year Treasury is optional only when duration supports it or the user explicitly chooses it.
+- For HKD, CNY or another non-USD valuation currency, use a matching-currency sovereign benchmark for the primary discount-rate calculation. Still show the U.S. 10-year Treasury as the requested global opportunity-cost reference, but do not discount unchanged HKD/CNY cash flows at a USD rate. If comparing non-USD equity income with USD Treasuries, explicitly model FX conversion/hedging, currency basis and investor tax; otherwise label the comparison indicative rather than like-for-like.
+- State whether both equity dividends and Treasury interest are shown gross or after investor-specific tax. Show gross and net figures separately where tax treatment differs or is unknown. Do not assume that a foreign investor's Treasury interest is tax-free without evidence.
+
+**Required comparison table**
+
+| Measure | Stock | U.S. 10-year Treasury | Spread / interpretation |
+|---|---:|---:|---|
+| Current yield / yield to maturity | [dated] | [dated] | Gross spread |
+| Investor after-tax cash yield | [dated] | [dated / unavailable] | Net cash-income spread |
+| Forward 12-month cash yield | [sourced DPS and price] | [current benchmark] | Forward spread |
+| Five-year expected annualized total return | [Bear/Base/Bull] | [reinvestment / holding assumption] | Risk-adjusted opportunity-cost discussion |
+| Principal / cash-flow risk | [dividend and equity-price variability] | [duration and sovereign/currency/tax risk] | Not equivalent instruments |
+
+For a stock, distinguish trailing, forward and normalized recurring dividend yields. For the Treasury, use the market yield-to-maturity/constant-maturity observation, not its coupon rate. A Treasury's quoted yield is not the same as a cash coupon yield; explain the distinction where relevant.
+
+**Required spread and hurdle calculations**
+
+- Gross dividend spread = stock gross forward dividend yield − U.S. 10-year Treasury yield.
+- Net cash-income spread = stock investor after-tax forward dividend yield − Treasury investor after-tax yield, only when both tax treatments are known and currency-consistent.
+- Required equity return = currency-consistent risk-free benchmark + independently justified equity risk premium, as already defined in Section 4.1.
+- Ordinary income entry ceiling = sustainable investor net DPS / required net cash yield, using the existing N/B and Section 5 formulas. Do not use the Treasury yield alone as the required equity yield.
+- Show price sensitivity to a 10-year yield change of ±50 bp and ±100 bp, holding the independently justified equity premium and sustainable DPS constant. Recalculate the required return and the ordinary income boundary. For growth valuation, rerun the discount-rate sensitivity without double-counting changes in the equity premium.
+- Show how far the current price is from the Treasury-anchored income entry ceiling and from the independently modelled growth-value range. Explain if the two approaches disagree.
+
+**Investment interpretation**
+
+A stock yielding less than the 10-year Treasury is not automatically unattractive: evidenced per-share dividend growth and capital appreciation may compensate, but must be quantified in Layer 2/3. A stock yielding more is not automatically attractive: the spread may compensate for dividend-cut risk, structural decline, leverage, illiquidity, FX, tax or principal-loss risk. A high spread is a risk signal to investigate, not a buy signal.
+
+The report must answer directly: why should the investor accept the issuer's dividend and equity-price risk instead of holding a U.S. 10-year Treasury? Identify the specific compensation (net income spread, credible DPS growth, earnings/FCF per share growth and/or valuation upside), quantify it, and state what could eliminate it. Do not compare a risky equity's headline gross yield with a Treasury yield and call the difference an equity risk premium.
+
 ### 4.2 Ordinary Cash-Yield Derivation and Investor Objective
 
-The conservative ordinary anchor gives **no growth credit**:
+The ordinary anchor gives **no growth credit by default**:
 
 ```text
 income_growth_credit = 0
@@ -160,7 +201,26 @@ r_low = R_low
 r_high = R_high
 ```
 
-Print this derivation. Do not silently subtract assumed growth from required total return to improve the yield-based price. The finite-harvest cross-check separately retains its 10% floor. With fixed N, B, r_low and r_high, the legacy ordinary formulas in Section 5 are unchanged.
+**Gated income growth credit (4.2A).** A stable, low-growth company whose per-share dividend has *evidenced* long-run growth may earn a small credit `c`, so that the income thresholds approximate a Gordon value without a full Section 6 model:
+
+```text
+0 < c <= min(3%, Base per-share net DPS CAGR FY1->FY5,
+             historical per-share growth, long-run nominal growth bound)
+r_low  = R_low  - c        -> starter boundary  N / (R_low - c)
+r_high = R_high - c        -> add boundary      N / (R_high - c)
+Strong-buy boundary stays B / R_high (no credit)
+```
+
+All gates must pass; otherwise `c = 0`:
+
+- `valuation_mode` is `ordinary_yield_based`; Fundamental Trend is Structural Growth, Stable or Mature; Dividend Safety is Strong or Acceptable; Forecast Confidence is High or Medium; value-trap veto is not triggered.
+- Base FY1->FY5 per-share DPS CAGR (from the runway, never a plug) is at least `c`.
+- Historical per-share growth across at least five fiscal years, i.e. four or more growth intervals (DPS, or recurring EPS when the payout policy changed; state which) is at least `c`. Dilution from scrip, rights or placings is already inside a per-share measure; a falling per-share record means no credit, however strong the forecast.
+- `c` does not exceed a sourced long-run nominal growth bound for the cash-generating economies (inflation plus real GDP, or a contractual indexation rate).
+
+Guardrails: `R_low - c` must stay at least 2 points, as for the growth DDM; a 3-point credit lifts the starter price by 60% at an 8% `R_low`, so it is not a small adjustment. A positive credit also needs `historical_series` with every fiscal-year per-share value from start to end, so the CAGR cannot be picked from two convenient endpoints; a record that fell in more than a third of its intervals gets no credit. N stays the next twelve months' normalized DPS; never feed a multi-year average that already includes growth into `N / (R - c)` (the validator rejects a credit with `normalized_net_dps_basis: three_year_base_average`).
+
+Record the test in `return_requirements.income_growth_credit_basis` and print it in Chapter 9 next to the no-credit ladder. When growth is material to value, or the evidence would support more than 3%, use the full Section 6 growth model instead of stretching the credit. Do not silently subtract assumed growth from required total return to improve the yield-based price. The finite-harvest cross-check separately retains its 10% floor and never takes a credit.
 
 Investor income requirements are separate from these asset-specific return requirements. Carry `income_assessment.target`, `forward_net_yield`, `yield_fit`, `income_eligible` and the reason. A target comes only from an explicit current request or an explicitly applicable portfolio objective; otherwise it is `Not Assessed`. Never substitute this module's rates or sector ranges for the Screen Mode target.
 
@@ -177,7 +237,7 @@ Earlier versions contained fixed sector yield ranges. They are historical proven
 
 Use as the primary ladder for `ordinary_yield_based`. In `total_return_based`, retain a separately labelled **ordinary income entry comparison** whenever its inputs are credible. A harvest case may use it only subject to Section 8.
 
-Caption every ordinary ladder: **Cash-income comparison with no dividend growth credited; not a complete estimate of intrinsic value.** A constant perpetual dividend can mathematically have value D/R, but these normalized/Bear income thresholds do not establish a complete expected dividend path or realized total return. A yield shortfall therefore does not alone establish that the company is overvalued.
+Caption every ordinary ladder: **Cash-income comparison with no dividend growth credited; not a complete estimate of intrinsic value.** When a gated credit `c > 0` applies (Section 4.2A), caption it **Cash-income comparison with c of evidenced dividend growth credited** and still show the no-credit starter price beside it. `c` is zero unless stated, so `B / r_high` below means `B / R_high`. A constant perpetual dividend can mathematically have value D/R, but these normalized/Bear income thresholds do not establish a complete expected dividend path or realized total return. A yield shortfall therefore does not alone establish that the company is overvalued.
 
 Definitions and validity:
 
@@ -197,8 +257,8 @@ Boundary formulas:
 ```text
 Normalized low-end cash-yield boundary = N / r_low
 Normalized high-end cash-yield boundary = N / r_high
-Bear high-end cash-yield boundary = B / r_high
-N / r_low >= N / r_high >= B / r_high
+Bear high-end cash-yield boundary = B / (r_high + c) = B / R_high
+N / r_low >= N / r_high >= B / R_high
 ```
 
 | Cash-income band | Deterministic Boundary | Income meaning |
@@ -240,7 +300,7 @@ An `unknown` normalization basis is diagnostic only, even when an independently 
 
 ### 5.2 Required Entry Plan: Price, Evidence and Action
 
-Full Analysis must answer **whether the current price supports entry, what improves the entry, and what invalidates it**. Do not stop at "not Strong Buy" or "wait for a better price". Put the short staged decision card in the main report's Section 3 (买点观点) and the full auditable `entry_plan` in Audit Appendix part A10; the plan is always completed and stored in JSON even when the appendix is not shown. A request for "buy points", "can I buy now", 买点, 建仓 or 加仓 routes here even when described as a quick review or involving multiple tickers; it must not silently fall back to Screen.
+Full Analysis must answer **whether the current price supports entry, what improves the entry, and what invalidates it**. Do not stop at "not Strong Buy" or "wait for a better price". Put the staged decision card and the reasoning behind each stage in Chapter 10 (买点、建仓策略与持仓复评) and the full auditable `entry_plan` in Audit Appendix part A10; the plan is always completed and stored in JSON. A request for "buy points", "can I buy now", 买点, 建仓 or 加仓 routes here even when described as a quick review or involving multiple tickers; it must not silently fall back to Screen.
 
 Keep `action_assessment.status` as the shared evidence/mandate gate. It is not a price band: eligible evidence can coexist with `wait_for_price`. A known hard-yield shortfall makes the **current** action diagnostic but can still produce a conditional, income-capped waiting price when the other inputs are sound. An unassessed hard constraint needs evidence, not an assumed pass.
 
@@ -419,6 +479,16 @@ PV_terminal = terminal_net_dps / (R - g_terminal)
 Value = PV_dividends + PV_terminal
 ```
 
+**Finite-life assets in the terminal value.** When `economic_profile.finite_life_assets` is non-empty, a lower perpetual growth rate is not an acceptable stand-in for expiry. Record `terminal_base_fiscal_year` (the last explicit/transition fiscal year) and one `terminal_finite_assets` entry per profile asset with the same name, `cash_share = operating_cash_share_pct / 100`, `end_year` and `treatment`. An asset that `expires` contributes its share of the terminal dividend only for `n = end_year - terminal_base_fiscal_year` terminal years; `renewal_evidenced` keeps it in the perpetuity and requires the profile's `extension_evidence`:
+
+```text
+fade = (1 + g_terminal) / (1 + R)
+PV_terminal = terminal_net_dps / (R - g_terminal) x (1 - sum(cash_share_i x fade^n_i))
+              / (1 + R)^terminal_time_years
+```
+
+`g_terminal` then describes the going-concern business, not a blend that already haircuts expiring assets. The validator recomputes every scenario and the R/g sensitivity this way.
+
 `net_dps` is the full-period net dividend already converted into the valuation currency/unit; retain `fx_to_valuation_currency` as the conversion audit, not a second multiplier in PV. Convert gross underlying-share DPS after withholding using `shares_per_quoted_security` and FX, subtract `investor_cash_deductions` (full-period fees per quoted security in whole valuation currency), then divide by `valuation_unit_scale`. Explicitly record zero deductions when there are none; missing material fee evidence cannot be silently treated as zero.
 
 `cash_fraction` is the evidenced remaining **net** cash entitlement, not automatically elapsed months divided by twelve. Exclude distributions already received or no longer attached to the purchased security. If several cash dates represent a fiscal year, reconcile their fractions: first-year fractions sum to at most one, and subsequent full-year fractions sum to one. Use the sum of the final full fiscal year's dated net cash, not an individual quarterly payment, as the steady-state terminal-year bridge.
@@ -488,7 +558,36 @@ Where boundaries coincide, the entry row takes precedence at `entry_upper`. Do n
 
 Keep a credible ordinary income comparison alongside the growth primary view and say which question each answers. If N/B are unavailable, explain why; do not fabricate the ladder. Report hard-income eligibility separately: the effective **strict** ceiling for a positive hard yield floor is `min(entry_upper, income_price_ceiling)`, with the same cap applied separately to starter/add prices. The unmodified economic values remain auditable. Missing hard-income inputs preclude claiming investor eligibility.
 
+## 7A. Capital-Return Valuation for Balance-Sheet Spread Businesses
+
+Banks, insurers, BDCs and mortgage REITs return capital through dividends **and** buybacks, and their value rests on returns on tangible equity, not on the dividend alone. The ordinary income ladder ignores buybacks and per-share growth, and the growth DDM in Section 6 discounts dividends only, so both systematically understate such issuers. When `economic_profile` shows the dominant segment as `balance_sheet_spread` and the issuer has a published capital-return policy, use `valuation_mode: capital_return_based` with a `capital_return_valuation` record:
+
+```text
+value(scenario, R) = tangible book value per share x (sustainable RoTE - g) / (R - g)
+values at R_high and R_low for Bear, Base and Bull
+value_low   = min over scenarios of value at R_high
+value_high  = max over scenarios of value at R_low
+base_case   = Base value at R_high
+starter     = base_case x (1 - margin_of_safety)
+add         = min(starter, value_low)
+strong_buy  = entry_upper = value_low x (1 - margin_of_safety)
+review_above = value_high
+```
+
+- Book value is the latest disclosed tangible net asset value per ordinary share, in the valuation currency, with date and source.
+- Sustainable RoTE per scenario comes from the five-year history, management targets and the Bear/Base/Bull forecast, excluding material notable items; Bear must reflect the stress in the forecast, not a target.
+- `R_low`/`R_high` are the price-independent required returns from Section 4. `g` must not exceed `long_run_nominal_growth_bound` (at most 5%) and must sit at least 2 points below `R_low`.
+- The margin of safety (0–50%) is an explicit analyst choice stated with its reason; it is not tuned to make the current price qualify.
+- Keep `buy_zone` as the ordinary cash-income comparison and show both views; when they disagree, explain the gap (buybacks, per-share growth) rather than averaging them.
+- Close the loop with forecast capital: in steady state the formula returns `(RoTE - g) / RoTE` of earnings (82% at 17% RoTE and 3% growth). `distribution_capacity` records, per scenario, that implied ratio, the five-year forecast distributable ratio (recurring FAD after RWA or solvency-capital growth at the target ratio ÷ earnings), the dividend payout and the remainder available for buybacks. The validator rejects an implied ratio above the forecast ratio: the value would then rest on capital the bank cannot release. State how the forecast's RWA growth relates to `g` and what limits distributions now.
+- `distribution_capacity.annual_path` shows the Base case year by year (earnings, capital for growth, rebuild to the target ratio, dividends, what is left for buybacks), because a five-year total can hide a year with no room. `capital_ratio_bridge` gives the numbers behind it (current and target ratio, RWAs, any dated regulatory change, sources): the path must rebuild exactly `(target - current) x RWA` and may release no more than the documented regulatory change.
+- This route fits banks and insurers (`sector_model` bank or insurer, or a `holding_company` model whose spread segments provide at least half of cash). BDCs and mortgage REITs distribute most income by rule and mark assets to market; value them on NAV and net investment income through their sector cash models, not RoTE on tangible book.
+- Capital constraints still bind: CET1 or solvency below target, a regulatory distribution restriction or unfunded Bear dividends keep the action at waiting for evidence or avoid regardless of value.
+- `scripts/validate_analysis.py` checks the arithmetic; `scripts/schema3_checks.py` rejects this mode for non-spread businesses.
+
 ## 8. Structural Decline: Finite-Life Cash Recovery Only
+
+Owning finite-life assets (concessions, reserves, vessels, projects) does not by itself route an issuer here. Per `economic-profile.md`, value such assets one by one inside the ordinary or growth route; this section applies only to an evidenced company-level run-off (`economic_profile.company_level_runoff: true`).
 
 A company classified as `Structural Decline` must not use an ordinary or growth perpetual franchise assumption. Assess finite concessions, leases and depleting resources even when current profit is stable; do not assume renewal or replacement without evidence and reinvestment. If material finite-life recovery cannot fit a credible sustainable asset portfolio or the qualifying harvest exception, suspend this framework and explain a separate finite-period valuation requirement.
 
@@ -556,7 +655,7 @@ When a DDM is not assessed, use a null `growth_value_change` with reason, not ze
 
 ## 10. Historical Cross-Checks
 
-Historical yield and price are secondary context, not inputs for fitting premiums, terminal assumptions or safety discounts. They cannot override a deteriorating forecast or Structural Decline route.
+Historical yield and price are secondary context, not inputs for fitting premiums, terminal assumptions or safety discounts. The latest U.S. 10-year Treasury observation and the ±50/±100 bp sensitivity required by Section 4.1A are mandatory opportunity-cost and rate-sensitivity disclosures; they do not replace the price-independent equity-premium derivation. They cannot override a deteriorating forecast or Structural Decline route.
 
 | Period | DPS Used | Price Range | Gross Yield Range | Net Yield Range | Yield Percentile | Comment |
 |---|---:|---:|---:|---:|---:|---|
@@ -584,6 +683,6 @@ All Full Analysis cases disclose mode/reason, veto status, Forecast Confidence, 
 - **Sensitivity:** keep transient ordinary changes `N/A`, but show the dated cash PV change and its audit when a dividend model exists.
 - **Entry decision:** `entry_plan` with the current action, three staged reference/effective prices and signed distance, opportunity thesis, Bear/Base/Bull holding-period returns, principal-risk review, concrete blockers, monitoring and invalidation conditions. Suspended cases retain the decision/evidence record but no numerical ladder.
 
-Visuals follow `visual-output-rules.md`: ordinary ladder, growth-value range with separate income-fit information, or finite-life cash-recovery summary as applicable. Never display a Strong Buy badge for an unsupported Bear case or while a hard income constraint fails. Keep every table to at most seven columns.
+Visuals follow `visual-output-rules.md`: ordinary ladder, growth-value range with separate income-fit information, or finite-life cash-recovery summary as applicable. Never display a Strong Buy badge for an unsupported Bear case or while a hard income constraint fails. Split a table that becomes hard to read on a phone rather than dropping key columns.
 
-Use `expected buy zone`, `income entry comparison`, `growth value range` or `finite-life value range`, not guaranteed price. This module is a conditional dividend model, not a full corporate DCF. Broader enterprise valuation may be a separate cross-check, but conflicting methods must be explained rather than forced into one answer. Excess-valuation, thesis failure and portfolio decisions belong to `holding-review.md`, summarized in the Entry View (Section 3) when relevant and detailed in Audit Appendix part A12 rather than a new report section.
+Use `expected buy zone`, `income entry comparison`, `growth value range` or `finite-life value range`, not guaranteed price. This module is a conditional dividend model, not a full corporate DCF. Broader enterprise valuation may be a separate cross-check, but conflicting methods must be explained rather than forced into one answer. Excess-valuation, thesis failure and portfolio decisions belong to `holding-review.md`, summarized in Chapter 10 when relevant and detailed in Audit Appendix part A12 rather than a new report chapter.

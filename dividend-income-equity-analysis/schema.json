@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Dividend Income Equity Analysis",
-  "description": "Schema 3.0 / rubric 2: definite decisions, ordered evidence recovery, numeric provisional bounds and Chinese single-file HTML. Full Analysis retains six main sections and an optional audit appendix. Explicit dispatch preserves 2.3/2.4/2.5 behavior without retroactive retrieval requirements or relabeling discretionary scores. Safety Review remains cash/capital-only, without new valuation, scoring or trading instructions.",
+  "description": "Schema 3.0 / rubric 2: definite decisions, ordered evidence retrieval, numeric provisional bounds and Chinese single-file HTML. Full Analysis supports legacy six-section records and the complete twelve-chapter report contract, with sector cash-flow models including BDCs. Explicit dispatch preserves 2.3/2.4/2.5 compatibility. Safety Review remains cash/capital-only.",
   "type": "object",
   "$defs": {
     "nullableNumber": {
@@ -26,6 +26,7 @@
       "enum": [
         "ordinary_yield_based",
         "total_return_based",
+        "capital_return_based",
         "finite_life_harvest",
         "suspended"
       ]
@@ -1380,9 +1381,13 @@
           "enum": [
             "operating_company",
             "bank",
+            "bdc",
             "insurer",
             "reit",
+            "mortgage_reit",
             "utility_infrastructure",
+            "concession_infrastructure",
+            "midstream_partnership",
             "holding_company"
           ]
         },
@@ -1439,6 +1444,10 @@
             "$ref": "#/$defs/nonemptyText"
           },
           "minItems": 1
+        },
+        "associate_cash_conversion": {
+          "$ref": "#/$defs/associateCashConversion",
+          "description": "Required when economic_profile.cash_attribution is material_jv_associates: equity-accounted profit versus cash actually received, and the conversion each forecast scenario assumes."
         }
       },
       "required": [
@@ -2088,10 +2097,66 @@
           "const": true
         },
         "income_growth_credit": {
-          "const": 0
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.03,
+          "description": "Gated per-share dividend growth credit subtracted from R_low/R_high for the ordinary starter/add thresholds (buy-zone.md 4.2A). 0 unless every gate passes."
         },
         "limitations": {
           "$ref": "#/$defs/nonemptyText"
+        },
+        "quote_currency": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Exchange quote currency when it differs from valuation_currency (e.g. HKD quote, USD dividends)."
+        },
+        "quote_per_valuation_unit": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0,
+          "description": "Quote-currency units per valuation-currency unit, e.g. 7.8395 HKD per USD."
+        },
+        "income_growth_credit_basis": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/incomeGrowthCreditBasis"
+            }
+          ],
+          "description": "Evidence for the gated growth credit; required when income_growth_credit > 0, optional record of a failed test otherwise."
+        },
+        "benchmark_currency_basis": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/nonemptyText"
+            }
+          ],
+          "description": "Required when benchmark_currency differs from valuation_currency: which matching-currency sovereign source was tried, why it was not used, and the peg/hedge treatment that makes the substitute acceptable."
+        },
+        "benchmark_remaining_years": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0,
+          "description": "Actual remaining life of the benchmark bond on benchmark_date."
+        },
+        "target_tenor_years": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0,
+          "description": "Tenor the discount rate is meant to represent, usually 10."
         }
       },
       "required": [
@@ -2637,6 +2702,17 @@
               "basis"
             ]
           }
+        },
+        "terminal_base_fiscal_year": {
+          "type": "integer",
+          "description": "Last fiscal year of the explicit/transition path; terminal year 1 is the next fiscal year."
+        },
+        "terminal_finite_assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/terminalFiniteAsset"
+          },
+          "description": "Required when economic_profile.finite_life_assets is non-empty: each asset's share of the terminal dividend runs only to its end_year (buy-zone.md Section 6)."
         }
       },
       "required": [
@@ -3352,6 +3428,65 @@
         },
         "comment": {
           "type": "string"
+        },
+        "cash_paid_dividends": {
+          "$ref": "#/$defs/nullableNonnegative",
+          "description": "Dividend cash the issuer actually paid in the period (cash-flow statement), before any scrip alternative is taken into account."
+        },
+        "scrip_settled_dividends": {
+          "$ref": "#/$defs/nullableNonnegative",
+          "description": "Value of dividends settled by issuing new shares (scrip) in the period; 0 for a year without scrip. Required on every row once scrip_drip.historical_participation_rate > 0."
+        },
+        "dividend_denominator_basis": {
+          "type": "string",
+          "enum": [
+            "full_entitlement",
+            "cash_paid"
+          ],
+          "description": "Which dividend cash_dividends measures. A year with scrip_settled_dividends > 0 must use full_entitlement, so scrip cannot manufacture coverage."
+        },
+        "entitlement_settled_in_year": {
+          "$ref": "#/$defs/nullableNonnegative",
+          "description": "Part of this fiscal year's declared dividend settled (cash or scrip) within the same calendar year, e.g. the interim; from the dividends note."
+        },
+        "entitlement_settled_next_year": {
+          "$ref": "#/$defs/nullableNonnegative",
+          "description": "Part of this fiscal year's declared dividend settled in the following year, e.g. the final. in_year + next_year = cash_dividends on the full_entitlement basis."
+        },
+        "settlement_reconciliation": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/nonemptyText"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "amount": {
+                  "type": "number"
+                },
+                "reason": {
+                  "$ref": "#/$defs/nonemptyText"
+                },
+                "source_refs": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/nonemptyText"
+                  },
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "amount",
+                "reason",
+                "source_refs"
+              ]
+            }
+          ],
+          "description": "Explains a gap above 2% between cash paid plus scrip in a year and the prior final plus current interim: the amount, the reason and report sources. Text alone (or nothing) means the row cannot be reported_reconciled."
         }
       },
       "required": [
@@ -5230,7 +5365,8 @@
         "kind": {
           "enum": [
             "price",
-            "event"
+            "event",
+            "metric"
           ]
         },
         "observable": {
@@ -5295,8 +5431,33 @@
               }
             }
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "metric"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "threshold": {
+                "type": "number"
+              },
+              "operator": {
+                "enum": [
+                  "<=",
+                  ">=",
+                  "<",
+                  ">"
+                ]
+              }
+            }
+          }
         }
-      ]
+      ],
+      "description": "price: market price threshold; event: a publication; metric: a disclosed numeric indicator crossing a threshold (e.g. CET1 < 13.5%)."
     },
     "decisionConclusion": {
       "type": "object",
@@ -5686,6 +5847,18 @@
                   "$ref": "#/$defs/auditText"
                 },
                 "minItems": 1
+              },
+              "tables": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/reportTable"
+                }
+              },
+              "charts": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/reportChart"
+                }
               }
             },
             "required": [
@@ -5718,6 +5891,884 @@
         "sections",
         "appendix",
         "labels"
+      ]
+    },
+    "reportTable": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Static table shown in the chapter body. Every row has exactly as many cells as columns; null renders as an explicit gap, never zero.",
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/auditText"
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/auditText"
+          },
+          "minItems": 1
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": [
+                "string",
+                "number",
+                "null"
+              ]
+            },
+            "minItems": 1
+          },
+          "minItems": 1
+        },
+        "note": {
+          "$ref": "#/$defs/auditText",
+          "description": "Currency, unit, period, reported/adjusted basis and source."
+        }
+      },
+      "required": [
+        "title",
+        "columns",
+        "rows",
+        "note"
+      ]
+    },
+    "reportChart": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Static chart rendered as inline SVG. Each series has one value per x label; null is a gap, not zero. One chart has one unit; put different units (e.g. DPS and coverage multiple) in separate charts. stacked_bar series should be non-negative components of one total.",
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/auditText"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "line",
+            "bar",
+            "stacked_bar"
+          ]
+        },
+        "unit": {
+          "$ref": "#/$defs/auditText"
+        },
+        "x_labels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/auditText"
+          },
+          "minItems": 2
+        },
+        "series": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "$ref": "#/$defs/auditText"
+              },
+              "values": {
+                "type": "array",
+                "items": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "minItems": 2
+              }
+            },
+            "required": [
+              "name",
+              "values"
+            ]
+          }
+        },
+        "source": {
+          "$ref": "#/$defs/auditText"
+        }
+      },
+      "required": [
+        "title",
+        "kind",
+        "unit",
+        "x_labels",
+        "series",
+        "source"
+      ]
+    },
+    "economicProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Seven-dimension economic profile (economic-profile.md). Routes KPIs, cash model, valuation and tax independently of any industry list.",
+      "properties": {
+        "segments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "$ref": "#/$defs/auditText"
+              },
+              "cash_share_pct": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "revenue_engine": {
+                "type": "string",
+                "enum": [
+                  "regulated_or_contracted",
+                  "volume_times_price",
+                  "commodity_linked",
+                  "spread_income",
+                  "fee_or_aum",
+                  "subscription_recurring"
+                ]
+              },
+              "asset_life": {
+                "type": "string",
+                "enum": [
+                  "perpetual_going_concern",
+                  "finite_assets"
+                ]
+              },
+              "cyclicality": {
+                "type": "string",
+                "enum": [
+                  "stable",
+                  "demand_cycle",
+                  "supply_cycle",
+                  "commodity_cycle",
+                  "rate_cycle"
+                ]
+              },
+              "cycle_window": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/auditText"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "balance_sheet_role": {
+                "type": "string",
+                "enum": [
+                  "operating",
+                  "balance_sheet_spread",
+                  "asset_leasing"
+                ]
+              },
+              "capital_intensity": {
+                "type": "string",
+                "enum": [
+                  "asset_light",
+                  "maintenance_heavy",
+                  "growth_heavy"
+                ]
+              },
+              "capital_bridge": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/auditText"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "For a material segment (>=20% of cash) whose balance-sheet role differs from the dominant segment: its own cash or capital generation, regulatory/solvency constraint and how cash reaches the parent."
+              }
+            },
+            "required": [
+              "name",
+              "cash_share_pct",
+              "revenue_engine",
+              "asset_life",
+              "cyclicality",
+              "cycle_window",
+              "balance_sheet_role",
+              "capital_intensity"
+            ]
+          },
+          "minItems": 1
+        },
+        "legal_wrapper": {
+          "type": "string",
+          "enum": [
+            "ordinary_company",
+            "reit",
+            "us_publicly_traded_partnership",
+            "business_trust_or_stapled",
+            "holding_parent",
+            "fund_or_etf"
+          ]
+        },
+        "cash_attribution": {
+          "type": "string",
+          "enum": [
+            "wholly_owned",
+            "material_minorities",
+            "material_jv_associates"
+          ]
+        },
+        "finite_life_assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "$ref": "#/$defs/auditText"
+              },
+              "end_year": {
+                "type": "integer",
+                "minimum": 1900,
+                "maximum": 2300
+              },
+              "operating_cash_share_pct": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "extension_evidence": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/auditText"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "terminal_treatment": {
+                "$ref": "#/$defs/auditText"
+              },
+              "earliest_end_year": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "When the entry groups assets with different end dates and they cannot be split: the earliest material expiry. Valuation then uses this year for the whole entry instead of assuming everything lasts to end_year."
+              }
+            },
+            "required": [
+              "name",
+              "end_year",
+              "operating_cash_share_pct",
+              "extension_evidence",
+              "terminal_treatment"
+            ]
+          }
+        },
+        "company_level_runoff": {
+          "type": "boolean"
+        },
+        "tax_route": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "distribution_regime": {
+              "type": "string",
+              "enum": [
+                "ordinary_dividend",
+                "reit_distribution",
+                "us_1446a",
+                "trust_distribution",
+                "other_documented"
+              ]
+            },
+            "exit_withholding_rate": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 1
+            },
+            "exception_evidence": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/auditText"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "refunds_excluded_from_cash": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "distribution_regime",
+            "exit_withholding_rate",
+            "exception_evidence",
+            "refunds_excluded_from_cash"
+          ]
+        },
+        "kpis": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "$ref": "#/$defs/auditText"
+              },
+              "why_causal": {
+                "$ref": "#/$defs/auditText"
+              }
+            },
+            "required": [
+              "name",
+              "why_causal"
+            ]
+          }
+        },
+        "classification_evidence": {
+          "$ref": "#/$defs/auditText"
+        }
+      },
+      "required": [
+        "segments",
+        "legal_wrapper",
+        "cash_attribution",
+        "finite_life_assets",
+        "company_level_runoff",
+        "tax_route",
+        "kpis",
+        "classification_evidence"
+      ]
+    },
+    "capitalReturnValuation": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Tangible-book residual-income value for balance-sheet spread businesses whose shareholder return combines dividends and buybacks (buy-zone.md Section 7A).",
+      "properties": {
+        "status": {
+          "const": "assessed"
+        },
+        "method": {
+          "const": "tangible_book_residual_income"
+        },
+        "book_value_per_share": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "book_value_date": {
+          "$ref": "#/$defs/auditText"
+        },
+        "book_value_currency": {
+          "$ref": "#/$defs/auditText"
+        },
+        "book_value_source": {
+          "$ref": "#/$defs/auditText"
+        },
+        "long_run_growth": {
+          "type": "number"
+        },
+        "long_run_nominal_growth_bound": {
+          "type": "number",
+          "maximum": 0.05
+        },
+        "long_run_growth_basis": {
+          "$ref": "#/$defs/auditText"
+        },
+        "required_return_low": {
+          "type": "number"
+        },
+        "required_return_high": {
+          "type": "number"
+        },
+        "margin_of_safety": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 0.5
+        },
+        "scenarios": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "scenario": {
+                "enum": [
+                  "Bear",
+                  "Base",
+                  "Bull"
+                ]
+              },
+              "sustainable_return_on_tangible_equity": {
+                "type": "number"
+              },
+              "value_at_required_high": {
+                "type": "number"
+              },
+              "value_at_required_low": {
+                "type": "number"
+              },
+              "evidence": {
+                "$ref": "#/$defs/auditText"
+              }
+            },
+            "required": [
+              "scenario",
+              "sustainable_return_on_tangible_equity",
+              "value_at_required_high",
+              "value_at_required_low",
+              "evidence"
+            ]
+          }
+        },
+        "value_low": {
+          "type": "number"
+        },
+        "value_high": {
+          "type": "number"
+        },
+        "base_case_value": {
+          "type": "number"
+        },
+        "entry_upper": {
+          "type": "number"
+        },
+        "review_above": {
+          "type": "number"
+        },
+        "shareholder_return_policy": {
+          "$ref": "#/$defs/auditText"
+        },
+        "capital_constraint": {
+          "$ref": "#/$defs/auditText"
+        },
+        "price_independent": {
+          "const": true
+        },
+        "distribution_capacity": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "scenarios": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/capitalDistributionRow"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "growth_consistency": {
+              "$ref": "#/$defs/nonemptyText",
+              "description": "How the forecast's RWA (or required capital) growth relates to the long-run g in the formula."
+            },
+            "near_term_constraint": {
+              "$ref": "#/$defs/nonemptyText",
+              "description": "What limits distributions now (capital below target, regulatory restriction) and how the forecast treats share count."
+            },
+            "annual_path": {
+              "type": "array",
+              "minItems": 5,
+              "maxItems": 5,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "fiscal_year": {
+                    "type": "string"
+                  },
+                  "earnings": {
+                    "type": "number"
+                  },
+                  "growth_capital": {
+                    "type": "number"
+                  },
+                  "target_gap_rebuild": {
+                    "type": "number",
+                    "description": "Capital kept to return to the target ratio; negative when a regulatory change releases capital."
+                  },
+                  "dividends": {
+                    "type": "number"
+                  },
+                  "buyback_capacity": {
+                    "type": "number",
+                    "description": "earnings - growth_capital - target_gap_rebuild - dividends; 0 or negative means no buyback that year."
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "fiscal_year",
+                  "earnings",
+                  "growth_capital",
+                  "target_gap_rebuild",
+                  "dividends",
+                  "buyback_capacity"
+                ]
+              },
+              "description": "Base scenario, year by year: a five-year total can hide a year with no room to buy back."
+            },
+            "capital_ratio_bridge": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "current_ratio": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                },
+                "target_ratio": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                },
+                "risk_weighted_assets": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "regulatory_change_ratio": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 0.05,
+                  "description": "Ratio points a dated regulatory change is expected to add (0 when none)."
+                },
+                "source_refs": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/nonemptyText"
+                  },
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "current_ratio",
+                "target_ratio",
+                "risk_weighted_assets",
+                "regulatory_change_ratio",
+                "source_refs"
+              ],
+              "description": "Numbers behind annual_path.target_gap_rebuild: the path must rebuild (target - current) x RWA and may release at most regulatory_change_ratio x RWA."
+            }
+          },
+          "required": [
+            "scenarios",
+            "growth_consistency",
+            "near_term_constraint"
+          ],
+          "description": "Closes the loop between the valuation formula and forecast capital generation (buy-zone.md Section 7A)."
+        }
+      },
+      "required": [
+        "status",
+        "method",
+        "book_value_per_share",
+        "book_value_date",
+        "book_value_currency",
+        "book_value_source",
+        "long_run_growth",
+        "long_run_nominal_growth_bound",
+        "long_run_growth_basis",
+        "required_return_low",
+        "required_return_high",
+        "margin_of_safety",
+        "scenarios",
+        "value_low",
+        "value_high",
+        "base_case_value",
+        "entry_upper",
+        "review_above",
+        "shareholder_return_policy",
+        "capital_constraint",
+        "price_independent"
+      ]
+    },
+    "incomeGrowthCreditBasis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "base_dps_cagr_fy1_fy5": {
+          "type": "number",
+          "description": "Base per-share net DPS CAGR from runway FY1 to FY5."
+        },
+        "historical_metric": {
+          "enum": [
+            "dps",
+            "recurring_eps"
+          ]
+        },
+        "historical_start_period": {
+          "$ref": "#/$defs/nonemptyText"
+        },
+        "historical_end_period": {
+          "$ref": "#/$defs/nonemptyText"
+        },
+        "historical_years": {
+          "type": "number",
+          "minimum": 4,
+          "description": "Growth intervals; at least four (five fiscal years observed)."
+        },
+        "historical_start_value": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "historical_end_value": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "historical_cagr": {
+          "type": "number"
+        },
+        "long_run_growth_bound": {
+          "type": "number",
+          "minimum": 0
+        },
+        "long_run_growth_bound_basis": {
+          "$ref": "#/$defs/nonemptyText"
+        },
+        "credit_cap": {
+          "type": "number",
+          "description": "min(3%, Base CAGR, historical CAGR, long-run bound), floored at 0."
+        },
+        "gates_passed": {
+          "type": "boolean"
+        },
+        "explanation": {
+          "$ref": "#/$defs/nonemptyText"
+        },
+        "historical_series": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "period": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            },
+            "required": [
+              "period",
+              "value"
+            ]
+          },
+          "description": "Every fiscal-year per-share value from start to end; required when a positive credit is taken."
+        }
+      },
+      "required": [
+        "base_dps_cagr_fy1_fy5",
+        "historical_metric",
+        "historical_start_period",
+        "historical_end_period",
+        "historical_years",
+        "historical_start_value",
+        "historical_end_value",
+        "historical_cagr",
+        "long_run_growth_bound",
+        "long_run_growth_bound_basis",
+        "credit_cap",
+        "gates_passed",
+        "explanation"
+      ]
+    },
+    "associateConversionRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fiscal_year": {
+          "type": "string"
+        },
+        "share_of_profit": {
+          "type": "number",
+          "description": "Equity-accounted share of profits less losses of associates and joint ventures."
+        },
+        "cash_dividends_received": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Dividends received from associates and joint ventures (cash-flow statement)."
+        },
+        "conversion": {
+          "$ref": "#/$defs/nullableNumber",
+          "description": "cash_dividends_received / matching share_of_profit; null when that profit is not positive or unavailable."
+        }
+      },
+      "required": [
+        "fiscal_year",
+        "share_of_profit",
+        "cash_dividends_received",
+        "conversion"
+      ]
+    },
+    "associateCashConversion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "timing_basis": {
+          "type": "string",
+          "enum": [
+            "same_year",
+            "prior_year_profit"
+          ],
+          "description": "same_year divides a year's dividends received by that year's share of profit; prior_year_profit uses the previous year's profit."
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/associateConversionRow"
+          },
+          "minItems": 3
+        },
+        "aggregate_conversion": {
+          "$ref": "#/$defs/nullableNumber",
+          "description": "Sum of dividends received / sum of matching profit over rows with a conversion."
+        },
+        "forecast_conversion": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "Bear": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1.5
+            },
+            "Base": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1.5
+            },
+            "Bull": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1.5
+            }
+          },
+          "required": [
+            "Bear",
+            "Base",
+            "Bull"
+          ]
+        },
+        "above_history_evidence": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/sourcedEvidence"
+            },
+            {
+              "$ref": "#/$defs/nonemptyText"
+            }
+          ],
+          "description": "Specific sourced evidence (e.g. a new associate payout policy) needed when Base exceeds the aggregate or any scenario exceeds the best historical year. A plain string is accepted only for records that predate the twelve_chapter contract."
+        },
+        "explanation": {
+          "$ref": "#/$defs/nonemptyText"
+        }
+      },
+      "required": [
+        "timing_basis",
+        "history",
+        "aggregate_conversion",
+        "forecast_conversion",
+        "above_history_evidence",
+        "explanation"
+      ]
+    },
+    "sourcedEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "$ref": "#/$defs/nonemptyText"
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nonemptyText"
+          },
+          "minItems": 1,
+          "description": "Exact entries from the report's sources array."
+        }
+      },
+      "required": [
+        "evidence",
+        "source_refs"
+      ]
+    },
+    "terminalFiniteAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nonemptyText",
+          "description": "Same name as in economic_profile.finite_life_assets."
+        },
+        "cash_share": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "description": "operating_cash_share_pct / 100 from the profile."
+        },
+        "end_year": {
+          "type": "integer"
+        },
+        "treatment": {
+          "enum": [
+            "expires",
+            "renewal_evidenced"
+          ],
+          "description": "expires: the asset's share of the terminal dividend stops after end_year. renewal_evidenced: kept in the perpetuity, only when the profile records extension_evidence."
+        }
+      },
+      "required": [
+        "name",
+        "cash_share",
+        "end_year",
+        "treatment"
+      ]
+    },
+    "capitalDistributionRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scenario": {
+          "$ref": "#/$defs/scenario"
+        },
+        "implied_distribution_ratio": {
+          "type": "number",
+          "description": "(sustainable RoTE - g) / sustainable RoTE: the share of earnings the formula assumes is returned."
+        },
+        "forecast_distributable_ratio": {
+          "type": "number",
+          "description": "Five-year sum of recurring FAD (capital generated after RWA/solvency growth at the target ratio) / five-year sum of earnings, from the same scenario's forecast."
+        },
+        "dividend_payout_ratio": {
+          "type": "number",
+          "minimum": 0
+        },
+        "buyback_capacity_ratio": {
+          "type": "number",
+          "description": "forecast_distributable_ratio - dividend_payout_ratio: capital left for buybacks or other returns."
+        }
+      },
+      "required": [
+        "scenario",
+        "implied_distribution_ratio",
+        "forecast_distributable_ratio",
+        "dividend_payout_ratio",
+        "buyback_capacity_ratio"
       ]
     }
   },
@@ -6799,6 +7850,19 @@
     },
     "report_output": {
       "$ref": "#/$defs/reportOutput"
+    },
+    "economic_profile": {
+      "$ref": "#/$defs/economicProfile"
+    },
+    "capital_return_valuation": {
+      "$ref": "#/$defs/capitalReturnValuation"
+    },
+    "report_contract_version": {
+      "enum": [
+        "six_section_legacy",
+        "twelve_chapter"
+      ],
+      "description": "Report rules this record follows, independent of the data date. When present it governs the section check; when absent the as_of_date cutoff applies."
     }
   },
   "allOf": [
@@ -7713,7 +8777,8 @@
           "valuation_mode": {
             "enum": [
               "ordinary_yield_based",
-              "total_return_based"
+              "total_return_based",
+              "capital_return_based"
             ]
           },
           "action_assessment": {
@@ -8067,6 +9132,43 @@
               ]
             }
           ]
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "valuation_mode"
+        ],
+        "properties": {
+          "valuation_mode": {
+            "const": "capital_return_based"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "capital_return_valuation",
+          "economic_profile"
+        ],
+        "properties": {
+          "forecast_confidence": {
+            "enum": [
+              "High",
+              "Medium",
+              "Low"
+            ]
+          },
+          "value_trap_veto": {
+            "const": "Not triggered"
+          },
+          "return_requirements": {
+            "properties": {
+              "status": {
+                "const": "assessed"
+              }
+            }
+          }
         }
       }
     }
