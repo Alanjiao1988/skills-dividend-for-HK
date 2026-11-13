@@ -193,7 +193,7 @@ bash validate-skill.sh
 The validator checks:
 
 - valid, multi-line, maintainable JSON schema formatting;
-- six numbered Full Analysis report sections plus the on-request Audit Appendix in both template and example;
+- the twelve-chapter Full Analysis structure and the default Audit Appendix A1–A13 (legacy six-section records remain readable);
 - all canonical modules included in generated GPT instructions;
 - absence of selected stale rule strings;
 - presence of Screen Mode, explicit screening-yield parameters, sensitivity classification, and finite-life valuation contracts.

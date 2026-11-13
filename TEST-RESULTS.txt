@@ -1,6 +1,6 @@
-Local test run 2026-11-13 on top of 7433775
+Local test run 2026-11-13 on top of 2e09613
 $ python3 -m unittest discover -s tests
-Ran 369 tests in 14.540s
+Ran 372 tests in 14.829s
 
 OK
 $ bash validate-skill.sh

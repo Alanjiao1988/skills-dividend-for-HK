@@ -3466,6 +3466,7 @@
         "target_ratio": 0.1425,
         "risk_weighted_assets": 888647,
         "regulatory_change_ratio": 0.0045,
+        "regulatory_change_fiscal_year": "2027",
         "source_refs": [
           "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
           "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf"

@@ -6084,6 +6084,17 @@
                   }
                 ],
                 "description": "For a material segment (>=20% of cash) whose balance-sheet role differs from the dominant segment: its own cash or capital generation, regulatory/solvency constraint and how cash reaches the parent."
+              },
+              "spread_business_type": {
+                "enum": [
+                  "bank",
+                  "insurer",
+                  "bdc",
+                  "mortgage_reit",
+                  "other_lender",
+                  null
+                ],
+                "description": "For a balance_sheet_spread segment: the capital regime underneath. Needed when a holding company wants the capital_return_based route, which only bank and insurer capital supports."
               }
             },
             "required": [
@@ -6447,6 +6458,13 @@
                     "$ref": "#/$defs/nonemptyText"
                   },
                   "minItems": 1
+                },
+                "regulatory_change_fiscal_year": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Fiscal year the regulatory change takes effect; required when regulatory_change_ratio > 0. No capital may be released before it."
                 }
               },
               "required": [

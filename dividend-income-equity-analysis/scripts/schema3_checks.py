@@ -94,6 +94,11 @@ def economic_profile_errors(report):
         earliest = asset.get("earliest_end_year")
         check(earliest is None or earliest <= asset["end_year"],
               f"finite asset '{asset['name']}': earliest_end_year cannot be after end_year")
+    finite_segment_share = sum(row["cash_share_pct"] for row in finite_segments)
+    finite_asset_share = sum(asset["operating_cash_share_pct"] for asset in profile["finite_life_assets"])
+    check(not finite_segments or not profile["finite_life_assets"] or abs(finite_segment_share - finite_asset_share) <= 2,
+          f"finite_life_assets cover {finite_asset_share:g}% of cash but finite_assets segments are {finite_segment_share:g}%; "
+          "list the rest as its own entry with a prudent end year instead of leaving it in the perpetuity")
     check(bool(finite_segments) == bool(profile["finite_life_assets"]),
           "finite_assets segments and the finite_life_assets schedule must appear together")
     mode = report.get("valuation_mode")
@@ -121,10 +126,12 @@ def economic_profile_errors(report):
         check(sector not in SPREAD_MODELS,
               "an operating or leasing business must not use a bank/BDC/insurer/mortgage-REIT proxy")
     check(mode != "capital_return_based" or dominant["balance_sheet_role"] == "balance_sheet_spread",
-          "capital_return_based valuation is for balance-sheet spread businesses (banks, insurers, BDCs, mortgage REITs)")
-    spread_share = sum(row["cash_share_pct"] for row in segments if spread(row))
+          "capital_return_based valuation is for balance-sheet spread businesses run on bank or insurer capital")
+    # A holding company qualifies only on bank/insurer capital it can name; an untyped or BDC/mREIT spread arm does not.
+    bank_like_share = sum(row["cash_share_pct"] for row in segments
+                          if spread(row) and row.get("spread_business_type") in ("bank", "insurer"))
     check(mode != "capital_return_based" or sector in ("bank", "insurer")
-          or (sector == "holding_company" and spread_share >= 50),
+          or (sector == "holding_company" and bank_like_share >= 50),
           "capital_return_based (RoTE on tangible book) fits banks and insurers; BDCs and mortgage REITs use NAV and "
           "net investment income through their sector cash models")
     check(sector != "mortgage_reit" or profile["legal_wrapper"] == "reit",
