@@ -7,9 +7,9 @@ import json
 from pathlib import Path
 
 if __package__:
-    from .validate_analysis import validate_report
+    from .validate_analysis import growth_present_value, terminal_finite_terms, validate_report
 else:
-    from validate_analysis import validate_report
+    from validate_analysis import growth_present_value, terminal_finite_terms, validate_report
 
 
 SERIES_COLORS = ("var(--cp-accent)", "var(--cp-link)", "var(--cp-success)",
@@ -20,6 +20,8 @@ def _cell(value, year=False):
     if value is None:
         return "—"
     if isinstance(value, float):
+        if value and abs(value) < 0.01:          # small ratios must not round to 0
+            return f"{value:.4f}".rstrip("0").rstrip(".")
         return f"{value:,.2f}".rstrip("0").rstrip(".")
     if isinstance(value, int) and not isinstance(value, bool):
         return str(value) if year else f"{value:,}"  # only year columns print without separators
@@ -206,6 +208,49 @@ GLOSSARY = [
 ]
 
 
+def rate_sensitivity_table(report):
+    """Base value when the valuation-currency risk-free rate moves 50 and 100 bp, premium unchanged."""
+    returns = report.get("return_requirements") or {}
+    if returns.get("status") != "assessed":
+        return ""
+    mode, shifts = report.get("valuation_mode"), (-0.01, -0.005, 0.0, 0.005, 0.01)
+    growth, capital, zone = report.get("growth_valuation"), report.get("capital_return_valuation"), report.get("buy_zone") or {}
+    value = None
+    if mode == "total_return_based" and growth:
+        base = next((row for row in growth["scenarios"] if row["scenario"] == "Base"), None)
+        runway = {(row["forecast_year"], row["scenario"]): row for row in report["dividend_and_yield_runway"]}
+        finite, _ = terminal_finite_terms(report, growth, runway, growth["explicit_horizon_years"] + growth["transition_years"])
+        if base:
+            rate0 = base["required_return"]
+            def value(shift):
+                try:
+                    return sum(growth_present_value(base["forecast_cash_flows"], rate0 + shift, base["terminal_growth"],
+                                                    base["terminal_net_dps"], base["terminal_time_years"], finite))
+                except ValueError:
+                    return None
+    elif mode == "capital_return_based" and capital:
+        base = next((row for row in capital["scenarios"] if row["scenario"] == "Base"), None)
+        rate0, g = capital["required_return_high"], capital["long_run_growth"]
+        if base:
+            value = lambda shift: (capital["book_value_per_share"] * (base["sustainable_return_on_tangible_equity"] - g)
+                                   / (rate0 + shift - g)) if rate0 + shift - g >= 0.02 else None
+    elif mode == "ordinary_yield_based" and zone.get("normalized_net_dps") and zone.get("required_net_yield_low"):
+        rate0 = zone["required_net_yield_low"]
+        value = lambda shift: zone["normalized_net_dps"] / (rate0 + shift) if rate0 + shift > 0 else None
+    if value is None:
+        return ""
+    risk_free = returns["risk_free_rate"]
+    rows = [[f"{shift * 10000:+.0f} 个基点", f"{(risk_free + shift) * 100:.2f}%", f"{(rate0 + shift) * 100:.2f}%", value(shift)]
+            for shift in shifts]
+    same = returns.get("benchmark_currency") == "USD"
+    note = ("风险溢价不变，只移动无风险利率。" +
+            ("无风险利率即美国国债。" if same else
+             f"这里移动的是估值币种（{returns.get('valuation_currency')}）的无风险利率，它决定折现率；"
+             "美国 10 年期国债只是机会成本对照，它的变动不等于估值币种利率同幅变动。"))
+    return render_table({"title": "无风险利率 ±50／±100 个基点时的 Base 每股价值",
+                         "columns": ["利率变动", "无风险利率", "必要回报", "Base 每股价值"], "rows": rows, "note": note})
+
+
 def render_appendix(report):
     """Default audit appendix built from the structured records, so it cannot silently go missing."""
     parts = []
@@ -260,7 +305,8 @@ def render_appendix(report):
         parts.append("<h3>A8 派息桥</h3>" + render_table({
             "title": "派息基数 → 派息率 → 应派股息 → 每股股息",
             "columns": ["财年", "情景", "派息基数", "派息率", "应派股息", "可分配现金", "每股股息"],
-            "rows": [[row["fiscal_year"], row["scenario"], row.get("payout_base_amount"), row.get("payout_ratio"),
+            "rows": [[row["fiscal_year"], row["scenario"], row.get("payout_base_amount"),
+                      None if row.get("payout_ratio") is None else f"{row['payout_ratio'] * 100:.0f}%",
                       row.get("dividend_entitlement"), row.get("cash_available_for_distribution"), row.get("derived_dps")]
                      for row in runway],
             "note": "来自 dividend_and_yield_runway（Bear 与 Base）；Bull 见结构化记录"}))
@@ -342,6 +388,17 @@ def render_appendix(report):
                       row["value_at_required_low"]] for row in capital["scenarios"]],
             "note": f"必要回报 {pct(capital['required_return_low'])}–{pct(capital['required_return_high'])}，"
                     f"长期增长 {pct(capital['long_run_growth'])}；来自 capital_return_valuation"})
+    extra = rate_sensitivity_table(report)
+    drivers = report.get("driver_sensitivity") or []
+    if drivers:
+        kinds = {"transient": "暂时", "persistent": "持续", "structural": "结构性"}
+        extra += render_table({
+            "title": "单一驱动敏感性", "columns": ["驱动因素", "变化", "性质", "对买点的影响"],
+            "rows": [[row["driver_name"], row["driver_change"], kinds.get(row["sensitivity_type"], row["sensitivity_type"]),
+                      row.get("boundary_effect")] for row in drivers],
+            "note": "来自 driver_sensitivity；暂时性变化不改变正常化股息"})
+    if extra:
+        numbered[7] = (numbered.get(7) or "<h3>A7 估值敏感性</h3>") + extra
     review = report.get("holding_review")
     if review:
         if review.get("portfolio_inputs_available"):

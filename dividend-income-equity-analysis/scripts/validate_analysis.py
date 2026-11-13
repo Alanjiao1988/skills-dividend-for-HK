@@ -1032,6 +1032,16 @@ def capital_return_errors(report):
         close(rebuilt, gap, "annual path capital rebuilt versus (target - current) x RWA")
         require(released <= bridge["regulatory_change_ratio"] * rwa * (1 + 1e-9),
                 "annual path releases more capital than the documented regulatory change allows")
+        effective = bridge.get("regulatory_change_fiscal_year")
+        require(bridge["regulatory_change_ratio"] == 0 or effective is not None,
+                "a regulatory capital change needs regulatory_change_fiscal_year")
+        for row in path:
+            require(row["target_gap_rebuild"] >= 0 or (effective is not None and row["fiscal_year"] >= effective),
+                    f"annual path releases capital in {row['fiscal_year']}, before the regulatory change takes effect")
+        # Buybacks cannot run while the ratio is still below target: the gap is rebuilt before any release or surplus.
+        first_buyback = next((i for i, row in enumerate(path) if row["buyback_capacity"] > 0), len(path))
+        require(sum(row["target_gap_rebuild"] for row in path[first_buyback + 1:] if row["target_gap_rebuild"] > 0) == 0,
+                "annual path shows buyback capacity before the capital gap is rebuilt")
     for index, row in enumerate(path or [], start=1):
         base, div = forecasts.get((index, "Base")), runway.get((index, "Base"))
         if base is not None:

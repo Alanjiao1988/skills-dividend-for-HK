@@ -237,11 +237,31 @@ class AggregateMateriality(unittest.TestCase):
     def test_financial_holding_group_may_use_capital_return(self):
         bank = segment("银行子公司", 80, "spread_income", "perpetual_going_concern", "rate_cycle",
                        "balance_sheet_spread", "asset_light")
+        untyped = economic_profile_errors(case(profile([bank], wrapper="holding_parent"), "holding_company",
+                                               mode="capital_return_based"))
+        self.assertTrue(any("fits banks and insurers" in e for e in untyped))     # a spread arm must name its capital regime
+        bank["spread_business_type"] = "bdc"
+        wrapped_bdc = economic_profile_errors(case(profile([bank], wrapper="holding_parent"), "holding_company",
+                                                   mode="capital_return_based"))
+        self.assertTrue(any("fits banks and insurers" in e for e in wrapped_bdc))  # a BDC cannot hide in a holding company
+        bank["spread_business_type"] = "bank"
         other = segment("资产管理", 20, "fee_or_aum", "perpetual_going_concern", "demand_cycle", "operating", "asset_light")
         other["capital_bridge"] = "轻资本业务，利润全额上缴。"
         prof = profile([bank, other], wrapper="holding_parent")
         errors = economic_profile_errors(case(prof, "holding_company", mode="capital_return_based"))
         self.assertFalse(any("fits banks and insurers" in e for e in errors))
+
+
+class FiniteShareReconciles(unittest.TestCase):
+    def test_schedule_must_cover_the_finite_segments(self):
+        prof = profile([segment("矿山", 40, "commodity_linked", "finite_assets", "commodity_cycle", "operating", "maintenance_heavy"),
+                        segment("贸易", 60, "volume_times_price", "perpetual_going_concern", "demand_cycle", "operating", "asset_light")],
+                       finite=[("一号矿", 2040, 10)])
+        self.assertTrue(any("cover 10% of cash" in e for e in economic_profile_errors(case(prof))))
+        prof["finite_life_assets"].append({"name": "未拆分矿权", "end_year": 2045, "earliest_end_year": 2033,
+                                           "operating_cash_share_pct": 30, "extension_evidence": None,
+                                           "terminal_treatment": "按最早到期年估值"})
+        self.assertEqual(economic_profile_errors(case(prof)), [])
 
 
 class ReportContractVersion(unittest.TestCase):

@@ -63,6 +63,20 @@ class CapitalDistributionLoop(unittest.TestCase):
         del no_bridge["capital_return_valuation"]["distribution_capacity"]["capital_ratio_bridge"]
         self.assertTrue(any("capital_ratio_bridge" in e for e in validate_report(no_bridge)))
 
+    def test_release_cannot_come_before_the_rule_takes_effect(self):
+        report = hsbc()
+        path = report["capital_return_valuation"]["distribution_capacity"]["annual_path"]
+        release = path[1]["target_gap_rebuild"]            # move the 2027 Basel release into 2026, totals unchanged
+        path[1]["target_gap_rebuild"] = 0; path[1]["buyback_capacity"] += release
+        path[0]["target_gap_rebuild"] += release; path[0]["buyback_capacity"] -= release
+        errors = validate_report(report)
+        self.assertTrue(any("before the regulatory change" in e or "rebuilt" in e for e in errors))
+
+    def test_appendix_rate_sensitivity(self):
+        text = render_report(hsbc())
+        self.assertIn("±50／±100 个基点", text)
+        self.assertIn("单一驱动敏感性", text)
+
     def test_missing_capacity_is_rejected(self):
         report = hsbc()
         del report["capital_return_valuation"]["distribution_capacity"]
