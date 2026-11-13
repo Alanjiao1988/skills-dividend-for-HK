@@ -1,6 +1,7 @@
 """Render validated schema 3.0 records as an offline, single-file HTML report."""
 import argparse
 import math
+import re
 import html
 import json
 from pathlib import Path
@@ -171,12 +172,28 @@ def render_profile(profile):
 
 
 SCENARIO_ORDER = {"Bear": 0, "Base": 1, "Bull": 2}
+# Fixed appendix numbering (output-template.md); every slot appears, with content or the reason it is absent.
+APPENDIX_SLOTS = {
+    1: ("上市与股息处理", "记录中没有证券代码"),
+    2: ("股息轨迹", "记录中没有历年股息数据"),
+    3: ("历史现金覆盖桥", "记录中没有历史现金流数据"),
+    4: ("资本配置与回购质量", "记录中没有派息政策数据"),
+    5: ("业务与行业明细", "记录中没有经济特征档案"),
+    6: ("五年预测", "记录中没有预测数据"),
+    7: ("估值敏感性", "本报告未使用成长折现或资本回报估值，收息口径的利率敏感性见买点章节"),
+    8: ("派息桥", "记录中没有股息预测数据"),
+    9: ("红利陷阱与失效条件", "记录中没有决策结论"),
+    10: ("估值与买点复算", "记录中没有分阶段买点"),
+    11: ("评分与组合角色", "记录中没有评分数据"),
+    12: ("持仓复评", "未提供持仓信息"),
+    13: ("来源与数据质量", "记录中没有来源"),
+}
 GLOSSARY = [
     ["Bear／Base／Bull", "悲观／基准／乐观三种情景"],
     ["N", "正常化每股股息：基准情景下一年可持续派发的税后每股股息"],
     ["B", "悲观情景下现金仍能支撑的税后每股股息"],
-    ["R_low／R_high", "必要回报区间：无风险利率加 4–6 个百分点等风险溢价"],
-    ["FAD", "可分配现金：经营现金扣除维护投资、成长投资和其他必须支出后，能用于派息的现金"],
+    ["R_low／R_high", "必要回报区间：无风险利率加风险溢价；本报告的具体取值见估值章节"],
+    ["FAD", "可分配现金：一般公司为经营现金扣除必要投资和其他必须支出后的现金；银行等金融机构为利润扣除业务增长所需资本后的可分配资本"],
     ["覆盖倍数", "可分配现金 ÷ 应派股息；低于 1 倍说明股息要靠借款、存量现金或以股代息支撑"],
     ["DDM", "股息折现模型：把未来各年股息按必要回报折算成今天的价值"],
     ["终值", "预测期之后所有年份股息的折现值合计"],
@@ -282,10 +299,65 @@ def render_appendix(report):
                 return f'<li><a href="{text}" rel="noopener">{label}</a><br><span class="muted">{text}</span></li>'
             return f"<li>{text}</li>"
         parts.append("<h3>A13 来源与数据质量</h3><ol>" + "".join(source_item(source) for source in report["sources"]) + "</ol>")
-    parts.append("<h3>A14 术语表</h3>" + render_table({
+    numbered = {int(re.match(r"<h3>A(\d+) ", part).group(1)): part for part in parts}
+    pct = lambda value: "—" if value is None else f"{value * 100:.2f}%"
+    scrip = report.get("scrip_drip") or {}
+    if report.get("ticker"):
+        numbered[1] = "<h3>A1 上市与股息处理</h3>" + render_table({
+            "title": "证券与股息入账", "columns": ["项目", "内容"],
+            "rows": [["证券", f"{report.get('company', '')}（{report['ticker']}），{report.get('exchange', '')}"],
+                     ["股息币种／估值币种", (report.get("return_requirements") or {}).get("valuation_currency")],
+                     ["预扣税率", pct(report.get("withholding_rate"))],
+                     ["预扣税依据", report.get("withholding_basis")],
+                     ["以股代息", {"Yes": "提供", "No": "目前不提供", "Unknown": "未知"}.get(scrip.get("available"), "—")],
+                     ["历史以股代息比例", pct(scrip.get("historical_participation_rate"))],
+                     ["投资者现金假设", scrip.get("investor_cash_yield_assumption")]],
+            "note": "来自 withholding、scrip_drip 与 return_requirements"})
+    if report.get("five_year_dividend_history"):
+        coverage = {row["fiscal_year"]: row for row in report.get("cash_flow_bridge", [])}
+        snapshot = report.get("dividend_snapshot") or {}
+        numbered[2] = "<h3>A2 股息轨迹</h3>" + render_table({
+            "title": "历年股息覆盖与质量标签", "columns": ["财年", "应派股息", "经常性覆盖", "覆盖标签", "质量标签"],
+            "rows": [[row["fiscal_year"], coverage.get(row["fiscal_year"], {}).get("cash_dividends"),
+                      coverage.get(row["fiscal_year"], {}).get("fcf_dividend_coverage"), row["coverage_label"], row["quality_tag"]]
+                     for row in report["five_year_dividend_history"]],
+            "note": f"最近十二个月每股股息 {snapshot.get('ttm_dps', '—')}，正常化每股股息 "
+                    f"{snapshot.get('normalized_net_dps', '—')}；实际购买力见 real_income（未取得通胀数据时未评估）"})
+    policy = report.get("payout_policy")
+    if policy:
+        controller = report.get("controller_risk") or {}
+        numbered[4] = "<h3>A4 资本配置与回购质量</h3>" + render_table({
+            "title": "派息政策、回购与控制人", "columns": ["项目", "内容"],
+            "rows": [["派息政策", policy.get("basis_definition")], ["披露派息率", pct(policy.get("reported_payout_ratio"))],
+                     ["资金约束", policy.get("funding_constraint")], ["回购质量", report.get("buyback_quality")],
+                     ["控制人风险", controller.get("listed_company_impact")]],
+            "note": "来自 payout_policy、buyback_quality 与 controller_risk"})
+    capital = report.get("capital_return_valuation")
+    if 7 not in numbered and capital:
+        numbered[7] = "<h3>A7 估值敏感性</h3>" + render_table({
+            "title": "每股价值：回报率情景 × 必要回报", "columns": ["情景", "有形股本回报率", "必要回报取高值", "必要回报取低值"],
+            "rows": [[row["scenario"], pct(row["sustainable_return_on_tangible_equity"]), row["value_at_required_high"],
+                      row["value_at_required_low"]] for row in capital["scenarios"]],
+            "note": f"必要回报 {pct(capital['required_return_low'])}–{pct(capital['required_return_high'])}，"
+                    f"长期增长 {pct(capital['long_run_growth'])}；来自 capital_return_valuation"})
+    review = report.get("holding_review")
+    if review:
+        if review.get("portfolio_inputs_available"):
+            numbered[12] = "<h3>A12 持仓复评</h3>" + render_table({
+                "title": "复评触发条件", "columns": ["类别", "阈值", "动作"],
+                "rows": [[row["category"], row["threshold"], row["research_action"]] for row in review.get("triggers", [])],
+                "note": f"{review.get('rationale', '')} 下次复评：{review.get('next_review', '—')}"})
+        else:
+            triggers = "；".join(row["threshold"] for row in review.get("triggers", []))
+            numbered[12] = ("<h3>A12 持仓复评</h3><p>不适用：未提供持仓、成本和收息目标，不给出仓位建议。"
+                            f"复评触发条件：{html.escape(triggers or '—')}；下次复评：{html.escape(str(review.get('next_review', '—')))}</p>")
+    out = []
+    for number, (name, reason) in APPENDIX_SLOTS.items():
+        out.append(numbered.get(number) or f"<h3>A{number} {name}</h3><p>不适用或本次未生成：{reason}</p>")
+    out.append("<h3>术语表</h3>" + render_table({
         "title": "本报告常用术语", "columns": ["术语", "含义"], "rows": GLOSSARY,
         "note": "首次阅读时可对照本表"}))
-    return "".join(parts)
+    return "".join(out)
 
 
 def render_associate_conversion(record):
@@ -313,7 +385,16 @@ def render_capital_distribution(value):
     pct = lambda number: f"{number * 100:.0f}%"
     rows = [[row["scenario"], pct(row["implied_distribution_ratio"]), pct(row["forecast_distributable_ratio"]),
              pct(row["dividend_payout_ratio"]), pct(row["buyback_capacity_ratio"])] for row in capacity["scenarios"]]
-    return "<h3>资本回报能否兑现</h3>" + render_table({
+    annual = ""
+    if capacity.get("annual_path"):
+        annual = render_table({
+            "title": "Base 情景逐年资本去向",
+            "columns": ["财年", "利润", "业务增长占用资本", "补足资本目标", "股息", "可用于回购"],
+            "rows": [[row["fiscal_year"], row["earnings"], row["growth_capital"], row["target_gap_rebuild"], row["dividends"],
+                      row["buyback_capacity"]] for row in capacity["annual_path"]],
+            "note": "可用于回购 = 利润 − 业务增长占用资本 − 补足资本目标 − 股息；补足资本目标为负数表示监管规则变化释放资本。"
+                    + " ".join(row.get("note", "") for row in capacity["annual_path"] if row.get("note"))})
+    return "<h3>资本回报能否兑现</h3>" + annual + render_table({
         "title": "估值公式隐含的利润返还比例 vs 预测资本生成",
         "columns": ["情景", "公式隐含返还比例", "预测可分配比例（五年）", "股息派息率", "可用于回购"],
         "rows": rows,

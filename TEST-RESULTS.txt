@@ -1,0 +1,7 @@
+Local test run 2026-11-13 on top of 7d9d705
+$ python3 -m unittest discover -s tests
+Ran 365 tests in 13.904s
+
+OK
+$ bash validate-skill.sh
+Skill validation passed

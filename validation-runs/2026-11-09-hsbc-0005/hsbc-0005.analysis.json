@@ -3340,7 +3340,7 @@
       }
     ],
     "appendix": [
-      "审计附录 A3、A5、A6、A10、A11、A13 由结构化记录自动生成；A12 持仓复评因未提供持仓而不适用。"
+      "审计附录 A1–A13 由结构化记录自动生成；A12 持仓复评因未提供持仓而不适用。"
     ],
     "labels": [
       "金额单位：美元百万，另有注明除外"
@@ -3412,6 +3412,53 @@
           "forecast_distributable_ratio": 0.8533724340175953,
           "dividend_payout_ratio": 0.5,
           "buyback_capacity_ratio": 0.3533724340175953
+        }
+      ],
+      "annual_path": [
+        {
+          "fiscal_year": "2026",
+          "earnings": 29400,
+          "growth_capital": 3900,
+          "target_gap_rebuild": 3110.264499999978,
+          "dividends": 14700.0,
+          "buyback_capacity": 7689.735500000021,
+          "note": "2026 年先把资本充足率从 13.9% 补到 14.25%（按 2025 年末风险加权资产估算）。"
+        },
+        {
+          "fiscal_year": "2027",
+          "earnings": 30600,
+          "growth_capital": 3900,
+          "target_gap_rebuild": -3998.9114999999997,
+          "dividends": 15300.0,
+          "buyback_capacity": 15398.911499999998,
+          "note": "2027 年巴塞尔 3.1 生效，预计提高资本充足率约 0.45 个百分点。"
+        },
+        {
+          "fiscal_year": "2028",
+          "earnings": 32100,
+          "growth_capital": 3900,
+          "target_gap_rebuild": 0,
+          "dividends": 16050.0,
+          "buyback_capacity": 12150.0,
+          "note": ""
+        },
+        {
+          "fiscal_year": "2029",
+          "earnings": 33400,
+          "growth_capital": 3900,
+          "target_gap_rebuild": 0,
+          "dividends": 16700.0,
+          "buyback_capacity": 12800.0,
+          "note": ""
+        },
+        {
+          "fiscal_year": "2030",
+          "earnings": 34700,
+          "growth_capital": 3900,
+          "target_gap_rebuild": 0,
+          "dividends": 17350.0,
+          "buyback_capacity": 13450.0,
+          "note": ""
         }
       ],
       "growth_consistency": "Base reserves 3900m a year of CET1 for RWA growth at the 14.25% target, about 3.1% of 2025 RWAs, close to the 3% long-run g. Bear reserves less because loan growth slows.",

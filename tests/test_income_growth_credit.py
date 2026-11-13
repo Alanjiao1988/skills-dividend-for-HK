@@ -121,6 +121,12 @@ class Guardrails(unittest.TestCase):
         errors = income_growth_credit_errors(report_with(0.03, record), growing_runway(), "ordinary_yield_based")
         self.assertTrue(any("historical_series" in e for e in errors))
 
+    def test_three_year_average_n_cannot_take_credit(self):
+        report = report_with(0.03, basis())
+        report["buy_zone"] = {"normalized_net_dps_basis": "three_year_base_average"}
+        errors = income_growth_credit_errors(report, growing_runway(), "ordinary_yield_based")
+        self.assertTrue(any("already contains growth" in e for e in errors))
+
     def test_choppy_record_gets_no_credit(self):
         record = basis()
         values = [1.0, 1.1, 0.9, 1.15, 1.0, 1.2]

@@ -113,6 +113,19 @@ for s_, rote in ROTES.items():
     ratio = sum(row["recurring_fad"] for row in yrs) / sum(row["net_income_or_affo"] for row in yrs)
     cap_rows.append({"scenario": s_, "implied_distribution_ratio": (rote - G) / rote, "forecast_distributable_ratio": ratio,
                      "dividend_payout_ratio": PAYOUT, "buyback_capacity_ratio": ratio - PAYOUT})
+# Base, year by year. CET1 was 13.9% against a 14.25% midpoint: rebuilding 0.35% of RWAs comes first in 2026;
+# Basel 3.1 is expected to add about 45bps on 1 Jan 2027, releasing capital that year (3Q26 release).
+GAP_2026 = (CET1_TARGET - 0.139) * RWA[-1]
+RELEASE_2027 = -0.0045 * RWA[-1]
+annual_path = []
+for y in range(1, 6):
+    p_ = SCEN["Base"]["profit"][y - 1]
+    rebuild = GAP_2026 if y == 1 else RELEASE_2027 if y == 2 else 0
+    annual_path.append({"fiscal_year": str(2025 + y), "earnings": p_, "growth_capital": SCEN["Base"]["growth_capital"],
+                        "target_gap_rebuild": rebuild, "dividends": p_ * PAYOUT,
+                        "buyback_capacity": p_ - SCEN["Base"]["growth_capital"] - rebuild - p_ * PAYOUT,
+                        "note": {1: "2026 年先把资本充足率从 13.9% 补到 14.25%（按 2025 年末风险加权资产估算）。",
+                                 2: "2027 年巴塞尔 3.1 生效，预计提高资本充足率约 0.45 个百分点。"}.get(y, "")})
 r["valuation_mode"] = "capital_return_based"
 r["capital_return_valuation"] = {
     "status": "assessed", "method": "tangible_book_residual_income", "book_value_per_share": TNAV,
@@ -124,7 +137,7 @@ r["capital_return_valuation"] = {
     "entry_upper": v_low * (1 - MOS), "review_above": v_high,
     "shareholder_return_policy": "50% target-basis dividend payout for 2026-2028 plus buybacks when CET1 is within or above 14%-14.5%.",
     "capital_constraint": "CET1 13.9% at 30 Sep 2026, below the operating range; Basel 3.1 expected +40-50bps on 1 Jan 2027.",
-    "distribution_capacity": {"scenarios": cap_rows,
+    "distribution_capacity": {"scenarios": cap_rows, "annual_path": annual_path,
         "growth_consistency": (f"Base reserves {SCEN['Base']['growth_capital']}m a year of CET1 for RWA growth at the 14.25% target, "
                                f"about {SCEN['Base']['growth_capital'] / CET1_TARGET / RWA[-1]:.1%} of 2025 RWAs, close to the 3% long-run g. "
                                "Bear reserves less because loan growth slows."),

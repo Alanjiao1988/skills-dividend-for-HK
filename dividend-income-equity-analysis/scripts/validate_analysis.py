@@ -46,6 +46,13 @@ def _cagr(start, end, years):
     return (end / start) ** (1 / years) - 1
 
 
+def new_contract(report):
+    """New-report rules bind records that declare the twelve_chapter contract or are dated from the cutover.
+    Older schema-3.0 archives stay readable without the fields added later."""
+    return (report.get("report_contract_version") == "twelve_chapter"
+            or str(report.get("as_of_date") or "") >= "2026-11-10")
+
+
 def income_growth_credit_errors(report, runway, mode):
     """Gate the ordinary income growth credit (buy-zone.md Section 4.2A)."""
     errors = []
@@ -58,6 +65,8 @@ def income_growth_credit_errors(report, runway, mode):
         if not ok:
             errors.append(f"Income growth credit: {message}")
 
+    require(not credit or report.get("buy_zone", {}).get("normalized_net_dps_basis") != "three_year_base_average",
+            "N averaged over three forecast years already contains growth; a credit needs the next-year normalized DPS")
     if basis is None:
         require(credit == 0, "a positive credit needs income_growth_credit_basis")
         return errors
@@ -102,7 +111,8 @@ def income_growth_credit_errors(report, runway, mode):
 def scrip_coverage_errors(report):
     """Scrip years must divide by the full entitlement, never the reduced cash paid (business-fundamentals.md)."""
     errors = []
-    had_scrip = (report.get("scrip_drip", {}).get("historical_participation_rate") or 0) > 0
+    had_scrip = (report.get("scrip_drip", {}).get("historical_participation_rate") or 0) > 0 and new_contract(report)
+    sources = set(report.get("sources", []))
     history = sorted(report.get("cash_flow_bridge", []), key=lambda row: row["fiscal_year_end"])
     for row in history:
         label, in_year, next_year = row["fiscal_year"], row.get("entitlement_settled_in_year"), row.get("entitlement_settled_next_year")
@@ -119,10 +129,13 @@ def scrip_coverage_errors(report):
         if None in (in_year, carried, paid):
             continue
         settled, expected = paid + (scrip or 0), carried + in_year
+        note = row.get("settlement_reconciliation")
+        sourced = isinstance(note, dict) and set(note["source_refs"]) <= sources
         if expected > 0 and abs(settled - expected) > 0.02 * expected and row["evidence_status"] == "reported_reconciled" \
-                and not row.get("settlement_reconciliation"):
+                and not sourced:
             errors.append(f"{row['fiscal_year']}: cash paid plus scrip {settled:g} differs from prior final plus interim "
-                          f"{expected:g} by more than 2%; explain it in settlement_reconciliation or do not mark the row reported_reconciled")
+                          f"{expected:g} by more than 2%; give settlement_reconciliation with amount, reason and report "
+                          "source_refs, or do not mark the row reported_reconciled")
     for row in history:
         label, settled = row["fiscal_year"], row.get("scrip_settled_dividends")
         if had_scrip and settled is None:
@@ -149,7 +162,8 @@ def associate_conversion_errors(report):
     if not profile or profile["cash_attribution"] != "material_jv_associates":
         return []
     if record is None:
-        return ["Associate cash conversion: material_jv_associates needs cash_flow_model.associate_cash_conversion"]
+        return (["Associate cash conversion: material_jv_associates needs cash_flow_model.associate_cash_conversion"]
+                if new_contract(report) else [])
     errors = []
 
     def require(ok, message):
@@ -184,7 +198,9 @@ def associate_conversion_errors(report):
             f"aggregate_conversion should be {aggregate}")
     forecast = record["forecast_conversion"]
     evidence = record["above_history_evidence"]
-    if evidence is not None:
+    if isinstance(evidence, str):
+        require(not new_contract(report), "above_history_evidence must give evidence and source_refs, not text alone")
+    elif evidence is not None:
         require(set(evidence["source_refs"]) <= set(report.get("sources", [])),
                 "above_history_evidence source_refs must be entries of the report's sources")
     require(forecast["Bear"] <= forecast["Base"] <= forecast["Bull"], "forecast conversion must be ordered Bear <= Base <= Bull")
@@ -246,8 +262,8 @@ def terminal_finite_terms(report, growth, runway, horizon):
             errors.append("Growth: terminal_finite_assets without economic_profile.finite_life_assets")
         return [], errors
     if not records:
-        return [], ["Growth: finite-life assets in economic_profile must enter the terminal value through "
-                    "terminal_finite_assets, not only a lower perpetual growth rate"]
+        return [], (["Growth: finite-life assets in economic_profile must enter the terminal value through "
+                     "terminal_finite_assets, not only a lower perpetual growth rate"] if new_contract(report) else [])
     names = [row["name"] for row in records]
     if sorted(names) != sorted(profile_assets):
         errors.append("Growth: terminal_finite_assets must list exactly the economic_profile finite-life assets")
@@ -262,8 +278,11 @@ def terminal_finite_terms(report, growth, runway, horizon):
         source = profile_assets.get(row["name"])
         if source is None:
             continue
-        if row["end_year"] != source["end_year"] or not math.isclose(row["cash_share"], source["operating_cash_share_pct"] / 100, abs_tol=1e-9):
-            errors.append(f"Growth: terminal asset '{row['name']}' must match the profile end year and cash share")
+        # A grouped entry that cannot be split is valued to its earliest material expiry, not its latest.
+        effective_end = min(source["end_year"], source.get("earliest_end_year") or source["end_year"])
+        if row["end_year"] != effective_end or not math.isclose(row["cash_share"], source["operating_cash_share_pct"] / 100, abs_tol=1e-9):
+            errors.append(f"Growth: terminal asset '{row['name']}' must match the profile end year "
+                          f"({effective_end}, the earliest expiry when the entry groups several) and cash share")
         if row["treatment"] == "renewal_evidenced":
             if source["extension_evidence"] is None:
                 errors.append(f"Growth: '{row['name']}' cannot stay in the perpetuity without profile extension_evidence")
@@ -577,7 +596,14 @@ def validate_report(report):
     returns = report["return_requirements"]
     if returns["status"] == "assessed":
         require(returns["benchmark_date"] <= report["as_of_date"], "Risk-free observation cannot postdate the analysis")
-        require(returns["benchmark_currency"] == returns["valuation_currency"] or returns.get("benchmark_currency_basis"),
+        remaining, target = returns.get("benchmark_remaining_years"), returns.get("target_tenor_years")
+        require(remaining is None or target is None or abs(remaining - target) <= 2,
+                "Benchmark remaining life is more than 2 years from the target tenor; interpolate or pick a closer issue")
+        if new_contract(report):
+            age = (date.fromisoformat(report["as_of_date"]) - date.fromisoformat(returns["benchmark_date"])).days
+            require(age <= 45, f"Risk-free observation is {age} days old; refresh it (limit 45 days)")
+        require(not new_contract(report) or returns["benchmark_currency"] == returns["valuation_currency"]
+                or returns.get("benchmark_currency_basis"),
                 "A risk-free benchmark in another currency needs benchmark_currency_basis "
                 "(matching sovereign source tried, why not used, peg/hedge treatment)")
         same(returns["required_total_return_low"], returns["risk_free_rate"] + returns["risk_premium_low"], "Required return low")
@@ -958,7 +984,8 @@ def capital_return_errors(report):
     close(value["entry_upper"], low * (1 - value["margin_of_safety"]), "entry_upper")
     close(value["review_above"], high, "review_above")
     capacity = value.get("distribution_capacity")
-    require(capacity is not None, "needs distribution_capacity linking the formula to forecast capital generation")
+    require(capacity is not None or not new_contract(report),
+            "needs distribution_capacity linking the formula to forecast capital generation")
     if capacity is None:
         return errors
     forecasts = {(row["forecast_year"], row["scenario"]): row
@@ -986,6 +1013,17 @@ def capital_return_errors(report):
         if payout is not None:
             close(cap["dividend_payout_ratio"], payout, f"{name} dividend payout ratio")
         close(cap["buyback_capacity_ratio"], ratio - cap["dividend_payout_ratio"], f"{name} buyback capacity ratio")
+    path = capacity.get("annual_path")
+    require(path is not None or not new_contract(report), "distribution_capacity needs the Base annual_path")
+    for index, row in enumerate(path or [], start=1):
+        base, div = forecasts.get((index, "Base")), runway.get((index, "Base"))
+        if base is None or div is None:
+            continue
+        close(row["earnings"], base["net_income_or_affo"], f"annual path year {index} earnings")
+        close(row["earnings"] - row["growth_capital"], base["recurring_fad"], f"annual path year {index} capital generation")
+        close(row["dividends"], div["dividend_cash_cost"], f"annual path year {index} dividends")
+        close(row["buyback_capacity"], row["earnings"] - row["growth_capital"] - row["target_gap_rebuild"] - row["dividends"],
+              f"annual path year {index} buyback capacity")
     return errors
 
 def main():

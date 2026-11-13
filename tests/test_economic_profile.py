@@ -226,6 +226,24 @@ class CrossDimensionConsistency(unittest.TestCase):
         self.assertEqual(economic_profile_errors(case(prof)), [])
 
 
+class AggregateMateriality(unittest.TestCase):
+    def test_several_small_finance_arms_add_up(self):
+        arms = [segment(f"金融{i}", 19, "spread_income", "perpetual_going_concern", "rate_cycle",
+                        "balance_sheet_spread", "asset_light") for i in range(3)]
+        prof = profile([segment("制造", 43, "volume_times_price", "perpetual_going_concern", "demand_cycle",
+                                "operating", "maintenance_heavy")] + arms)
+        self.assertTrue(any("capital_bridge" in e for e in economic_profile_errors(case(prof))))
+
+    def test_financial_holding_group_may_use_capital_return(self):
+        bank = segment("银行子公司", 80, "spread_income", "perpetual_going_concern", "rate_cycle",
+                       "balance_sheet_spread", "asset_light")
+        other = segment("资产管理", 20, "fee_or_aum", "perpetual_going_concern", "demand_cycle", "operating", "asset_light")
+        other["capital_bridge"] = "轻资本业务，利润全额上缴。"
+        prof = profile([bank, other], wrapper="holding_parent")
+        errors = economic_profile_errors(case(prof, "holding_company", mode="capital_return_based"))
+        self.assertFalse(any("fits banks and insurers" in e for e in errors))
+
+
 class ReportContractVersion(unittest.TestCase):
     def test_declared_twelve_chapter_binds_an_early_data_date(self):
         from scripts.schema3_checks import validate_schema3

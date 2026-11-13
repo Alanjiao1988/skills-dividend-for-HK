@@ -41,6 +41,14 @@ class CapitalDistributionLoop(unittest.TestCase):
         errors = validate_report(report)
         self.assertTrue(any("forecast capital generation supports only" in e for e in errors))
 
+    def test_annual_path_reconciles(self):
+        report = hsbc()
+        path = report["capital_return_valuation"]["distribution_capacity"]["annual_path"]
+        self.assertGreater(path[0]["target_gap_rebuild"], 0)      # 2026 rebuilds CET1 first
+        self.assertLess(path[1]["target_gap_rebuild"], 0)         # Basel 3.1 release in 2027
+        path[2]["buyback_capacity"] += 1000
+        self.assertTrue(any("buyback capacity" in e for e in validate_report(report)))
+
     def test_missing_capacity_is_rejected(self):
         report = hsbc()
         del report["capital_return_valuation"]["distribution_capacity"]

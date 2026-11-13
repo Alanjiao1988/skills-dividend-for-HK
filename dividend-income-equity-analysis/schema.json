@@ -3460,9 +3460,33 @@
             },
             {
               "$ref": "#/$defs/nonemptyText"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "amount": {
+                  "type": "number"
+                },
+                "reason": {
+                  "$ref": "#/$defs/nonemptyText"
+                },
+                "source_refs": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/nonemptyText"
+                  },
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "amount",
+                "reason",
+                "source_refs"
+              ]
             }
           ],
-          "description": "Explains a gap above 2% between cash paid plus scrip in a year and the prior final plus current interim (record-date share changes, fractional shares, cancelled entitlements). Without it a gap blocks reported_reconciled."
+          "description": "Explains a gap above 2% between cash paid plus scrip in a year and the prior final plus current interim: the amount, the reason and report sources. Text alone (or nothing) means the row cannot be reported_reconciled."
         }
       },
       "required": [
@@ -6125,6 +6149,13 @@
               },
               "terminal_treatment": {
                 "$ref": "#/$defs/auditText"
+              },
+              "earliest_end_year": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "When the entry groups assets with different end dates and they cannot be split: the earliest material expiry. Valuation then uses this year for the whole entry instead of assuming everything lasts to end_year."
               }
             },
             "required": [
@@ -6342,6 +6373,49 @@
             "near_term_constraint": {
               "$ref": "#/$defs/nonemptyText",
               "description": "What limits distributions now (capital below target, regulatory restriction) and how the forecast treats share count."
+            },
+            "annual_path": {
+              "type": "array",
+              "minItems": 5,
+              "maxItems": 5,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "fiscal_year": {
+                    "type": "string"
+                  },
+                  "earnings": {
+                    "type": "number"
+                  },
+                  "growth_capital": {
+                    "type": "number"
+                  },
+                  "target_gap_rebuild": {
+                    "type": "number",
+                    "description": "Capital kept to return to the target ratio; negative when a regulatory change releases capital."
+                  },
+                  "dividends": {
+                    "type": "number"
+                  },
+                  "buyback_capacity": {
+                    "type": "number",
+                    "description": "earnings - growth_capital - target_gap_rebuild - dividends; 0 or negative means no buyback that year."
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "fiscal_year",
+                  "earnings",
+                  "growth_capital",
+                  "target_gap_rebuild",
+                  "dividends",
+                  "buyback_capacity"
+                ]
+              },
+              "description": "Base scenario, year by year: a five-year total can hide a year with no room to buy back."
             }
           },
           "required": [
@@ -6551,9 +6625,12 @@
             },
             {
               "$ref": "#/$defs/sourcedEvidence"
+            },
+            {
+              "$ref": "#/$defs/nonemptyText"
             }
           ],
-          "description": "Specific sourced evidence (e.g. a new associate payout policy) needed when Base exceeds the aggregate or any scenario exceeds the best historical year."
+          "description": "Specific sourced evidence (e.g. a new associate payout policy) needed when Base exceeds the aggregate or any scenario exceeds the best historical year. A plain string is accepted only for records that predate the twelve_chapter contract."
         },
         "explanation": {
           "$ref": "#/$defs/nonemptyText"

@@ -327,20 +327,20 @@
     "cumulative_fad": [
       {
         "scenario": "Bear",
-        "three_year": 10641.662033452068,
-        "five_year": 17270.746019823448,
+        "three_year": 9361.227756222701,
+        "five_year": 15410.621160587572,
         "limitations": "Sum of modeled recurring FAD before dividends."
       },
       {
         "scenario": "Base",
-        "three_year": 13216.209501316402,
-        "five_year": 22762.98115223788,
+        "three_year": 13361.796913392525,
+        "five_year": 23154.23352795728,
         "limitations": "Sum of modeled recurring FAD before dividends."
       },
       {
         "scenario": "Bull",
-        "three_year": 14991.017484900107,
-        "five_year": 26638.139894687934,
+        "three_year": 16725.754523691005,
+        "five_year": 29725.141590432613,
         "limitations": "Sum of modeled recurring FAD before dividends."
       }
     ],
@@ -362,7 +362,7 @@
     "basis_definition": "Board discretion under the 2018 dividend policy; recent payout of attributable profit: 2023 46%, 2024 47%, 2025 48.1%. Model uses 48%.",
     "reported_payout_ratio": 0.481,
     "source_and_date": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0427/2026042701104.pdf",
-    "funding_constraint": "Base FY2026: 48% x 6,850m = 3288m versus capacity 4211m."
+    "funding_constraint": "Base FY2026: 48% x 6,850m = 3288m versus capacity 4231m."
   },
   "return_requirements": {
     "status": "assessed",
@@ -485,198 +485,198 @@
       "forecast_year": 1,
       "scenario": "Bear",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Bear: attributable profit 6650m HKD; non-associate operating cash 0.714 x profit plus associate dividends 1242m (25% of the prior year's associate profit 4970m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Bear: attributable profit 6650m HKD; non-associate operating cash after interest and leases 29.7% of revenue plus associate dividends 1242m (25% of the prior year's associate profit 4970m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 13800,
       "net_income_or_affo": 6650,
-      "operating_cash_flow": 5991.95018584482,
-      "normalized_ocf": 5991.95018584482,
+      "operating_cash_flow": 5338.511147883644,
+      "normalized_ocf": 5338.511147883644,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1330.0,
       "remaining_growth_investment": 300,
-      "fcf_or_distributable_cash": 4161.95018584482,
+      "fcf_or_distributable_cash": 3508.5111478836443,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 3861.95018584482,
-      "recurring_fad": 3861.95018584482,
+      "actual_all_in_fcf": 3208.5111478836443,
+      "recurring_fad": 3208.5111478836443,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     },
     {
       "fiscal_year": "2026",
       "forecast_year": 1,
       "scenario": "Base",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Base: attributable profit 6850m HKD; non-associate operating cash 0.714 x profit plus associate dividends 1789m (36% of the prior year's associate profit 4970m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Base: attributable profit 6850m HKD; non-associate operating cash after interest and leases 34.3% of revenue plus associate dividends 1789m (36% of the prior year's associate profit 4970m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 14300,
       "net_income_or_affo": 6850,
-      "operating_cash_flow": 6681.490792937897,
-      "normalized_ocf": 6681.490792937897,
+      "operating_cash_flow": 6701.115248964355,
+      "normalized_ocf": 6701.115248964355,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1370.0,
       "remaining_growth_investment": 600,
-      "fcf_or_distributable_cash": 4811.490792937897,
+      "fcf_or_distributable_cash": 4831.115248964355,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 4211.490792937897,
-      "recurring_fad": 4211.490792937897,
+      "actual_all_in_fcf": 4231.115248964355,
+      "recurring_fad": 4231.115248964355,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     },
     {
       "fiscal_year": "2026",
       "forecast_year": 1,
       "scenario": "Bull",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Bull: attributable profit 7000m HKD; non-associate operating cash 0.714 x profit plus associate dividends 2386m (48% of the prior year's associate profit 4970m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Bull: attributable profit 7000m HKD; non-associate operating cash after interest and leases 38.1% of revenue plus associate dividends 2386m (48% of the prior year's associate profit 4970m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 14600,
       "net_income_or_affo": 7000,
-      "operating_cash_flow": 7385.021248257704,
-      "normalized_ocf": 7385.021248257704,
+      "operating_cash_flow": 7942.8712295941295,
+      "normalized_ocf": 7942.8712295941295,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1400.0,
       "remaining_growth_investment": 900,
-      "fcf_or_distributable_cash": 5485.021248257704,
+      "fcf_or_distributable_cash": 6042.8712295941295,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 4585.021248257704,
-      "recurring_fad": 4585.021248257704,
+      "actual_all_in_fcf": 5142.8712295941295,
+      "recurring_fad": 5142.8712295941295,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     },
     {
       "fiscal_year": "2027",
       "forecast_year": 2,
       "scenario": "Bear",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Bear: attributable profit 5900m HKD; non-associate operating cash 0.714 x profit plus associate dividends 1280m (25% of the prior year's associate profit 5119m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Bear: attributable profit 5900m HKD; non-associate operating cash after interest and leases 29.7% of revenue plus associate dividends 1280m (25% of the prior year's associate profit 5119m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 13000,
       "net_income_or_affo": 5900,
-      "operating_cash_flow": 5493.436286201022,
-      "normalized_ocf": 5493.436286201022,
+      "operating_cash_flow": 5138.199603222443,
+      "normalized_ocf": 5138.199603222443,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1180.0,
       "remaining_growth_investment": 300,
-      "fcf_or_distributable_cash": 3813.436286201022,
+      "fcf_or_distributable_cash": 3458.1996032224433,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 3513.436286201022,
-      "recurring_fad": 3513.436286201022,
+      "actual_all_in_fcf": 3158.1996032224433,
+      "recurring_fad": 3158.1996032224433,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     },
     {
       "fiscal_year": "2027",
       "forecast_year": 2,
       "scenario": "Base",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Base: attributable profit 7050m HKD; non-associate operating cash 0.714 x profit plus associate dividends 1898m (36% of the prior year's associate profit 5272m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Base: attributable profit 7050m HKD; non-associate operating cash after interest and leases 34.3% of revenue plus associate dividends 1898m (36% of the prior year's associate profit 5272m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 14800,
       "net_income_or_affo": 7050,
-      "operating_cash_flow": 6933.229588043983,
-      "normalized_ocf": 6933.229588043983,
+      "operating_cash_flow": 6981.758725402691,
+      "normalized_ocf": 6981.758725402691,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1410.0,
       "remaining_growth_investment": 600,
-      "fcf_or_distributable_cash": 5023.229588043983,
+      "fcf_or_distributable_cash": 5071.758725402691,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 4423.229588043983,
-      "recurring_fad": 4423.229588043983,
+      "actual_all_in_fcf": 4471.758725402691,
+      "recurring_fad": 4471.758725402691,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     },
     {
       "fiscal_year": "2027",
       "forecast_year": 2,
       "scenario": "Bull",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Bull: attributable profit 7450m HKD; non-associate operating cash 0.714 x profit plus associate dividends 2586m (48% of the prior year's associate profit 5388m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Bull: attributable profit 7450m HKD; non-associate operating cash after interest and leases 38.1% of revenue plus associate dividends 2586m (48% of the prior year's associate profit 5388m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 15500,
       "net_income_or_affo": 7450,
-      "operating_cash_flow": 7907.029123431934,
-      "normalized_ocf": 7907.029123431934,
+      "operating_cash_flow": 8486.059252961997,
+      "normalized_ocf": 8486.059252961997,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1490.0,
       "remaining_growth_investment": 900,
-      "fcf_or_distributable_cash": 5917.029123431934,
+      "fcf_or_distributable_cash": 6496.059252961997,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 5017.029123431934,
-      "recurring_fad": 5017.029123431934,
+      "actual_all_in_fcf": 5596.059252961997,
+      "recurring_fad": 5596.059252961997,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     },
     {
       "fiscal_year": "2028",
       "forecast_year": 3,
       "scenario": "Bear",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Bear: attributable profit 5700m HKD; non-associate operating cash 0.714 x profit plus associate dividends 1135m (25% of the prior year's associate profit 4541m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Bear: attributable profit 5700m HKD; non-associate operating cash after interest and leases 29.7% of revenue plus associate dividends 1135m (25% of the prior year's associate profit 4541m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 12800,
       "net_income_or_affo": 5700,
-      "operating_cash_flow": 5206.275561406226,
-      "normalized_ocf": 5206.275561406226,
+      "operating_cash_flow": 4934.517005116613,
+      "normalized_ocf": 4934.517005116613,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1140.0,
       "remaining_growth_investment": 300,
-      "fcf_or_distributable_cash": 3566.275561406226,
+      "fcf_or_distributable_cash": 3294.5170051166133,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 3266.275561406226,
-      "recurring_fad": 3266.275561406226,
+      "actual_all_in_fcf": 2994.5170051166133,
+      "recurring_fad": 2994.5170051166133,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     },
     {
       "fiscal_year": "2028",
       "forecast_year": 3,
       "scenario": "Base",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Base: attributable profit 7250m HKD; non-associate operating cash 0.714 x profit plus associate dividends 1954m (36% of the prior year's associate profit 5426m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Base: attributable profit 7250m HKD; non-associate operating cash after interest and leases 34.3% of revenue plus associate dividends 1954m (36% of the prior year's associate profit 5426m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 15300,
       "net_income_or_affo": 7250,
-      "operating_cash_flow": 7131.489120334521,
-      "normalized_ocf": 7131.489120334521,
+      "operating_cash_flow": 7208.922939025479,
+      "normalized_ocf": 7208.922939025479,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1450.0,
       "remaining_growth_investment": 600,
-      "fcf_or_distributable_cash": 5181.489120334521,
+      "fcf_or_distributable_cash": 5258.922939025479,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 4581.489120334521,
-      "recurring_fad": 4581.489120334521,
+      "actual_all_in_fcf": 4658.922939025479,
+      "recurring_fad": 4658.922939025479,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     },
     {
       "fiscal_year": "2028",
       "forecast_year": 3,
       "scenario": "Bull",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Bull: attributable profit 7850m HKD; non-associate operating cash 0.714 x profit plus associate dividends 2752m (48% of the prior year's associate profit 5734m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Bull: attributable profit 7850m HKD; non-associate operating cash after interest and leases 38.1% of revenue plus associate dividends 2752m (48% of the prior year's associate profit 5734m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 16300,
       "net_income_or_affo": 7850,
-      "operating_cash_flow": 8358.967113210469,
-      "normalized_ocf": 8358.967113210469,
+      "operating_cash_flow": 8956.824041134878,
+      "normalized_ocf": 8956.824041134878,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1570.0,
       "remaining_growth_investment": 900,
-      "fcf_or_distributable_cash": 6288.967113210469,
+      "fcf_or_distributable_cash": 6886.824041134878,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 5388.967113210469,
-      "recurring_fad": 5388.967113210469,
+      "actual_all_in_fcf": 5986.824041134878,
+      "recurring_fad": 5986.824041134878,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     }
   ],
   "forecast_extension": [
@@ -685,132 +685,132 @@
       "forecast_year": 4,
       "scenario": "Bear",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Bear: attributable profit 5800m HKD; non-associate operating cash 0.714 x profit plus associate dividends 1097m (25% of the prior year's associate profit 4387m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Bear: attributable profit 5800m HKD; non-associate operating cash after interest and leases 29.7% of revenue plus associate dividends 1097m (25% of the prior year's associate profit 4387m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 13000,
       "net_income_or_affo": 5800,
-      "operating_cash_flow": 5239.210500232306,
-      "normalized_ocf": 5239.210500232306,
+      "operating_cash_flow": 4955.394120800266,
+      "normalized_ocf": 4955.394120800266,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1160.0,
       "remaining_growth_investment": 300,
-      "fcf_or_distributable_cash": 3579.210500232306,
+      "fcf_or_distributable_cash": 3295.394120800266,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 3279.210500232306,
-      "recurring_fad": 3279.210500232306,
+      "actual_all_in_fcf": 2995.394120800266,
+      "recurring_fad": 2995.394120800266,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     },
     {
       "fiscal_year": "2029",
       "forecast_year": 4,
       "scenario": "Base",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Base: attributable profit 7400m HKD; non-associate operating cash 0.714 x profit plus associate dividends 2009m (36% of the prior year's associate profit 5580m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Base: attributable profit 7400m HKD; non-associate operating cash after interest and leases 34.3% of revenue plus associate dividends 2009m (36% of the prior year's associate profit 5580m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 15700,
       "net_income_or_affo": 7400,
-      "operating_cash_flow": 7294.038500851789,
-      "normalized_ocf": 7294.038500851789,
+      "operating_cash_flow": 7401.7380949632,
+      "normalized_ocf": 7401.7380949632,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1480.0,
       "remaining_growth_investment": 600,
-      "fcf_or_distributable_cash": 5314.038500851789,
+      "fcf_or_distributable_cash": 5421.7380949632,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 4714.038500851789,
-      "recurring_fad": 4714.038500851789,
+      "actual_all_in_fcf": 4821.7380949632,
+      "recurring_fad": 4821.7380949632,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     },
     {
       "fiscal_year": "2029",
       "forecast_year": 4,
       "scenario": "Bull",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Bull: attributable profit 8150m HKD; non-associate operating cash 0.714 x profit plus associate dividends 2900m (48% of the prior year's associate profit 6042m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Bull: attributable profit 8150m HKD; non-associate operating cash after interest and leases 38.1% of revenue plus associate dividends 2900m (48% of the prior year's associate profit 6042m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 17000,
       "net_income_or_affo": 8150,
-      "operating_cash_flow": 8721.011824376645,
-      "normalized_ocf": 8721.011824376645,
+      "operating_cash_flow": 9371.052352669376,
+      "normalized_ocf": 9371.052352669376,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1630.0,
       "remaining_growth_investment": 900,
-      "fcf_or_distributable_cash": 6591.011824376645,
+      "fcf_or_distributable_cash": 7241.052352669376,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 5691.011824376645,
-      "recurring_fad": 5691.011824376645,
+      "actual_all_in_fcf": 6341.052352669376,
+      "recurring_fad": 6341.052352669376,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     },
     {
       "fiscal_year": "2030",
       "forecast_year": 5,
       "scenario": "Bear",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Bear: attributable profit 5900m HKD; non-associate operating cash 0.714 x profit plus associate dividends 1116m (25% of the prior year's associate profit 4464m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Bear: attributable profit 5900m HKD; non-associate operating cash after interest and leases 29.7% of revenue plus associate dividends 1116m (25% of the prior year's associate profit 4464m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 13200,
       "net_income_or_affo": 5900,
-      "operating_cash_flow": 5329.873486139074,
-      "normalized_ocf": 5329.873486139074,
+      "operating_cash_flow": 5033.999283564606,
+      "normalized_ocf": 5033.999283564606,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1180.0,
       "remaining_growth_investment": 300,
-      "fcf_or_distributable_cash": 3649.873486139074,
+      "fcf_or_distributable_cash": 3353.9992835646062,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 3349.873486139074,
-      "recurring_fad": 3349.873486139074,
+      "actual_all_in_fcf": 3053.9992835646062,
+      "recurring_fad": 3053.9992835646062,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     },
     {
       "fiscal_year": "2030",
       "forecast_year": 5,
       "scenario": "Base",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Base: attributable profit 7550m HKD; non-associate operating cash 0.714 x profit plus associate dividends 2051m (36% of the prior year's associate profit 5696m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Base: attributable profit 7550m HKD; non-associate operating cash after interest and leases 34.3% of revenue plus associate dividends 2051m (36% of the prior year's associate profit 5696m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 16100,
       "net_income_or_affo": 7550,
-      "operating_cash_flow": 7442.733150069692,
-      "normalized_ocf": 7442.733150069692,
+      "operating_cash_flow": 7580.698519601556,
+      "normalized_ocf": 7580.698519601556,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1510.0,
       "remaining_growth_investment": 600,
-      "fcf_or_distributable_cash": 5432.733150069692,
+      "fcf_or_distributable_cash": 5570.698519601556,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 4832.733150069692,
-      "recurring_fad": 4832.733150069692,
+      "actual_all_in_fcf": 4970.698519601556,
+      "recurring_fad": 4970.698519601556,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     },
     {
       "fiscal_year": "2030",
       "forecast_year": 5,
       "scenario": "Bull",
       "primary_driver_name": "Container throughput and associate dividends",
-      "primary_driver_assumption": "Bull: attributable profit 8450m HKD; non-associate operating cash 0.714 x profit plus associate dividends 3011m (48% of the prior year's associate profit 6273m); minority and perpetual claims 20% of profit.",
+      "primary_driver_assumption": "Bull: attributable profit 8450m HKD; non-associate operating cash after interest and leases 38.1% of revenue plus associate dividends 3011m (48% of the prior year's associate profit 6273m); minority and perpetual claims 20% of profit.",
       "revenue_or_sector_income": 17700,
       "net_income_or_affo": 8450,
-      "operating_cash_flow": 9046.110585411181,
-      "normalized_ocf": 9046.110585411181,
+      "operating_cash_flow": 9748.334714072234,
+      "normalized_ocf": 9748.334714072234,
       "maintenance_capex": 500.0,
       "other_owner_claims": 1690.0,
       "remaining_growth_investment": 900,
-      "fcf_or_distributable_cash": 6856.110585411181,
+      "fcf_or_distributable_cash": 7558.334714072234,
       "nonrecurring_operating_cash_inflow": 0,
-      "actual_all_in_fcf": 5956.110585411181,
-      "recurring_fad": 5956.110585411181,
+      "actual_all_in_fcf": 6658.334714072234,
+      "recurring_fad": 6658.334714072234,
       "estimate_status": "estimated",
       "forecast_confidence": "Medium",
       "assumption_basis": "analyst_estimate",
-      "evidence_and_limitations": "Ratios calibrated to FY2025 (OCF 9,472 less interest 1,193 and leases 466) and 1H26 profit 3,832m; associate dividends are modeled separately on the prior year's associate profit (77% of attributable profit in 2025); interest paid and lease repayments sit in financing activities and are deducted once."
+      "evidence_and_limitations": "Non-associate cash margin calibrated on FY2021-2025 (worst year, five-year aggregate, best year for Bear/Base/Bull); associate dividends modeled separately on the prior year's associate profit; interest paid and lease repayments sit in financing activities and are deducted once."
     }
   ],
   "driver_sensitivity": [
@@ -832,13 +832,13 @@
       "fiscal_year": "2026",
       "forecast_year": 1,
       "scenario": "Bear",
-      "fcf_or_capital_generation": 4161.95018584482,
+      "fcf_or_capital_generation": 3508.5111478836443,
       "required_reinvestment": 300,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 3861.95018584482,
+      "recurring_fad": 3208.5111478836443,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 3861.95018584482,
+      "cash_available_for_distribution": 3208.5111478836443,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -865,13 +865,13 @@
       "fiscal_year": "2026",
       "forecast_year": 1,
       "scenario": "Base",
-      "fcf_or_capital_generation": 4811.490792937897,
+      "fcf_or_capital_generation": 4831.115248964355,
       "required_reinvestment": 600,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 4211.490792937897,
+      "recurring_fad": 4231.115248964355,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 4211.490792937897,
+      "cash_available_for_distribution": 4231.115248964355,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -898,13 +898,13 @@
       "fiscal_year": "2026",
       "forecast_year": 1,
       "scenario": "Bull",
-      "fcf_or_capital_generation": 5485.021248257704,
+      "fcf_or_capital_generation": 6042.8712295941295,
       "required_reinvestment": 900,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 4585.021248257704,
+      "recurring_fad": 5142.8712295941295,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 4585.021248257704,
+      "cash_available_for_distribution": 5142.8712295941295,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -931,13 +931,13 @@
       "fiscal_year": "2027",
       "forecast_year": 2,
       "scenario": "Bear",
-      "fcf_or_capital_generation": 3813.436286201022,
+      "fcf_or_capital_generation": 3458.1996032224433,
       "required_reinvestment": 300,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 3513.436286201022,
+      "recurring_fad": 3158.1996032224433,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 3513.436286201022,
+      "cash_available_for_distribution": 3158.1996032224433,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -964,13 +964,13 @@
       "fiscal_year": "2027",
       "forecast_year": 2,
       "scenario": "Base",
-      "fcf_or_capital_generation": 5023.229588043983,
+      "fcf_or_capital_generation": 5071.758725402691,
       "required_reinvestment": 600,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 4423.229588043983,
+      "recurring_fad": 4471.758725402691,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 4423.229588043983,
+      "cash_available_for_distribution": 4471.758725402691,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -997,13 +997,13 @@
       "fiscal_year": "2027",
       "forecast_year": 2,
       "scenario": "Bull",
-      "fcf_or_capital_generation": 5917.029123431934,
+      "fcf_or_capital_generation": 6496.059252961997,
       "required_reinvestment": 900,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 5017.029123431934,
+      "recurring_fad": 5596.059252961997,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 5017.029123431934,
+      "cash_available_for_distribution": 5596.059252961997,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -1030,13 +1030,13 @@
       "fiscal_year": "2028",
       "forecast_year": 3,
       "scenario": "Bear",
-      "fcf_or_capital_generation": 3566.275561406226,
+      "fcf_or_capital_generation": 3294.5170051166133,
       "required_reinvestment": 300,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 3266.275561406226,
+      "recurring_fad": 2994.5170051166133,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 3266.275561406226,
+      "cash_available_for_distribution": 2994.5170051166133,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -1063,13 +1063,13 @@
       "fiscal_year": "2028",
       "forecast_year": 3,
       "scenario": "Base",
-      "fcf_or_capital_generation": 5181.489120334521,
+      "fcf_or_capital_generation": 5258.922939025479,
       "required_reinvestment": 600,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 4581.489120334521,
+      "recurring_fad": 4658.922939025479,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 4581.489120334521,
+      "cash_available_for_distribution": 4658.922939025479,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -1096,13 +1096,13 @@
       "fiscal_year": "2028",
       "forecast_year": 3,
       "scenario": "Bull",
-      "fcf_or_capital_generation": 6288.967113210469,
+      "fcf_or_capital_generation": 6886.824041134878,
       "required_reinvestment": 900,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 5388.967113210469,
+      "recurring_fad": 5986.824041134878,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 5388.967113210469,
+      "cash_available_for_distribution": 5986.824041134878,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -1129,13 +1129,13 @@
       "fiscal_year": "2029",
       "forecast_year": 4,
       "scenario": "Bear",
-      "fcf_or_capital_generation": 3579.210500232306,
+      "fcf_or_capital_generation": 3295.394120800266,
       "required_reinvestment": 300,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 3279.210500232306,
+      "recurring_fad": 2995.394120800266,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 3279.210500232306,
+      "cash_available_for_distribution": 2995.394120800266,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -1162,13 +1162,13 @@
       "fiscal_year": "2029",
       "forecast_year": 4,
       "scenario": "Base",
-      "fcf_or_capital_generation": 5314.038500851789,
+      "fcf_or_capital_generation": 5421.7380949632,
       "required_reinvestment": 600,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 4714.038500851789,
+      "recurring_fad": 4821.7380949632,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 4714.038500851789,
+      "cash_available_for_distribution": 4821.7380949632,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -1195,13 +1195,13 @@
       "fiscal_year": "2029",
       "forecast_year": 4,
       "scenario": "Bull",
-      "fcf_or_capital_generation": 6591.011824376645,
+      "fcf_or_capital_generation": 7241.052352669376,
       "required_reinvestment": 900,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 5691.011824376645,
+      "recurring_fad": 6341.052352669376,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 5691.011824376645,
+      "cash_available_for_distribution": 6341.052352669376,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -1228,13 +1228,13 @@
       "fiscal_year": "2030",
       "forecast_year": 5,
       "scenario": "Bear",
-      "fcf_or_capital_generation": 3649.873486139074,
+      "fcf_or_capital_generation": 3353.9992835646062,
       "required_reinvestment": 300,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 3349.873486139074,
+      "recurring_fad": 3053.9992835646062,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 3349.873486139074,
+      "cash_available_for_distribution": 3053.9992835646062,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -1261,13 +1261,13 @@
       "fiscal_year": "2030",
       "forecast_year": 5,
       "scenario": "Base",
-      "fcf_or_capital_generation": 5432.733150069692,
+      "fcf_or_capital_generation": 5570.698519601556,
       "required_reinvestment": 600,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 4832.733150069692,
+      "recurring_fad": 4970.698519601556,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 4832.733150069692,
+      "cash_available_for_distribution": 4970.698519601556,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -1294,13 +1294,13 @@
       "fiscal_year": "2030",
       "forecast_year": 5,
       "scenario": "Bull",
-      "fcf_or_capital_generation": 6856.110585411181,
+      "fcf_or_capital_generation": 7558.334714072234,
       "required_reinvestment": 900,
       "mandatory_debt_or_regulatory_uses": 0,
-      "recurring_fad": 5956.110585411181,
+      "recurring_fad": 6658.334714072234,
       "exceptional_cash_uses": 0,
       "excess_cash_used": 0,
-      "cash_available_for_distribution": 5956.110585411181,
+      "cash_available_for_distribution": 6658.334714072234,
       "diluted_share_count": 4198.009186,
       "deduction_ledger": [
         {
@@ -1329,7 +1329,7 @@
       "fiscal_year": "2026",
       "forecast_year": 1,
       "scenario": "Bear",
-      "cash_available_for_distribution": 3861.95018584482,
+      "cash_available_for_distribution": 3208.5111478836443,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1355,7 +1355,7 @@
       "fiscal_year": "2026",
       "forecast_year": 1,
       "scenario": "Base",
-      "cash_available_for_distribution": 4211.490792937897,
+      "cash_available_for_distribution": 4231.115248964355,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1381,7 +1381,7 @@
       "fiscal_year": "2026",
       "forecast_year": 1,
       "scenario": "Bull",
-      "cash_available_for_distribution": 4585.021248257704,
+      "cash_available_for_distribution": 5142.8712295941295,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1407,7 +1407,7 @@
       "fiscal_year": "2027",
       "forecast_year": 2,
       "scenario": "Bear",
-      "cash_available_for_distribution": 3513.436286201022,
+      "cash_available_for_distribution": 3158.1996032224433,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1433,7 +1433,7 @@
       "fiscal_year": "2027",
       "forecast_year": 2,
       "scenario": "Base",
-      "cash_available_for_distribution": 4423.229588043983,
+      "cash_available_for_distribution": 4471.758725402691,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1459,7 +1459,7 @@
       "fiscal_year": "2027",
       "forecast_year": 2,
       "scenario": "Bull",
-      "cash_available_for_distribution": 5017.029123431934,
+      "cash_available_for_distribution": 5596.059252961997,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1485,7 +1485,7 @@
       "fiscal_year": "2028",
       "forecast_year": 3,
       "scenario": "Bear",
-      "cash_available_for_distribution": 3266.275561406226,
+      "cash_available_for_distribution": 2994.5170051166133,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1511,7 +1511,7 @@
       "fiscal_year": "2028",
       "forecast_year": 3,
       "scenario": "Base",
-      "cash_available_for_distribution": 4581.489120334521,
+      "cash_available_for_distribution": 4658.922939025479,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1537,7 +1537,7 @@
       "fiscal_year": "2028",
       "forecast_year": 3,
       "scenario": "Bull",
-      "cash_available_for_distribution": 5388.967113210469,
+      "cash_available_for_distribution": 5986.824041134878,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1563,7 +1563,7 @@
       "fiscal_year": "2029",
       "forecast_year": 4,
       "scenario": "Bear",
-      "cash_available_for_distribution": 3279.210500232306,
+      "cash_available_for_distribution": 2995.394120800266,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1589,7 +1589,7 @@
       "fiscal_year": "2029",
       "forecast_year": 4,
       "scenario": "Base",
-      "cash_available_for_distribution": 4714.038500851789,
+      "cash_available_for_distribution": 4821.7380949632,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1615,7 +1615,7 @@
       "fiscal_year": "2029",
       "forecast_year": 4,
       "scenario": "Bull",
-      "cash_available_for_distribution": 5691.011824376645,
+      "cash_available_for_distribution": 6341.052352669376,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1641,7 +1641,7 @@
       "fiscal_year": "2030",
       "forecast_year": 5,
       "scenario": "Bear",
-      "cash_available_for_distribution": 3349.873486139074,
+      "cash_available_for_distribution": 3053.9992835646062,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1667,7 +1667,7 @@
       "fiscal_year": "2030",
       "forecast_year": 5,
       "scenario": "Base",
-      "cash_available_for_distribution": 4832.733150069692,
+      "cash_available_for_distribution": 4970.698519601556,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1693,7 +1693,7 @@
       "fiscal_year": "2030",
       "forecast_year": 5,
       "scenario": "Bull",
-      "cash_available_for_distribution": 5956.110585411181,
+      "cash_available_for_distribution": 6658.334714072234,
       "payout_policy": "earnings_linked",
       "payout_calculation_basis": "attributable_earnings",
       "payout_base_reference": "net_income_or_affo",
@@ -1840,10 +1840,10 @@
         "mid": {
           "status": "estimated",
           "operating_assumptions": "Base FY2026",
-          "owner_cash": 4811.490792937897,
+          "owner_cash": 4831.115248964355,
           "growth_uses": 600,
           "mandatory_uses": 0,
-          "recurring_fad": 4211.490792937897,
+          "recurring_fad": 4231.115248964355,
           "earnings": 6850,
           "payout_basis": "earnings",
           "payout_base": 6850,
@@ -1881,11 +1881,11 @@
     "charts_required": []
   },
   "visual_summary": {
-    "business_and_fcf_trend": "Owner cash after all capex 4717-5664m HKD (2021-2025); Base FY2026 FAD 4211m.",
+    "business_and_fcf_trend": "Owner cash after all capex 4717-5664m HKD (2021-2025); Base FY2026 FAD 4231m.",
     "dps_path": "Base DPS 0.783/0.829/0.863 HKD in 2026/2028/2030.",
     "yield_normalization": "Forward yield 4.68% vs HK government bond 3.79% and US 10y 4.84%.",
     "main_driver_sensitivity": "Associate cash conversion and throughput drive the Bear case.",
-    "valuation_summary": "DDM stages HKD 9.42/7.74/6.58; income comparison 10.06/8.00/6.89; price 0.64x book.",
+    "valuation_summary": "DDM stages HKD 9.19/7.56/6.42; income comparison 10.06/8.00/6.89; price 0.64x book.",
     "coverage_labels": "Three-year entitlement coverage 1.33x; worst 1.03x."
   },
   "score_100": 63,
@@ -2410,33 +2410,33 @@
   },
   "entry_plan": {
     "current_action": "wait_for_price",
-    "summary": "At HKD 16.72 the forward yield is 4.7%, below the US 10-year Treasury (4.84%) and 0.9 points above the HK government bond (3.79%); the Base dividend-discount value is HKD 11.08 at a 8.79% required return, and the price implies only about 6.2%-6.6%.",
+    "summary": "At HKD 16.72 the forward yield is 4.7%, below the US 10-year Treasury (4.84%) and 0.9 points above the HK government bond (3.79%); the Base dividend-discount value is HKD 10.81 at a 8.79% required return, and the price implies only about 6.1%-6.5%.",
     "opportunity_thesis": "Stable port cash with modest growth, but associate cash conversion and the low yield leave no income margin of safety.",
     "market_expectation_gap": "Price is 0.64x book value (26.3 HKD/share) and about 10.9x 2025 EPS; the market discounts associate cash conversion and geopolitical risk.",
     "stages": [
       {
         "stage": "starter",
-        "valuation_price": 9.421450936667092,
-        "effective_price": 9.421450936667092,
-        "gap_to_current_pct": -43.65160923045997,
+        "valuation_price": 9.192035829679284,
+        "effective_price": 9.192035829679284,
+        "gap_to_current_pct": -45.02370915263586,
         "status": "waiting_price",
-        "condition": "Base DDM value 11.08 x (1 - 15%) = HKD 9.42."
+        "condition": "Base DDM value 10.81 x (1 - 15%) = HKD 9.19."
       },
       {
         "stage": "add",
-        "valuation_price": 7.736959618012675,
-        "effective_price": 7.736959618012675,
-        "gap_to_current_pct": -53.72631807408686,
+        "valuation_price": 7.558694244999434,
+        "effective_price": 7.558694244999434,
+        "gap_to_current_pct": -54.79249853469237,
         "status": "waiting_price",
-        "condition": "Lowest scenario (Bear) DDM value = HKD 7.74."
+        "condition": "Lowest scenario (Bear) DDM value = HKD 7.56."
       },
       {
         "stage": "strong_buy",
-        "valuation_price": 6.576415675310774,
-        "effective_price": 6.576415675310774,
-        "gap_to_current_pct": -60.66737036297383,
+        "valuation_price": 6.424890108249519,
+        "effective_price": 6.424890108249519,
+        "gap_to_current_pct": -61.573623754488516,
         "status": "waiting_evidence",
-        "condition": "Bear DDM value x (1 - 15%) = HKD 6.58, plus High confidence and Strong safety."
+        "condition": "Bear DDM value x (1 - 15%) = HKD 6.42, plus High confidence and Strong safety."
       }
     ],
     "return_scenarios": [
@@ -2491,8 +2491,8 @@
     "blockers": [
       {
         "scope": "price",
-        "reason": "Price 16.72 is above the Base DDM starter HKD 9.42; implied return about 6.2% versus required 7.79%-9.79%.",
-        "resolution": "Price at or below HKD 9.42, or evidence of materially higher sustainable dividends.",
+        "reason": "Price 16.72 is above the Base DDM starter HKD 9.19; implied return about 6.1% versus required 7.79%-9.79%.",
+        "resolution": "Price at or below HKD 9.19, or evidence of materially higher sustainable dividends.",
         "source_refs": [
           "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0924/2026092400588.pdf",
           "https://query1.finance.yahoo.com/v8/finance/chart/0144.HK"
@@ -2663,13 +2663,13 @@
   "decision": {
     "current_action": "等待到价",
     "can_buy_now": false,
-    "reason": "计入股息增长后（成长股息折现模型），Base 情景每股价值约 11.08 港元，现价 16.72 港元高出约 51%；按现价买入的预期年回报只有约 6.2%–6.6%，低于 7.79%–9.79% 的必要回报（香港政府债券 3.79% 加 4–6 个百分点）。远期股息率约 4.7%，低于美国 10 年期国债 4.84%。",
+    "reason": "计入股息增长后（成长股息折现模型），Base 情景每股价值约 10.81 港元，现价 16.72 港元高出约 55%；按现价买入的预期年回报只有约 6.1%–6.5%，低于 7.79%–9.79% 的必要回报（香港政府债券 3.79% 加 4–6 个百分点）。远期股息率约 4.7%，低于美国 10 年期国债 4.84%。",
     "buy_conditions": [
       {
         "kind": "price",
         "observable": "招商局港口收盘价",
         "operator": "<=",
-        "threshold": 9.42,
+        "threshold": 9.19,
         "unit": "HKD",
         "source_to_watch": "港交所实时报价"
       }
@@ -2693,13 +2693,13 @@
       }
     ],
     "trap_conclusion": "未触发红利陷阱：股息有经营现金覆盖；需警惕联营公司现金上缴率和以股代息历史。",
-    "entry_conclusion": "成长股息折现口径参考价：初始建仓 9.42 港元、逐步增持 7.74 港元、强力买入 6.58 港元；收息口径（不计增长）对照为 10.06／8.00／6.89 港元。两种方法结论一致，现价高出较多。",
+    "entry_conclusion": "成长股息折现口径参考价：初始建仓 9.19 港元、逐步增持 7.56 港元、强力买入 6.42 港元；收息口径（不计增长）对照为 10.06／8.00／6.89 港元。两种方法结论一致，现价高出较多。",
     "price_status": "reference_prices",
     "reference_prices": {
-      "starter": 9.421450936667092,
-      "add": 7.736959618012675,
-      "strong_buy": 6.576415675310774,
-      "income_capped_upper": 9.421450936667092
+      "starter": 9.192035829679284,
+      "add": 7.558694244999434,
+      "strong_buy": 6.424890108249519,
+      "income_capped_upper": 9.192035829679284
     }
   },
   "evidence_recovery": {
@@ -2953,9 +2953,10 @@
       {
         "name": "印尼码头及其他海外特许权",
         "end_year": 2049,
+        "earliest_end_year": 2035,
         "operating_cash_share_pct": 7,
         "extension_evidence": null,
-        "terminal_treatment": "首个特许权 2035 年到期，需单独测试到期次年股息"
+        "terminal_treatment": "这组特许权在 2035–2049 年间陆续到期，年报没有逐项现金拆分；估值按最早的 2035 年整组停止计入（保守处理）"
       }
     ],
     "company_level_runoff": false,
@@ -2989,13 +2990,13 @@
     "language": "zh-CN",
     "user_requested_language": null,
     "title": "招商局港口（0144.HK）完整研究报告",
-    "summary": "数据截至 2026-11-09；成长股息折现口径初始建仓约 9.42 港元（收息口径对照 10.06），现价 16.72 港元，等待到价。",
+    "summary": "数据截至 2026-11-09；成长股息折现口径初始建仓约 9.19 港元（收息口径对照 10.06），现价 16.72 港元，等待到价。",
     "sections": [
       {
         "heading": "摘要与投资结论",
         "paragraphs": [
           "招商局港口是周期／稳定之间的港口控股公司：盈利来自珠三角控股码头、上港集团等联营码头和海外特许经营码头，股息按归属利润约 48% 派发。",
-          "主估值采用成长股息折现模型（逐年折现五年股息，再加逐步放缓的永续部分）：Base 情景每股价值约 11.08 港元（Bear 7.74，Bull 12.93），初始建仓约 9.42 港元；不计增长的收息口径对照为 10.06 港元，两者接近。现价 16.72 港元隐含的预期年回报只有约 6.2%–6.6%，比香港政府债券（3.79%）高约 2.4–2.8 个百分点，低于本报告要求的 4–6 个百分点风险补偿，新资金动作“等待到价”。",
+          "主估值采用成长股息折现模型（逐年折现五年股息，再加逐步放缓的永续部分）：Base 情景每股价值约 10.81 港元（Bear 7.56，Bull 12.61），初始建仓约 9.19 港元；不计增长的收息口径对照为 10.06 港元，两者接近。现价 16.72 港元隐含的预期年回报只有约 6.1%–6.5%，比香港政府债券（3.79%）高约 2.3–2.7 个百分点，低于本报告要求的 4–6 个百分点风险补偿，新资金动作“等待到价”。",
           "最重要的结构性特点：2025 年约 77% 的归属利润来自联营及合营公司，但联营公司按上一年利润派息，2025 年收到的现金只相当于 2024 年应占利润的 42%，2022–2025 年合计上缴率只有 37%；2021–2023 年股息部分以股代息，股数增加约 13%。"
         ],
         "tables": [
@@ -3034,17 +3035,17 @@
               ],
               [
                 "成长折现 Base 每股价值",
-                "11.08 港元",
+                "10.81 港元",
                 "必要回报 8.79%，持续经营部分增长 2.0%，特许权按期到期"
               ],
               [
                 "初始建仓价（成长口径）",
-                "9.42 港元",
-                "较现价 -44%；收息口径对照 10.06"
+                "9.19 港元",
+                "较现价 -45%；收息口径对照 10.06"
               ],
               [
                 "现价隐含年回报",
-                "6.2%–6.6%",
+                "6.1%–6.5%",
                 "Base 现金路径，增长 2.0%–2.5%"
               ],
               [
@@ -3336,9 +3337,79 @@
         "heading": "未来五年经营与现金流预测",
         "paragraphs": [
           "Base：2026 年归属利润约 68.5 亿港元（上半年 38.3 亿，下半年按去年同期增长 5%），此后每年增长约 2%–3%。Bear：贸易摩擦导致吞吐量下滑、联营分红减少，2027–2028 年利润降至 57–59 亿港元。Bull：吞吐量和联营派息超预期。",
-          "派息率按 48%，股数不变。现金分两部分：控股及其他业务的经营现金约为利润的 0.71 倍（按 2025 年校准，已扣税，未含联营股息）；联营股息 = 上一年联营应占利润 × 上缴率（Base 36%，Bear 25%，Bull 48%）。利息和租赁还款在融资活动中，单独扣除一次。少数股东与永续债约占利润的 20%。股息按利润派发，不受上缴率影响，但覆盖倍数会下降。"
+          "派息率按 48%，股数不变。现金分两部分：控股及其他业务的现金（经营现金流 − 联营股息 − 利息 − 租赁）按收入的比例估算，用 2021–2025 年五年数据校准：Bear 取最差年份 29.7%，Base 取五年合计 34.3%，Bull 取最好年份 38.1%（2025 年是五年最高，不单独作为基准）；联营股息 = 上一年联营应占利润 × 上缴率（Base 36%，Bear 25%，Bull 48%）。利息和租赁还款在融资活动中，单独扣除一次。少数股东与永续债按利润的 20% 估算（2023–2025 年实际为 19%）。股息按利润派发，不受上缴率影响，但覆盖倍数会下降。",
+          "现金覆盖（可分配现金 ÷ 应派股息）：Base 2026 年约 1.29 倍；Bear 最低的一年约 1.01 倍，余量很小：再差一点就需要动用存量现金或下调派息率。"
         ],
         "tables": [
+          {
+            "title": "现金模型校准（2021–2025 年实际）",
+            "columns": [
+              "财年",
+              "收入",
+              "经营现金流",
+              "联营股息",
+              "利息与租赁",
+              "控股业务现金",
+              "占收入"
+            ],
+            "rows": [
+              [
+                "2021",
+                11850,
+                8785,
+                3347,
+                1625,
+                3813,
+                "32.2%"
+              ],
+              [
+                "2022",
+                12545,
+                8781,
+                2592,
+                1765,
+                4424,
+                "35.3%"
+              ],
+              [
+                "2023",
+                11482,
+                7238,
+                2034,
+                1796,
+                3408,
+                "29.7%"
+              ],
+              [
+                "2024",
+                11842,
+                8547,
+                2716,
+                1581,
+                4250,
+                "35.9%"
+              ],
+              [
+                "2025",
+                13354,
+                9472,
+                2730,
+                1659,
+                5083,
+                "38.1%"
+              ],
+              [
+                "五年合计",
+                61073,
+                42823,
+                13419,
+                8426,
+                20978,
+                "34.3%"
+              ]
+            ],
+            "note": "港币百万；控股业务现金 = 经营现金流 − 联营股息 − 利息 − 租赁；来源：2022、2023、2025 年报现金流量表"
+          },
           {
             "title": "情景每股股息（港元）",
             "columns": [
@@ -3382,9 +3453,9 @@
       {
         "heading": "估值与预期总回报",
         "paragraphs": [
-          "主估值：成长股息折现模型。逐年折现 2026–2030 年预测股息（2026 年中期 0.25 港元已派，只计末期），第 6 年起按永续增长计算终值。必要回报统一取 8.79%（区间中点），安全边际 15%。Bear／Base／Bull 每股价值 7.74／11.08／12.93 港元。",
-          "终值分两部分：持续经营部分（约 66% 的现金）按 Bear 0.5%／Base 2.0%／Bull 2.5% 永续增长；海外特许权（约 34%）没有续期证据，按到期年份逐项停止（斯里兰卡与多哥 2046 年、巴西 2048 年、印尼等 2049 年），不再用下调整体增长率的方式近似。约 67%–74% 的价值来自第 5 年之后，结论对折现率和永续增长较敏感，见下表。",
-          "反推：要让现价 16.72 港元成立，在 Base 现金路径和 2.0%–2.5% 增长下，投资者只要求约 6.2%–6.6% 的年回报，即比香港政府债券（3.79%）高约 2.4–2.8 个百分点、比美国 10 年期国债高约 1.4–1.8 个百分点。本报告认为联营现金上缴、地缘与特许权风险需要 4–6 个百分点补偿，所以现价偏贵。",
+          "主估值：成长股息折现模型。逐年折现 2026–2030 年预测股息（2026 年中期 0.25 港元已派，只计末期），第 6 年起按永续增长计算终值。必要回报统一取 8.79%（区间中点），安全边际 15%。Bear／Base／Bull 每股价值 7.56／10.81／12.61 港元。",
+          "终值分两部分：持续经营部分（约 66% 的现金）按 Bear 0.5%／Base 2.0%／Bull 2.5% 永续增长；海外特许权（约 34%）没有续期证据，按到期年份逐项停止（斯里兰卡与多哥 2046 年、巴西 2048 年；印尼等一组在 2035–2049 年间陆续到期，年报没有逐项拆分，保守按最早的 2035 年整组停止，若全部存续到 2049 年，Base 价值约高 0.3 港元）。约 66%–73% 的价值来自第 5 年之后，结论对折现率和永续增长较敏感，见下表。",
+          "反推：要让现价 16.72 港元成立，在 Base 现金路径和 2.0%–2.5% 增长下，投资者只要求约 6.1%–6.5% 的年回报，即比香港政府债券（3.79%）高约 2.3–2.7 个百分点、比美国 10 年期国债高约 1.2–1.7 个百分点。本报告认为联营现金上缴、地缘与特许权风险需要 4–6 个百分点补偿，所以现价偏贵。",
           "收息口径对照（不计增长）：Base 2026 年每股股息 0.783 港元 ÷ 7.79%–9.79%，对应 8.00–10.06 港元；与成长口径接近，说明结论不取决于方法选择。增长抵扣检验未通过（每股股息 2021–2025 年年均 -5.8%），收息口径不计抵扣。",
           "对照指标：每股账面净资产约 26.3 港元，现价约 0.64 倍市净率；2025 年市盈率约 10.9 倍。低市净率反映市场对联营公司现金上缴、海外特许权到期和地缘风险的折价。",
           "三年持有情景（不计再投资）：Bear 若估值回落到必要收益率约亏损 37%，Base 估值不变约赚 20%，Bull 约赚 35%。"
@@ -3405,25 +3476,25 @@
                 "Bear",
                 "0.5%",
                 2.58,
-                5.16,
-                7.74,
-                "67%"
+                4.98,
+                7.56,
+                "66%"
               ],
               [
                 "Base",
                 "2.0%",
                 3.13,
-                7.95,
-                11.08,
-                "72%"
+                7.68,
+                10.81,
+                "71%"
               ],
               [
                 "Bull",
                 "2.5%",
                 3.38,
-                9.55,
-                12.93,
-                "74%"
+                9.23,
+                12.61,
+                "73%"
               ]
             ],
             "note": "必要回报 8.79%；股息来自五年预测（48% 派息率、股数不变）；终值资金由第 6 年经常性可分配现金覆盖"
@@ -3439,21 +3510,21 @@
             "rows": [
               [
                 "7.79%",
-                12.01,
-                12.71,
-                13.52
+                11.72,
+                12.39,
+                13.19
               ],
               [
                 "8.79%",
-                10.58,
-                11.08,
-                11.66
+                10.32,
+                10.81,
+                11.38
               ],
               [
                 "9.79%",
-                9.46,
-                9.84,
-                10.27
+                9.23,
+                9.61,
+                10.03
               ]
             ],
             "note": "Base 现金路径和特许权到期安排不变；增长超过 2.5%（Base 可持续上限）不计算"
@@ -3494,7 +3565,7 @@
         "heading": "买点、建仓策略与持仓复评",
         "paragraphs": [
           "国债对比：美国 10 年期国债 4.84%，招商局港口远期股息率 4.68%，利差约 -0.16 个百分点，即当期收入还不如美国国债；与港元无风险利率（香港政府债券 3.79%）相比高 0.90 个百分点。补偿只能来自股息增长和估值修复。",
-          "分阶段参考价（成长口径）：初始建仓 = Base 价值 × 85% = 9.42 港元；逐步增持 = 最低情景价值 = 7.74 港元；强力买入 = 最低情景价值 × 85% = 6.58 港元。收息口径对照：10.06／8.00／6.89 港元。已持有部分：用户未提供仓位和成本，本报告不给出加减仓指令；若联营现金上缴率不低于 32%（Bear 假设）且不恢复以股代息，持有逻辑不变。"
+          "分阶段参考价（成长口径）：初始建仓 = Base 价值 × 85% = 9.19 港元；逐步增持 = 最低情景价值 = 7.56 港元；强力买入 = 最低情景价值 × 85% = 6.42 港元。收息口径对照：10.06／8.00／6.89 港元。已持有部分：用户未提供仓位和成本，本报告不给出加减仓指令；若联营现金上缴率不低于 32%（Bear 假设）且不恢复以股代息，持有逻辑不变。"
         ],
         "tables": [
           {
@@ -3508,21 +3579,21 @@
             "rows": [
               [
                 "初始建仓",
-                "9.42",
+                "9.19",
                 "10.06",
-                "-44%"
+                "-45%"
               ],
               [
                 "逐步增持",
-                "7.74",
+                "7.56",
                 "8.00",
-                "-54%"
+                "-55%"
               ],
               [
                 "强力买入",
-                "6.58",
+                "6.42",
                 "6.89",
-                "-61%"
+                "-62%"
               ]
             ],
             "note": "较现价按成长口径计算；成长口径为主估值"
@@ -3539,32 +3610,32 @@
               [
                 "2.79%",
                 "7.79%",
-                12.71,
-                10.8
+                12.39,
+                10.54
               ],
               [
                 "3.29%",
                 "8.29%",
-                11.84,
-                10.06
+                11.55,
+                9.81
               ],
               [
                 "3.79%",
                 "8.79%",
-                11.08,
-                9.42
+                10.81,
+                9.19
               ],
               [
                 "4.29%",
                 "9.29%",
-                10.42,
-                8.86
+                10.17,
+                8.65
               ],
               [
                 "4.79%",
                 "9.79%",
-                9.84,
-                8.37
+                9.61,
+                8.17
               ]
             ],
             "note": "风险溢价 5% 不变；Base 现金路径，持续经营部分增长 2.0%；联系汇率下美国国债变动通常会传导到港债"
@@ -3639,13 +3710,13 @@
         "heading": "数据来源、关键假设与研究限制",
         "paragraphs": [
           "数据截至 2026-11-09。来源：招商局港口 2022、2023、2025 年报，2026 年中报及中期派息公告（均来自港交所披露易），Yahoo Finance 行情，香港金管局政府债券收益率，FRED 美国国债收益率。",
-          "关键假设：派息率 48%；股数不变；成长模型必要回报 8.79%、持续经营部分增长 0.5%／2%／2.5%、海外特许权按到期年份停止、安全边际 15%；联营现金上缴率（按上一年利润）Bear 25%／Base 36%／Bull 48%；人民币兑港元贬值 10% 的压力测试；少数股东与永续债约占利润 20%；无风险利率取香港政府债券 3.79%，风险溢价 4%–6%。",
+          "关键假设：派息率 48%；股数不变；成长模型必要回报 8.79%、持续经营部分增长 0.5%／2%／2.5%、海外特许权按到期年份停止（无法拆分的一组按最早的 2035 年）、安全边际 15%；联营现金上缴率（按上一年利润）Bear 25%／Base 36%／Bull 48%；人民币兑港元贬值 10% 的压力测试；少数股东与永续债约占利润 20%；无风险利率取香港政府债券 3.79%，风险溢价 4%–6%。",
           "研究限制：未取得上港集团年报（上交所网站不在本环境白名单内）、同业数据与香港通胀；港债收益率为 2026-10-30 的月度统计数据，比估值日早约一周；海外特许权的现金占比为估算；成长模型的永续增长与联营现金上缴率为有界估计；用户持仓与收息目标未提供。本报告仅为研究资料，不构成投资建议。"
         ]
       }
     ],
     "appendix": [
-      "审计附录 A3、A5、A6、A10、A11、A13 由结构化记录自动生成；A12 持仓复评因未提供持仓而不适用。"
+      "审计附录 A1–A13 由结构化记录自动生成；A12 持仓复评因未提供持仓而不适用。"
     ],
     "labels": [
       "金额单位：港币百万，另有注明除外"
@@ -3675,7 +3746,7 @@
       {
         "name": "印尼码头及其他海外特许权",
         "cash_share": 0.07,
-        "end_year": 2049,
+        "end_year": 2035,
         "treatment": "expires"
       }
     ],
@@ -3689,12 +3760,12 @@
         "sustainable_terminal_growth_bound": 0.01,
         "terminal_net_dps": 0.6779785069293557,
         "terminal_time_years": 4.4,
-        "terminal_funding_and_fade_evidence": "第 6 年起按 0.5% 增长：持续经营部分（66%）为永续；海外特许权（34%）按各自到期年份（2046／2048／2049）停止计入，无续期证据；第 6 年股东现金与成长投资同比例增长，派息率 48%、股数不变。",
+        "terminal_funding_and_fade_evidence": "第 6 年起按 0.5% 增长：持续经营部分（66%）为永续；海外特许权（34%）按到期年份（2035／2046／2048，其中印尼等一组按最早的 2035 年）停止计入，无续期证据；第 6 年股东现金与成长投资同比例增长，派息率 48%、股数不变。",
         "terminal_funding": {
-          "owner_cash_or_proxy": 3668.122853569769,
+          "owner_cash_or_proxy": 3370.769279982429,
           "remaining_growth_uses": 301.49999999999994,
           "remaining_mandatory_uses": 0,
-          "recurring_fad": 3366.622853569769,
+          "recurring_fad": 3069.269279982429,
           "dividend_cash_cost": 2846.16,
           "dividend_entitlement": 2846.16,
           "cash_settled_fraction": 1,
@@ -3751,9 +3822,9 @@
           }
         ],
         "present_value_of_dividends": 2.5788945302493866,
-        "present_value_of_terminal": 5.158065087763289,
-        "total_value": 7.736959618012675,
-        "terminal_value_share": 0.6666785588171643
+        "present_value_of_terminal": 4.9797997147500475,
+        "total_value": 7.558694244999434,
+        "terminal_value_share": 0.6588174562087238
       },
       {
         "scenario": "Base",
@@ -3763,12 +3834,12 @@
         "sustainable_terminal_growth_bound": 0.025,
         "terminal_net_dps": 0.8805316606565424,
         "terminal_time_years": 4.4,
-        "terminal_funding_and_fade_evidence": "第 6 年起按 2.0% 增长：持续经营部分（66%）为永续；海外特许权（34%）按各自到期年份（2046／2048／2049）停止计入，无续期证据；第 6 年股东现金与成长投资同比例增长，派息率 48%、股数不变。",
+        "terminal_funding_and_fade_evidence": "第 6 年起按 2.0% 增长：持续经营部分（66%）为永续；海外特许权（34%）按到期年份（2035／2046／2048，其中印尼等一组按最早的 2035 年）停止计入，无续期证据；第 6 年股东现金与成长投资同比例增长，派息率 48%、股数不变。",
         "terminal_funding": {
-          "owner_cash_or_proxy": 5541.3878130710855,
+          "owner_cash_or_proxy": 5682.112489993587,
           "remaining_growth_uses": 612.0,
           "remaining_mandatory_uses": 0,
-          "recurring_fad": 4929.3878130710855,
+          "recurring_fad": 5070.112489993587,
           "dividend_cash_cost": 3696.48,
           "dividend_entitlement": 3696.48,
           "cash_settled_fraction": 1,
@@ -3825,9 +3896,9 @@
           }
         ],
         "present_value_of_dividends": 3.129817741002365,
-        "present_value_of_terminal": 7.954242184488332,
-        "total_value": 11.084059925490697,
-        "terminal_value_share": 0.7176289408356111
+        "present_value_of_terminal": 7.684342058620324,
+        "total_value": 10.814159799622688,
+        "terminal_value_share": 0.7105815154394551
       },
       {
         "scenario": "Bull",
@@ -3837,12 +3908,12 @@
         "sustainable_terminal_growth_bound": 0.03,
         "terminal_net_dps": 0.9903265609481207,
         "terminal_time_years": 4.4,
-        "terminal_funding_and_fade_evidence": "第 6 年起按 2.5% 增长：持续经营部分（66%）为永续；海外特许权（34%）按各自到期年份（2046／2048／2049）停止计入，无续期证据；第 6 年股东现金与成长投资同比例增长，派息率 48%、股数不变。",
+        "terminal_funding_and_fade_evidence": "第 6 年起按 2.5% 增长：持续经营部分（66%）为永续；海外特许权（34%）按到期年份（2035／2046／2048，其中印尼等一组按最早的 2035 年）停止计入，无续期证据；第 6 年股东现金与成长投资同比例增长，派息率 48%、股数不变。",
         "terminal_funding": {
-          "owner_cash_or_proxy": 7027.51335004646,
+          "owner_cash_or_proxy": 7747.29308192404,
           "remaining_growth_uses": 922.4999999999999,
           "remaining_mandatory_uses": 0,
-          "recurring_fad": 6105.01335004646,
+          "recurring_fad": 6824.79308192404,
           "dividend_cash_cost": 4157.4,
           "dividend_entitlement": 4157.4,
           "cash_settled_fraction": 1,
@@ -3899,38 +3970,38 @@
           }
         ],
         "present_value_of_dividends": 3.3781873337025567,
-        "present_value_of_terminal": 9.550661978453661,
-        "total_value": 12.928849312156217,
-        "terminal_value_share": 0.7387093582623591
+        "present_value_of_terminal": 9.231106314561634,
+        "total_value": 12.609293648264192,
+        "terminal_value_share": 0.7320875040317899
       }
     ],
-    "growth_value_low": 7.736959618012675,
-    "growth_value_high": 12.928849312156217,
-    "base_case_value": 11.084059925490697,
+    "growth_value_low": 7.558694244999434,
+    "growth_value_high": 12.609293648264192,
+    "base_case_value": 10.814159799622688,
     "margin_of_safety": 0.15,
     "margin_of_safety_basis": "15%：联营现金上缴率、贸易摩擦与特许权续期均为有界估计，安全边际不替代缺失证据。",
-    "entry_upper": 6.576415675310774,
-    "review_above": 12.928849312156217,
-    "terminal_dependence_warning": "约 67%–74% 的价值来自第 5 年之后的永续部分，结论对永续增长和折现率敏感，见敏感性表。",
+    "entry_upper": 6.424890108249519,
+    "review_above": 12.609293648264192,
+    "terminal_dependence_warning": "约 66%–73% 的价值来自第 5 年之后的永续部分，结论对永续增长和折现率敏感，见敏感性表。",
     "return_growth_sensitivity": [
       {
         "required_return": 0.07788,
         "terminal_growth": 0.015,
-        "value": 12.01482689597872,
+        "value": 11.719413401493545,
         "status": "calculated",
         "basis": "Base 现金路径和特许权到期安排不变，只改变折现率与增长；超过 Base 可持续增长上限 2.5% 的组合不计算。"
       },
       {
         "required_return": 0.07788,
         "terminal_growth": 0.02,
-        "value": 12.706912677901327,
+        "value": 12.394211747650202,
         "status": "calculated",
         "basis": "Base 现金路径和特许权到期安排不变，只改变折现率与增长；超过 Base 可持续增长上限 2.5% 的组合不计算。"
       },
       {
         "required_return": 0.07788,
         "terminal_growth": 0.025,
-        "value": 13.517965175179073,
+        "value": 13.186932059305544,
         "status": "calculated",
         "basis": "Base 现金路径和特许权到期安排不变，只改变折现率与增长；超过 Base 可持续增长上限 2.5% 的组合不计算。"
       },
@@ -3944,21 +4015,21 @@
       {
         "required_return": 0.08788,
         "terminal_growth": 0.015,
-        "value": 10.577275335218925,
+        "value": 10.322115329042276,
         "status": "calculated",
         "basis": "Base 现金路径和特许权到期安排不变，只改变折现率与增长；超过 Base 可持续增长上限 2.5% 的组合不计算。"
       },
       {
         "required_return": 0.08788,
         "terminal_growth": 0.02,
-        "value": 11.084059925490697,
+        "value": 10.814159799622688,
         "status": "calculated",
         "basis": "Base 现金路径和特许权到期安排不变，只改变折现率与增长；超过 Base 可持续增长上限 2.5% 的组合不计算。"
       },
       {
         "required_return": 0.08788,
         "terminal_growth": 0.025,
-        "value": 11.663249449561551,
+        "value": 11.377729300166902,
         "status": "calculated",
         "basis": "Base 现金路径和特许权到期安排不变，只改变折现率与增长；超过 Base 可持续增长上限 2.5% 的组合不计算。"
       },
@@ -3972,21 +4043,21 @@
       {
         "required_return": 0.09788,
         "terminal_growth": 0.015,
-        "value": 9.455319044591574,
+        "value": 9.234343881187192,
         "status": "calculated",
         "basis": "Base 现金路径和特许权到期安排不变，只改变折现率与增长；超过 Base 可持续增长上限 2.5% 的组合不计算。"
       },
       {
         "required_return": 0.09788,
         "terminal_growth": 0.02,
-        "value": 9.841420354650683,
+        "value": 9.607842324035964,
         "status": "calculated",
         "basis": "Base 现金路径和特许权到期安排不变，只改变折现率与增长；超过 Base 可持续增长上限 2.5% 的组合不计算。"
       },
       {
         "required_return": 0.09788,
         "terminal_growth": 0.025,
-        "value": 10.274709974702104,
+        "value": 10.027786013883752,
         "status": "calculated",
         "basis": "Base 现金路径和特许权到期安排不变，只改变折现率与增长；超过 Base 可持续增长上限 2.5% 的组合不计算。"
       },

@@ -135,7 +135,7 @@ sections = [
 r["report_output"].update({"title": "汇丰控股（0005.HK）完整研究报告", "summary": f"数据截至 {AS_OF}；资本回报口径初始建仓约 {yuan(c_start)}，现价略高，等待到价。",
                            "sections": [dict({"heading": h, "paragraphs": p_}, **({"tables": t_} if t_ else {}), **({"charts": c_} if c_ else {}))
                                         for h, p_, *rest in sections for t_, c_ in [((rest + [None, None])[0], (rest + [None, None])[1])]],
-                           "appendix": ["审计附录 A3、A5、A6、A10、A11、A13 由结构化记录自动生成；A12 持仓复评因未提供持仓而不适用。"],
+                           "appendix": ["审计附录 A1–A13 由结构化记录自动生成；A12 持仓复评因未提供持仓而不适用。"],
                            "labels": ["金额单位：美元百万，另有注明除外"]})
 ra = r["rating_audit"]
 ra["buyback_quality"].update({"label": r["buyback_quality"], "rule": "Real share-count reduction with capital discipline is Good.",

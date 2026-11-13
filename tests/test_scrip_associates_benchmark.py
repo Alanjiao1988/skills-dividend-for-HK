@@ -63,6 +63,9 @@ class ScripCoverage(unittest.TestCase):
         row["cash_paid_dividends"] = 700
         self.assertTrue(any("settlement_reconciliation" in e for e in scrip_coverage_errors(report)))
         row["settlement_reconciliation"] = "Test: entitlement on shares cancelled before payment."
+        self.assertTrue(any("source_refs" in e for e in scrip_coverage_errors(report)))  # text alone no longer clears it
+        row["settlement_reconciliation"] = {"amount": -241, "reason": "Entitlement on shares cancelled before payment.",
+                                            "source_refs": [report["sources"][0]]}
         self.assertEqual(scrip_coverage_errors(report), [])
 
     def test_scrip_history_needs_declared_parts(self):
@@ -169,6 +172,58 @@ class FiniteLifeTerminal(unittest.TestCase):
         report = cmport()
         report["growth_valuation"]["scenarios"][1]["present_value_of_terminal"] *= 1.05
         self.assertTrue(any("terminal PV" in e for e in validate_report(report)))
+
+
+class ThirdReview(unittest.TestCase):
+    """Fixes from the third external review."""
+
+    def test_grouped_concession_uses_earliest_expiry(self):
+        report = cmport()
+        asset = next(a for a in report["economic_profile"]["finite_life_assets"] if a.get("earliest_end_year"))
+        record = next(r for r in report["growth_valuation"]["terminal_finite_assets"] if r["name"] == asset["name"])
+        self.assertEqual((asset["end_year"], asset["earliest_end_year"], record["end_year"]), (2049, 2035, 2035))
+        record["end_year"] = 2049
+        self.assertTrue(any("earliest expiry" in e for e in validate_report(report)))
+
+    def test_cash_model_is_calibrated_on_five_years(self):
+        report = cmport()
+        bridge = {row["fiscal_year"]: row for row in report["cash_flow_bridge"]}
+        base = next(r for r in report["three_year_fundamental_forecast"] if r["scenario"] == "Base" and r["forecast_year"] == 1)
+        # Base non-associate cash margin is the FY2021-2025 aggregate, not the 2025 peak.
+        margin = (42823 - 13419 - 7532 - 894) / 61073
+        assoc = 0.36 * 4970
+        self.assertAlmostEqual(base["normalized_ocf"], base["revenue_or_sector_income"] * margin + assoc, places=6)
+        self.assertEqual(len(bridge), 5)
+
+    def test_archive_without_new_fields_still_validates(self):
+        report = cmport()
+        del report["report_contract_version"]            # dated 2026-11-09, before the cutover
+        report["report_output"]["sections"] = report["report_output"]["sections"]
+        del report["cash_flow_model"]["associate_cash_conversion"]
+        del report["return_requirements"]["benchmark_remaining_years"]
+        for row in report["cash_flow_bridge"]:
+            for key in ("cash_paid_dividends", "scrip_settled_dividends", "dividend_denominator_basis",
+                        "entitlement_settled_in_year", "entitlement_settled_next_year", "settlement_reconciliation"):
+                row.pop(key, None)
+        self.assertEqual(validate_report(report), [])
+        strict = cmport()
+        del strict["cash_flow_model"]["associate_cash_conversion"]
+        self.assertTrue(validate_report(strict))
+
+    def test_tenor_and_freshness(self):
+        report = cmport()
+        report["return_requirements"]["benchmark_remaining_years"] = 5
+        self.assertTrue(any("target tenor" in e for e in validate_report(report)))
+        stale = cmport()
+        stale["return_requirements"]["benchmark_date"] = "2026-08-01"
+        self.assertTrue(any("days old" in e for e in validate_report(stale)))
+
+    def test_appendix_slots_are_all_present(self):
+        text = render_report(cmport())
+        for number in range(1, 14):
+            self.assertIn(f"<h3>A{number} ", text)
+        self.assertNotIn("A14", text)
+        self.assertIn("<h3>术语表</h3>", text)
 
 
 class CurrencyRisk(unittest.TestCase):

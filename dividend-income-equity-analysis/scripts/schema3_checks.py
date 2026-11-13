@@ -90,6 +90,10 @@ def economic_profile_errors(report):
         check(row["revenue_engine"] != "commodity_linked" or row["cyclicality"] != "stable",
               f"segment '{row['name']}' is commodity_linked and cannot be classed as stable")
     finite_segments = [row for row in segments if row["asset_life"] == "finite_assets"]
+    for asset in profile["finite_life_assets"]:
+        earliest = asset.get("earliest_end_year")
+        check(earliest is None or earliest <= asset["end_year"],
+              f"finite asset '{asset['name']}': earliest_end_year cannot be after end_year")
     check(bool(finite_segments) == bool(profile["finite_life_assets"]),
           "finite_assets segments and the finite_life_assets schedule must appear together")
     mode = report.get("valuation_mode")
@@ -99,8 +103,10 @@ def economic_profile_errors(report):
           "a company-level run-off must use finite_life_harvest or be suspended")
     dominant = max(segments, key=lambda row: row["cash_share_pct"])
     spread = lambda row: row["balance_sheet_role"] == "balance_sheet_spread"
-    for row in segments:
-        if row is dominant or row["cash_share_pct"] < 20 or spread(row) == spread(dominant):
+    other_side = [row for row in segments if spread(row) != spread(dominant)]
+    material_side = sum(row["cash_share_pct"] for row in other_side) >= 20
+    for row in other_side:
+        if not material_side:   # materiality is judged for the whole other side, not segment by segment
             continue
         check(sector == "holding_company" or "holding_company" in overlays,
               f"material segment '{row['name']}' ({row['cash_share_pct']:g}%) runs on a different balance sheet from the "
@@ -116,7 +122,9 @@ def economic_profile_errors(report):
               "an operating or leasing business must not use a bank/BDC/insurer/mortgage-REIT proxy")
     check(mode != "capital_return_based" or dominant["balance_sheet_role"] == "balance_sheet_spread",
           "capital_return_based valuation is for balance-sheet spread businesses (banks, insurers, BDCs, mortgage REITs)")
-    check(mode != "capital_return_based" or sector in ("bank", "insurer"),
+    spread_share = sum(row["cash_share_pct"] for row in segments if spread(row))
+    check(mode != "capital_return_based" or sector in ("bank", "insurer")
+          or (sector == "holding_company" and spread_share >= 50),
           "capital_return_based (RoTE on tangible book) fits banks and insurers; BDCs and mortgage REITs use NAV and "
           "net investment income through their sector cash models")
     check(sector != "mortgage_reit" or profile["legal_wrapper"] == "reit",
