@@ -64,8 +64,10 @@ class ScripCoverage(unittest.TestCase):
         self.assertTrue(any("settlement_reconciliation" in e for e in scrip_coverage_errors(report)))
         row["settlement_reconciliation"] = "Test: entitlement on shares cancelled before payment."
         self.assertTrue(any("source_refs" in e for e in scrip_coverage_errors(report)))  # text alone no longer clears it
-        row["settlement_reconciliation"] = {"amount": -241, "reason": "Entitlement on shares cancelled before payment.",
+        row["settlement_reconciliation"] = {"amount": -100, "reason": "Entitlement on shares cancelled before payment.",
                                             "source_refs": [report["sources"][0]]}
+        self.assertTrue(scrip_coverage_errors(report))   # the stated amount must equal the actual gap (-241)
+        row["settlement_reconciliation"]["amount"] = -241
         self.assertEqual(scrip_coverage_errors(report), [])
 
     def test_scrip_history_needs_declared_parts(self):
@@ -209,6 +211,21 @@ class ThirdReview(unittest.TestCase):
         strict = cmport()
         del strict["cash_flow_model"]["associate_cash_conversion"]
         self.assertTrue(validate_report(strict))
+
+    def test_tenor_fields_cannot_be_left_blank(self):
+        report = cmport()
+        report["return_requirements"]["benchmark_remaining_years"] = None
+        self.assertTrue(any("benchmark_remaining_years" in e for e in validate_report(report)))
+
+    def test_explicit_legacy_contract_beats_the_date(self):
+        from scripts.validate_analysis import new_contract
+        self.assertFalse(new_contract({"report_contract_version": "six_section_legacy", "as_of_date": "2027-01-01"}))
+        self.assertTrue(new_contract({"report_contract_version": "twelve_chapter", "as_of_date": "2024-01-01"}))
+        self.assertTrue(new_contract({"as_of_date": "2026-11-10"}))
+        report = cmport()
+        report["report_contract_version"] = "six_section_legacy"
+        report["as_of_date"] = "2026-11-12"
+        self.assertTrue(any("cannot declare" in e for e in validate_report(report)))   # creation rule for live research
 
     def test_tenor_and_freshness(self):
         report = cmport()

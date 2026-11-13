@@ -3461,6 +3461,16 @@
           "note": ""
         }
       ],
+      "capital_ratio_bridge": {
+        "current_ratio": 0.139,
+        "target_ratio": 0.1425,
+        "risk_weighted_assets": 888647,
+        "regulatory_change_ratio": 0.0045,
+        "source_refs": [
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2026/3q/pdfs/hsbc-holdings-plc/261027-3q-2026-earnings-release.pdf",
+          "https://www.hsbc.com/-/files/hsbc/investors/hsbc-results/2025/annual/pdfs/hsbc-holdings-plc/260225-annual-report-and-accounts-2025.pdf"
+        ]
+      },
       "growth_consistency": "Base reserves 3900m a year of CET1 for RWA growth at the 14.25% target, about 3.1% of 2025 RWAs, close to the 3% long-run g. Bear reserves less because loan growth slows.",
       "near_term_constraint": "CET1 is 13.9%, below the 14%-14.5% range, so buybacks are paused until Basel 3.1 (+40-50bps, Jan 2027) restores headroom. The per-share forecast holds shares flat and credits no buybacks; the valuation counts the capacity above the 50% dividend, which is not yet being paid out."
     },

@@ -49,8 +49,10 @@ def _cagr(start, end, years):
 def new_contract(report):
     """New-report rules bind records that declare the twelve_chapter contract or are dated from the cutover.
     Older schema-3.0 archives stay readable without the fields added later."""
-    return (report.get("report_contract_version") == "twelve_chapter"
-            or str(report.get("as_of_date") or "") >= "2026-11-10")
+    contract = report.get("report_contract_version")
+    if contract:                       # an explicit contract decides; the date only fills in when none is declared
+        return contract == "twelve_chapter"
+    return str(report.get("as_of_date") or "") >= "2026-11-10"
 
 
 def income_growth_credit_errors(report, runway, mode):
@@ -130,11 +132,12 @@ def scrip_coverage_errors(report):
             continue
         settled, expected = paid + (scrip or 0), carried + in_year
         note = row.get("settlement_reconciliation")
-        sourced = isinstance(note, dict) and set(note["source_refs"]) <= sources
+        sourced = (isinstance(note, dict) and set(note["source_refs"]) <= sources
+                   and abs(note["amount"] - (settled - expected)) <= max(1.0, 0.01 * expected))
         if expected > 0 and abs(settled - expected) > 0.02 * expected and row["evidence_status"] == "reported_reconciled" \
                 and not sourced:
             errors.append(f"{row['fiscal_year']}: cash paid plus scrip {settled:g} differs from prior final plus interim "
-                          f"{expected:g} by more than 2%; give settlement_reconciliation with amount, reason and report "
+                          f"{expected:g} by more than 2%; give settlement_reconciliation with the amount (cash paid plus scrip minus prior final plus interim), reason and report "
                           "source_refs, or do not mark the row reported_reconciled")
     for row in history:
         label, settled = row["fiscal_year"], row.get("scrip_settled_dividends")
@@ -597,6 +600,8 @@ def validate_report(report):
     if returns["status"] == "assessed":
         require(returns["benchmark_date"] <= report["as_of_date"], "Risk-free observation cannot postdate the analysis")
         remaining, target = returns.get("benchmark_remaining_years"), returns.get("target_tenor_years")
+        require(not new_contract(report) or (remaining is not None and target is not None),
+                "An assessed required return must record benchmark_remaining_years and target_tenor_years")
         require(remaining is None or target is None or abs(remaining - target) <= 2,
                 "Benchmark remaining life is more than 2 years from the target tenor; interpolate or pick a closer issue")
         if new_contract(report):
@@ -1015,8 +1020,22 @@ def capital_return_errors(report):
         close(cap["buyback_capacity_ratio"], ratio - cap["dividend_payout_ratio"], f"{name} buyback capacity ratio")
     path = capacity.get("annual_path")
     require(path is not None or not new_contract(report), "distribution_capacity needs the Base annual_path")
+    bridge = capacity.get("capital_ratio_bridge")
+    if path is not None:
+        require(bridge is not None, "annual_path needs capital_ratio_bridge (current and target ratio, RWAs, regulatory change)")
+    if path is not None and bridge is not None:
+        require(set(bridge["source_refs"]) <= set(report.get("sources", [])), "capital_ratio_bridge source_refs must be report sources")
+        rwa = bridge["risk_weighted_assets"]
+        gap = max(0.0, bridge["target_ratio"] - bridge["current_ratio"]) * rwa
+        rebuilt = sum(row["target_gap_rebuild"] for row in path if row["target_gap_rebuild"] > 0)
+        released = -sum(row["target_gap_rebuild"] for row in path if row["target_gap_rebuild"] < 0)
+        close(rebuilt, gap, "annual path capital rebuilt versus (target - current) x RWA")
+        require(released <= bridge["regulatory_change_ratio"] * rwa * (1 + 1e-9),
+                "annual path releases more capital than the documented regulatory change allows")
     for index, row in enumerate(path or [], start=1):
         base, div = forecasts.get((index, "Base")), runway.get((index, "Base"))
+        if base is not None:
+            require(row["fiscal_year"] == str(base["fiscal_year"]), f"annual path year {index} must be fiscal year {base['fiscal_year']}")
         if base is None or div is None:
             continue
         close(row["earnings"], base["net_income_or_affo"], f"annual path year {index} earnings")

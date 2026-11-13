@@ -49,6 +49,20 @@ class CapitalDistributionLoop(unittest.TestCase):
         path[2]["buyback_capacity"] += 1000
         self.assertTrue(any("buyback capacity" in e for e in validate_report(report)))
 
+    def test_capital_release_needs_a_documented_bridge(self):
+        report = hsbc()
+        capacity = report["capital_return_valuation"]["distribution_capacity"]
+        row = capacity["annual_path"][2]
+        row["target_gap_rebuild"] -= 20000            # invented release, arithmetic kept consistent
+        row["buyback_capacity"] += 20000
+        self.assertTrue(any("releases more capital" in e for e in validate_report(report)))
+        wrong_year = hsbc()
+        wrong_year["capital_return_valuation"]["distribution_capacity"]["annual_path"][0]["fiscal_year"] = "2031"
+        self.assertTrue(any("must be fiscal year" in e for e in validate_report(wrong_year)))
+        no_bridge = hsbc()
+        del no_bridge["capital_return_valuation"]["distribution_capacity"]["capital_ratio_bridge"]
+        self.assertTrue(any("capital_ratio_bridge" in e for e in validate_report(no_bridge)))
+
     def test_missing_capacity_is_rejected(self):
         report = hsbc()
         del report["capital_return_valuation"]["distribution_capacity"]

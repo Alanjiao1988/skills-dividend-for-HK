@@ -6416,6 +6416,47 @@
                 ]
               },
               "description": "Base scenario, year by year: a five-year total can hide a year with no room to buy back."
+            },
+            "capital_ratio_bridge": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "current_ratio": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                },
+                "target_ratio": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                },
+                "risk_weighted_assets": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "regulatory_change_ratio": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 0.05,
+                  "description": "Ratio points a dated regulatory change is expected to add (0 when none)."
+                },
+                "source_refs": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/nonemptyText"
+                  },
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "current_ratio",
+                "target_ratio",
+                "risk_weighted_assets",
+                "regulatory_change_ratio",
+                "source_refs"
+              ],
+              "description": "Numbers behind annual_path.target_gap_rebuild: the path must rebuild (target - current) x RWA and may release at most regulatory_change_ratio x RWA."
             }
           },
           "required": [

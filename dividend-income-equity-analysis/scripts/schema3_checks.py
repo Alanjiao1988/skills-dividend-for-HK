@@ -305,7 +305,11 @@ def validate_schema3(report):
                     "Full Analysis must use the legacy six-section or complete twelve-chapter Chinese structure")
         contract = report.get("report_contract_version")
         # A declared twelve_chapter contract binds whatever the data date (backtests); legacy is archive-only.
-        new_report = contract == "twelve_chapter" or str(report.get("as_of_date") or "") >= TWELVE_CHAPTER_REQUIRED_FROM
+        dated_new = str(report.get("as_of_date") or "") >= TWELVE_CHAPTER_REQUIRED_FROM
+        new_report = contract == "twelve_chapter" if contract else dated_new
+        # Creation rule, separate from reading: fresh live research cannot be filed under the legacy contract.
+        require(not (contract == "six_section_legacy" and dated_new and research["scope"] == "live_research"),
+                "new live research dated from 2026-11-10 cannot declare report_contract_version six_section_legacy")
         if new_report and language == "zh-CN":
             require(headings == FULL_HEADINGS,
                     "reports dated from 2026-11-10 or declaring report_contract_version twelve_chapter must use the "

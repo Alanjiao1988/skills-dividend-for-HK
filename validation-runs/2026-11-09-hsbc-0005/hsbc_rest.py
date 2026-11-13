@@ -138,6 +138,8 @@ r["capital_return_valuation"] = {
     "shareholder_return_policy": "50% target-basis dividend payout for 2026-2028 plus buybacks when CET1 is within or above 14%-14.5%.",
     "capital_constraint": "CET1 13.9% at 30 Sep 2026, below the operating range; Basel 3.1 expected +40-50bps on 1 Jan 2027.",
     "distribution_capacity": {"scenarios": cap_rows, "annual_path": annual_path,
+        "capital_ratio_bridge": {"current_ratio": 0.139, "target_ratio": CET1_TARGET, "risk_weighted_assets": RWA[-1],
+                                 "regulatory_change_ratio": 0.0045, "source_refs": [Q3, AR]},
         "growth_consistency": (f"Base reserves {SCEN['Base']['growth_capital']}m a year of CET1 for RWA growth at the 14.25% target, "
                                f"about {SCEN['Base']['growth_capital'] / CET1_TARGET / RWA[-1]:.1%} of 2025 RWAs, close to the 3% long-run g. "
                                "Bear reserves less because loan growth slows."),
