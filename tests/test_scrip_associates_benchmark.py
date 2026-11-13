@@ -269,3 +269,11 @@ class MatchingCurrencyBenchmark(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class YearFormatting(unittest.TestCase):
+    def test_amounts_keep_separators_and_year_columns_do_not(self):
+        from scripts.render_report import render_table
+        text = render_table({"title": "t", "columns": ["财年", "到期年", "联营股息"], "rows": [["2023", 2046, 2034]], "note": "n"})
+        self.assertIn(">2046<", text)
+        self.assertIn(">2,034<", text)

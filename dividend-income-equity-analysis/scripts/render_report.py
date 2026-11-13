@@ -16,13 +16,13 @@ SERIES_COLORS = ("var(--cp-accent)", "var(--cp-link)", "var(--cp-success)",
                  "var(--cp-warning)", "var(--cp-text-muted)")
 
 
-def _cell(value):
+def _cell(value, year=False):
     if value is None:
         return "—"
     if isinstance(value, float):
         return f"{value:,.2f}".rstrip("0").rstrip(".")
     if isinstance(value, int) and not isinstance(value, bool):
-        return str(value) if 1800 <= value <= 2300 else f"{value:,}"  # years print without separators
+        return str(value) if year else f"{value:,}"  # only year columns print without separators
     return str(value)
 
 
@@ -35,15 +35,17 @@ def render_table(table):
     escape = html.escape
     head = "".join(f"<th scope=\"col\">{escape(col)}</th>" for col in table["columns"])
 
-    def cell(value):
-        text = _cell(value)
+    year_columns = [col.endswith(("年", "年份", "年度")) or col in ("Year", "Fiscal year") for col in table["columns"]]
+
+    def cell(value, index):
+        text = _cell(value, index < len(year_columns) and year_columns[index])
         if isinstance(value, (int, float)) and not isinstance(value, bool):
             return f'<td class="numeric">{escape(text)}</td>'
         if len(text) <= 10 and " " not in text:
             return f'<td class="nowrap">{escape(text)}</td>'
         return f"<td>{escape(text)}</td>"
 
-    body = "".join("<tr>" + "".join(cell(value) for value in row) + "</tr>" for row in table["rows"])
+    body = "".join("<tr>" + "".join(cell(value, index) for index, value in enumerate(row)) + "</tr>" for row in table["rows"])
     return (f'<div class="table-scroll"><table><caption>{escape(table["title"])}</caption>'
             f"<thead><tr>{head}</tr></thead><tbody>{body}</tbody></table></div>"
             f'<p class="muted">口径与来源：{escape(table["note"])}</p>')
