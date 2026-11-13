@@ -309,7 +309,9 @@
     "quote_currency": "HKD",
     "quote_per_valuation_unit": 7.8395,
     "benchmark_remaining_years": 10,
-    "target_tenor_years": 10
+    "target_tenor_years": 10,
+    "us_treasury_10y_yield": 0.0484,
+    "us_treasury_10y_date": "2026-11-05"
   },
   "income_assessment": {
     "target": {
@@ -3476,5 +3478,47 @@
       "near_term_constraint": "CET1 is 13.9%, below the 14%-14.5% range, so buybacks are paused until Basel 3.1 (+40-50bps, Jan 2027) restores headroom. The per-share forecast holds shares flat and credits no buybacks; the valuation counts the capacity above the 50% dividend, which is not yet being paid out."
     },
     "price_independent": true
-  }
+  },
+  "valuation_driver_sensitivities": [
+    {
+      "driver_name": "可持续有形股本回报率",
+      "change": "由 17% 降到 15%",
+      "sensitivity_type": "persistent",
+      "base_value": 19.260233918128655,
+      "stressed_value": 16.50877192982456,
+      "stressed_starter_price": 14.857894736842105,
+      "other_effect": null,
+      "basis": "有形净资产 ×（回报率 − 增长）÷（必要回报 − 增长）重算，其余保持 Base。"
+    },
+    {
+      "driver_name": "长期增长",
+      "change": "由 3% 降到 2%",
+      "sensitivity_type": "structural",
+      "base_value": 19.260233918128655,
+      "stressed_value": 18.003826530612248,
+      "stressed_starter_price": 16.203443877551024,
+      "other_effect": null,
+      "basis": "有形净资产 ×（回报率 − 增长）÷（必要回报 − 增长）重算，其余保持 Base。"
+    },
+    {
+      "driver_name": "每股有形净资产",
+      "change": "减少 10%（如减值或汇率折算）",
+      "sensitivity_type": "transient",
+      "base_value": 19.260233918128655,
+      "stressed_value": 17.334210526315793,
+      "stressed_starter_price": 15.600789473684214,
+      "other_effect": null,
+      "basis": "有形净资产 ×（回报率 − 增长）÷（必要回报 − 增长）重算，其余保持 Base。"
+    },
+    {
+      "driver_name": "信用损失",
+      "change": "信用成本上升使回报率降到 14%（Bear 水平）",
+      "sensitivity_type": "persistent",
+      "base_value": 19.260233918128655,
+      "stressed_value": 15.133040935672517,
+      "stressed_starter_price": 13.619736842105265,
+      "other_effect": null,
+      "basis": "有形净资产 ×（回报率 − 增长）÷（必要回报 − 增长）重算，其余保持 Base。"
+    }
+  ]
 }

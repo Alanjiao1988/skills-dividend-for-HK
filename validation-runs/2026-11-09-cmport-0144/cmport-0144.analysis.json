@@ -406,7 +406,9 @@
       "credit_cap": 0.0,
       "gates_passed": false,
       "explanation": "每股股息 2021→2025 年由 0.94 降至 0.739 港元（年均 -5.8%，含以股代息摊薄），历史证据不支持增长抵扣；Base 预测 2.5% 的增长只进入成长股息折现模型，不进入收息口径。本报告主估值为成长股息折现，收息口径仅作对照，按规则也不适用抵扣。"
-    }
+    },
+    "us_treasury_10y_yield": 0.0484,
+    "us_treasury_10y_date": "2026-11-05"
   },
   "income_assessment": {
     "target": {
@@ -4069,5 +4071,57 @@
         "basis": "Base 现金路径和特许权到期安排不变，只改变折现率与增长；超过 Base 可持续增长上限 2.5% 的组合不计算。"
       }
     ]
-  }
+  },
+  "valuation_driver_sensitivities": [
+    {
+      "driver_name": "归属利润（吞吐量与费率）",
+      "change": "各年利润比 Base 低 10%",
+      "sensitivity_type": "persistent",
+      "base_value": 10.814159799622688,
+      "stressed_value": 9.709075775905298,
+      "stressed_starter_price": 8.252714409519502,
+      "other_effect": null,
+      "basis": "成长股息折现模型重算，必要回报与增长不变。"
+    },
+    {
+      "driver_name": "派息率",
+      "change": "由 48% 降到 40%",
+      "sensitivity_type": "persistent",
+      "base_value": 10.814159799622688,
+      "stressed_value": 8.972353093427037,
+      "stressed_starter_price": 7.626500129412981,
+      "other_effect": null,
+      "basis": "成长股息折现模型重算，必要回报与增长不变。"
+    },
+    {
+      "driver_name": "人民币兑港元",
+      "change": "贬值 10%",
+      "sensitivity_type": "persistent",
+      "base_value": 10.814159799622688,
+      "stressed_value": 10.021586760465922,
+      "stressed_starter_price": 8.518348746396034,
+      "other_effect": null,
+      "basis": "成长股息折现模型重算，必要回报与增长不变。"
+    },
+    {
+      "driver_name": "联营现金上缴率",
+      "change": "由 36% 降到 25%（Bear 假设）",
+      "sensitivity_type": "persistent",
+      "base_value": 10.814159799622688,
+      "stressed_value": 10.814159799622688,
+      "stressed_starter_price": 9.192035829679284,
+      "other_effect": "股息按利润派发，价值不变；但 2026 年现金覆盖由 1.29 倍降到约 1.12 倍",
+      "basis": "成长股息折现模型重算，必要回报与增长不变。"
+    },
+    {
+      "driver_name": "海外特许权全部续期",
+      "change": "到期后继续经营（目前无证据）",
+      "sensitivity_type": "structural",
+      "base_value": 10.814159799622688,
+      "stressed_value": 12.08442978990924,
+      "stressed_starter_price": 10.271765321422855,
+      "other_effect": null,
+      "basis": "成长股息折现模型重算，必要回报与增长不变。"
+    }
+  ]
 }

@@ -215,6 +215,37 @@ def associate_conversion_errors(report):
     return errors
 
 
+def driver_sensitivity_errors(report):
+    """Quantified single-driver sensitivities for appendix A7 (output-template.md)."""
+    rows = report.get("valuation_driver_sensitivities")
+    mode = report.get("valuation_mode")
+    growth, capital, zone = report.get("growth_valuation"), report.get("capital_return_valuation"), report.get("buy_zone") or {}
+    if mode == "total_return_based" and growth:
+        base, mos = growth["base_case_value"], growth["margin_of_safety"]
+    elif mode == "capital_return_based" and capital:
+        base, mos = capital["base_case_value"], capital["margin_of_safety"]
+    elif mode == "ordinary_yield_based" and zone.get("boundaries"):
+        base, mos = zone["boundaries"]["fair_upper"], 0.0
+    else:
+        return []
+    errors = []
+    if rows is None:
+        return ["Driver sensitivities: a twelve_chapter report needs valuation_driver_sensitivities"] if (
+            new_contract(report) and report.get("mode") == "full_analysis") else []
+    if new_contract(report) and not 3 <= len(rows) <= 5:
+        errors.append("Driver sensitivities: give three to five single-driver changes")
+    if len({row["driver_name"] for row in rows}) != len(rows):
+        errors.append("Driver sensitivities: duplicate driver")
+    for row in rows:
+        if not math.isclose(row["base_value"], base, rel_tol=1e-6, abs_tol=1e-6):
+            errors.append(f"Driver sensitivities: '{row['driver_name']}' base_value must be the Base value {base}")
+        if not math.isclose(row["stressed_starter_price"], row["stressed_value"] * (1 - mos), rel_tol=1e-6, abs_tol=1e-6):
+            errors.append(f"Driver sensitivities: '{row['driver_name']}' starter price must be stressed value x (1 - margin of safety)")
+        if math.isclose(row["stressed_value"], base, rel_tol=1e-9) and not row.get("other_effect"):
+            errors.append(f"Driver sensitivities: '{row['driver_name']}' leaves value unchanged and must state its other_effect")
+    return errors
+
+
 def distribution_capacity(owner_cash, growth_uses, mandatory_uses, exceptional_uses, excess_cash):
     if min(growth_uses, mandatory_uses, exceptional_uses, excess_cash) < 0:
         raise ValueError("Cash uses and excess cash must be nonnegative")
@@ -412,6 +443,7 @@ def validate_report(report):
         if row["evidence_status"] == "insufficient":
             require(row["recurring_fad"] is None, f"{label}: insufficient evidence cannot give precise FAD")
 
+    errors.extend(driver_sensitivity_errors(report))
     errors.extend(scrip_coverage_errors(report))
     errors.extend(associate_conversion_errors(report))
 
@@ -600,6 +632,8 @@ def validate_report(report):
     if returns["status"] == "assessed":
         require(returns["benchmark_date"] <= report["as_of_date"], "Risk-free observation cannot postdate the analysis")
         remaining, target = returns.get("benchmark_remaining_years"), returns.get("target_tenor_years")
+        require(not new_contract(report) or returns.get("us_treasury_10y_yield") is not None,
+                "Record us_treasury_10y_yield for the mandatory opportunity-cost comparison (buy-zone.md 4.1A)")
         require(not new_contract(report) or (remaining is not None and target is not None),
                 "An assessed required return must record benchmark_remaining_years and target_tenor_years")
         require(remaining is None or target is None or abs(remaining - target) <= 2,

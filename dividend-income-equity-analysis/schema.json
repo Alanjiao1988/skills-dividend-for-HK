@@ -2157,6 +2157,20 @@
           ],
           "exclusiveMinimum": 0,
           "description": "Tenor the discount rate is meant to represent, usually 10."
+        },
+        "us_treasury_10y_yield": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Latest US 10-year Treasury yield (decimal) for the opportunity-cost comparison; equals risk_free_rate when the benchmark is that Treasury."
+        },
+        "us_treasury_10y_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
         }
       },
       "required": [
@@ -7881,6 +7895,57 @@
         "twelve_chapter"
       ],
       "description": "Report rules this record follows, independent of the data date. When present it governs the section check; when absent the as_of_date cutoff applies."
+    },
+    "valuation_driver_sensitivities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "driver_name": {
+            "$ref": "#/$defs/nonemptyText"
+          },
+          "change": {
+            "$ref": "#/$defs/nonemptyText"
+          },
+          "sensitivity_type": {
+            "enum": [
+              "transient",
+              "persistent",
+              "structural"
+            ]
+          },
+          "base_value": {
+            "type": "number"
+          },
+          "stressed_value": {
+            "type": "number"
+          },
+          "stressed_starter_price": {
+            "type": "number"
+          },
+          "other_effect": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Effect not captured in value, e.g. cash coverage."
+          },
+          "basis": {
+            "$ref": "#/$defs/nonemptyText"
+          }
+        },
+        "required": [
+          "driver_name",
+          "change",
+          "sensitivity_type",
+          "base_value",
+          "stressed_value",
+          "stressed_starter_price",
+          "basis"
+        ]
+      },
+      "description": "Three to five single-driver changes with their effect on the Base per-share value and the starter price (appendix A7). Required for twelve_chapter reports with an assessed valuation."
     }
   },
   "allOf": [

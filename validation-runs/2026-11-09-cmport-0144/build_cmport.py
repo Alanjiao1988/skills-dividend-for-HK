@@ -764,6 +764,33 @@ r["report_output"].update({"title": "招商局港口（0144.HK）完整研究报
     "appendix": ["审计附录 A1–A13 由结构化记录自动生成；A12 持仓复评因未提供持仓而不适用。"],
     "labels": ["金额单位：港币百万，另有注明除外"]})
 
+# ---------------- quantified driver sensitivities (appendix A7) ----------------
+def ddm_value(scale=1.0, finite=None):
+    """Base DDM with every forecast dividend scaled; the 0.25 interim already paid is unchanged."""
+    global FINITE
+    saved, FINITE = FINITE, (FINITE if finite is None else finite)
+    path = []
+    for c in base_path:
+        d = c["net_dps"] * scale
+        path.append(dict(c, net_dps=d, cash_fraction=(d - INTERIM_PAID) / d if c["forecast_year"] == 1 else 1))
+    g = G_TERM["Base"]
+    out = sum(pv(path, R_MID, g, run_map[(5, "Base")]["derived_dps"] * scale * (1 + g), TIMES[-1]))
+    FINITE = saved
+    return out
+def sens(name, change, kind, value, basis, other=None):
+    return {"driver_name": name, "change": change, "sensitivity_type": kind, "base_value": gv_vals["Base"],
+            "stressed_value": value, "stressed_starter_price": value * (1 - MOS), "other_effect": other, "basis": basis}
+bear_cov = fc_map[(1, "Base")]["recurring_fad"] - (CONV_FC["Base"] - CONV_FC["Bear"]) * ASSOC_PROFIT[4]
+r["valuation_driver_sensitivities"] = [
+    sens("归属利润（吞吐量与费率）", "各年利润比 Base 低 10%", "persistent", ddm_value(0.9), "成长股息折现模型重算，必要回报与增长不变。"),
+    sens("派息率", "由 48% 降到 40%", "persistent", ddm_value(40 / 48), "成长股息折现模型重算，必要回报与增长不变。"),
+    sens("人民币兑港元", "贬值 10%", "persistent", ddm_value(1 - RMB_SHOCK * RMB_SHARE), "成长股息折现模型重算，必要回报与增长不变。"),
+    sens("联营现金上缴率", "由 36% 降到 25%（Bear 假设）", "persistent", ddm_value(1.0), "成长股息折现模型重算，必要回报与增长不变。",
+         f"股息按利润派发，价值不变；但 2026 年现金覆盖由 {fc_map[(1, 'Base')]['recurring_fad'] / (6850 * PAYOUT):.2f} 倍降到约 {bear_cov / (6850 * PAYOUT):.2f} 倍"),
+    sens("海外特许权全部续期", "到期后继续经营（目前无证据）", "structural", ddm_value(1.0, finite=[]), "成长股息折现模型重算，必要回报与增长不变。"),
+]
+rr["us_treasury_10y_yield"], rr["us_treasury_10y_date"] = UST_RATE, "2026-11-05"
+
 # @@TAIL@@
 json.dump(r, open(OUT, "w"), ensure_ascii=False, indent=2)
 sys.path.insert(0, str(SKILL))

@@ -397,6 +397,29 @@ def render_appendix(report):
             "rows": [[row["driver_name"], row["driver_change"], kinds.get(row["sensitivity_type"], row["sensitivity_type"]),
                       row.get("boundary_effect")] for row in drivers],
             "note": "来自 driver_sensitivity；暂时性变化不改变正常化股息"})
+    quantified = report.get("valuation_driver_sensitivities") or []
+    if quantified:
+        kinds = {"transient": "暂时", "persistent": "持续", "structural": "结构性"}
+        change = lambda row: f"{(row['stressed_value'] / row['base_value'] - 1) * 100:+.1f}%" if row["base_value"] else "—"
+        extra += render_table({
+            "title": "关键变量对 Base 每股价值和初始建仓价的影响",
+            "columns": ["变量", "变化", "性质", "Base 每股价值", "变动", "初始建仓价", "其他影响"],
+            "rows": [[row["driver_name"], row["change"], kinds[row["sensitivity_type"]], row["stressed_value"], change(row),
+                      row["stressed_starter_price"], row.get("other_effect") or "—"] for row in quantified],
+            "note": f"每次只改一个变量，其余保持 Base；Base 每股价值 {quantified[0]['base_value']:.2f}。"
+                    + " ".join(sorted({row["basis"] for row in quantified}))})
+    returns = report.get("return_requirements") or {}
+    income = report.get("income_assessment") or {}
+    ust, forward = returns.get("us_treasury_10y_yield"), income.get("forward_net_yield")
+    if ust is not None and forward is not None:
+        extra += render_table({
+            "title": "美国 10 年期国债机会成本",
+            "columns": ["美债收益率变动", "美债收益率", "本股远期净股息率", "利差（百分点）"],
+            "rows": [[f"{shift * 10000:+.0f} 个基点", f"{(ust + shift) * 100:.2f}%", f"{forward * 100:.2f}%",
+                      f"{(forward - ust - shift) * 100:+.2f}"] for shift in (-0.01, -0.005, 0.0, 0.005, 0.01)],
+            "note": "这里只比较当期收入：美债收益率变动改变的是持有国债的机会成本，不改变本股的估值折现率"
+                    + ("。" if returns.get("benchmark_currency") == "USD" else "（折现率用估值币种的无风险利率，见上表）。")
+                    + f" 美债收益率观察日 {returns.get('us_treasury_10y_date') or '—'}"})
     if extra:
         numbered[7] = (numbered.get(7) or "<h3>A7 估值敏感性</h3>") + extra
     review = report.get("holding_review")
