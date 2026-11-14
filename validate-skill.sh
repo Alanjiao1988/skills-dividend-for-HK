@@ -23,7 +23,7 @@ if ! "$PYTHON_BIN" -c 'import sys; sys.exit(sys.version_info < (3, 10))' >/dev/n
   echo "Python 3.10+ is required; set PYTHON to a working interpreter." >&2
   exit 1
 fi
-if ! "$PYTHON_BIN" -c 'import jsonschema' >/dev/null 2>&1; then
+if ! "$PYTHON_BIN" -c 'import jsonschema, yaml' >/dev/null 2>&1; then
   echo "Missing validation dependency. Run: $PYTHON_BIN -m pip install -r requirements-dev.txt" >&2
   exit 1
 fi
@@ -142,6 +142,7 @@ bash build-gpt-instructions.sh >/dev/null
 
 for module in \
   SKILL.md \
+  full-analysis.md \
   data-conventions.md \
   portfolio-context.md \
   screen-mode.md \
@@ -231,6 +232,9 @@ grep -Fq 'screen-mode.md' build-gpt-instructions.sh
 for example in ordinary growth safety-review full-report; do
   "$PYTHON_BIN" scripts/validate_analysis.py "dividend-income-equity-analysis/examples/$example.analysis.json"
 done
+
+"$PYTHON_BIN" scripts/skill_package.py build
+"$PYTHON_BIN" scripts/skill_package.py verify
 
 "$PYTHON_BIN" -m unittest discover -s tests -p 'test_*.py'
 

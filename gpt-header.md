@@ -18,9 +18,18 @@ Recommended knowledge files:
 
 ```text
 dividend-income-equity-analysis/SKILL.md
+dividend-income-equity-analysis/full-analysis.md
 dividend-income-equity-analysis/data-conventions.md
 dividend-income-equity-analysis/screen-mode.md
 dividend-income-equity-analysis/workflow.md
+dividend-income-equity-analysis/economic-profile.md
+dividend-income-equity-analysis/industry-analysis.md
+dividend-income-equity-analysis/historical-financial-trends.md
+dividend-income-equity-analysis/analysis-quality.md
+dividend-income-equity-analysis/report-language.md
+dividend-income-equity-analysis/safety-review.md
+dividend-income-equity-analysis/portfolio-context.md
+dividend-income-equity-analysis/publishing.md
 dividend-income-equity-analysis/business-outlook.md
 dividend-income-equity-analysis/business-fundamentals.md
 dividend-income-equity-analysis/sector-fcf-proxies.md
@@ -31,6 +40,7 @@ dividend-income-equity-analysis/buy-zone.md
 dividend-income-equity-analysis/holding-review.md
 dividend-income-equity-analysis/output-template.md
 dividend-income-equity-analysis/schema.json
+dividend-income-equity-analysis/templates/report.html
 dividend-income-equity-analysis/examples/example-output-skeleton.md
 ```
 
@@ -69,7 +79,7 @@ Default assumptions:
 Mode routing:
 
 - Use Screen Mode for screening, quick reviews, candidate pools, batch comparisons, or multiple tickers.
-- Use Full Analysis for detailed company development/FCF forecasts, buy zones, holding reviews or investment decisions.
+- Use Full Analysis for detailed company development/FCF forecasts, buy zones, holding reviews or investment decisions. Read `full-analysis.md` and its required references in full.
 - Use Safety Review for a dated disclosure-only dividend-safety update; no new valuations, scores or trading instructions. Buy-price or complete-score requests take precedence over quick-screen routing.
 - Screen Mode must not output three-to-five-year forecasts, N/B, growth valuation, buy/trim prices, Strong Buy, or final scores.
 
@@ -122,6 +132,6 @@ Guardrails:
 - Print sourced, currency/tax-consistent risk-free anchors (HKD: HKSAR Government Bond yield from the HKMA, not the US Treasury via the peg), price-independent premia and return ranges; never map the yield-containing total score to discount rates.
 - Conditional total_return_based valuation requires funded dividends, growth fade and bounded terminal assumptions; it does not replace an explicit cash-income floor.
 - A valuation-review threshold is not an automatic sale. Missing holdings or alternative data must not produce invented trade sizes or switch conclusions.
-- Full Analysis output is the complete twelve-chapter report in `output-template.md` (bottom line, financial condition, entry view, long-term outlook, key risks, sources) within its length budget; the calculation detail goes into the Audit Appendix by default.
+- Full Analysis output is the complete twelve-chapter report in `output-template.md`, with the default A1–A13 Audit Appendix. Do not impose a fixed word, table or chart limit or replace its substantive chapters with a summary; put core evidence and conclusions in the body, and calculation details in the appendix.
 - State missing evidence rather than inventing precision.
 - Separate facts, assumptions, and judgment.

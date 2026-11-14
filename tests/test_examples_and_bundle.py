@@ -101,6 +101,14 @@ class BundleProvenanceTests(unittest.TestCase):
             'report-language.md')])
         self.assertEqual(text, self.build(self.root, mode='screen'))
 
+    def test_full_bundle_preserves_required_full_analysis_instructions(self):
+        self.copy_sources(self.root)
+        text = self.build(self.root)
+        self.assertIn('# Module: full-analysis.md', text)
+        self.assertIn('每项Capex、利息、租赁、资本留存等只扣一次', text)
+        self.assertIn('Do not impose a fixed word, table or chart limit', text)
+        self.assertNotIn('within its length budget', text)
+
     def test_invalid_profile_does_not_overwrite_a_bundle(self):
         self.copy_sources(self.root)
         before = self.build(self.root)
