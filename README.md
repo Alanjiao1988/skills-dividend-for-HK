@@ -1,6 +1,84 @@
 # skills-dividend-for-HK
 
-A claude.ai Skill for screening and analyzing dividend-income equities from the perspective of an HK resident individual using a normal brokerage account.
+A cross-platform Agent Skill for screening and analyzing dividend-income equities from the perspective of an HK resident individual using a normal brokerage account, with existing ChatGPT Custom GPT support.
+
+## Supported Agents
+
+The single source of truth is [`dividend-income-equity-analysis/`](dividend-income-equity-analysis/). The standard-format files are copied into self-contained platform packages at build time; no symlinks, shared absolute paths, or three separately maintained research workflows are used. The source repository itself is a development checkout; a generated package or an installed copy is a distributable runtime. Generating or installing a package is **not** proof that a particular agent session selected or executed it.
+
+| Host | Project discovery path | Personal path | Evidence / limitation |
+|---|---|---|---|
+| Codex CLI / IDE | `.agents/skills/dividend-income-equity-analysis/` | `~/.agents/skills/dividend-income-equity-analysis/` | Standard and Linux isolated install checked; **Host runtime not independently verified**. |
+| GitHub Copilot CLI / VS Code Agent Mode | `.github/skills/dividend-income-equity-analysis/` | `~/.copilot/skills/dividend-income-equity-analysis/` | Standard and Linux isolated install checked; **Host runtime not independently verified**. VS Code and CLI support depends on version and settings. |
+| Claude Code | `.claude/skills/dividend-income-equity-analysis/` | `~/.claude/skills/dividend-income-equity-analysis/` | Standard and Linux isolated install checked; **Host runtime not independently verified**. |
+| Other Agent Skills hosts | Host-specific | Host-specific | The ZIP contains a standard `SKILL.md` and its resources. Discovery and execution have not been verified on any other host. |
+| ChatGPT Custom GPT | GPT Instructions + Knowledge | GPT-specific | Existing GPT builder remains available; live Custom GPT invocation not independently verified. |
+
+Local package validation checks the Agent Skills name, description, frontmatter subset, skill-directory name and references, plus YAML parsing in the test suite. These checks do not certify every optional feature of the open standard. Windows and macOS use the same Python installer and physical copies, but were not independently run in this environment.
+
+The native locations and invocation rules are based on the [Agent Skills specification](https://agentskills.io/specification), [OpenAI](https://developers.openai.com/api/reference/cli), [VS Code](https://code.visualstudio.com/docs/agent-customization/agent-skills), [Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills), and [Claude Code](https://code.claude.com/docs/en/skills). No root `AGENTS.md`, `.github/copilot-instructions.md`, `CLAUDE.md`, or optional `agents/openai.yaml` is needed for skill discovery; repository-wide coding instructions are a separate mechanism from this task-specific skill. Claude Code searches project skills from the starting directory upward to the repository root; a skill below the starting directory is not loaded at startup. Open a new session in the intended project and follow the host's documentation for other workspace and worktree behavior.
+
+Copilot can also discover `.agents/skills` and `.claude/skills` in some surfaces. Installing multiple copies with the same name in the same project can create duplicate discovery or precedence ambiguity; install only the locations needed for that host, and verify its skill list. Automatic selection is probabilistic and depends on the request and host settings.
+
+## Installation
+
+Install Git and Python 3.10+ first. In a terminal, clone this repository or download and extract its GitHub source archive. Run these commands from the resulting repository root (`python3` on systems where `python` is unavailable). Windows PowerShell, macOS, and Linux can run the Python commands. Building and installing use the Python standard library; validating analysis JSON and rendering HTML require the bundled dependencies:
+
+```sh
+git clone https://github.com/Alanjiao1988/skills-dividend-for-HK.git
+cd skills-dividend-for-HK
+python -m pip install -r dividend-income-equity-analysis/requirements-dev.txt
+python scripts/skill_package.py build
+python scripts/skill_package.py verify
+```
+
+Then choose a target. These commands install into the **current repository as a project** and print the exact destination:
+
+```sh
+python scripts/skill_package.py install --platform codex --project .
+python scripts/skill_package.py install --platform copilot --project .
+python scripts/skill_package.py install --platform claude --project .
+```
+
+Run only the command(s) needed. For another project, substitute its root for `.`. For a personal installation available across projects, use `--user` instead of `--project .`. Reopen the intended project in the host or start a new session. Copilot CLI also supports `/skills reload` and `/skills info dividend-income-equity-analysis` in an existing session. Host trust, policy, and tool permissions still apply.
+
+`build` creates complete directories at `dist/agent-skills/{codex,copilot,claude}/dividend-income-equity-analysis/` and the corresponding `codex.zip`, `copilot.zip`, and `claude.zip`. Each ZIP contains the complete skill folder with scripts, schema, templates, examples, references, and `bundle-manifest.json`; it can be copied to a machine without the source checkout and extracted into the matching platform `skills` directory. Existing contents should be inspected before manual extraction. No API key is needed for local validation or rendering. Current research still requires sources reachable by the agent; absent network access is recorded as an evidence gap rather than invented data.
+
+To install a built ZIP using this checkout's guarded installer, pass `--package dist/agent-skills/codex.zip` (or `copilot.zip` / `claude.zip`). The source archive downloaded without Git history is supported, but its provenance says `unknown` rather than borrowing a parent repository's commit.
+
+## Usage Examples
+
+After installing and opening a new session in the target project:
+
+**Codex CLI / IDE**
+
+1. Explicit: `$dividend-income-equity-analysis 用 Screen Mode 初筛 0144.HK 的股息。`
+2. Automatic candidate: `分析 0005.HK 的现金流、资本约束和股息可持续性。`
+3. Automatic candidate: `完整分析 0144.HK 的成长、Bear/Base/Bull 估值及分阶段买点，并生成十二章 HTML 报告。`
+
+**GitHub Copilot CLI / VS Code Agent Mode**
+
+1. Explicit: `/dividend-income-equity-analysis 用 Screen Mode 初筛 0144.HK 的股息。`
+2. Automatic candidate: `根据最新财报复核 0005.HK 的股息安全，并对照上次有来源的结论。`
+3. Automatic candidate: `完整分析 0144.HK 的成长、Bear/Base/Bull 估值及分阶段买点，并生成十二章 HTML 报告。`
+
+**Claude Code**
+
+1. Explicit: `/dividend-income-equity-analysis 用 Screen Mode 初筛 0144.HK 的股息。`
+2. Automatic candidate: `研究 0005.HK 的派息能力和长期收息风险。`
+3. Automatic candidate: `完整分析 0144.HK 的成长、Bear/Base/Bull 估值及分阶段买点，并生成十二章 HTML 报告。`
+
+An unrelated coding request, ordinary document-editing request, or a request only for a definition should not need this skill. These are test scenarios, not claims of guaranteed selection by the model. Confirm explicit and automatic selection separately using the host's activity/skill UI and check that Full Analysis loads `full-analysis.md`, the required reference files and the complete report contract.
+
+## Maintenance
+
+1. Edit the canonical source in `dividend-income-equity-analysis/`. `full-analysis.md` contains the detailed Full Analysis principles; `SKILL.md` routes to it. Add or remove reviewed distributable files in `scripts/skill-package-files.txt`; an inventory mismatch fails the build, helping prevent accidental inclusion of scratch or sensitive files.
+2. Run `python scripts/skill_package.py build` and `python scripts/skill_package.py verify`. The verifier compares every package and ZIP to the canonical content and current source provenance. `bundle-manifest.json` records per-file SHA-256, a content fingerprint, the source commit and clean/dirty state. The older `installation-manifest.json` and `upstream_synced_commit` retain historical lineage and do not identify a newly generated build. Hashes detect drift; they are not publisher signatures.
+3. Check an installed copy, for example `python scripts/skill_package.py check --platform codex --project . --against dist/agent-skills/codex.zip`. Replace `codex` and its ZIP with the applicable platform. Omit `--against` for an integrity-only check.
+4. To upgrade, rebuild from the desired checkout and repeat the matching install command with `--update`. The installer updates only an intact, previously managed package; it refuses untracked files, locally modified managed files, unmanaged directories, and symlinks. Back up and resolve customizations manually before updating. Repeating an identical install is a no-op. If generated build output was edited, preserve it elsewhere or remove it deliberately before rebuilding.
+5. Run `python -m pip install -r requirements-dev.txt`, `python -m unittest discover -s tests`, and `bash validate-skill.sh`. The existing `.github/workflows/validate.yml` calls the same self-check and test suite; no additional workflow is needed. The report validators check structure and arithmetic, not the accuracy of market sources or investment merit.
+
+Generated packages are ignored by Git, so build them for the checkout you intend to distribute. Rebuild after committing for a clean commit identifier. A source archive without Git history still builds, with commit/status recorded as unknown. No installation step executes a trade or modifies a brokerage account.
 
 ## Repository Scope
 
@@ -202,7 +280,7 @@ The validator checks:
 - paired regressions for unsupported tax, mandatory stock distributions, illustrative normalization and early-terminal contradictions, preserving ordinary cash, optional scrip and supported steady states;
 - Screen bundle isolation and fixed evaluation-packet integrity.
 
-验证以本地命令为准；本次升级不新增或启用 GitHub Actions，不需要市场数据凭据或模型 API 密钥。完整验收命令：
+验证以本地命令为准；沿用仓库已有 GitHub Actions 工作流，不新增工作流。验证不需要市场数据凭据或模型 API 密钥。完整验收命令：
 
 ```text
 python -B -m unittest discover -s tests -p "test_*.py"

@@ -37,7 +37,7 @@ from pathlib import Path
 root = Path.cwd().resolve()
 src = Path("dividend-income-equity-analysis")
 all_modules = (
-    "SKILL.md", "data-conventions.md", "portfolio-context.md", "screen-mode.md",
+    "SKILL.md", "full-analysis.md", "data-conventions.md", "portfolio-context.md", "screen-mode.md",
     "workflow.md", "economic-profile.md", "industry-analysis.md", "historical-financial-trends.md",
     "business-outlook.md", "business-fundamentals.md",
     "sector-fcf-proxies.md", "withholding-notes.md", "scoring.md",

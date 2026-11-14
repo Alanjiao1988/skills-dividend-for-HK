@@ -19,6 +19,7 @@ The generated file includes:
 ```text
 gpt-header.md
 dividend-income-equity-analysis/SKILL.md
+dividend-income-equity-analysis/full-analysis.md
 dividend-income-equity-analysis/data-conventions.md
 dividend-income-equity-analysis/portfolio-context.md
 dividend-income-equity-analysis/publishing.md
@@ -38,7 +39,7 @@ dividend-income-equity-analysis/output-template.md
 Recommended Custom GPT setup:
 
 1. Paste `gpt-header.md` into the Instructions field.
-2. Upload the canonical skill files, including `screen-mode.md`, `schema.json`, `portfolio-context.md`, `publishing.md`, and the complete ordinary/growth JSON examples, as Knowledge.
+2. Upload the canonical skill files, including `full-analysis.md`, `screen-mode.md`, `schema.json`, `portfolio-context.md`, `publishing.md`, and the complete ordinary/growth JSON examples, as Knowledge. If the host limits the number of Knowledge files, upload the generated full bundle as a Knowledge file together with `schema.json` and the needed examples/templates; confirm all modules are available before Full Analysis.
 3. After changing canonical modules, run:
 
 ```bash

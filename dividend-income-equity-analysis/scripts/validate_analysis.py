@@ -7,7 +7,15 @@ from datetime import date
 from functools import lru_cache
 from pathlib import Path
 
-from jsonschema import Draft202012Validator, FormatChecker
+try:
+    from jsonschema import Draft202012Validator, FormatChecker
+except ModuleNotFoundError as error:
+    if error.name != "jsonschema":
+        raise
+    raise SystemExit(
+        "Missing jsonschema. Install the bundled requirements: "
+        f'python -m pip install -r "{Path(__file__).resolve().parents[1] / "requirements-dev.txt"}"'
+    ) from error
 
 if __package__:
     from .schema3_checks import validate_schema3
@@ -337,7 +345,17 @@ def schema_validator():
 
 
 def validate_report(report):
-    errors = [f"{error.json_path}: {error.message}" for error in schema_validator().iter_errors(report)]
+    def schema_message(error):
+        message = error.message
+        # jsonschema versions describe minItems=1 as either "too short" or
+        # "non-empty". Preserve the error while making the requirement clear.
+        if (error.validator == "minItems" and error.validator_value == 1
+                and isinstance(error.instance, list) and not error.instance
+                and "non-empty" not in message):
+            message += " (must be non-empty)"
+        return f"{error.json_path}: {message}"
+
+    errors = [schema_message(error) for error in schema_validator().iter_errors(report)]
     if errors:
         return errors
 

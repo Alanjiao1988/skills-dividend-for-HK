@@ -23,3 +23,7 @@ The full bundle is a reference export, not a guarantee that the text fits a host
 Do not edit generated files directly. Edit `gpt-header.md` or the canonical skill modules under `dividend-income-equity-analysis/`, then rerun the builder.
 
 The bundle stamps its source Git commit, schema version, dirty/clean status and build-input SHA-256. An archive without its own matching Git checkout reports an unknown commit, never the identity of an enclosing repository. Rebuild after committing to produce a clean, attributable deliverable.
+
+## Portable Agent Skill packages
+
+Run `python scripts/skill_package.py build` and `python scripts/skill_package.py verify` to generate complete platform directories and ZIPs under `dist/agent-skills/`. The manifest records source commit, dirty status and per-file hashes. Generated packages are ignored by Git. Refer to the root README for installation, integrity checks and safe upgrades. They do not replace the Custom GPT bundles above.
