@@ -231,14 +231,15 @@ class CrossPlatformPackagingTests(unittest.TestCase):
                 _, target, src = self.install(platform)
                 # This subprocess cannot import from the checkout through the working directory.
                 probe = ("import json,sys; from pathlib import Path; "
-                         "p=Path(sys.argv[1]); sys.path.insert(0,str(p)); "
+                         "p=Path(sys.argv[1]).resolve(); sys.path.insert(0,str(p)); "
                          "import scripts.validate_analysis, scripts.render_report, scripts.decision_rules; "
                          "assert scripts.validate_analysis.ROOT == p; "
                          "s=json.loads((p/'schema.json').read_text(encoding='utf8')); "
                          "assert s['properties']['schema_version']['default']=='3.0'; "
                          "assert (p/'templates/report.html').is_file()")
-                subprocess.run([sys.executable, "-B", "-c", probe, str(target)], cwd=self.workpath,
-                               check=True, capture_output=True)
+                probe_result = subprocess.run([sys.executable, "-B", "-c", probe, str(target)],
+                                              cwd=self.workpath, text=True, capture_output=True)
+                self.assertEqual(probe_result.returncode, 0, probe_result.stderr)
                 for example in ("ordinary", "growth", "safety-review", "full-report"):
                     subprocess.run([sys.executable, "-B", str(target / "scripts/validate_analysis.py"),
                                     str(target / f"examples/{example}.analysis.json")],
