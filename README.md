@@ -8,13 +8,13 @@ The single source of truth is [`dividend-income-equity-analysis/`](dividend-inco
 
 | Host | Project discovery path | Personal path | Evidence / limitation |
 |---|---|---|---|
-| Codex CLI / IDE | `.agents/skills/dividend-income-equity-analysis/` | `~/.agents/skills/dividend-income-equity-analysis/` | Standard and Linux isolated install checked; **Host runtime not independently verified**. |
-| GitHub Copilot CLI / VS Code Agent Mode | `.github/skills/dividend-income-equity-analysis/` | `~/.copilot/skills/dividend-income-equity-analysis/` | Standard and Linux isolated install checked; **Host runtime not independently verified**. VS Code and CLI support depends on version and settings. |
-| Claude Code | `.claude/skills/dividend-income-equity-analysis/` | `~/.claude/skills/dividend-income-equity-analysis/` | Standard and Linux isolated install checked; **Host runtime not independently verified**. |
+| Codex CLI / IDE | `.agents/skills/dividend-income-equity-analysis/` | `~/.agents/skills/dividend-income-equity-analysis/` | Standard and isolated installs checked in Linux, macOS and Windows CI; **Host runtime not independently verified**. |
+| GitHub Copilot CLI / VS Code Agent Mode | `.github/skills/dividend-income-equity-analysis/` | `~/.copilot/skills/dividend-income-equity-analysis/` | Standard and isolated installs checked in Linux, macOS and Windows CI; **Host runtime not independently verified**. VS Code and CLI support depends on version and settings. |
+| Claude Code | `.claude/skills/dividend-income-equity-analysis/` | `~/.claude/skills/dividend-income-equity-analysis/` | Standard and isolated installs checked in Linux, macOS and Windows CI; **Host runtime not independently verified**. |
 | Other Agent Skills hosts | Host-specific | Host-specific | The ZIP contains a standard `SKILL.md` and its resources. Discovery and execution have not been verified on any other host. |
 | ChatGPT Custom GPT | GPT Instructions + Knowledge | GPT-specific | Existing GPT builder remains available; live Custom GPT invocation not independently verified. |
 
-Local package validation checks the Agent Skills name, description, frontmatter subset, skill-directory name and references, plus YAML parsing in the test suite. These checks do not certify every optional feature of the open standard. Windows and macOS use the same Python installer and physical copies, but were not independently run in this environment.
+Package validation checks the Agent Skills name, description, frontmatter subset, skill-directory name and references, plus YAML parsing in the test suite. These checks do not certify every optional feature of the open standard. The existing CI runs isolated package installation and report regressions on Linux, macOS and Windows with Python 3.10 and 3.13; review the current workflow result for each change. These tests do not establish that an agent runtime discovered or invoked the skill.
 
 The native locations and invocation rules are based on the [Agent Skills specification](https://agentskills.io/specification), [OpenAI](https://developers.openai.com/api/reference/cli), [VS Code](https://code.visualstudio.com/docs/agent-customization/agent-skills), [Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills), and [Claude Code](https://code.claude.com/docs/en/skills). No root `AGENTS.md`, `.github/copilot-instructions.md`, `CLAUDE.md`, or optional `agents/openai.yaml` is needed for skill discovery; repository-wide coding instructions are a separate mechanism from this task-specific skill. Claude Code searches project skills from the starting directory upward to the repository root; a skill below the starting directory is not loaded at startup. Open a new session in the intended project and follow the host's documentation for other workspace and worktree behavior.
 
@@ -68,7 +68,7 @@ After installing and opening a new session in the target project:
 2. Automatic candidate: `研究 0005.HK 的派息能力和长期收息风险。`
 3. Automatic candidate: `完整分析 0144.HK 的成长、Bear/Base/Bull 估值及分阶段买点，并生成十二章 HTML 报告。`
 
-An unrelated coding request, ordinary document-editing request, or a request only for a definition should not need this skill. These are test scenarios, not claims of guaranteed selection by the model. Confirm explicit and automatic selection separately using the host's activity/skill UI and check that Full Analysis loads `full-analysis.md`, the required reference files and the complete report contract.
+Negative-trigger examples are “写一个 Python 冒泡排序函数” and “解释股息率是什么意思，不需要投资研究”: neither should need this skill. These are test scenarios, not claims of guaranteed selection by the model. Confirm explicit and automatic selection separately using the host's activity/skill UI and check that Full Analysis loads `full-analysis.md`, the required reference files and the complete report contract.
 
 ## Maintenance
 
